@@ -1,0 +1,11 @@
+{
+  "version": "v1",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "installed": {
+    "d3/d3.d.ts": {
+      "commit": "3505d15d991ddaa4f5efa13edcd8543bae1e46de"
+    }
+  }
+}

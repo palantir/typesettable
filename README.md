@@ -1,4 +1,4 @@
-texvig.js
+SVG Typewriter
 =========
 
-Library for manipulating text on SVG.
+A library for manipulating text on SVG.
