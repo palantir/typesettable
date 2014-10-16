@@ -22,11 +22,15 @@
     "visualization"
   ],
   "dependencies": {
-    "d3": ">= 3.4.12"
+    "d3": "3.4.12"
   },
   "homepage": "https://github.com/endrjuskr/svg-textwriter",
   "repository": {
     "type": "git",
     "url": "git://github.com/endrjuskr/svg-textwriter.git"
+  },
+  "devDependencies": {
+    "chai": "1.9.0",
+    "mocha": "1.17.1",
   }
 }
