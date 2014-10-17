@@ -1,9 +1,11 @@
+///<reference path="reference.ts" />
+
 module SVGTypewriter {
   export class Measurer {
-    private c: number;
+    private measurerArea: D3.Selection;
     
-    constructor(a: number) {
-      this.c = a;
+    constructor(area: D3.Selection) {
+      this.measurerArea = area;
     }
   }
 }
