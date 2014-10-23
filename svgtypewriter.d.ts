@@ -4,12 +4,19 @@ declare module SVGTypewriter {
         interface Parser {
             (text: string): string;
         }
+        function ident(): (s: string) => string;
+        /**
+         * @return {Parser} A test parser that will treat all
+         * sequences of consecutive whitespace as a single " ".
+         */
+        function combineWhitespace(pr: Parser): (s: string) => string;
     }
 }
 
 
 declare module SVGTypewriter {
-    class Wrapper {
+    interface Wrapper {
+        (s: string, width: number, m: Measurer): string[];
     }
 }
 

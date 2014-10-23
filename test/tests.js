@@ -46,10 +46,79 @@ after(function () {
     }
 });
 
-///<reference path="testReference.ts" />
+///<reference path="../testReference.ts" />
 var assert = chai.assert;
 describe("Test suite", function () {
     it("example test", function () {
         assert.equal(0, 0, "math didn't fail :)");
+    });
+});
+
+///<reference path="../testReference.ts" />
+var assert = chai.assert;
+describe("Parser Test Suite", function () {
+    describe("Ident Parser", function () {
+        it("single letter", function () {
+            var s;
+            var id = SVGTypewriter.Parsers.ident();
+            s = "a";
+            assert.equal(s, id(s), "ident returns same single letter");
+        });
+        it("multiple letter", function () {
+            var s;
+            var id = SVGTypewriter.Parsers.ident();
+            s = "aaaa";
+            assert.equal(s, id(s), "ident returns same multiple letter");
+        });
+        it("special character", function () {
+            var s;
+            var id = SVGTypewriter.Parsers.ident();
+            s = "<?#$";
+            assert.equal(s, id(s), "ident returns same special characters");
+        });
+        it("multiple words", function () {
+            var s;
+            var id = SVGTypewriter.Parsers.ident();
+            s = "foo bar boo\n fun zoo.\n";
+            assert.equal(s, id(s), "ident returns same multiple words");
+        });
+    });
+    describe("Combine White Spaces Parser", function () {
+        it("single letter", function () {
+            var s;
+            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            s = "a";
+            assert.equal(s, parser(s), "combine whitespaces returns same single letter");
+        });
+        it("single space", function () {
+            var s;
+            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            s = "a ";
+            assert.equal(s, parser(s), "combine whitespaces returns same single letter with sapce");
+        });
+        it("only space", function () {
+            var s;
+            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            s = " ";
+            assert.equal(s, parser(s), "combine whitespaces returns same single space");
+        });
+        it("multiple space", function () {
+            var s;
+            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            s = "    ";
+            assert.equal(" ", parser(s), "combine whitespaces returns single space");
+        });
+        it("multiple space between words", function () {
+            var s;
+            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            s = "aa    aa";
+            assert.equal("aa aa", parser(s), "combine whitespaces returns words with single space between");
+        });
+        it("multiple whitechars between words", function () {
+            var s;
+            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            s = "aa    \taa";
+            assert.equal("aa aa", parser(s), "combine whitespaces returns words with single space between");
+        });
     });
 });
