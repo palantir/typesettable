@@ -8,4 +8,5 @@
 
 ///<reference path="globalInitialization.ts" />
 
-/// <reference path="writerTestSuite.ts" />
+///<reference path="testSuite/writerTestSuite.ts" />
+///<reference path="testSuite/parserTestSuite.ts" />

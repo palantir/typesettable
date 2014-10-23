@@ -11,17 +11,26 @@ Licensed under MIT (https://github.com/endrjuskr/svg-typewriter/blob/master/LICE
 */
 
 ///<reference path="reference.ts" />
-
-///<reference path="reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
-    var Wrapper = (function () {
-        function Wrapper() {
+    (function (Parsers) {
+        function ident() {
+            return function (s) { return s; };
         }
-        return Wrapper;
-    })();
-    SVGTypewriter.Wrapper = Wrapper;
+        Parsers.ident = ident;
+        /**
+         * @return {Parser} A test parser that will treat all
+         * sequences of consecutive whitespace as a single " ".
+         */
+        function combineWhitespace(pr) {
+            return function (s) { return pr(s.replace(/\s+/g, " ")); };
+        }
+        Parsers.combineWhitespace = combineWhitespace;
+    })(SVGTypewriter.Parsers || (SVGTypewriter.Parsers = {}));
+    var Parsers = SVGTypewriter.Parsers;
 })(SVGTypewriter || (SVGTypewriter = {}));
+
+///<reference path="reference.ts" />
 
 ///<reference path="reference.ts" />
 var SvgTypeWriter;
