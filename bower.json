@@ -2,19 +2,19 @@
   "name": "svg-typewriter",
   "description": "A library for manipulating text on SVG.",
   "version": "0.0.1",
-  "main": ["svgtextwriter.js"],
+  "main": ["svgtypewriter.js"],
   "license": "MIT",
   "ignore": [
     "**/*",
     "!bower.json",
-    "!svgtextwriter.js",
-    "!svgtextwriter.min.js",
-    "!svgtextwriter.d.ts"
+    "!svgtypewriter.js",
+    "!svgtypewriter.min.js",
+    "!svgtypewriter.d.ts"
   ],
   "keywords": [
-    "svgtextwriter",
-    "svgtextwriterjs",
-    "svgtextwriter.js",
+    "svgtypewriter",
+    "svgtypewriterjs",
+    "svgtypewriter.js",
     "d3",
     "data viz",
     "text",
@@ -24,13 +24,16 @@
   "dependencies": {
     "d3": "3.4.12"
   },
-  "homepage": "https://github.com/endrjuskr/svg-textwriter",
+  "homepage": "https://github.com/endrjuskr/svg-typewriter",
   "repository": {
     "type": "git",
-    "url": "git://github.com/endrjuskr/svg-textwriter.git"
+    "url": "git://github.com/endrjuskr/svg-typewriter.git"
   },
   "devDependencies": {
     "chai": "1.9.0",
     "mocha": "1.17.1",
+    "jQuery": "2.1.0",
+    "jquery.simulate": "1.2.0",
+    "lodash": "~2.4.1"
   }
 }

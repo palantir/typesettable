@@ -2,6 +2,5 @@
 
 module SVGTypewriter {
   export class Wrapper {
-
   }
 }

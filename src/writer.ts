@@ -2,6 +2,5 @@
 
 module SvgTypeWriter {
   export class Writer {
-
   }
 }

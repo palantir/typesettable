@@ -3,7 +3,7 @@
 module SVGTypewriter {
   export module Parsers {
     export interface Parser {
-      (text: string) => string;
+      (text: string): string;
     }
   }
 }
