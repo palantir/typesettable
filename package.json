@@ -1,5 +1,5 @@
 {
-  "name": "svgtextwriter",
+  "name": "svgtypewriter",
   "version": "0.0.1",
   "description": "A library for manipulating text on SVG.",
   "repository": {
@@ -7,6 +7,9 @@
     "url": "https://github.com/endrjuskr/svg-textwriter.git"
   },
   "author": "Andrzej Skrodzki @ Palantir Technologies",
+  "scripts": {
+    "test": "grunt test"
+  },
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-cli": "0.1.6",
@@ -25,6 +28,7 @@
     "grunt-contrib-compress": "~0.9.1",
     "grunt-contrib-uglify": "~0.4.0",
     "grunt-shell": "0.7.0",
-    "grunt-contrib-jshint": "^0.10.0"
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-parallelize": "1.0.0"
   }
 }

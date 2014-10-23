@@ -1,2 +1,16 @@
+.DS_Store
+*.tmp.txt
+node_modules
+build
+local/
 .tscache/
-node_modules/
+.idea/
+# Emacs
+.#*
+
+# vim
+*.swp
+*~
+
+# Eclipse
+*.project
