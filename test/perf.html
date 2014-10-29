@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="google" value="notranslate">
+
+    <script>
+      window.PlottableTestCode = true;
+    </script>
+    <script src="../bower_components/d3/d3.js" charset="utf-8"></script>
+    <script src="../bower_components/chai/chai.js"></script>
+    <script src="../bower_components/mocha/mocha.js"></script>
+    <script src="../bower_components/jQuery/dist/jquery.js"></script>
+    <script src="../bower_components/jquery.simulate/libs/jquery.simulate.js"></script>
+    <script src="../bower_components/jquery.simulate/src/jquery.simulate.ext.js"></script>
+    <script src="../svgtypewriter.js"></script>
+    <script src="../test/tests.js"></script>
+    <script>
+      window.onload=function() {
+        var svg = generateSVG();
+        var textSelection = svg.append("text");
+        var textSelection2 = svg.append("text");
+        var textSelection3 = svg.append("text");
+        var str = "hello worldd!!";
+        function getTextMeasurer(selection) {
+          var parentNode = selection.node().parentNode;
+          selection.remove();
+          return function(s) {
+            parentNode.appendChild(selection.node());
+            selection.text(s);
+            var bb = selection.node().getBBox();
+            selection.remove();
+            return { width: bb.width, height: bb.height };
+          };
+        };
+        function getImprovedTextMeasurer(selection) {
+          return function(s) {
+            selection.text(s);
+            var bb = selection.node().getBBox();
+            var retVal = { width: bb.width, height: bb.height };
+            selection.text("");
+            return retVal;
+          };
+        };
+        function getImproved2TextMeasurer(selection) {
+          selection.attr({x: -1000, y: -1000});
+          return function(s) {
+            selection.text(s);
+            var bb = selection.node().getBBox();
+            return { width: bb.width, height: bb.height };
+          };
+        };
+        function perf(N, m) {
+          for(var i = 0; i < N; ++i) {
+            m(str + i);
+          }
+          console.log(m(str))
+        };
+        var N = 1000000;
+        var d = Date.now();
+        perf(N, getTextMeasurer(textSelection));
+        var d1 = Date.now()
+        console.log(d1 - d);
+        d = Date.now()
+        perf(N, getImprovedTextMeasurer(textSelection2));
+        var d1 = Date.now()
+        console.log(d1 - d);
+        d = Date.now()
+        perf(N, getImproved2TextMeasurer(textSelection3));
+        var d1 = Date.now()
+        console.log(d1 - d);
+      }
+    </script>
+  </head>
+
+  <body>
+  </body>
+</html>

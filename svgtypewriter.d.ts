@@ -1,4 +1,50 @@
 
+declare module SVGTypewriter.Utils.Methods {
+    /**
+     * Check if two arrays are equal by strict equality.
+     */
+    function arrayEq<T>(a: T[], b: T[]): boolean;
+    /**
+     * @param {any} a Object to check against b for equality.
+     * @param {any} b Object to check against a for equality.
+     *
+     * @returns {boolean} whether or not two objects share the same keys, and
+     *          values associated with those keys. Values will be compared
+     *          with ===.
+     */
+    function objEq(a: any, b: any): boolean;
+}
+
+
+declare module SVGTypewriter.Utils {
+    class Cache<T> {
+        /**
+         * @constructor
+         *
+         * @param {string} compute The function whose results will be cached.
+         * @param {(v: T, w: T) => boolean} [valueEq]
+         *        Used to determine if the value of canonicalKey has changed.
+         *        If omitted, defaults to === comparision.
+         */
+        constructor(compute: (k: string) => T, valueEq?: (v: T, w: T) => boolean);
+        /**
+         * Attempt to look up k in the cache, computing the result if it isn't
+         * found.
+         *
+         * @param {string} k The key to look up in the cache.
+         * @return {T} The value associated with k; the result of compute(k).
+         */
+        get(k: string): T;
+        /**
+         * Reset the cache empty.
+         *
+         * @return {Cache<T>} The calling Cache.
+         */
+        clear(): Cache<T>;
+    }
+}
+
+
 declare module SVGTypewriter {
     module Parsers {
         interface Parser {
@@ -16,7 +62,7 @@ declare module SVGTypewriter {
 
 declare module SVGTypewriter {
     interface Wrapper {
-        (s: string, width: number, m: Measurer): string[];
+        (s: string, width: number, m: Measurers.AbstractMeasurer): string[];
     }
 }
 
@@ -27,8 +73,58 @@ declare module SvgTypeWriter {
 }
 
 
-declare module SVGTypewriter {
-    class Measurer {
+declare module SVGTypewriter.Measurers {
+    /**
+     * Dimension of area's BBox.
+     */
+    interface Dimensions {
+        width: number;
+        height: number;
+    }
+    class AbstractMeasurer {
         constructor(area: D3.Selection);
+        measure(text: string): {
+            width: number;
+            height: number;
+        };
+    }
+}
+
+
+declare module SVGTypewriter.Measurers {
+    class Measurer extends AbstractMeasurer {
+        constructor(area: D3.Selection);
+        _addGuards(text: string): string;
+        _measureLine(line: string): {
+            width: number;
+            height: number;
+        };
+        measure(text: string): {
+            width: number;
+            height: number;
+        };
+    }
+}
+
+
+declare module SVGTypewriter.Measurers {
+    class CharacterMeasurer extends Measurer {
+        constructor(area: D3.Selection);
+        _measureCharacter(c: string): {
+            width: number;
+            height: number;
+        };
+        _measureLine(line: string): {
+            width: number;
+            height: number;
+        };
+    }
+}
+
+
+declare module SVGTypewriter.Measurers {
+    class CacheCharacterMeasurer extends CharacterMeasurer {
+        constructor(area: D3.Selection);
+        _measureCharacter(c: string): Dimensions;
     }
 }

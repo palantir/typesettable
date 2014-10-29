@@ -10,3 +10,4 @@
 
 ///<reference path="testSuite/writerTestSuite.ts" />
 ///<reference path="testSuite/parserTestSuite.ts" />
+///<reference path="testSuite/measurerTestSuite.ts" />
