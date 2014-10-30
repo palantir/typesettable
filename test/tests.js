@@ -48,6 +48,61 @@ after(function () {
 
 ///<reference path="../testReference.ts" />
 var assert = chai.assert;
+describe("Tokenizer Test Suite", function () {
+    var tokenizer;
+    before(function () {
+        tokenizer = new SVGTypewriter.Utils.Tokenizer();
+    });
+    it("single word", function () {
+        var singleWord = "hello";
+        var tokens = tokenizer.tokenize(singleWord);
+        assert.deepEqual(tokens, [singleWord], "Single word string is one token");
+    });
+    it("multiple words", function () {
+        var multipleWords = ["hello", " ", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Multi words string has many tokens");
+    });
+    it("mutliple whitespaces", function () {
+        var multipleWords = ["hello", "    ", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Multiple whitespaces are one token");
+    });
+    it("word divider", function () {
+        var multipleWords = ["hello", ",", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Word divider is separate token");
+    });
+    it("word divider + whitespace", function () {
+        var multipleWords = ["hello", ",", "world", " "];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Word divider and whitespace are separate tokens");
+    });
+    it("mutliple word divider", function () {
+        var multipleWords = ["hello", ",,", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Mutliple same word dividers are the same token");
+    });
+    it("different word dividers", function () {
+        var multipleWords = ["hello", ",", ";", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Different word dividers are not the same token");
+    });
+    it("all whitespaces are same token", function () {
+        var multipleWords = ["hello", " \t ", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Multiple different whitespaces are the same token");
+    });
+    it("whitespaces at the end", function () {
+        var multipleWords = ["hello", "  "];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Whitespaces at the end are separate token");
+    });
+});
+
+
+///<reference path="../testReference.ts" />
+var assert = chai.assert;
 describe("Test suite", function () {
     it("example test", function () {
         assert.equal(0, 0, "math didn't fail :)");

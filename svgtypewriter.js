@@ -107,6 +107,47 @@ var SVGTypewriter;
     var Utils = SVGTypewriter.Utils;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
+///<reference path="../reference.ts" />
+var SVGTypewriter;
+(function (SVGTypewriter) {
+    (function (Utils) {
+        var Tokenizer = (function () {
+            function Tokenizer() {
+                this.WordDividerRegExp = new RegExp("\\W");
+                this.WhitespaceRegExp = new RegExp("\\s");
+            }
+            Tokenizer.prototype.tokenize = function (line) {
+                var _this = this;
+                return line.split("").reduce(function (tokens, c) { return tokens.slice(0, -1).concat(_this.shouldCreateNewToken(tokens[tokens.length - 1], c)); }, [""]);
+            };
+            Tokenizer.prototype.shouldCreateNewToken = function (token, newCharacter) {
+                if (!token) {
+                    return [newCharacter];
+                }
+                var lastCharacter = token[token.length - 1];
+                if (this.WhitespaceRegExp.test(lastCharacter) && this.WhitespaceRegExp.test(newCharacter)) {
+                    return [token + newCharacter];
+                }
+                else if (this.WhitespaceRegExp.test(lastCharacter) || this.WhitespaceRegExp.test(newCharacter)) {
+                    return [token, newCharacter];
+                }
+                else if (!(this.WordDividerRegExp.test(lastCharacter) || this.WordDividerRegExp.test(newCharacter))) {
+                    return [token + newCharacter];
+                }
+                else if (lastCharacter === newCharacter) {
+                    return [token + newCharacter];
+                }
+                else {
+                    return [token, newCharacter];
+                }
+            };
+            return Tokenizer;
+        })();
+        Utils.Tokenizer = Tokenizer;
+    })(SVGTypewriter.Utils || (SVGTypewriter.Utils = {}));
+    var Utils = SVGTypewriter.Utils;
+})(SVGTypewriter || (SVGTypewriter = {}));
+
 ///<reference path="reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -136,6 +177,7 @@ var SVGTypewriter;
                 this.maxLines(Infinity);
                 this.textTrimming("ellipsis");
                 this.allowBreakingWords(true);
+                this._tokenizer = new SVGTypewriter.Utils.Tokenizer();
             }
             Wrapper.prototype.maxLines = function (noLines) {
                 if (noLines == null) {

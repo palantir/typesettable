@@ -45,6 +45,13 @@ declare module SVGTypewriter.Utils {
 }
 
 
+declare module SVGTypewriter.Utils {
+    class Tokenizer {
+        tokenize(line: string): string[];
+    }
+}
+
+
 declare module SVGTypewriter {
     module Parsers {
         interface Parser {
