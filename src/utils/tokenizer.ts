@@ -6,7 +6,7 @@ module SVGTypewriter.Utils {
     private WhitespaceRegExp = new RegExp("\\s");
 
     public tokenize(line: string): string[] {
-      return line.split("").reduce((tokens: string[], c: string) => 
+      return line.split("").reduce((tokens: string[], c: string) =>
         tokens.slice(0, -1).concat(this.shouldCreateNewToken(tokens[tokens.length - 1], c)), [""]
       );
     }

@@ -100,6 +100,28 @@ describe("Tokenizer Test Suite", function () {
     });
 });
 
+///<reference path="../testReference.ts" />
+var assert = chai.assert;
+describe("Wrapper Test Suite", function () {
+    var wrapper;
+    var measurer;
+    var svg;
+    before(function () {
+        svg = generateSVG(200, 200);
+        var textSelection = svg.append("text");
+        measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
+        wrapper = new SVGTypewriter.Wrappers.Wrapper(measurer);
+    });
+    it("time trimming option", function () {
+        assert.doesNotThrow(function () { return wrapper.textTrimming("none"); });
+    });
+    it("wring time trimming option", function () {
+        assert.throws(function () { return wrapper.textTrimming("hello"); });
+    });
+    after(function () {
+        svg.remove();
+    });
+});
 
 ///<reference path="../testReference.ts" />
 var assert = chai.assert;
