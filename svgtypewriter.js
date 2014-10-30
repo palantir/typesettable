@@ -128,6 +128,54 @@ var SVGTypewriter;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="reference.ts" />
+var SVGTypewriter;
+(function (SVGTypewriter) {
+    (function (Wrappers) {
+        var Wrapper = (function () {
+            function Wrapper(measurer) {
+                this.maxLines(Infinity);
+                this.textTrimming("ellipsis");
+                this.allowBreakingWords(true);
+            }
+            Wrapper.prototype.maxLines = function (noLines) {
+                if (noLines == null) {
+                    return this._maxLines;
+                }
+                else {
+                    this._maxLines = noLines;
+                    return this;
+                }
+            };
+            Wrapper.prototype.textTrimming = function (option) {
+                if (option == null) {
+                    return this._textTrimming;
+                }
+                else {
+                    if (option !== "ellipsis" && option !== "none") {
+                        throw new Error(option + " - unsupported text trimming option.");
+                    }
+                    this._textTrimming = option;
+                    return this;
+                }
+            };
+            Wrapper.prototype.allowBreakingWords = function (allow) {
+                if (allow == null) {
+                    return this._allowBreakingWords;
+                }
+                else {
+                    this._allowBreakingWords = allow;
+                    return this;
+                }
+            };
+            Wrapper.prototype.wrap = function (s, width, height) {
+                return null;
+            };
+            return Wrapper;
+        })();
+        Wrappers.Wrapper = Wrapper;
+    })(SVGTypewriter.Wrappers || (SVGTypewriter.Wrappers = {}));
+    var Wrappers = SVGTypewriter.Wrappers;
+})(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="reference.ts" />
 var SvgTypeWriter;

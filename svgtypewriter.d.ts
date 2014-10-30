@@ -60,9 +60,23 @@ declare module SVGTypewriter {
 }
 
 
-declare module SVGTypewriter {
-    interface Wrapper {
-        (s: string, width: number, m: Measurers.AbstractMeasurer): string[];
+declare module SVGTypewriter.Wrappers {
+    interface WrappingResult {
+        originalText: string;
+        wrapperdText: string;
+        noLines: number;
+        noBrokeWords: number;
+        truncatedText: string;
+    }
+    class Wrapper {
+        constructor(measurer: Measurers.AbstractMeasurer);
+        maxLines(): number;
+        maxLines(noLines: number): Wrapper;
+        textTrimming(): string;
+        textTrimming(option: string): Wrapper;
+        allowBreakingWords(): boolean;
+        allowBreakingWords(allow: boolean): Wrapper;
+        wrap(s: string, width: number, height?: number): WrappingResult;
     }
 }
 
