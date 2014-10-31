@@ -70,12 +70,13 @@ declare module SVGTypewriter {
 declare module SVGTypewriter.Wrappers {
     interface WrappingResult {
         originalText: string;
-        wrapperdText: string;
+        wrappedText: string;
         noLines: number;
         noBrokeWords: number;
         truncatedText: string;
     }
     class Wrapper {
+        _breakingCharacter: string;
         constructor(measurer: Measurers.AbstractMeasurer);
         maxLines(): number;
         maxLines(noLines: number): Wrapper;
@@ -83,7 +84,7 @@ declare module SVGTypewriter.Wrappers {
         textTrimming(option: string): Wrapper;
         allowBreakingWords(): boolean;
         allowBreakingWords(allow: boolean): Wrapper;
-        wrap(s: string, width: number, height?: number): WrappingResult;
+        wrap(text: string, width: number, height?: number): WrappingResult;
     }
 }
 

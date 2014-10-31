@@ -178,6 +178,8 @@ var SVGTypewriter;
                 this.textTrimming("ellipsis");
                 this.allowBreakingWords(true);
                 this._tokenizer = new SVGTypewriter.Utils.Tokenizer();
+                this._breakingCharacter = "-";
+                this._measurer = measurer;
             }
             Wrapper.prototype.maxLines = function (noLines) {
                 if (noLines == null) {
@@ -209,8 +211,92 @@ var SVGTypewriter;
                     return this;
                 }
             };
-            Wrapper.prototype.wrap = function (s, width, height) {
-                return null;
+            Wrapper.prototype.wrap = function (text, width, height) {
+                return this.breakLineToFitWidth(text, width);
+            };
+            Wrapper.prototype.breakLineToFitWidth = function (text, availableWidth) {
+                var _this = this;
+                var tokens = this._tokenizer.tokenize(text);
+                var initialWrappingResult = {
+                    originalText: text,
+                    wrappedText: "",
+                    noLines: 1,
+                    noBrokeWords: 0,
+                    truncatedText: ""
+                };
+                var initialState = {
+                    wrapping: initialWrappingResult,
+                    remainingWidthInLine: availableWidth,
+                    availableWidth: availableWidth,
+                    canFitText: true
+                };
+                return tokens.reduce(function (state, t) {
+                    if (!state.canFitText) {
+                        state.wrapping.truncatedText += t;
+                    }
+                    else {
+                        _this.wrapNextToken(t, state);
+                    }
+                    return state;
+                }, initialState).wrapping;
+            };
+            Wrapper.prototype.wrapNextToken = function (token, state) {
+                var remainingToken = token;
+                var lastRemainingToken;
+                var remainingWidth = state.remainingWidthInLine;
+                var lastRemainingWidth;
+                var brokeWord = false;
+                while (remainingToken && (remainingWidth !== lastRemainingWidth || remainingToken !== lastRemainingToken)) {
+                    var result = this.breakTokenToFitInWidth(remainingToken, remainingWidth);
+                    state.wrapping.wrappedText += result.brokenToken[0];
+                    lastRemainingToken = remainingToken;
+                    lastRemainingWidth = remainingWidth;
+                    if (result.brokenToken[0] && result.brokenToken[1]) {
+                        brokeWord = true;
+                    }
+                    remainingToken = result.brokenToken[1] || "";
+                    remainingWidth = result.remainingWidth || state.availableWidth;
+                    if (remainingToken) {
+                        state.wrapping.noLines++;
+                    }
+                }
+                state.remainingWidthInLine = remainingWidth;
+                state.wrapping.noBrokeWords += +brokeWord;
+                if (remainingToken) {
+                    state.canFitText = false;
+                    state.wrapping.truncatedText += remainingToken;
+                }
+            };
+            Wrapper.prototype.breakTokenToFitInWidth = function (token, availableWidth) {
+                var _this = this;
+                var tokenWidth = this._measurer.measure(token).width;
+                if (tokenWidth <= availableWidth) {
+                    return {
+                        brokenToken: [token],
+                        remainingWidth: availableWidth - tokenWidth
+                    };
+                }
+                if (token.trim() === "") {
+                    return {
+                        brokenToken: ["\n"],
+                        remainingWidth: 0
+                    };
+                }
+                var fitToken = token.split("").reduce(function (curToken, c) {
+                    if (_this._measurer.measure(curToken + c + _this._breakingCharacter).width <= availableWidth) {
+                        curToken += c;
+                    }
+                    return curToken;
+                }, "");
+                var remainingToken = token.slice(-fitToken.length);
+                if (fitToken.length > 0) {
+                    fitToken += "-";
+                }
+                fitToken += "\n";
+                return {
+                    brokenToken: [fitToken + this._breakingCharacter, remainingToken],
+                    remainingWidth: 0
+                };
             };
             return Wrapper;
         })();

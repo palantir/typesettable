@@ -115,8 +115,28 @@ describe("Wrapper Test Suite", function () {
     it("time trimming option", function () {
         assert.doesNotThrow(function () { return wrapper.textTrimming("none"); });
     });
-    it("wring time trimming option", function () {
+    it("wrong time trimming option", function () {
         assert.throws(function () { return wrapper.textTrimming("hello"); });
+    });
+    it("does not wrap short sentence", function () {
+        var shortSentence = "hello";
+        var dimensions = measurer.measure(shortSentence);
+        var result = wrapper.wrap(shortSentence, dimensions.width * 2);
+        assert.deepEqual(result.originalText, shortSentence, "original text has been set");
+        assert.deepEqual(result.wrappedText, shortSentence, "wrapped text is the same as original");
+        assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+        assert.deepEqual(result.noBrokeWords, 0, "non of tokens has been broken");
+        assert.deepEqual(result.noLines, 1, "no wrapping was needed");
+    });
+    it("one time wrapping is correct", function () {
+        var shortSentence = "hello";
+        var dimensions = measurer.measure(shortSentence);
+        var result = wrapper.wrap(shortSentence, dimensions.width * 3 / 4);
+        assert.deepEqual(result.originalText, shortSentence, "original text has been set");
+        assert.notEqual(result.wrappedText.indexOf("\n"), -1, "wrapping occured");
+        assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+        assert.deepEqual(result.noBrokeWords, 1, "wrapping with breaking one word");
+        assert.deepEqual(result.noLines, 2, "wrapping was needed");
     });
     after(function () {
         svg.remove();
