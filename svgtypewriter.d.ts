@@ -13,6 +13,7 @@ declare module SVGTypewriter.Utils.Methods {
      *          with ===.
      */
     function objEq(a: any, b: any): boolean;
+    function isNotEmptyString(str: string): boolean;
 }
 
 
@@ -45,6 +46,13 @@ declare module SVGTypewriter.Utils {
 }
 
 
+declare module SVGTypewriter.Utils {
+    class Tokenizer {
+        tokenize(line: string): string[];
+    }
+}
+
+
 declare module SVGTypewriter {
     module Parsers {
         interface Parser {
@@ -60,9 +68,24 @@ declare module SVGTypewriter {
 }
 
 
-declare module SVGTypewriter {
-    interface Wrapper {
-        (s: string, width: number, m: Measurers.AbstractMeasurer): string[];
+declare module SVGTypewriter.Wrappers {
+    interface WrappingResult {
+        originalText: string;
+        wrappedText: string;
+        noLines: number;
+        noBrokeWords: number;
+        truncatedText: string;
+    }
+    class Wrapper {
+        _breakingCharacter: string;
+        constructor(measurer: Measurers.AbstractMeasurer);
+        maxLines(): number;
+        maxLines(noLines: number): Wrapper;
+        textTrimming(): string;
+        textTrimming(option: string): Wrapper;
+        allowBreakingWords(): boolean;
+        allowBreakingWords(allow: boolean): Wrapper;
+        wrap(text: string, width: number, height?: number): WrappingResult;
     }
 }
 

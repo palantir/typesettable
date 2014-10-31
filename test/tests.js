@@ -48,6 +48,205 @@ after(function () {
 
 ///<reference path="../testReference.ts" />
 var assert = chai.assert;
+describe("Tokenizer Test Suite", function () {
+    var tokenizer;
+    before(function () {
+        tokenizer = new SVGTypewriter.Utils.Tokenizer();
+    });
+    it("single word", function () {
+        var singleWord = "hello";
+        var tokens = tokenizer.tokenize(singleWord);
+        assert.deepEqual(tokens, [singleWord], "Single word string is one token");
+    });
+    it("multiple words", function () {
+        var multipleWords = ["hello", " ", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Multi words string has many tokens");
+    });
+    it("mutliple whitespaces", function () {
+        var multipleWords = ["hello", "    ", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Multiple whitespaces are one token");
+    });
+    it("word divider", function () {
+        var multipleWords = ["hello", ",", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Word divider is separate token");
+    });
+    it("word divider + whitespace", function () {
+        var multipleWords = ["hello", ",", "world", " "];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Word divider and whitespace are separate tokens");
+    });
+    it("mutliple word divider", function () {
+        var multipleWords = ["hello", ",,", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Mutliple same word dividers are the same token");
+    });
+    it("different word dividers", function () {
+        var multipleWords = ["hello", ",", ";", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Different word dividers are not the same token");
+    });
+    it("all whitespaces are same token", function () {
+        var multipleWords = ["hello", " \t ", "world"];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Multiple different whitespaces are the same token");
+    });
+    it("whitespaces at the end", function () {
+        var multipleWords = ["hello", "  "];
+        var tokens = tokenizer.tokenize(multipleWords.join(""));
+        assert.deepEqual(tokens, multipleWords, "Whitespaces at the end are separate token");
+    });
+});
+
+///<reference path="../testReference.ts" />
+var assert = chai.assert;
+describe("Wrapper Test Suite", function () {
+    var wrapper;
+    var measurer;
+    var svg;
+    before(function () {
+        svg = generateSVG(200, 200);
+        var textSelection = svg.append("text");
+        measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
+        wrapper = new SVGTypewriter.Wrappers.Wrapper(measurer);
+    });
+    describe("Core", function () {
+        it("time trimming option", function () {
+            assert.doesNotThrow(function () { return wrapper.textTrimming("none"); });
+        });
+        it("wrong time trimming option", function () {
+            assert.throws(function () { return wrapper.textTrimming("hello"); });
+        });
+    });
+    describe("One token wrapping", function () {
+        var token;
+        before(function () {
+            token = "hello";
+        });
+        it("does not wrap", function () {
+            var dimensions = measurer.measure(token);
+            var result = wrapper.wrap(token, dimensions.width * 2);
+            assert.deepEqual(result.originalText, token, "original text has been set");
+            assert.deepEqual(result.wrappedText, token, "wrapped text is the same as original");
+            assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+            assert.deepEqual(result.noBrokeWords, 0, "non of tokens has been broken");
+            assert.deepEqual(result.noLines, 1, "no wrapping was needed");
+        });
+        it("one time wrapping", function () {
+            var availableWidth = measurer.measure(token).width * 3 / 4;
+            var result = wrapper.wrap(token, availableWidth);
+            assert.deepEqual(result.originalText, token, "original text has been set");
+            assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
+            assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+            assert.deepEqual(result.noBrokeWords, 1, "wrapping with breaking one word");
+            assert.deepEqual(result.noLines, 2, "wrapping was needed");
+            assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+        });
+        it("multi time wrapping", function () {
+            var availableWidth = measurer.measure("h").width * 2;
+            var result = wrapper.wrap(token, availableWidth);
+            assert.deepEqual(result.originalText, token, "original text has been set");
+            assert.lengthOf(result.wrappedText.split("\n"), 3, "wrapping occured");
+            assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+            assert.deepEqual(result.noBrokeWords, 1, "wrapping with breaking one word");
+            assert.deepEqual(result.noLines, 3, "wrapping was needed");
+            assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+        });
+        it("wrapping is impossible", function () {
+            var availableWidth = measurer.measure("h").width - 0.1;
+            var result = wrapper.wrap(token, availableWidth);
+            assert.deepEqual(result.originalText, token, "original text has been set");
+            assert.equal(result.wrappedText, "", "wrapping was impossible");
+            assert.deepEqual(result.truncatedText, token, "whole text has been truncated");
+            assert.deepEqual(result.noBrokeWords, 0, "no breaks");
+            assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
+        });
+        it("only first sign fits", function () {
+            var tokenWithSmallFirstSign = "aHHH";
+            var availableWidth = measurer.measure("a-").width;
+            var result = wrapper.wrap(tokenWithSmallFirstSign, availableWidth);
+            assert.deepEqual(result.originalText, tokenWithSmallFirstSign, "original text has been set");
+            assert.equal(result.wrappedText, "", "wrapping was impossible");
+            assert.deepEqual(result.truncatedText, tokenWithSmallFirstSign, "whole text has been truncated");
+            assert.deepEqual(result.noBrokeWords, 0, "no breaks");
+            assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
+        });
+    });
+    describe("One line wrapping", function () {
+        var line;
+        before(function () {
+            line = "hello  world!.";
+        });
+        it("does not wrap", function () {
+            var dimensions = measurer.measure(line);
+            var result = wrapper.wrap(line, dimensions.width * 2);
+            assert.deepEqual(result.originalText, line, "original text has been set");
+            assert.deepEqual(result.wrappedText, line, "wrapped text is the same as original");
+            assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+            assert.equal(result.noBrokeWords, 0, "non of tokens has been broken");
+            assert.equal(result.noLines, 1, "no wrapping was needed");
+        });
+        it("only token sign fits", function () {
+            var tokenWithSmallFirstSign = "!HHH";
+            var availableWidth = measurer.measure("!-").width;
+            var result = wrapper.wrap(tokenWithSmallFirstSign, availableWidth);
+            assert.deepEqual(result.originalText, tokenWithSmallFirstSign, "original text has been set");
+            assert.equal(result.wrappedText, "!", "wrapping was possible");
+            assert.deepEqual(result.truncatedText, "HHH", "big letters have been truncated");
+            assert.deepEqual(result.noBrokeWords, 0, "no breaks");
+            assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+        });
+        it("one time wrapping", function () {
+            var availableWidth = measurer.measure(line).width * 3 / 4;
+            var result = wrapper.wrap(line, availableWidth);
+            assert.deepEqual(result.originalText, line, "original text has been set");
+            assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
+            assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+            assert.equal(result.noBrokeWords, 1, "wrapping with breaking one word");
+            assert.equal(result.noLines, 2, "wrapping was needed");
+            assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+        });
+        it("multi time wrapping", function () {
+            var availableWidth = measurer.measure("hell").width;
+            var result = wrapper.wrap(line, availableWidth);
+            //assert.isTrue(false, result.wrappedText);
+            assert.deepEqual(result.originalText, line, "original text has been set");
+            assert.lengthOf(result.wrappedText.split("\n"), 5, "wrapping occured");
+            assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+            assert.equal(result.noBrokeWords, 2, "wrapping with breaking two words");
+            assert.equal(result.noLines, 5, "wrapping was needed");
+            assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+        });
+        it("wrapping is impossible", function () {
+            var availableWidth = measurer.measure("h").width - 0.1;
+            var result = wrapper.wrap(line, availableWidth);
+            assert.deepEqual(result.originalText, line, "original text has been set");
+            assert.equal(result.wrappedText, "", "wrapping was impossible");
+            assert.deepEqual(result.truncatedText, line, "whole text has been truncated");
+            assert.deepEqual(result.noBrokeWords, 0, "no breaks");
+            assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
+        });
+        it("wrapping many whitespaces", function () {
+            var lineWithWhitespaces = "hello              \t !!!";
+            var availableWidth = measurer.measure("hello").width + 0.1;
+            var result = wrapper.wrap(lineWithWhitespaces, availableWidth);
+            assert.deepEqual(result.originalText, lineWithWhitespaces, "original text has been set");
+            assert.lengthOf(result.wrappedText.split("\n"), 2, "one wrapping occured");
+            assert.deepEqual(result.truncatedText, "", "whole text has fit in");
+            assert.equal(result.noBrokeWords, 0, "no breaks");
+            assert.equal(result.noLines, 2, "wrapped text has two lines");
+            assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+        });
+    });
+    after(function () {
+        svg.remove();
+    });
+});
+
+///<reference path="../testReference.ts" />
+var assert = chai.assert;
 describe("Test suite", function () {
     it("example test", function () {
         assert.equal(0, 0, "math didn't fail :)");

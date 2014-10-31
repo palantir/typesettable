@@ -1,5 +1,6 @@
 /// <reference path="utils/methods.ts" />
 /// <reference path="utils/cache.ts" />
+/// <reference path="utils/tokenizer.ts" />
 
 /// <reference path="parsers.ts" />
 /// <reference path="wrapper.ts" />
