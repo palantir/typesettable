@@ -39,4 +39,8 @@ module SVGTypewriter.Utils.Methods {
     var valuesB = keysB.map((k) => b[k]);
     return arrayEq(keysA, keysB) && arrayEq(valuesA, valuesB);
   }
+
+  export function isNotEmptyString(str: string) {
+    return str && str.trim() !== "";
+  }
 }

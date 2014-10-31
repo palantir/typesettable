@@ -13,6 +13,7 @@ declare module SVGTypewriter.Utils.Methods {
      *          with ===.
      */
     function objEq(a: any, b: any): boolean;
+    function isNotEmptyString(str: string): boolean;
 }
 
 

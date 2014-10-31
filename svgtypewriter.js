@@ -53,6 +53,10 @@ var SVGTypewriter;
                 return arrayEq(keysA, keysB) && arrayEq(valuesA, valuesB);
             }
             Methods.objEq = objEq;
+            function isNotEmptyString(str) {
+                return str && str.trim() !== "";
+            }
+            Methods.isNotEmptyString = isNotEmptyString;
         })(Utils.Methods || (Utils.Methods = {}));
         var Methods = Utils.Methods;
     })(SVGTypewriter.Utils || (SVGTypewriter.Utils = {}));
@@ -240,9 +244,6 @@ var SVGTypewriter;
                 }
                 return state.wrapping;
             };
-            Wrapper.prototype.isNotBlank = function (s) {
-                return s && s.trim() !== "";
-            };
             Wrapper.prototype.wrapNextToken = function (token, state) {
                 var remainingToken = token;
                 var lastRemainingToken;
@@ -256,8 +257,7 @@ var SVGTypewriter;
                     wrappedText += result.brokenToken[0];
                     lastRemainingToken = remainingToken;
                     lastRemainingWidth = remainingWidth;
-                    if (this.isNotBlank(result.brokenToken[0]) && this.isNotBlank(result.brokenToken[1])) {
-                        // wrappedText += "\n[" + result.brokenToken[0] + " " + result.brokenToken[1] + "]\n";
+                    if (SVGTypewriter.Utils.Methods.isNotEmptyString(result.brokenToken[0]) && SVGTypewriter.Utils.Methods.isNotEmptyString(result.brokenToken[1])) {
                         brokeWord = true;
                     }
                     remainingToken = result.brokenToken[1];
