@@ -84,25 +84,26 @@ module SVGTypewriter.Wrappers {
       var initialWrappingResult = {
         originalText: text,
         wrappedText: "",
-        noLines: 1,
+        noLines: 0,
         noBrokeWords: 0,
         truncatedText: ""
       };
-      var initialState = {
+      var state = {
         wrapping: initialWrappingResult,
         remainingWidthInLine: availableWidth,
         availableWidth: availableWidth,
         canFitText: true
       };
 
-      return tokens.reduce((state: IterativeWrappingState , t: string) => {
-        if (!state.canFitText) {
-          state.wrapping.truncatedText += t;
+      for(var i = 0; i < tokens.length; ++i) {
+        var token = tokens[i];
+        if(state.canFitText) {
+          this.wrapNextToken(token, state);
         } else {
-          this.wrapNextToken(t, state);
+          state.wrapping.truncatedText += token;
         }
-        return state;
-        }, initialState).wrapping;
+      }
+      return state.wrapping;
     }
 
     private wrapNextToken(token: string, state: IterativeWrappingState) {
@@ -111,27 +112,34 @@ module SVGTypewriter.Wrappers {
       var remainingWidth = state.remainingWidthInLine;
       var lastRemainingWidth: number;
       var brokeWord = false;
+      var wrappedText = "";
+      var noLines = 0;
       while(remainingToken && (remainingWidth !== lastRemainingWidth || remainingToken !== lastRemainingToken)) {
         var result = this.breakTokenToFitInWidth(remainingToken, remainingWidth);
-        state.wrapping.wrappedText += result.brokenToken[0];
+        wrappedText += result.brokenToken[0];
         lastRemainingToken = remainingToken;
         lastRemainingWidth = remainingWidth;
         if (result.brokenToken[0] && result.brokenToken[1]) {
           brokeWord = true;
         }
-        remainingToken = result.brokenToken[1] || "";
+        remainingToken = result.brokenToken[1];
         remainingWidth = result.remainingWidth || state.availableWidth;
-        if(remainingToken) {
-          state.wrapping.noLines++;
+        if(remainingToken !== undefined) {
+          ++noLines;
         }
       }
 
-      state.remainingWidthInLine = remainingWidth;
-      state.wrapping.noBrokeWords += +brokeWord;
-
-      if(remainingToken) {
+      if (remainingToken) {
         state.canFitText = false;
-        state.wrapping.truncatedText += remainingToken;
+        state.wrapping.truncatedText += token;
+      } else {
+        if (state.wrapping.noLines === 0) {
+          ++state.wrapping.noLines;
+        }
+        state.remainingWidthInLine = remainingWidth;
+        state.wrapping.noBrokeWords += +brokeWord;
+        state.wrapping.wrappedText += wrappedText;
+        state.wrapping.noLines += noLines;
       }
     }
 
@@ -146,62 +154,30 @@ module SVGTypewriter.Wrappers {
 
       if (token.trim() === "") {
         return {
-          brokenToken: ["\n"],
+          brokenToken: ["\n", ""],
           remainingWidth: 0
         };
       }
 
-      var fitToken = token.split("").reduce((curToken: string, c: string) => {
-          if(this._measurer.measure(curToken + c + this._breakingCharacter).width <= availableWidth) {
-            curToken += c;
-          }
-          return curToken;
-        }, "");
-      var remainingToken = token.slice(-fitToken.length);
+      var fitToken = "";
+      var tokenLetters = token.split("");
+      for(var i = 0; i < tokenLetters.length; ++i) {
+        var currentLetter = tokenLetters[i];
+        if(this._measurer.measure(fitToken + currentLetter + this._breakingCharacter).width <= availableWidth) {
+          fitToken += currentLetter;
+        } else {
+          break;
+        }
+      }
+      var remainingToken = token.slice(fitToken.length);
       if (fitToken.length > 0) {
         fitToken += "-";
       }
       fitToken += "\n";
       return {
-        brokenToken: [fitToken + this._breakingCharacter, remainingToken],
+        brokenToken: [fitToken, remainingToken],
         remainingWidth: 0
       };
     }
-
-      // /**
-      //  * A paragraph is a string of text containing no newlines.
-      //  * Given a paragraph, break it up into lines that are no
-      //  * wider than width.  widthMeasure is a function that takes
-      //  * text as input, and returns the width of the text in pixels.
-      //  */
-      // private breakParagraphToFitWidth(text: string, width: number): WrappingResult {
-      //   var lines: string[] = [];
-      //   var tokens = tokenize(text);
-      //   var curLine = "";
-      //   var i = 0;
-      //   var nextToken: string;
-      //   while (nextToken || i < tokens.length) {
-      //     if (typeof nextToken === "undefined" || nextToken === null) {
-      //       nextToken = tokens[i++];
-      //     }
-      //     var brokenToken = breakNextTokenToFitInWidth(curLine, nextToken, width, widthMeasure);
-
-      //     var canAdd = brokenToken[0];
-      //     var leftOver = brokenToken[1];
-
-      //     if (canAdd !== null) {
-      //       curLine += canAdd;
-      //     }
-      //     nextToken = leftOver;
-      //     if (leftOver) {
-      //       lines.push(curLine);
-      //       curLine = "";
-      //     }
-      //   }
-      //   if (curLine) {
-      //     lines.push(curLine);
-      //   }
-      //   return lines;
-      // }
   }
 }
