@@ -106,6 +106,10 @@ module SVGTypewriter.Wrappers {
       return state.wrapping;
     }
 
+    private isNotBlank(s: string) {
+      return s && s.trim() !== "";
+    }
+
     private wrapNextToken(token: string, state: IterativeWrappingState) {
       var remainingToken = token;
       var lastRemainingToken: string;
@@ -119,7 +123,8 @@ module SVGTypewriter.Wrappers {
         wrappedText += result.brokenToken[0];
         lastRemainingToken = remainingToken;
         lastRemainingWidth = remainingWidth;
-        if (result.brokenToken[0] && result.brokenToken[1]) {
+        if (this.isNotBlank(result.brokenToken[0]) && this.isNotBlank(result.brokenToken[1])) {
+          // wrappedText += "\n[" + result.brokenToken[0] + " " + result.brokenToken[1] + "]\n";
           brokeWord = true;
         }
         remainingToken = result.brokenToken[1];

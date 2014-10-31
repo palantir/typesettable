@@ -240,6 +240,9 @@ var SVGTypewriter;
                 }
                 return state.wrapping;
             };
+            Wrapper.prototype.isNotBlank = function (s) {
+                return s && s.trim() !== "";
+            };
             Wrapper.prototype.wrapNextToken = function (token, state) {
                 var remainingToken = token;
                 var lastRemainingToken;
@@ -253,7 +256,8 @@ var SVGTypewriter;
                     wrappedText += result.brokenToken[0];
                     lastRemainingToken = remainingToken;
                     lastRemainingWidth = remainingWidth;
-                    if (result.brokenToken[0] && result.brokenToken[1]) {
+                    if (this.isNotBlank(result.brokenToken[0]) && this.isNotBlank(result.brokenToken[1])) {
+                        // wrappedText += "\n[" + result.brokenToken[0] + " " + result.brokenToken[1] + "]\n";
                         brokeWord = true;
                     }
                     remainingToken = result.brokenToken[1];

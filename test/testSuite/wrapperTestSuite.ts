@@ -124,7 +124,7 @@ describe("Wrapper Test Suite", () => {
     it("multi time wrapping", () => {
       var availableWidth = measurer.measure("hell").width;
       var result = wrapper.wrap(line, availableWidth);
-      assert.isTrue(false, result.wrappedText);
+      //assert.isTrue(false, result.wrappedText);
       assert.deepEqual(result.originalText, line, "original text has been set");
       assert.lengthOf(result.wrappedText.split("\n"), 5, "wrapping occured");
       assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
