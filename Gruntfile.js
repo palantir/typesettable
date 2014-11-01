@@ -133,6 +133,17 @@ module.exports = function(grunt) {
         path: "build/svgtypewriter.d.ts",
       }
     },
+    typedoc: {
+      build: {
+        options: {
+          module: 'commonjs',
+          target: 'es5',
+          out: 'docs/',
+          name: 'SVGTypewriter.js'
+        },
+        src: 'src/**/*'
+      }
+    },
     ts: tsJSON,
     tslint: {
       options: {
@@ -238,6 +249,7 @@ module.exports = function(grunt) {
 
 
   grunt.registerTask("dev-compile", compile_task);
+  grunt.registerTask("docs", "typedoc:build");
 
   grunt.registerTask("test-compile", [
                                       "ts:test",
