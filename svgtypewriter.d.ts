@@ -90,8 +90,13 @@ declare module SVGTypewriter.Wrappers {
 }
 
 
-declare module SvgTypeWriter {
+declare module SVGTypewriter.Writers {
     class Writer {
+        constructor(measurer: Measurers.AbstractMeasurer, textOrientation?: string);
+        textOrientation(): string;
+        textOrientation(orientation: string): Writer;
+        measurer(): Measurers.AbstractMeasurer;
+        measurer(newMeasurer: Measurers.AbstractMeasurer): Writer;
     }
 }
 

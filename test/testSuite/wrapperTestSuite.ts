@@ -6,7 +6,7 @@ describe("Wrapper Test Suite", () => {
   var wrapper: SVGTypewriter.Wrappers.Wrapper;
   var measurer: SVGTypewriter.Measurers.AbstractMeasurer;
   var svg: D3.Selection;
-  before(() => {
+  beforeEach(() => {
     svg = generateSVG(200, 200);
     var textSelection = svg.append("text");
     measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
@@ -14,12 +14,18 @@ describe("Wrapper Test Suite", () => {
   });
 
   describe("Core", () => {
-    it("time trimming option", () => {
-      assert.doesNotThrow(() => wrapper.textTrimming("none"));
+    it("default text trimming option", () => {
+      assert.equal(wrapper.textTrimming(), "ellipsis", "default text trimming is set correctly");
     });
 
-    it("wrong time trimming option", () => {
+    it("text trimming option", () => {
+      wrapper.textTrimming("none");
+      assert.equal(wrapper.textTrimming(), "none", "text trimming is changed");
+    });
+
+    it("wrong text trimming option", () => {
       assert.throws(() => wrapper.textTrimming("hello"));
+      assert.equal(wrapper.textTrimming(), "ellipsis", "wrong option does not modify wrapper");
     });
   });
 
@@ -156,7 +162,7 @@ describe("Wrapper Test Suite", () => {
     });
   });
 
-  after(() => {
+  afterEach(() => {
     svg.remove();
   });
 });

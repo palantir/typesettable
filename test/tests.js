@@ -106,18 +106,23 @@ describe("Wrapper Test Suite", function () {
     var wrapper;
     var measurer;
     var svg;
-    before(function () {
+    beforeEach(function () {
         svg = generateSVG(200, 200);
         var textSelection = svg.append("text");
         measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
         wrapper = new SVGTypewriter.Wrappers.Wrapper(measurer);
     });
     describe("Core", function () {
-        it("time trimming option", function () {
-            assert.doesNotThrow(function () { return wrapper.textTrimming("none"); });
+        it("default text trimming option", function () {
+            assert.equal(wrapper.textTrimming(), "ellipsis", "default text trimming is set correctly");
         });
-        it("wrong time trimming option", function () {
+        it("text trimming option", function () {
+            wrapper.textTrimming("none");
+            assert.equal(wrapper.textTrimming(), "none", "text trimming is changed");
+        });
+        it("wrong text trimming option", function () {
             assert.throws(function () { return wrapper.textTrimming("hello"); });
+            assert.equal(wrapper.textTrimming(), "ellipsis", "wrong option does not modify wrapper");
         });
     });
     describe("One token wrapping", function () {
@@ -240,16 +245,40 @@ describe("Wrapper Test Suite", function () {
             assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
         });
     });
-    after(function () {
+    afterEach(function () {
         svg.remove();
     });
 });
 
 ///<reference path="../testReference.ts" />
 var assert = chai.assert;
-describe("Test suite", function () {
-    it("example test", function () {
-        assert.equal(0, 0, "math didn't fail :)");
+describe("Writer Test Suite", function () {
+    var wrapper;
+    var measurer;
+    var writer;
+    var svg;
+    beforeEach(function () {
+        svg = generateSVG(200, 200);
+        var textSelection = svg.append("text");
+        measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
+        wrapper = new SVGTypewriter.Wrappers.Wrapper(measurer);
+        writer = new SVGTypewriter.Writers.Writer(measurer);
+    });
+    describe("Core", function () {
+        it("default text orientation", function () {
+            assert.equal(writer.textOrientation(), "horizontal", "default text orientation is set correctly");
+        });
+        it("text orientation option", function () {
+            writer.textOrientation("vertical");
+            assert.equal(writer.textOrientation(), "vertical", "text orientation has been changed");
+        });
+        it("wrong text orientation option", function () {
+            assert.throws(function () { return writer.textOrientation("hello"); });
+            assert.equal(writer.textOrientation(), "horizontal", "wrong option does not change writer state");
+        });
+    });
+    afterEach(function () {
+        svg.remove();
     });
 });
 

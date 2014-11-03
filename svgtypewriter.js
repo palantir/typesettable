@@ -323,15 +323,43 @@ var SVGTypewriter;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="reference.ts" />
-var SvgTypeWriter;
-(function (SvgTypeWriter) {
-    var Writer = (function () {
-        function Writer() {
-        }
-        return Writer;
-    })();
-    SvgTypeWriter.Writer = Writer;
-})(SvgTypeWriter || (SvgTypeWriter = {}));
+var SVGTypewriter;
+(function (SVGTypewriter) {
+    (function (Writers) {
+        var Writer = (function () {
+            function Writer(measurer, textOrientation) {
+                if (textOrientation === void 0) { textOrientation = "horizontal"; }
+                this._measurer = measurer;
+                this.textOrientation(textOrientation);
+            }
+            Writer.prototype.textOrientation = function (orientation) {
+                if (orientation == null) {
+                    return this._textOrientation;
+                }
+                else {
+                    orientation = orientation.toLowerCase();
+                    if (orientation !== "horizontal" && orientation !== "vertical") {
+                        throw new Error("unsupported text orientation:" + orientation);
+                    }
+                    this._textOrientation = orientation;
+                    return this;
+                }
+            };
+            Writer.prototype.measurer = function (newMeasurer) {
+                if (newMeasurer == null) {
+                    return this._measurer;
+                }
+                else {
+                    this._measurer = newMeasurer;
+                    return this;
+                }
+            };
+            return Writer;
+        })();
+        Writers.Writer = Writer;
+    })(SVGTypewriter.Writers || (SVGTypewriter.Writers = {}));
+    var Writers = SVGTypewriter.Writers;
+})(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
 var SVGTypewriter;
