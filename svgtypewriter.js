@@ -327,24 +327,10 @@ var SVGTypewriter;
 (function (SVGTypewriter) {
     (function (Writers) {
         var Writer = (function () {
-            function Writer(measurer, textOrientation) {
-                if (textOrientation === void 0) { textOrientation = "horizontal"; }
+            function Writer(measurer, wrapper) {
                 this._measurer = measurer;
-                this.textOrientation(textOrientation);
+                this._wrapper = wrapper;
             }
-            Writer.prototype.textOrientation = function (orientation) {
-                if (orientation == null) {
-                    return this._textOrientation;
-                }
-                else {
-                    orientation = orientation.toLowerCase();
-                    if (orientation !== "horizontal" && orientation !== "vertical") {
-                        throw new Error("unsupported text orientation:" + orientation);
-                    }
-                    this._textOrientation = orientation;
-                    return this;
-                }
-            };
             Writer.prototype.measurer = function (newMeasurer) {
                 if (newMeasurer == null) {
                     return this._measurer;
@@ -354,6 +340,53 @@ var SVGTypewriter;
                     return this;
                 }
             };
+            Writer.prototype.wrapper = function (newWrapper) {
+                if (newWrapper == null) {
+                    return this._wrapper;
+                }
+                else {
+                    this._wrapper = newWrapper;
+                    return this;
+                }
+            };
+            Writer.prototype.translate = function (s, x, y) {
+                var xform = d3.transform(s.attr("transform"));
+                if (x == null) {
+                    return xform.translate;
+                }
+                else {
+                    y = (y == null) ? 0 : y;
+                    xform.translate[0] = x;
+                    xform.translate[1] = y;
+                    s.attr("transform", xform.toString());
+                    return s;
+                }
+            };
+            Writer.prototype.writeLine = function (line, g, align) {
+                if (align === void 0) { align = "left"; }
+                var textEl = g.append("text");
+                textEl.text(line);
+                var anchor = Writer.AnchorConverter[align];
+                textEl.attr("text-anchor", anchor);
+            };
+            Writer.prototype.write = function (text, width, height, options) {
+                var _this = this;
+                var wrappedText = this._wrapper.wrap(text, this._measurer, width, height).wrappedText;
+                var innerG = options.selection.append("g").classed("writeText-inner-g", true);
+                var lines = wrappedText.split("\n");
+                var h = this._measurer.measure(Writer.HEIGHT_TEXT).height;
+                lines.forEach(function (line, i) {
+                    var selection = innerG.append("g");
+                    _this.translate(selection, 0, (i + 1) * h);
+                    _this.writeLine(line, selection);
+                });
+            };
+            Writer.AnchorConverter = {
+                left: "start",
+                center: "middle",
+                right: "end"
+            };
+            Writer.HEIGHT_TEXT = "bqpdl";
             return Writer;
         })();
         Writers.Writer = Writer;

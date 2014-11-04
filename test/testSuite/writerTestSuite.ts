@@ -7,27 +7,36 @@ describe("Writer Test Suite", () => {
   var measurer: SVGTypewriter.Measurers.AbstractMeasurer;
   var writer: SVGTypewriter.Writers.Writer;
   var svg: D3.Selection;
+  var writeOptions: SVGTypewriter.Writers.WriteOptions;
 
   beforeEach(() => {
     svg = generateSVG(200, 200);
     var textSelection = svg.append("text");
     measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
     wrapper = new SVGTypewriter.Wrappers.Wrapper();
-    writer = new SVGTypewriter.Writers.Writer(measurer);
+    writer = new SVGTypewriter.Writers.Writer(measurer, wrapper);
   });
 
-  describe("Core", () => {
-    it("default text orientation", () => {
-      assert.equal(writer.textOrientation(), "horizontal", "default text orientation is set correctly");
-    });
-    it("text orientation option", () => {
-      writer.textOrientation("vertical");
-      assert.equal(writer.textOrientation(), "vertical", "text orientation has been changed");
+  describe("Horizontal", () => {
+    beforeEach(() => {
+      writeOptions = {
+        selection: svg,
+        xAlign: "left",
+        yAlign: "top",
+        textOrientation: "horizontal"
+      };
     });
 
-    it("wrong text orientation option", () => {
-      assert.throws(() => writer.textOrientation("hello"));
-      assert.equal(writer.textOrientation(), "horizontal", "wrong option does not change writer state");
+    it("one word", () => {
+      writer.write("test", 200, 200, writeOptions);
+    });
+
+    it("multiple lines", () => {
+      writer.write("test\ntest", 200, 200, writeOptions);
+    });
+
+    it("wrapping", () => {
+      writer.write("reallylongsentencewithmanycharacters", 50, 150, writeOptions);
     });
   });
 
