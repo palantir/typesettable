@@ -4,4 +4,4 @@ SVG Typewriter
 
 A library for manipulating text on SVG.
 
-API can be found [here](http://endrjuskr.github.io/svg-typewriter)
+API can be found [here](http://endrjuskr.github.io/svg-typewriter/docs)
