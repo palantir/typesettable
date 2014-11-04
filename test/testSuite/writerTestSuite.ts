@@ -12,7 +12,7 @@ describe("Writer Test Suite", () => {
     svg = generateSVG(200, 200);
     var textSelection = svg.append("text");
     measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
-    wrapper = new SVGTypewriter.Wrappers.Wrapper(measurer);
+    wrapper = new SVGTypewriter.Wrappers.Wrapper();
     writer = new SVGTypewriter.Writers.Writer(measurer);
   });
 

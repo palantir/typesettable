@@ -10,7 +10,7 @@ describe("Wrapper Test Suite", () => {
     svg = generateSVG(200, 200);
     var textSelection = svg.append("text");
     measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
-    wrapper = new SVGTypewriter.Wrappers.Wrapper(measurer);
+    wrapper = new SVGTypewriter.Wrappers.Wrapper();
   });
 
   describe("Core", () => {
@@ -37,7 +37,7 @@ describe("Wrapper Test Suite", () => {
 
     it("does not wrap", () => {
       var dimensions = measurer.measure(token);
-      var result = wrapper.wrap(token, dimensions.width * 2);
+      var result = wrapper.wrap(token, measurer, dimensions.width * 2);
       assert.deepEqual(result.originalText, token, "original text has been set");
       assert.deepEqual(result.wrappedText, token, "wrapped text is the same as original");
       assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
@@ -47,7 +47,7 @@ describe("Wrapper Test Suite", () => {
 
     it("one time wrapping", () => {
       var availableWidth = measurer.measure(token).width * 3 / 4;
-      var result = wrapper.wrap(token, availableWidth);
+      var result = wrapper.wrap(token, measurer, availableWidth);
       assert.deepEqual(result.originalText, token, "original text has been set");
       assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
       assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
@@ -58,7 +58,7 @@ describe("Wrapper Test Suite", () => {
 
     it("multi time wrapping", () => {
       var availableWidth = measurer.measure("h").width * 2;
-      var result = wrapper.wrap(token, availableWidth);
+      var result = wrapper.wrap(token, measurer, availableWidth);
       assert.deepEqual(result.originalText, token, "original text has been set");
       assert.lengthOf(result.wrappedText.split("\n"), 3, "wrapping occured");
       assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
@@ -69,7 +69,7 @@ describe("Wrapper Test Suite", () => {
 
     it("wrapping is impossible", () => {
       var availableWidth = measurer.measure("h").width - 0.1;
-      var result = wrapper.wrap(token, availableWidth);
+      var result = wrapper.wrap(token, measurer, availableWidth);
       assert.deepEqual(result.originalText, token, "original text has been set");
       assert.equal(result.wrappedText, "", "wrapping was impossible");
       assert.deepEqual(result.truncatedText, token, "whole text has been truncated");
@@ -80,7 +80,7 @@ describe("Wrapper Test Suite", () => {
     it("only first sign fits", () => {
       var tokenWithSmallFirstSign = "aHHH";
       var availableWidth = measurer.measure("a-").width;
-      var result = wrapper.wrap(tokenWithSmallFirstSign, availableWidth);
+      var result = wrapper.wrap(tokenWithSmallFirstSign, measurer, availableWidth);
       assert.deepEqual(result.originalText, tokenWithSmallFirstSign, "original text has been set");
       assert.equal(result.wrappedText, "", "wrapping was impossible");
       assert.deepEqual(result.truncatedText, tokenWithSmallFirstSign, "whole text has been truncated");
@@ -97,7 +97,7 @@ describe("Wrapper Test Suite", () => {
 
     it("does not wrap", () => {
       var dimensions = measurer.measure(line);
-      var result = wrapper.wrap(line, dimensions.width * 2);
+      var result = wrapper.wrap(line, measurer, dimensions.width * 2);
       assert.deepEqual(result.originalText, line, "original text has been set");
       assert.deepEqual(result.wrappedText, line, "wrapped text is the same as original");
       assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
@@ -108,7 +108,7 @@ describe("Wrapper Test Suite", () => {
     it("only token sign fits", () => {
       var tokenWithSmallFirstSign = "!HHH";
       var availableWidth = measurer.measure("!-").width;
-      var result = wrapper.wrap(tokenWithSmallFirstSign, availableWidth);
+      var result = wrapper.wrap(tokenWithSmallFirstSign, measurer, availableWidth);
       assert.deepEqual(result.originalText, tokenWithSmallFirstSign, "original text has been set");
       assert.equal(result.wrappedText, "!", "wrapping was possible");
       assert.deepEqual(result.truncatedText, "HHH", "big letters have been truncated");
@@ -118,7 +118,7 @@ describe("Wrapper Test Suite", () => {
 
     it("one time wrapping", () => {
       var availableWidth = measurer.measure(line).width * 3 / 4;
-      var result = wrapper.wrap(line, availableWidth);
+      var result = wrapper.wrap(line, measurer, availableWidth);
       assert.deepEqual(result.originalText, line, "original text has been set");
       assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
       assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
@@ -129,8 +129,7 @@ describe("Wrapper Test Suite", () => {
 
     it("multi time wrapping", () => {
       var availableWidth = measurer.measure("hell").width;
-      var result = wrapper.wrap(line, availableWidth);
-      //assert.isTrue(false, result.wrappedText);
+      var result = wrapper.wrap(line, measurer, availableWidth);
       assert.deepEqual(result.originalText, line, "original text has been set");
       assert.lengthOf(result.wrappedText.split("\n"), 5, "wrapping occured");
       assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
@@ -141,7 +140,7 @@ describe("Wrapper Test Suite", () => {
 
     it("wrapping is impossible", () => {
       var availableWidth = measurer.measure("h").width - 0.1;
-      var result = wrapper.wrap(line, availableWidth);
+      var result = wrapper.wrap(line, measurer, availableWidth);
       assert.deepEqual(result.originalText, line, "original text has been set");
       assert.equal(result.wrappedText, "", "wrapping was impossible");
       assert.deepEqual(result.truncatedText, line, "whole text has been truncated");
@@ -152,7 +151,7 @@ describe("Wrapper Test Suite", () => {
     it("wrapping many whitespaces", () => {
       var lineWithWhitespaces = "hello              \t !!!";
       var availableWidth = measurer.measure("hello").width + 0.1;
-      var result = wrapper.wrap(lineWithWhitespaces, availableWidth);
+      var result = wrapper.wrap(lineWithWhitespaces, measurer, availableWidth);
       assert.deepEqual(result.originalText, lineWithWhitespaces, "original text has been set");
       assert.lengthOf(result.wrappedText.split("\n"), 2, "one wrapping occured");
       assert.deepEqual(result.truncatedText, "", "whole text has fit in");

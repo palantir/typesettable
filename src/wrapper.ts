@@ -29,13 +29,12 @@ module SVGTypewriter.Wrappers {
     public _breakingCharacter: string;
     private _measurer: Measurers.AbstractMeasurer;
 
-    constructor(measurer: Measurers.AbstractMeasurer) {
+    constructor() {
       this.maxLines(Infinity);
       this.textTrimming("ellipsis");
       this.allowBreakingWords(true);
       this._tokenizer = new Utils.Tokenizer();
       this._breakingCharacter = "-";
-      this._measurer = measurer;
     }
 
     public maxLines(): number;
@@ -74,7 +73,8 @@ module SVGTypewriter.Wrappers {
       }
     }
 
-    public wrap(text: string, width: number, height?: number): WrappingResult {
+    public wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number, height?: number): WrappingResult {
+      this._measurer = measurer;
       return this.breakLineToFitWidth(text, width);
     }
 

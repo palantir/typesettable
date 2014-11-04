@@ -177,13 +177,12 @@ var SVGTypewriter;
 (function (SVGTypewriter) {
     (function (Wrappers) {
         var Wrapper = (function () {
-            function Wrapper(measurer) {
+            function Wrapper() {
                 this.maxLines(Infinity);
                 this.textTrimming("ellipsis");
                 this.allowBreakingWords(true);
                 this._tokenizer = new SVGTypewriter.Utils.Tokenizer();
                 this._breakingCharacter = "-";
-                this._measurer = measurer;
             }
             Wrapper.prototype.maxLines = function (noLines) {
                 if (noLines == null) {
@@ -215,7 +214,8 @@ var SVGTypewriter;
                     return this;
                 }
             };
-            Wrapper.prototype.wrap = function (text, width, height) {
+            Wrapper.prototype.wrap = function (text, measurer, width, height) {
+                this._measurer = measurer;
                 return this.breakLineToFitWidth(text, width);
             };
             Wrapper.prototype.breakLineToFitWidth = function (text, availableWidth) {
