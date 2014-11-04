@@ -1,0 +1,441 @@
+﻿<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Cache | SVGTypewriter.js</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script src="../assets/js/modernizr.js"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">SVGTypewriter.js</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-private" checked />
+							<label class="tsd-widget" for="tsd-filter-private">Private</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/svgtypewriter.html">SVGTypewriter</a>
+				</li>
+				<li>
+					<a href="../modules/svgtypewriter.utils.html">Utils</a>
+				</li>
+				<li>
+					<a href="svgtypewriter.utils.cache.html">Cache</a>
+				</li>
+			</ul>
+			<h1>Class Cache</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructor methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor-method tsd-parent-kind-class"><a href="svgtypewriter.utils.cache.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-private">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="svgtypewriter.utils.cache.html#cache" class="tsd-kind-icon">cache</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="svgtypewriter.utils.cache.html#compute" class="tsd-kind-icon">compute</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="svgtypewriter.utils.cache.html#valueeq" class="tsd-kind-icon">value<wbr>Eq</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="svgtypewriter.utils.cache.html#clear" class="tsd-kind-icon">clear</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="svgtypewriter.utils.cache.html#get" class="tsd-kind-icon">get</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+				</section>            <section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructor methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor-method tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">constructor<span class="tsd-signature-symbol">(</span>compute<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, valueEq<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> =&nbsp;</span>(v: T, w: T) =&gt; v === w<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgtypewriter.utils.cache.html" class="tsd-signature-type">Cache</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description"><aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/utils/cache.ts#L17">cache.ts:17</a></li>
+								</ul>
+								</aside>        <div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>constructor</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>compute:         <span class="tsd-signature-type">Function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The function whose results will be cached.</p>
+										</div>
+									</div>
+									<ul class="tsd-parameters">
+										<li>
+											<h5>compute function signature<span class="tsd-signature-symbol"></span></h5>
+											<ul class="tsd-signatures tsd-kind-function-type tsd-parent-kind-parameter">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>k<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description"><aside class="tsd-sources">
+														<ul>
+															<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/utils/cache.ts#L17">cache.ts:17</a></li>
+														</ul>
+													</aside>
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>k:         <span class="tsd-signature-type">string</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns         <span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span>
+													</h4>
+												</li>
+										</ul>        </li>
+								</ul>            </li>
+								<li>
+									<h5>valueEq?:         <span class="tsd-signature-type">Function</span> <span class="tsd-flag ts-flagoptional">optional</span></h5>
+									<ul class="tsd-parameters">
+										<li>
+											<h5>value<wbr>Eq function signature<span class="tsd-signature-symbol"></span></h5>
+											<ul class="tsd-signatures tsd-kind-function-type tsd-parent-kind-parameter">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>v<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span>, w<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description"><aside class="tsd-sources">
+														<ul>
+															<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/utils/cache.ts#L18">cache.ts:18</a></li>
+														</ul>
+													</aside>
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>v:         <span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span></h5>
+														</li>
+														<li>
+															<h5>w:         <span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns         <span class="tsd-signature-type">boolean</span>
+													</h4>
+												</li>
+										</ul>        </li>
+								</ul>            </li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns         <a href="svgtypewriter.utils.cache.html" class="tsd-signature-type">Cache</a>
+							</h4>
+						</li>
+					</ul>
+				</section></section>        <section class="tsd-panel-group tsd-member-group tsd-is-private">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="cache" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagprivate">private</span> cache</h3>
+					<div class="tsd-signature tsd-kind-icon">cache<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/utils/cache.ts#L5">cache.ts:5</a></li>
+						</ul>
+					</aside>
+					</section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="compute" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagprivate">private</span> compute</h3>
+					<div class="tsd-signature tsd-kind-icon">compute<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">Function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/utils/cache.ts#L6">cache.ts:6</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-function-type tsd-parent-kind-property">
+						<a name="compute.compute_function_signature" class="tsd-anchor"></a>
+						<h3>compute function signature</h3>
+						<ul class="tsd-signatures tsd-kind-function-type tsd-parent-kind-property">
+							<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>k<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description"><aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/utils/cache.ts#L6">cache.ts:6</a></li>
+									</ul>
+								</aside>
+								<h4 class="tsd-parameters-title">Parameters</h4>
+								<ul class="tsd-parameters">
+									<li>
+										<h5>k:         <span class="tsd-signature-type">string</span></h5>
+									</li>
+								</ul>
+								<h4 class="tsd-returns-title">Returns         <span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span>
+								</h4>
+							</li>
+						</ul>
+					</section></section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="valueeq" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagprivate">private</span> value<wbr>Eq</h3>
+					<div class="tsd-signature tsd-kind-icon">value<wbr>Eq<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">Function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/utils/cache.ts#L7">cache.ts:7</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-function-type tsd-parent-kind-property">
+						<a name="valueeq.valueeq_function_signature" class="tsd-anchor"></a>
+						<h3>value<wbr>Eq function signature</h3>
+						<ul class="tsd-signatures tsd-kind-function-type tsd-parent-kind-property">
+							<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>v<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span>, w<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description"><aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/utils/cache.ts#L7">cache.ts:7</a></li>
+									</ul>
+								</aside>
+								<h4 class="tsd-parameters-title">Parameters</h4>
+								<ul class="tsd-parameters">
+									<li>
+										<h5>v:         <span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span></h5>
+									</li>
+									<li>
+										<h5>w:         <span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span></h5>
+									</li>
+								</ul>
+								<h4 class="tsd-returns-title">Returns         <span class="tsd-signature-type">boolean</span>
+								</h4>
+							</li>
+						</ul>
+				</section></section></section>        <section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="clear" class="tsd-anchor"></a>
+					<h3>clear</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">clear<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgtypewriter.utils.cache.html" class="tsd-signature-type">Cache</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description"><aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/utils/cache.ts#L43">cache.ts:43</a></li>
+								</ul>
+								</aside>        <div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Reset the cache empty.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns         <a href="svgtypewriter.utils.cache.html" class="tsd-signature-type">Cache</a>
+							</h4>
+							<p>The calling Cache.</p>
+						</li>
+					</ul>
+					</section>            <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="get" class="tsd-anchor"></a>
+					<h3>get</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>k<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description"><aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/utils/cache.ts#L31">cache.ts:31</a></li>
+								</ul>
+								</aside>        <div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Attempt to look up k in the cache, computing the result if it isn&#39;t
+									found.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>k:         <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The key to look up in the cache.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns         <span class="tsd-signature-type">T in SVGTypewriter.Utils.Cache&lt;T&gt;</span>
+							</h4>
+							<p>The value associated with k; the result of compute(k).</p>
+						</li>
+					</ul>
+			</section></section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-container">
+						<a href="../modules/svgtypewriter.html">SVGTypewriter</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.measurers.html">SVGTypewriter.<wbr>Measurers</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.parsers.html">SVGTypewriter.<wbr>Parsers</a>
+					</li>
+					<li class="current tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.utils.html">SVGTypewriter.<wbr>Utils</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.utils.methods.html">SVGTypewriter.<wbr>Utils.<wbr>Methods</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.wrappers.html">SVGTypewriter.<wbr>Wrappers</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.writers.html">SVGTypewriter.<wbr>Writers</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-container">
+						<a href="svgtypewriter.utils.cache.html" class="tsd-kind-icon">Cache</a>
+						<ul>
+							<li class=" tsd-kind-constructor-method tsd-parent-kind-class">
+								<a href="svgtypewriter.utils.cache.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="svgtypewriter.utils.cache.html#cache" class="tsd-kind-icon">cache</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="svgtypewriter.utils.cache.html#compute" class="tsd-kind-icon">compute</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="svgtypewriter.utils.cache.html#valueeq" class="tsd-kind-icon">value<wbr>Eq</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="svgtypewriter.utils.cache.html#clear" class="tsd-kind-icon">clear</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="svgtypewriter.utils.cache.html#get" class="tsd-kind-icon">get</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-container">
+						<a href="svgtypewriter.utils.tokenizer.html" class="tsd-kind-icon">Tokenizer</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-container"><span class="tsd-kind-icon">Container, dynamic module</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-construct-signature"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-call-signature"><span class="tsd-kind-icon">Function, call signature, accessor</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-construct-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Member, accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-construct-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Member, accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li>&nbsp;</li>
+				<li class="tsd-kind-construct-signature tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited member</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li>&nbsp;</li>
+				<li class="tsd-kind-construct-signature tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private member</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li>&nbsp;</li>
+				<li>&nbsp;</li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static member</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
