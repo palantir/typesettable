@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Parser | SVGTypewriter.js</title>
+	<title>WriteOptions | SVGTypewriter.js</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,13 +54,13 @@
 					<a href="../modules/svgtypewriter.html">SVGTypewriter</a>
 				</li>
 				<li>
-					<a href="../modules/svgtypewriter.parsers.html">Parsers</a>
+					<a href="../modules/svgtypewriter.writers.html">Writers</a>
 				</li>
 				<li>
-					<a href="svgtypewriter.parsers.parser.html">Parser</a>
+					<a href="svgtypewriter.writers.writeoptions.html">WriteOptions</a>
 				</li>
 			</ul>
-			<h1>Interface Parser</h1>
+			<h1>Interface WriteOptions</h1>
 		</div>
 	</div>
 </header>
@@ -72,36 +72,54 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Call signatures</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-call-signature tsd-parent-kind-interface"><a href="svgtypewriter.parsers.parser.html#symbol-59" class="tsd-kind-icon"><em>Call signature</em></a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="svgtypewriter.writers.writeoptions.html#selection" class="tsd-kind-icon">selection</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="svgtypewriter.writers.writeoptions.html#textorientation" class="tsd-kind-icon">text<wbr>Orientation</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="svgtypewriter.writers.writeoptions.html#xalign" class="tsd-kind-icon">x<wbr>Align</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="svgtypewriter.writers.writeoptions.html#yalign" class="tsd-kind-icon">y<wbr>Align</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 				</section>            <section class="tsd-panel-group tsd-member-group ">
-				<h2>Call signatures</h2>
-				<section class="tsd-panel tsd-member tsd-kind-call-signature tsd-parent-kind-interface">
-					<a name="symbol-59" class="tsd-anchor"></a>
-					<ul class="tsd-signatures tsd-kind-call-signature tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description"><aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/parsers.ts#L6">/Users/askrodzki/Work/svg-typewriter/src/parsers.ts:6</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>text:         <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns         <span class="tsd-signature-type">string</span>
-							</h4>
-						</li>
-					</ul>
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="selection" class="tsd-anchor"></a>
+					<h3>selection</h3>
+					<div class="tsd-signature tsd-kind-icon">selection<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/writer.ts#L5">/Users/askrodzki/Work/svg-typewriter/src/writer.ts:5</a></li>
+						</ul>
+					</aside>
+					</section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="textorientation" class="tsd-anchor"></a>
+					<h3>text<wbr>Orientation</h3>
+					<div class="tsd-signature tsd-kind-icon">text<wbr>Orientation<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/writer.ts#L8">/Users/askrodzki/Work/svg-typewriter/src/writer.ts:8</a></li>
+						</ul>
+					</aside>
+					</section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="xalign" class="tsd-anchor"></a>
+					<h3>x<wbr>Align</h3>
+					<div class="tsd-signature tsd-kind-icon">x<wbr>Align<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/writer.ts#L6">/Users/askrodzki/Work/svg-typewriter/src/writer.ts:6</a></li>
+						</ul>
+					</aside>
+					</section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="yalign" class="tsd-anchor"></a>
+					<h3>y<wbr>Align</h3>
+					<div class="tsd-signature tsd-kind-icon">y<wbr>Align<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/develop/src/writer.ts#L7">/Users/askrodzki/Work/svg-typewriter/src/writer.ts:7</a></li>
+						</ul>
+					</aside>
 			</section></section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -116,7 +134,7 @@
 					<li class=" tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.measurers.html">SVGTypewriter.<wbr>Measurers</a>
 					</li>
-					<li class="current tsd-kind-container tsd-parent-kind-container">
+					<li class=" tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.parsers.html">SVGTypewriter.<wbr>Parsers</a>
 					</li>
 					<li class=" tsd-kind-container tsd-parent-kind-container">
@@ -128,7 +146,7 @@
 					<li class=" tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.wrappers.html">SVGTypewriter.<wbr>Wrappers</a>
 					</li>
-					<li class=" tsd-kind-container tsd-parent-kind-container">
+					<li class="current tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.writers.html">SVGTypewriter.<wbr>Writers</a>
 					</li>
 				</ul>
@@ -138,20 +156,26 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-container">
-						<a href="svgtypewriter.parsers.parser.html" class="tsd-kind-icon">Parser</a>
+						<a href="svgtypewriter.writers.writeoptions.html" class="tsd-kind-icon">Write<wbr>Options</a>
 						<ul>
-							<li class=" tsd-kind-call-signature tsd-parent-kind-interface">
-								<a href="svgtypewriter.parsers.parser.html#symbol-59" class="tsd-kind-icon"><em><wbr>Call signature</em></a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="svgtypewriter.writers.writeoptions.html#selection" class="tsd-kind-icon">selection</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="svgtypewriter.writers.writeoptions.html#textorientation" class="tsd-kind-icon">text<wbr>Orientation</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="svgtypewriter.writers.writeoptions.html#xalign" class="tsd-kind-icon">x<wbr>Align</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="svgtypewriter.writers.writeoptions.html#yalign" class="tsd-kind-icon">y<wbr>Align</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-function tsd-parent-kind-container">
-						<a href="../modules/svgtypewriter.parsers.html#combinewhitespace" class="tsd-kind-icon">combine<wbr>Whitespace</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-container">
-						<a href="../modules/svgtypewriter.parsers.html#ident" class="tsd-kind-icon">ident</a>
+					<li class=" tsd-kind-class tsd-parent-kind-container">
+						<a href="../classes/svgtypewriter.writers.writer.html" class="tsd-kind-icon">Writer</a>
 					</li>
 				</ul>
 			</nav>
