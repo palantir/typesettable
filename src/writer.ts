@@ -24,6 +24,7 @@ module SVGTypewriter.Writers {
                 wrapper: Wrappers.Wrapper) {
       this._measurer = measurer;
       this._wrapper = wrapper;
+      // maybe use setter methods not direct assignment?
     }
 
     public measurer(): Measurers.AbstractMeasurer;
@@ -49,6 +50,7 @@ module SVGTypewriter.Writers {
     }
 
     private translate(s: D3.Selection, x?: number, y?: number) {
+      // should this be a util method instead?
       var xform = d3.transform(s.attr("transform"));
       if (x == null) {
         return xform.translate;

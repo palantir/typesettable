@@ -8,6 +8,7 @@ module SVGTypewriter.Measurers {
     constructor(area: D3.Selection) {
       super(area);
     }
+    // unnecessary constructor
 
     public _addGuards(text: string) {
       return Measurer.NotWhitespaceCharacter + text + Measurer.NotWhitespaceCharacter;

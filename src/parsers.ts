@@ -2,6 +2,7 @@
 
 module SVGTypewriter {
   export module Parsers {
+    // I think this is an inappropriate name
     export interface Parser {
       (text: string): string;
     }
@@ -11,7 +12,7 @@ module SVGTypewriter {
     }
 
     /**
-     * @return {Parser} A test parser that will treat all 
+     * @return {Parser} A test parser that will treat all
      * sequences of consecutive whitespace as a single " ".
      */
     export function combineWhitespace(pr: Parser) {
