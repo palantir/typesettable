@@ -74,7 +74,7 @@ module SVGTypewriter.Wrappers {
     }
 
     public wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number, height?: number): WrappingResult {
-      this._measurer = measurer;
+      this._measurer = measurer; // why set this as state and not just pass as arg? (i prefer avoiding state/implicit data flow where possible)
       return this.breakLineToFitWidth(text, width);
     }
 
@@ -103,6 +103,7 @@ module SVGTypewriter.Wrappers {
           state.wrapping.truncatedText += token;
         }
       }
+      // i know you like functional style, this looks like it could be a reduce fn instead
       return state.wrapping;
     }
 

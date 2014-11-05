@@ -2,6 +2,7 @@
 
 module SVGTypewriter.Utils {
   export class Tokenizer {
+    // is this being exported to consumers of SVGTypewriter?
     private WordDividerRegExp = new RegExp("\\W");
     private WhitespaceRegExp = new RegExp("\\s");
 

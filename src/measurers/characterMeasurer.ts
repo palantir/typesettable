@@ -5,6 +5,7 @@ module SVGTypewriter.Measurers {
     constructor(area: D3.Selection) {
       super(area);
     }
+    // unnecessary construtor
 
     public _measureCharacter(c: string) {
       return super.measure(c);
