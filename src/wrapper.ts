@@ -27,8 +27,7 @@ module SVGTypewriter.Wrappers {
     private _allowBreakingWords: boolean;
     private _tokenizer: Utils.Tokenizer;
     public _breakingCharacter: string;
-    private _measurer: Measurers.AbstractMeasurer;
-
+    
     constructor() {
       this.maxLines(Infinity);
       this.textTrimming("ellipsis");
@@ -74,11 +73,10 @@ module SVGTypewriter.Wrappers {
     }
 
     public wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number, height?: number): WrappingResult {
-      this._measurer = measurer;
-      return this.breakLineToFitWidth(text, width);
+      return this.breakLineToFitWidth(text, width, measurer);
     }
 
-    private breakLineToFitWidth(text: string, availableWidth: number): WrappingResult {
+    private breakLineToFitWidth(text: string, availableWidth: number, measurer: Measurers.AbstractMeasurer): WrappingResult {
       var tokens = this._tokenizer.tokenize(text);
 
       var initialWrappingResult = {
@@ -98,7 +96,7 @@ module SVGTypewriter.Wrappers {
       for(var i = 0; i < tokens.length; ++i) {
         var token = tokens[i];
         if(state.canFitText) {
-          this.wrapNextToken(token, state);
+          this.wrapNextToken(token, state, measurer);
         } else {
           state.wrapping.truncatedText += token;
         }
@@ -106,7 +104,7 @@ module SVGTypewriter.Wrappers {
       return state.wrapping;
     }
 
-    private wrapNextToken(token: string, state: IterativeWrappingState) {
+    private wrapNextToken(token: string, state: IterativeWrappingState, measurer: Measurers.AbstractMeasurer) {
       var remainingToken = token;
       var lastRemainingToken: string;
       var remainingWidth = state.remainingWidthInLine;
@@ -115,7 +113,7 @@ module SVGTypewriter.Wrappers {
       var wrappedText = "";
       var noLines = 0;
       while(remainingToken && (remainingWidth !== lastRemainingWidth || remainingToken !== lastRemainingToken)) {
-        var result = this.breakTokenToFitInWidth(remainingToken, remainingWidth);
+        var result = this.breakTokenToFitInWidth(remainingToken, remainingWidth, measurer);
         wrappedText += result.brokenToken[0];
         lastRemainingToken = remainingToken;
         lastRemainingWidth = remainingWidth;
@@ -143,8 +141,8 @@ module SVGTypewriter.Wrappers {
       }
     }
 
-    private breakTokenToFitInWidth(token: string, availableWidth: number): BreakingTokenResult {
-      var tokenWidth = this._measurer.measure(token).width;
+    private breakTokenToFitInWidth(token: string, availableWidth: number, measurer: Measurers.AbstractMeasurer): BreakingTokenResult {
+      var tokenWidth = measurer.measure(token).width;
       if (tokenWidth <= availableWidth) {
         return {
           brokenToken: [token],
@@ -163,7 +161,7 @@ module SVGTypewriter.Wrappers {
       var tokenLetters = token.split("");
       for(var i = 0; i < tokenLetters.length; ++i) {
         var currentLetter = tokenLetters[i];
-        if(this._measurer.measure(fitToken + currentLetter + this._breakingCharacter).width <= availableWidth) {
+        if(measurer.measure(fitToken + currentLetter + this._breakingCharacter).width <= availableWidth) {
           fitToken += currentLetter;
         } else {
           break;
