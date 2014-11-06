@@ -258,6 +258,7 @@ var SVGTypewriter;
                 return this.breakLineToFitWidth(text, width, measurer);
             };
             Wrapper.prototype.breakLineToFitWidth = function (text, availableWidth, measurer) {
+                var _this = this;
                 var tokens = this._tokenizer.tokenize(text);
                 var initialWrappingResult = {
                     originalText: text,
@@ -272,16 +273,11 @@ var SVGTypewriter;
                     availableWidth: availableWidth,
                     canFitText: true
                 };
-                for (var i = 0; i < tokens.length; ++i) {
-                    var token = tokens[i];
-                    if (state.canFitText) {
-                        this.wrapNextToken(token, state, measurer);
-                    }
-                    else {
-                        state.wrapping.truncatedText += token;
-                    }
-                }
-                return state.wrapping;
+                return tokens.reduce(function (state, token) { return state.canFitText ? _this.wrapNextToken(token, state, measurer) : _this.truncateNextToken(token, state); }, state).wrapping;
+            };
+            Wrapper.prototype.truncateNextToken = function (token, state) {
+                state.wrapping.truncatedText += token;
+                return state;
             };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
                 var remainingToken = token;
@@ -318,6 +314,7 @@ var SVGTypewriter;
                     state.wrapping.wrappedText += wrappedText;
                     state.wrapping.noLines += noLines;
                 }
+                return state;
             };
             Wrapper.prototype.breakTokenToFitInWidth = function (token, availableWidth, measurer) {
                 var tokenWidth = measurer.measure(token).width;

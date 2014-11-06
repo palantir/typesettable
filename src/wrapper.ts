@@ -93,15 +93,16 @@ module SVGTypewriter.Wrappers {
         canFitText: true
       };
 
-      for(var i = 0; i < tokens.length; ++i) {
-        var token = tokens[i];
-        if(state.canFitText) {
-          this.wrapNextToken(token, state, measurer);
-        } else {
-          state.wrapping.truncatedText += token;
-        }
-      }
-      return state.wrapping;
+      return tokens.reduce(
+        (state: IterativeWrappingState, token: string) =>
+          state.canFitText ? this.wrapNextToken(token, state, measurer) : this.truncateNextToken(token, state),
+        state
+      ).wrapping;
+    }
+
+    private truncateNextToken(token: string, state: IterativeWrappingState) {
+      state.wrapping.truncatedText += token;
+      return state;
     }
 
     private wrapNextToken(token: string, state: IterativeWrappingState, measurer: Measurers.AbstractMeasurer) {
@@ -139,6 +140,8 @@ module SVGTypewriter.Wrappers {
         state.wrapping.wrappedText += wrappedText;
         state.wrapping.noLines += noLines;
       }
+
+      return state;
     }
 
     private breakTokenToFitInWidth(token: string, availableWidth: number, measurer: Measurers.AbstractMeasurer): BreakingTokenResult {
