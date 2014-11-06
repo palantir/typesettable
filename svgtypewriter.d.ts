@@ -16,6 +16,11 @@ declare module SVGTypewriter.Utils.Methods {
     function isNotEmptyString(str: string): boolean;
 }
 
+declare module SVGTypewriter.Utils.DOM {
+    function transform(s: D3.Selection, x?: number, y?: number): any;
+    function getBBox(element: D3.Selection): SVGRect;
+}
+
 
 declare module SVGTypewriter.Utils {
     class Cache<T> {

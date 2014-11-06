@@ -1,4 +1,5 @@
 /// <reference path="utils/methods.ts" />
+/// <reference path="utils/dom.ts" />
 /// <reference path="utils/cache.ts" />
 /// <reference path="utils/tokenizer.ts" />
 

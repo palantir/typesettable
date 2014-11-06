@@ -48,19 +48,6 @@ module SVGTypewriter.Writers {
       }
     }
 
-    private translate(s: D3.Selection, x?: number, y?: number) {
-      var xform = d3.transform(s.attr("transform"));
-      if (x == null) {
-        return xform.translate;
-      } else {
-        y = (y == null) ? 0 : y;
-        xform.translate[0] = x;
-        xform.translate[1] = y;
-        s.attr("transform", xform.toString());
-        return s;
-      }
-    }
-
     private writeLine(line: string, g: D3.Selection, align = "left") {
       var textEl = g.append("text");
       textEl.text(line);
@@ -75,7 +62,7 @@ module SVGTypewriter.Writers {
       var h = this._measurer.measure(Writer.HEIGHT_TEXT).height;
       lines.forEach((line: string, i: number) => {
         var selection = innerG.append("g");
-        this.translate(selection, 0, (i + 1) * h);
+        Utils.DOM.transform(selection, 0, (i + 1) * h);
         this.writeLine(line, selection);
       });
     }

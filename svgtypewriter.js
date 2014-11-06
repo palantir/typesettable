@@ -63,6 +63,46 @@ var SVGTypewriter;
     var Utils = SVGTypewriter.Utils;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
+var SVGTypewriter;
+(function (SVGTypewriter) {
+    (function (Utils) {
+        (function (DOM) {
+            function transform(s, x, y) {
+                var xform = d3.transform(s.attr("transform"));
+                if (x == null) {
+                    return xform.translate;
+                }
+                else {
+                    y = (y == null) ? 0 : y;
+                    xform.translate[0] = x;
+                    xform.translate[1] = y;
+                    s.attr("transform", xform.toString());
+                    return s;
+                }
+            }
+            DOM.transform = transform;
+            function getBBox(element) {
+                var bbox;
+                try {
+                    bbox = element.node().getBBox();
+                }
+                catch (err) {
+                    bbox = {
+                        x: 0,
+                        y: 0,
+                        width: 0,
+                        height: 0
+                    };
+                }
+                return bbox;
+            }
+            DOM.getBBox = getBBox;
+        })(Utils.DOM || (Utils.DOM = {}));
+        var DOM = Utils.DOM;
+    })(SVGTypewriter.Utils || (SVGTypewriter.Utils = {}));
+    var Utils = SVGTypewriter.Utils;
+})(SVGTypewriter || (SVGTypewriter = {}));
+
 ///<reference path="../reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -348,19 +388,6 @@ var SVGTypewriter;
                     return this;
                 }
             };
-            Writer.prototype.translate = function (s, x, y) {
-                var xform = d3.transform(s.attr("transform"));
-                if (x == null) {
-                    return xform.translate;
-                }
-                else {
-                    y = (y == null) ? 0 : y;
-                    xform.translate[0] = x;
-                    xform.translate[1] = y;
-                    s.attr("transform", xform.toString());
-                    return s;
-                }
-            };
             Writer.prototype.writeLine = function (line, g, align) {
                 if (align === void 0) { align = "left"; }
                 var textEl = g.append("text");
@@ -376,7 +403,7 @@ var SVGTypewriter;
                 var h = this._measurer.measure(Writer.HEIGHT_TEXT).height;
                 lines.forEach(function (line, i) {
                     var selection = innerG.append("g");
-                    _this.translate(selection, 0, (i + 1) * h);
+                    SVGTypewriter.Utils.DOM.transform(selection, 0, (i + 1) * h);
                     _this.writeLine(line, selection);
                 });
             };
@@ -403,24 +430,9 @@ var SVGTypewriter;
                 this.measurerArea = area;
                 this.defaultText = area.text();
             }
-            AbstractMeasurer.prototype.getBBox = function (element) {
-                var bbox;
-                try {
-                    bbox = element.node().getBBox();
-                }
-                catch (err) {
-                    bbox = {
-                        x: 0,
-                        y: 0,
-                        width: 0,
-                        height: 0
-                    };
-                }
-                return bbox;
-            };
             AbstractMeasurer.prototype.measure = function (text) {
                 this.measurerArea.text(text);
-                var bb = this.getBBox(this.measurerArea);
+                var bb = SVGTypewriter.Utils.DOM.getBBox(this.measurerArea);
                 var areaDimension = { width: bb.width, height: bb.height };
                 this.measurerArea.text(this.defaultText);
                 return areaDimension;
