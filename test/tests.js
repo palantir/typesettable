@@ -290,69 +290,69 @@ describe("Writer Test Suite", function () {
 
 ///<reference path="../testReference.ts" />
 var assert = chai.assert;
-describe("Parser Test Suite", function () {
-    describe("Ident Parser", function () {
+describe("Converter Test Suite", function () {
+    describe("Ident Converter", function () {
         it("single letter", function () {
             var s;
-            var id = SVGTypewriter.Parsers.ident();
+            var id = SVGTypewriter.Converters.ident();
             s = "a";
             assert.equal(s, id(s), "ident returns same single letter");
         });
         it("multiple letter", function () {
             var s;
-            var id = SVGTypewriter.Parsers.ident();
+            var id = SVGTypewriter.Converters.ident();
             s = "aaaa";
             assert.equal(s, id(s), "ident returns same multiple letter");
         });
         it("special character", function () {
             var s;
-            var id = SVGTypewriter.Parsers.ident();
+            var id = SVGTypewriter.Converters.ident();
             s = "<?#$";
             assert.equal(s, id(s), "ident returns same special characters");
         });
         it("multiple words", function () {
             var s;
-            var id = SVGTypewriter.Parsers.ident();
+            var id = SVGTypewriter.Converters.ident();
             s = "foo bar boo\n fun zoo.\n";
             assert.equal(s, id(s), "ident returns same multiple words");
         });
     });
-    describe("Combine White Spaces Parser", function () {
+    describe("Combine White Spaces Converter", function () {
         it("single letter", function () {
             var s;
-            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
             s = "a";
-            assert.equal(s, parser(s), "combine whitespaces returns same single letter");
+            assert.equal(s, converter(s), "combine whitespaces returns same single letter");
         });
         it("single space", function () {
             var s;
-            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
             s = "a ";
-            assert.equal(s, parser(s), "combine whitespaces returns same single letter with sapce");
+            assert.equal(s, converter(s), "combine whitespaces returns same single letter with sapce");
         });
         it("only space", function () {
             var s;
-            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
             s = " ";
-            assert.equal(s, parser(s), "combine whitespaces returns same single space");
+            assert.equal(s, converter(s), "combine whitespaces returns same single space");
         });
         it("multiple space", function () {
             var s;
-            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
             s = "    ";
-            assert.equal(" ", parser(s), "combine whitespaces returns single space");
+            assert.equal(" ", converter(s), "combine whitespaces returns single space");
         });
         it("multiple space between words", function () {
             var s;
-            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
             s = "aa    aa";
-            assert.equal("aa aa", parser(s), "combine whitespaces returns words with single space between");
+            assert.equal("aa aa", converter(s), "combine whitespaces returns words with single space between");
         });
         it("multiple whitechars between words", function () {
             var s;
-            var parser = SVGTypewriter.Parsers.combineWhitespace(SVGTypewriter.Parsers.ident());
+            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
             s = "aa    \taa";
-            assert.equal("aa aa", parser(s), "combine whitespaces returns words with single space between");
+            assert.equal("aa aa", converter(s), "combine whitespaces returns words with single space between");
         });
     });
 });

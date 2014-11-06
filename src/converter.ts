@@ -1,8 +1,8 @@
 ///<reference path="reference.ts" />
 
 module SVGTypewriter {
-  export module Parsers {
-    export interface Parser {
+  export module Converters {
+    export interface Converter {
       (text: string): string;
     }
 
@@ -11,11 +11,11 @@ module SVGTypewriter {
     }
 
     /**
-     * @return {Parser} A test parser that will treat all 
+     * @return {Parser} A converter that will treat all 
      * sequences of consecutive whitespace as a single " ".
      */
-    export function combineWhitespace(pr: Parser) {
-      return (s: string) => pr(s.replace(/\s+/g, " "));
+    export function combineWhitespace(con: Converter) {
+      return (s: string) => con(s.replace(/\s+/g, " "));
     }
   }
 }

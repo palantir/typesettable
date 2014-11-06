@@ -2,7 +2,7 @@
 /// <reference path="utils/cache.ts" />
 /// <reference path="utils/tokenizer.ts" />
 
-/// <reference path="parsers.ts" />
+/// <reference path="converter.ts" />
 /// <reference path="wrapper.ts" />
 /// <reference path="writer.ts" />
 

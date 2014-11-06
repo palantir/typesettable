@@ -155,21 +155,21 @@ var SVGTypewriter;
 ///<reference path="reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
-    (function (Parsers) {
+    (function (Converters) {
         function ident() {
             return function (s) { return s; };
         }
-        Parsers.ident = ident;
+        Converters.ident = ident;
         /**
-         * @return {Parser} A test parser that will treat all
+         * @return {Parser} A converter that will treat all
          * sequences of consecutive whitespace as a single " ".
          */
-        function combineWhitespace(pr) {
-            return function (s) { return pr(s.replace(/\s+/g, " ")); };
+        function combineWhitespace(con) {
+            return function (s) { return con(s.replace(/\s+/g, " ")); };
         }
-        Parsers.combineWhitespace = combineWhitespace;
-    })(SVGTypewriter.Parsers || (SVGTypewriter.Parsers = {}));
-    var Parsers = SVGTypewriter.Parsers;
+        Converters.combineWhitespace = combineWhitespace;
+    })(SVGTypewriter.Converters || (SVGTypewriter.Converters = {}));
+    var Converters = SVGTypewriter.Converters;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="reference.ts" />

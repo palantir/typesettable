@@ -54,16 +54,16 @@ declare module SVGTypewriter.Utils {
 
 
 declare module SVGTypewriter {
-    module Parsers {
-        interface Parser {
+    module Converters {
+        interface Converter {
             (text: string): string;
         }
         function ident(): (s: string) => string;
         /**
-         * @return {Parser} A test parser that will treat all
+         * @return {Parser} A converter that will treat all
          * sequences of consecutive whitespace as a single " ".
          */
-        function combineWhitespace(pr: Parser): (s: string) => string;
+        function combineWhitespace(con: Converter): (s: string) => string;
     }
 }
 
