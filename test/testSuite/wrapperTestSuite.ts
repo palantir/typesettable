@@ -56,6 +56,16 @@ describe("Wrapper Test Suite", () => {
       assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
     });
 
+     it("no breaking words", () => {
+      var availableWidth = measurer.measure(token).width * 3 / 4;
+      wrapper.allowBreakingWords(false);
+      var result = wrapper.wrap(token, measurer, availableWidth);
+      assert.equal(result.wrappedText, "", "wrapping was impossible");
+      assert.deepEqual(result.truncatedText, token, "whole text has been truncated");
+      assert.deepEqual(result.noBrokeWords, 0, "no breaks");
+      assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
+    });
+
     it("multi time wrapping", () => {
       var availableWidth = measurer.measure("h").width * 2;
       var result = wrapper.wrap(token, measurer, availableWidth);
@@ -105,6 +115,18 @@ describe("Wrapper Test Suite", () => {
       assert.equal(result.noLines, 1, "no wrapping was needed");
     });
 
+     it("no breaking words", () => {
+      var availableWidth = measurer.measure(line).width * 0.75;
+      wrapper.allowBreakingWords(false);
+      var result = wrapper.wrap(line, measurer, availableWidth);
+      assert.deepEqual(result.originalText, line, "original text has been set");
+      assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
+      assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+      assert.equal(result.noBrokeWords, 0, "wrapping with breaking one word");
+      assert.equal(result.noLines, 2, "wrapping was needed");
+      assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+    });
+
     it("only token sign fits", () => {
       var tokenWithSmallFirstSign = "!HHH";
       var availableWidth = measurer.measure("!-").width;
@@ -117,7 +139,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("one time wrapping", () => {
-      var availableWidth = measurer.measure(line).width * 3 / 4;
+      var availableWidth = measurer.measure(line).width * 0.75;
       var result = wrapper.wrap(line, measurer, availableWidth);
       assert.deepEqual(result.originalText, line, "original text has been set");
       assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");

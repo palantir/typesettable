@@ -160,6 +160,13 @@ module SVGTypewriter.Wrappers {
         };
       }
 
+      if (!this._allowBreakingWords) {
+        return {
+          brokenToken: ["\n", token],
+          remainingWidth: 0
+        };
+      }
+
       var fitToken = "";
       var tokenLetters = token.split("");
       for(var i = 0; i < tokenLetters.length; ++i) {
