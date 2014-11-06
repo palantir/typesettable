@@ -456,8 +456,8 @@ var SVGTypewriter;
     (function (Measurers) {
         var Measurer = (function (_super) {
             __extends(Measurer, _super);
-            function Measurer(area) {
-                _super.call(this, area);
+            function Measurer() {
+                _super.apply(this, arguments);
             }
             Measurer.prototype._addGuards = function (text) {
                 return Measurer.NotWhitespaceCharacter + text + Measurer.NotWhitespaceCharacter;
@@ -505,8 +505,8 @@ var SVGTypewriter;
     (function (Measurers) {
         var CharacterMeasurer = (function (_super) {
             __extends(CharacterMeasurer, _super);
-            function CharacterMeasurer(area) {
-                _super.call(this, area);
+            function CharacterMeasurer() {
+                _super.apply(this, arguments);
             }
             CharacterMeasurer.prototype._measureCharacter = function (c) {
                 return _super.prototype.measure.call(this, c);

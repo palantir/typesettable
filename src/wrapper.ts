@@ -27,7 +27,7 @@ module SVGTypewriter.Wrappers {
     private _allowBreakingWords: boolean;
     private _tokenizer: Utils.Tokenizer;
     public _breakingCharacter: string;
-    
+
     constructor() {
       this.maxLines(Infinity);
       this.textTrimming("ellipsis");

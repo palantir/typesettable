@@ -133,7 +133,6 @@ declare module SVGTypewriter.Measurers {
 
 declare module SVGTypewriter.Measurers {
     class Measurer extends AbstractMeasurer {
-        constructor(area: D3.Selection);
         _addGuards(text: string): string;
         _measureLine(line: string): {
             width: number;
@@ -149,7 +148,6 @@ declare module SVGTypewriter.Measurers {
 
 declare module SVGTypewriter.Measurers {
     class CharacterMeasurer extends Measurer {
-        constructor(area: D3.Selection);
         _measureCharacter(c: string): {
             width: number;
             height: number;

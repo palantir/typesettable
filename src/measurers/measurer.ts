@@ -5,10 +5,6 @@ module SVGTypewriter.Measurers {
     private static NotWhitespaceCharacter = "a";
     private nonWhitespaceCharacterWidth: number;
 
-    constructor(area: D3.Selection) {
-      super(area);
-    }
-
     public _addGuards(text: string) {
       return Measurer.NotWhitespaceCharacter + text + Measurer.NotWhitespaceCharacter;
     }
