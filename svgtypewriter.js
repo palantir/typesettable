@@ -327,8 +327,8 @@ var SVGTypewriter;
     (function (Writers) {
         var Writer = (function () {
             function Writer(measurer, wrapper) {
-                this._measurer = measurer;
-                this._wrapper = wrapper;
+                this.measurer(measurer);
+                this.wrapper(wrapper);
             }
             Writer.prototype.measurer = function (newMeasurer) {
                 if (newMeasurer == null) {

@@ -22,8 +22,8 @@ module SVGTypewriter.Writers {
 
     constructor(measurer: Measurers.AbstractMeasurer,
                 wrapper: Wrappers.Wrapper) {
-      this._measurer = measurer;
-      this._wrapper = wrapper;
+      this.measurer(measurer);
+      this.wrapper(wrapper);
     }
 
     public measurer(): Measurers.AbstractMeasurer;
