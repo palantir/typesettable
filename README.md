@@ -2,7 +2,7 @@ SVG Typewriter
 =========
 [![Build Status](https://travis-ci.org/endrjuskr/svg-typewriter.svg?branch=develop)](https://travis-ci.org/endrjuskr/svg-typewriter)
 
-[![Sauce Test Status](https://saucelabs.com/buildstatus/andrzejskrodzki)](https://saucelabs.com/u/andrzejskrodzki)
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/andrzejskrodzki.svg)](https://saucelabs.com/u/andrzejskrodzki)
 
 A library for manipulating text on SVG.
 
