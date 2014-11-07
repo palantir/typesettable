@@ -132,7 +132,6 @@ module SVGTypewriter.Wrappers {
     }
 
     private wrapNextToken(token: string, state: IterativeWrappingState, measurer: Measurers.AbstractMeasurer) {
-      debugger;
       if (state.availableLines === 0 || !this.canFitToken(token, state.availableWidth, measurer)) {
         state.canFitText = false;
         state.wrapping.truncatedText += token;
@@ -163,12 +162,15 @@ module SVGTypewriter.Wrappers {
       return state;
     }
 
+    /**
+     * Breaks single token to fit current line. 
+     * If token contains only whitespaces then they will not be populated to next line.
+     */
     private breakTokenToFitInWidth(token: string,
                                    line: string,
                                    availableWidth: number,
                                    measurer: Measurers.AbstractMeasurer): BreakingTokenResult {
-      var tokenWidth = measurer.measure(line + token).width;
-      if (tokenWidth <= availableWidth) {
+      if (measurer.measure(line + token).width <= availableWidth) {
         return {
           remainingToken: null,
           line: line + token,
@@ -192,25 +194,24 @@ module SVGTypewriter.Wrappers {
         };
       }
 
-      var fitToken = "";
-      var tokenLetters = token.split("");
-      for(var i = 0; i < tokenLetters.length; ++i) {
-        var currentLetter = tokenLetters[i];
-        if(measurer.measure(line + fitToken + currentLetter + this._breakingCharacter).width <= availableWidth) {
-          fitToken += currentLetter;
+      var fitTokenLength = 0;
+      while (fitTokenLength < token.length) {
+        if(measurer.measure(line + token.substring(0, fitTokenLength + 1) + this._breakingCharacter).width <= availableWidth) {
+          ++fitTokenLength;
         } else {
           break;
         }
       }
-      var remainingToken = token.slice(fitToken.length);
-      if (fitToken.length > 0) {
-        fitToken += "-";
+
+      var suffix = "";
+      if (fitTokenLength > 0) {
+        suffix = "-";
       }
 
       return {
-        remainingToken: remainingToken,
-        line: line + fitToken,
-        breakWord: fitToken.length > 0
+        remainingToken: token.substring(fitTokenLength),
+        line: line + token.substring(0, fitTokenLength) + suffix,
+        breakWord: fitTokenLength > 0
       };
     }
   }
