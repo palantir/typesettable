@@ -1,0 +1,28 @@
+svg{
+  float: left;
+}
+
+.navigation{
+  background-color: #db2e65;
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  text-align: center;
+  z-index: 1;
+}
+
+input{
+  top: 10px;
+  position: relative;
+  border: solid 1px;
+  border-color: white;
+  border-radius: 5;
+  width: 150px;
+  height: 30px;
+  font-family: sans-serif;
+  font-weight: 100;
+  font-size: 13px;
+  text-align: center;
+}
