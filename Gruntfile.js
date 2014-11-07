@@ -216,6 +216,29 @@ module.exports = function(grunt) {
       main: {
         files: {'svgtypewriter.min.js': ['svgtypewriter.js']}
       }
+    },
+    'saucelabs-mocha': {
+      all: {
+        options: {
+          urls: ['http://127.0.0.1:9999/test/tests.html'],
+          testname: 'SVGTypewriter Sauce Unit Tests',
+          username: 'andrzejskrodzki',
+          key: 'd08cb3fa-948e-45f3-ab4a-6103ea228fef',
+          browsers: [{
+            browserName: "firefox",
+            version: "30" 
+          }, {
+            browserName: "chrome",
+            version: "35"
+          }, {
+            browserName: "internet explorer",
+            version: "9",
+            platform: "WIN7"
+          }],
+          build: process.env.TRAVIS_JOB_ID,
+          "tunnel-identifier": process.env.TRAVIS_JOB_NUMBER
+        }
+      }
     }
   };
 
@@ -257,6 +280,7 @@ module.exports = function(grunt) {
                                       ]);
 
   grunt.registerTask("test", ["dev-compile", "blanket_mocha", "parallelize:tslint", "jshint", "ts:verify_d_ts"]);
+  grunt.registerTask("travis-test", ["test", ["connect", "saucelabs-mocha"]]);
 
   grunt.registerTask("dist-compile", [
                                   "release-compile",

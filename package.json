@@ -25,6 +25,7 @@
     "grunt-mocha-phantomjs": "~0.4.0",
     "grunt-parallelize": "1.0.0",
     "grunt-sed": "~0.1.1",
+    "grunt-saucelabs": "8.1.1",
     "grunt-shell": "0.7.0",
     "grunt-ts": "~1.11.6",
     "grunt-tslint": "~0.4.0",
