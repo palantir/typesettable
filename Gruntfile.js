@@ -280,7 +280,7 @@ module.exports = function(grunt) {
                                       ]);
 
   grunt.registerTask("test", ["dev-compile", "blanket_mocha", "parallelize:tslint", "jshint", "ts:verify_d_ts"]);
-  grunt.registerTask("travis-test", ["test", ["connect", "saucelabs-mocha"]]);
+  grunt.registerTask("test-travis", ["test", "connect", "saucelabs-mocha"]);
 
   grunt.registerTask("dist-compile", [
                                   "release-compile",
