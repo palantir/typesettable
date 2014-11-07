@@ -5,3 +5,7 @@ notifications:
   email: false
 addons:
   sauce_connect: true
+env:
+  global:
+  - secure: "KDU6XNmM3V/DC3LX/D5KIYg303DM+LbrYdco8+7+oRZ39IGeN4u7VoS+rtChbqZ/LrFGx4xydmHN57nHCFotcQg/DFKQxbDgO9b/k9bFF5E0ySCjxY5oEDSelR6zgbNiJyq9s4KOVH14sxGx5XVXOwCVNRi7XsAcgUragJUzzIM="
+  - secure: "AYtBs3m6pF7+ZWpB0NoAU5y72OW+/QXc8gLWrMexLsBeVOQlWvREQyqCCQIeXW4ND80pggQICYpreE6cNWonFa0Gay0UivLFovgj6s7GvMs/7FBWCkvccaVVwftkuH/eP2hofVB3cfs0vHWHJB7ld00o6Zj/V+AiNZXP8McMt6U="

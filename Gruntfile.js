@@ -222,8 +222,6 @@ module.exports = function(grunt) {
         options: {
           urls: ['http://127.0.0.1:9999/test/tests.html'],
           testname: 'SVGTypewriter Sauce Unit Tests',
-          username: 'andrzejskrodzki',
-          key: 'd08cb3fa-948e-45f3-ab4a-6103ea228fef',
           browsers: [{
             browserName: "firefox",
             version: "30" 
@@ -273,14 +271,19 @@ module.exports = function(grunt) {
 
   grunt.registerTask("dev-compile", compile_task);
   grunt.registerTask("docs", "typedoc:build");
+  grunt.registerTask("test-sauce", ["connect", "saucelabs-mocha"]);
+  grunt.registerTask("test", ["dev-compile", "blanket_mocha", "parallelize:tslint", "jshint", "ts:verify_d_ts"]);
 
   grunt.registerTask("test-compile", [
                                       "ts:test",
                                       "concat:tests"
                                       ]);
 
-  grunt.registerTask("test", ["dev-compile", "blanket_mocha", "parallelize:tslint", "jshint", "ts:verify_d_ts"]);
-  grunt.registerTask("test-travis", ["test", "connect", "saucelabs-mocha"]);
+  var travisTests = ["test"];
+  if (process.env.SAUCE_USERNAME) {
+    travisTests.push("test-sauce");
+  }
+  grunt.registerTask("test-travis", travisTests);
 
   grunt.registerTask("dist-compile", [
                                   "release-compile",
