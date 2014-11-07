@@ -232,6 +232,10 @@ module.exports = function(grunt) {
             browserName: "internet explorer",
             version: "9",
             platform: "WIN7"
+          }, {
+            browserName: "safari",
+            platform: "OS X 10.10",
+            version: "8"
           }],
           build: process.env.TRAVIS_JOB_ID,
           "tunnel-identifier": process.env.TRAVIS_JOB_NUMBER
