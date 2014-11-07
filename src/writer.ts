@@ -56,7 +56,7 @@ module SVGTypewriter.Writers {
     }
 
     public write(text: string, width: number, height: number, options: WriteOptions) {
-      var wrappedText = this._wrapper.wrap(text, this._measurer, width, height).wrappedText;
+      var wrappedText = this._wrapper.wrap(text, this._measurer, width).wrappedText;
       var innerG = options.selection.append("g").classed("writeText-inner-g", true);
       var lines = wrappedText.split("\n");
       var h = this._measurer.measure(Writer.HEIGHT_TEXT).height;

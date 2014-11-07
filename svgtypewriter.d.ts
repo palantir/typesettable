@@ -90,7 +90,7 @@ declare module SVGTypewriter.Wrappers {
         textTrimming(option: string): Wrapper;
         allowBreakingWords(): boolean;
         allowBreakingWords(allow: boolean): Wrapper;
-        wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number, height?: number): WrappingResult;
+        wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number): WrappingResult;
     }
 }
 

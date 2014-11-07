@@ -254,12 +254,8 @@ var SVGTypewriter;
                     return this;
                 }
             };
-            Wrapper.prototype.wrap = function (text, measurer, width, height) {
-                return this.breakLineToFitWidth(text, width, measurer);
-            };
-            Wrapper.prototype.breakLineToFitWidth = function (text, availableWidth, measurer) {
+            Wrapper.prototype.wrap = function (text, measurer, width) {
                 var _this = this;
-                var tokens = this._tokenizer.tokenize(text);
                 var initialWrappingResult = {
                     originalText: text,
                     wrappedText: "",
@@ -269,11 +265,18 @@ var SVGTypewriter;
                 };
                 var state = {
                     wrapping: initialWrappingResult,
-                    remainingWidthInLine: availableWidth,
-                    availableWidth: availableWidth,
+                    remainingWidthInLine: width,
+                    availableWidth: width,
                     canFitText: true
                 };
-                return tokens.reduce(function (state, token) { return state.canFitText ? _this.wrapNextToken(token, state, measurer) : _this.truncateNextToken(token, state); }, state).wrapping;
+                var lines = text.split("\n");
+                return lines.map(function (line, i) { return i !== lines.length - 1 ? line + "\n" : line; }).reduce(function (state, line) { return _this.breakLineToFitWidth(state, line, measurer); }, state).wrapping;
+            };
+            Wrapper.prototype.breakLineToFitWidth = function (state, line, measurer) {
+                var _this = this;
+                var tokens = this._tokenizer.tokenize(line);
+                state.remainingWidthInLine = state.availableWidth;
+                return tokens.reduce(function (state, token) { return state.canFitText ? _this.wrapNextToken(token, state, measurer) : _this.truncateNextToken(token, state); }, state);
             };
             Wrapper.prototype.truncateNextToken = function (token, state) {
                 state.wrapping.truncatedText += token;
@@ -400,7 +403,7 @@ var SVGTypewriter;
             };
             Writer.prototype.write = function (text, width, height, options) {
                 var _this = this;
-                var wrappedText = this._wrapper.wrap(text, this._measurer, width, height).wrappedText;
+                var wrappedText = this._wrapper.wrap(text, this._measurer, width).wrappedText;
                 var innerG = options.selection.append("g").classed("writeText-inner-g", true);
                 var lines = wrappedText.split("\n");
                 var h = this._measurer.measure(Writer.HEIGHT_TEXT).height;

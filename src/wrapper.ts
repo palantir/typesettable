@@ -72,13 +72,7 @@ module SVGTypewriter.Wrappers {
       }
     }
 
-    public wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number, height?: number): WrappingResult {
-      return this.breakLineToFitWidth(text, width, measurer);
-    }
-
-    private breakLineToFitWidth(text: string, availableWidth: number, measurer: Measurers.AbstractMeasurer): WrappingResult {
-      var tokens = this._tokenizer.tokenize(text);
-
+    public wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number): WrappingResult {
       var initialWrappingResult = {
         originalText: text,
         wrappedText: "",
@@ -88,16 +82,30 @@ module SVGTypewriter.Wrappers {
       };
       var state = {
         wrapping: initialWrappingResult,
-        remainingWidthInLine: availableWidth,
-        availableWidth: availableWidth,
+        remainingWidthInLine: width,
+        availableWidth: width,
         canFitText: true
       };
 
+      var lines = text.split("\n");
+
+      return lines.map((line, i) => i !== lines.length - 1 ? line + "\n" : line)
+                  .reduce((state: IterativeWrappingState, line: string) =>
+                    this.breakLineToFitWidth(state, line, measurer),
+                    state
+                  ).wrapping;
+    }
+
+    private breakLineToFitWidth(state: IterativeWrappingState,
+                                line: string,
+                                measurer: Measurers.AbstractMeasurer): IterativeWrappingState {
+      var tokens = this._tokenizer.tokenize(line);
+      state.remainingWidthInLine = state.availableWidth;
       return tokens.reduce(
         (state: IterativeWrappingState, token: string) =>
           state.canFitText ? this.wrapNextToken(token, state, measurer) : this.truncateNextToken(token, state),
         state
-      ).wrapping;
+      );
     }
 
     private truncateNextToken(token: string, state: IterativeWrappingState) {
