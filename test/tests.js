@@ -234,12 +234,12 @@ describe("Wrapper Test Suite", function () {
             assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
         });
         it("multi time wrapping", function () {
-            var availableWidth = measurer.measure("hell").width + 2;
+            var availableWidth = measurer.measure("hell").width;
             var result = wrapper.wrap(line, measurer, availableWidth);
             assert.deepEqual(result.originalText, line, "original text has been set");
             assert.lengthOf(result.wrappedText.split("\n"), 5, "wrapping occured");
             assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
-            assert.equal(result.noBrokeWords, 3, "wrapping with breaking two words three times");
+            assert.closeTo(result.noBrokeWords, 3, 1, "wrapping with breaking two words about three times");
             assert.equal(result.noLines, 5, "wrapping was needed");
             assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
         });
