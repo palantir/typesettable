@@ -234,7 +234,7 @@ describe("Wrapper Test Suite", function () {
             assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
         });
         it("multi time wrapping", function () {
-            var availableWidth = measurer.measure("hell").width;
+            var availableWidth = measurer.measure("hell").width + 2;
             var result = wrapper.wrap(line, measurer, availableWidth);
             assert.deepEqual(result.originalText, line, "original text has been set");
             assert.lengthOf(result.wrappedText.split("\n"), 5, "wrapping occured");
