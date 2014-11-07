@@ -90,7 +90,7 @@ declare module SVGTypewriter.Wrappers {
         textTrimming(option: string): Wrapper;
         allowBreakingWords(): boolean;
         allowBreakingWords(allow: boolean): Wrapper;
-        wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number): WrappingResult;
+        wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number, height?: number): WrappingResult;
     }
 }
 
@@ -123,7 +123,7 @@ declare module SVGTypewriter.Measurers {
     }
     class AbstractMeasurer {
         constructor(area: D3.Selection);
-        measure(text: string): {
+        measure(text?: string): {
             width: number;
             height: number;
         };

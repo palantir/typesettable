@@ -13,12 +13,14 @@ module SVGTypewriter.Measurers {
     private measurerArea: D3.Selection;
     private defaultText: string;
 
+    private static HEIGHT_TEXT = "bqpdl";
+
     constructor(area: D3.Selection) {
       this.measurerArea = area;
       this.defaultText = area.text();
     }
 
-    public measure(text: string) {
+    public measure(text: string = AbstractMeasurer.HEIGHT_TEXT) {
       this.measurerArea.text(text);
       var bb = Utils.DOM.getBBox(this.measurerArea);
       var areaDimension = { width: bb.width, height: bb.height };

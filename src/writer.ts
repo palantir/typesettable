@@ -18,8 +18,6 @@ module SVGTypewriter.Writers {
       right: "end"
     };
 
-    private static HEIGHT_TEXT = "bqpdl";
-
     constructor(measurer: Measurers.AbstractMeasurer,
                 wrapper: Wrappers.Wrapper) {
       this.measurer(measurer);
@@ -59,7 +57,7 @@ module SVGTypewriter.Writers {
       var wrappedText = this._wrapper.wrap(text, this._measurer, width).wrappedText;
       var innerG = options.selection.append("g").classed("writeText-inner-g", true);
       var lines = wrappedText.split("\n");
-      var h = this._measurer.measure(Writer.HEIGHT_TEXT).height;
+      var h = this._measurer.measure().height;
       lines.forEach((line: string, i: number) => {
         var selection = innerG.append("g");
         Utils.DOM.transform(selection, 0, (i + 1) * h);

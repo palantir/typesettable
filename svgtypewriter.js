@@ -254,8 +254,9 @@ var SVGTypewriter;
                     return this;
                 }
             };
-            Wrapper.prototype.wrap = function (text, measurer, width) {
+            Wrapper.prototype.wrap = function (text, measurer, width, height) {
                 var _this = this;
+                if (height === void 0) { height = Infinity; }
                 var initialWrappingResult = {
                     originalText: text,
                     wrappedText: "",
@@ -265,8 +266,9 @@ var SVGTypewriter;
                 };
                 var state = {
                     wrapping: initialWrappingResult,
-                    remainingWidthInLine: width,
+                    currentLine: "",
                     availableWidth: width,
+                    availableLines: Math.min(height / measurer.measure().height, this._maxLines),
                     canFitText: true
                 };
                 var lines = text.split("\n");
@@ -275,75 +277,84 @@ var SVGTypewriter;
             Wrapper.prototype.breakLineToFitWidth = function (state, line, measurer) {
                 var _this = this;
                 var tokens = this._tokenizer.tokenize(line);
-                state.remainingWidthInLine = state.availableWidth;
-                return tokens.reduce(function (state, token) { return state.canFitText ? _this.wrapNextToken(token, state, measurer) : _this.truncateNextToken(token, state); }, state);
+                state = tokens.reduce(function (state, token) { return state.canFitText ? _this.wrapNextToken(token, state, measurer) : _this.truncateNextToken(token, state); }, state);
+                state.wrapping.wrappedText += state.currentLine;
+                state.wrapping.noLines += +(state.currentLine !== "");
+                state.currentLine = "";
+                return state;
             };
             Wrapper.prototype.truncateNextToken = function (token, state) {
                 state.wrapping.truncatedText += token;
                 return state;
             };
+            Wrapper.prototype.canFitToken = function (token, width, measurer) {
+                var _this = this;
+                var possibleBreaks = this._allowBreakingWords ? token.split("").map(function (c, i) { return (i !== token.length - 1) ? c + _this._breakingCharacter : c; }) : [token];
+                return possibleBreaks.every(function (c) { return measurer.measure(c).width <= width; });
+            };
+            Wrapper.prototype.addEllipsis = function (line, width, measurer) {
+                return line;
+            };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
-                var remainingToken = token;
-                var lastRemainingToken;
-                var remainingWidth = state.remainingWidthInLine;
-                var lastRemainingWidth;
-                var brokeWord = false;
-                var wrappedText = "";
-                var noLines = 0;
-                while (remainingToken && (remainingWidth !== lastRemainingWidth || remainingToken !== lastRemainingToken)) {
-                    var result = this.breakTokenToFitInWidth(remainingToken, remainingWidth, measurer);
-                    wrappedText += result.brokenToken[0];
-                    lastRemainingToken = remainingToken;
-                    lastRemainingWidth = remainingWidth;
-                    if (SVGTypewriter.Utils.Methods.isNotEmptyString(result.brokenToken[0]) && SVGTypewriter.Utils.Methods.isNotEmptyString(result.brokenToken[1])) {
-                        brokeWord = true;
-                    }
-                    remainingToken = result.brokenToken[1];
-                    remainingWidth = result.remainingWidth || state.availableWidth;
-                    if (remainingToken !== undefined) {
-                        ++noLines;
-                    }
-                }
-                if (remainingToken) {
+                debugger;
+                if (state.availableLines === 0 || !this.canFitToken(token, state.availableWidth, measurer)) {
                     state.canFitText = false;
                     state.wrapping.truncatedText += token;
                 }
                 else {
-                    if (state.wrapping.noLines === 0) {
-                        ++state.wrapping.noLines;
+                    var remainingToken = token;
+                    var noLines = 0;
+                    while (remainingToken) {
+                        var result = this.breakTokenToFitInWidth(remainingToken, state.currentLine, state.availableWidth, measurer);
+                        state.currentLine = result.line;
+                        remainingToken = result.remainingToken;
+                        if (remainingToken != null) {
+                            state.wrapping.noBrokeWords += +result.breakWord;
+                            ++state.wrapping.noLines;
+                            --state.availableLines;
+                            if (state.availableLines === 0) {
+                                state.wrapping.wrappedText += this.addEllipsis(state.currentLine, state.availableWidth, measurer);
+                                state.currentLine = "";
+                                state.wrapping.truncatedText += remainingToken;
+                                return state;
+                            }
+                            else {
+                                state.wrapping.wrappedText += state.currentLine + "\n";
+                                state.currentLine = "";
+                            }
+                        }
                     }
-                    state.remainingWidthInLine = remainingWidth;
-                    state.wrapping.noBrokeWords += +brokeWord;
-                    state.wrapping.wrappedText += wrappedText;
-                    state.wrapping.noLines += noLines;
                 }
                 return state;
             };
-            Wrapper.prototype.breakTokenToFitInWidth = function (token, availableWidth, measurer) {
-                var tokenWidth = measurer.measure(token).width;
+            Wrapper.prototype.breakTokenToFitInWidth = function (token, line, availableWidth, measurer) {
+                var tokenWidth = measurer.measure(line + token).width;
                 if (tokenWidth <= availableWidth) {
                     return {
-                        brokenToken: [token],
-                        remainingWidth: availableWidth - tokenWidth
+                        remainingToken: null,
+                        line: line + token,
+                        breakWord: false
                     };
                 }
                 if (token.trim() === "") {
                     return {
-                        brokenToken: ["\n", ""],
-                        remainingWidth: 0
+                        remainingToken: "",
+                        line: line,
+                        breakWord: false
                     };
                 }
                 if (!this._allowBreakingWords) {
                     return {
-                        brokenToken: ["\n", token],
-                        remainingWidth: 0
+                        remainingToken: token,
+                        line: line,
+                        breakWord: false
                     };
                 }
                 var fitToken = "";
                 var tokenLetters = token.split("");
                 for (var i = 0; i < tokenLetters.length; ++i) {
                     var currentLetter = tokenLetters[i];
-                    if (measurer.measure(fitToken + currentLetter + this._breakingCharacter).width <= availableWidth) {
+                    if (measurer.measure(line + fitToken + currentLetter + this._breakingCharacter).width <= availableWidth) {
                         fitToken += currentLetter;
                     }
                     else {
@@ -354,10 +365,10 @@ var SVGTypewriter;
                 if (fitToken.length > 0) {
                     fitToken += "-";
                 }
-                fitToken += "\n";
                 return {
-                    brokenToken: [fitToken, remainingToken],
-                    remainingWidth: 0
+                    remainingToken: remainingToken,
+                    line: line + fitToken,
+                    breakWord: fitToken.length > 0
                 };
             };
             return Wrapper;
@@ -406,7 +417,7 @@ var SVGTypewriter;
                 var wrappedText = this._wrapper.wrap(text, this._measurer, width).wrappedText;
                 var innerG = options.selection.append("g").classed("writeText-inner-g", true);
                 var lines = wrappedText.split("\n");
-                var h = this._measurer.measure(Writer.HEIGHT_TEXT).height;
+                var h = this._measurer.measure().height;
                 lines.forEach(function (line, i) {
                     var selection = innerG.append("g");
                     SVGTypewriter.Utils.DOM.transform(selection, 0, (i + 1) * h);
@@ -418,7 +429,6 @@ var SVGTypewriter;
                 center: "middle",
                 right: "end"
             };
-            Writer.HEIGHT_TEXT = "bqpdl";
             return Writer;
         })();
         Writers.Writer = Writer;
@@ -437,12 +447,14 @@ var SVGTypewriter;
                 this.defaultText = area.text();
             }
             AbstractMeasurer.prototype.measure = function (text) {
+                if (text === void 0) { text = AbstractMeasurer.HEIGHT_TEXT; }
                 this.measurerArea.text(text);
                 var bb = SVGTypewriter.Utils.DOM.getBBox(this.measurerArea);
                 var areaDimension = { width: bb.width, height: bb.height };
                 this.measurerArea.text(this.defaultText);
                 return areaDimension;
             };
+            AbstractMeasurer.HEIGHT_TEXT = "bqpdl";
             return AbstractMeasurer;
         })();
         Measurers.AbstractMeasurer = AbstractMeasurer;

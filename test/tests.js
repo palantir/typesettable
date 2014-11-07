@@ -164,7 +164,7 @@ describe("Wrapper Test Suite", function () {
             assert.deepEqual(result.originalText, token, "original text has been set");
             assert.lengthOf(result.wrappedText.split("\n"), 3, "wrapping occured");
             assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
-            assert.deepEqual(result.noBrokeWords, 1, "wrapping with breaking one word");
+            assert.deepEqual(result.noBrokeWords, 2, "wrapping with breaking word twice");
             assert.deepEqual(result.noLines, 3, "wrapping was needed");
             assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
         });
@@ -209,7 +209,7 @@ describe("Wrapper Test Suite", function () {
             assert.deepEqual(result.originalText, line, "original text has been set");
             assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
             assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
-            assert.equal(result.noBrokeWords, 0, "wrapping with breaking one word");
+            assert.equal(result.noBrokeWords, 0, "wrapping with breaking no word");
             assert.equal(result.noLines, 2, "wrapping was needed");
             assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
         });
@@ -239,7 +239,7 @@ describe("Wrapper Test Suite", function () {
             assert.deepEqual(result.originalText, line, "original text has been set");
             assert.lengthOf(result.wrappedText.split("\n"), 5, "wrapping occured");
             assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
-            assert.equal(result.noBrokeWords, 2, "wrapping with breaking two words");
+            assert.equal(result.noBrokeWords, 3, "wrapping with breaking two words three times");
             assert.equal(result.noLines, 5, "wrapping was needed");
             assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
         });
