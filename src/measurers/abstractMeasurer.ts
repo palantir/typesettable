@@ -9,23 +9,55 @@ module SVGTypewriter.Measurers {
     height: number;
   };
 
+  interface TextMeasurer {
+    (text: string): Dimensions;
+  }
+
   export class AbstractMeasurer {
-    private measurerArea: D3.Selection;
+    private textMeasurer: TextMeasurer;
     private defaultText: string;
 
     private static HEIGHT_TEXT = "bqpdl";
 
-    constructor(area: D3.Selection) {
-      this.measurerArea = area;
-      this.defaultText = area.text();
+    constructor(area: D3.Selection, className?: string) {
+      this.textMeasurer = this.getTextMeasurer(area, className);
+    }
+
+    private checkSelectionIsText(d: D3.Selection) {
+      return d[0][0].tagName === "text";
+    }
+
+    private getTextMeasurer(area: D3.Selection, className: string) {
+      if (!this.checkSelectionIsText(area)) {
+        var textElement = area.append("text");
+        if (className) {
+          textElement.classed(className, true);
+        }
+        textElement.remove();
+        return (text: string)  => {
+          area.node().appendChild(textElement.node());
+          var areaDimension = this.measureBBox(textElement, text);
+          textElement.remove();
+          return areaDimension;
+        };
+      } else {
+        var defaultText = area.text();
+        return (text: string) => {
+          var areaDimension = this.measureBBox(area, text);
+          area.text(defaultText);
+          return areaDimension;
+        };
+      }
+    }
+
+    private measureBBox(d: D3.Selection, text: string) {
+      d.text(text);
+      var bb = Utils.DOM.getBBox(d);
+      return { width: bb.width, height: bb.height };
     }
 
     public measure(text: string = AbstractMeasurer.HEIGHT_TEXT) {
-      this.measurerArea.text(text);
-      var bb = Utils.DOM.getBBox(this.measurerArea);
-      var areaDimension = { width: bb.width, height: bb.height };
-      this.measurerArea.text(this.defaultText);
-      return areaDimension;
+      return this.textMeasurer(text);
     }
   }
 }

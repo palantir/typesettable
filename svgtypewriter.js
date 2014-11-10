@@ -454,17 +454,44 @@ var SVGTypewriter;
     (function (Measurers) {
         ;
         var AbstractMeasurer = (function () {
-            function AbstractMeasurer(area) {
-                this.measurerArea = area;
-                this.defaultText = area.text();
+            function AbstractMeasurer(area, className) {
+                this.textMeasurer = this.getTextMeasurer(area, className);
             }
+            AbstractMeasurer.prototype.checkSelectionIsText = function (d) {
+                return d[0][0].tagName === "text";
+            };
+            AbstractMeasurer.prototype.getTextMeasurer = function (area, className) {
+                var _this = this;
+                if (!this.checkSelectionIsText(area)) {
+                    var textElement = area.append("text");
+                    if (className) {
+                        textElement.classed(className, true);
+                    }
+                    textElement.remove();
+                    return function (text) {
+                        area.node().appendChild(textElement.node());
+                        var areaDimension = _this.measureBBox(textElement, text);
+                        textElement.remove();
+                        return areaDimension;
+                    };
+                }
+                else {
+                    var defaultText = area.text();
+                    return function (text) {
+                        var areaDimension = _this.measureBBox(area, text);
+                        area.text(defaultText);
+                        return areaDimension;
+                    };
+                }
+            };
+            AbstractMeasurer.prototype.measureBBox = function (d, text) {
+                d.text(text);
+                var bb = SVGTypewriter.Utils.DOM.getBBox(d);
+                return { width: bb.width, height: bb.height };
+            };
             AbstractMeasurer.prototype.measure = function (text) {
                 if (text === void 0) { text = AbstractMeasurer.HEIGHT_TEXT; }
-                this.measurerArea.text(text);
-                var bb = SVGTypewriter.Utils.DOM.getBBox(this.measurerArea);
-                var areaDimension = { width: bb.width, height: bb.height };
-                this.measurerArea.text(this.defaultText);
-                return areaDimension;
+                return this.textMeasurer(text);
             };
             AbstractMeasurer.HEIGHT_TEXT = "bqpdl";
             return AbstractMeasurer;
