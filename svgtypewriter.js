@@ -293,7 +293,19 @@ var SVGTypewriter;
                 return possibleBreaks.every(function (c) { return measurer.measure(c).width <= width; });
             };
             Wrapper.prototype.addEllipsis = function (line, width, measurer) {
-                return line;
+                var truncatedLine = line.trim();
+                var lineWidth = measurer.measure(truncatedLine).width;
+                var ellipsesWidth = measurer.measure("...").width;
+                if (width <= ellipsesWidth) {
+                    var periodWidth = measurer.measure(".").width;
+                    var numPeriodsThatFit = Math.floor(width / periodWidth);
+                    return "...".substr(0, numPeriodsThatFit);
+                }
+                while (lineWidth + ellipsesWidth > width) {
+                    truncatedLine = truncatedLine.substr(0, truncatedLine.length - 1).trim();
+                    lineWidth = measurer.measure(truncatedLine).width;
+                }
+                return truncatedLine + "...";
             };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
                 if (state.availableLines === 0 || !this.canFitToken(token, state.availableWidth, measurer)) {
