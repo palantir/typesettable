@@ -30,6 +30,30 @@ module SVGTypewriter.Writers {
       bottom: 1
     };
 
+    private static RightTranslator: {[s: string]: string} = {
+      left: "bottom",
+      right: "top",
+      center: "center",
+      top: "left",
+      bottom: "right"
+    };
+
+    private static LeftTranslator : {[s: string]: string} = {
+      left: "top",
+      right: "bottom",
+      center: "center",
+      top: "right",
+      bottom: "left"
+    };
+
+    private static HorizontalTranslator : {[s: string]: string} = {
+      left: "left",
+      right: "right",
+      center: "center",
+      top: "top",
+      bottom: "bottom"
+    };
+
     constructor(measurer: Measurers.AbstractMeasurer,
                 wrapper: Wrappers.Wrapper) {
       this.measurer(measurer);
@@ -73,11 +97,38 @@ module SVGTypewriter.Writers {
     private writeText(text: string, writingArea: D3.Selection, width: number, height: number, options: WriteOptions) {
       var lines = text.split("\n");
       var lineHeight = this._measurer.measure().height;
+      var alignTranslator: {[s: string]: string};
+      var rotate: number;
+      var translate: number[];
+      switch (options.textOrientation) {
+        case "horizontal":
+          alignTranslator = Writer.HorizontalTranslator;
+          translate = [0, 0];
+          rotate = 0;
+          break;
+        case "left":
+          alignTranslator = Writer.LeftTranslator;
+          translate = [0, height];
+          rotate = -90;
+          break;
+        case "right":
+          alignTranslator = Writer.RightTranslator;
+          translate = [width, 0];
+          rotate = 90;
+          break;
+      }
+
       lines.forEach((line: string, i: number) => {
         var selection = writingArea.append("g");
         Utils.DOM.transform(selection, 0, (i + 1) * lineHeight);
-        this.writeLine(line, selection, width, height, options.xAlign, options.yAlign);
+        this.writeLine(line, selection, width, height, alignTranslator[options.xAlign], alignTranslator[options.yAlign]);
       });
+
+      var xForm = d3.transform("");
+      xForm.rotate = rotate;
+      xForm.translate = translate;
+      writingArea.attr("transform", xForm.toString());
+      writingArea.classed("rotated-" + rotate, true);
     }
 
     public write(text: string, width: number, height: number, options: WriteOptions) {

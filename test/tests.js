@@ -563,6 +563,70 @@ describe("Writer Test Suite", function () {
             writer.write("reallylongsentencewithmanycharacters", 50, 150, writeOptions);
         });
     });
+    describe("Vertical left", function () {
+        beforeEach(function () {
+            writeOptions = {
+                selection: svg,
+                xAlign: "left",
+                yAlign: "top",
+                textOrientation: "left"
+            };
+        });
+        it("one word", function () {
+            writer.write("test", 200, 200, writeOptions);
+        });
+        it("multiple lines", function () {
+            writer.write("test\ntest", 200, 200, writeOptions);
+        });
+        it("wrapping", function () {
+            writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+        });
+        it("maxLines", function () {
+            wrapper.maxLines(3);
+            writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+        });
+        it("maxLines + no ellipsis", function () {
+            wrapper.maxLines(3).textTrimming("none");
+            writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+        });
+        it("allignment", function () {
+            wrapper.maxLines(3).textTrimming("none");
+            writeOptions.xAlign = "center";
+            writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+        });
+    });
+    describe("Vertical right", function () {
+        beforeEach(function () {
+            writeOptions = {
+                selection: svg,
+                xAlign: "left",
+                yAlign: "top",
+                textOrientation: "right"
+            };
+        });
+        it("one word", function () {
+            writer.write("test", 200, 200, writeOptions);
+        });
+        it("multiple lines", function () {
+            writer.write("test\ntest", 200, 200, writeOptions);
+        });
+        it("wrapping", function () {
+            writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+        });
+        it("maxLines", function () {
+            wrapper.maxLines(3);
+            writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+        });
+        it("maxLines + no ellipsis", function () {
+            wrapper.maxLines(3).textTrimming("none");
+            writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+        });
+        it("allignment", function () {
+            wrapper.maxLines(3).textTrimming("none");
+            writeOptions.xAlign = "center";
+            writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+        });
+    });
     afterEach(function () {
         svg.remove();
     });

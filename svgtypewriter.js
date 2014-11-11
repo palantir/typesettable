@@ -486,11 +486,36 @@ var SVGTypewriter;
                 var _this = this;
                 var lines = text.split("\n");
                 var lineHeight = this._measurer.measure().height;
+                var alignTranslator;
+                var rotate;
+                var translate;
+                switch (options.textOrientation) {
+                    case "horizontal":
+                        alignTranslator = Writer.HorizontalTranslator;
+                        translate = [0, 0];
+                        rotate = 0;
+                        break;
+                    case "left":
+                        alignTranslator = Writer.LeftTranslator;
+                        translate = [0, height];
+                        rotate = -90;
+                        break;
+                    case "right":
+                        alignTranslator = Writer.RightTranslator;
+                        translate = [width, 0];
+                        rotate = 90;
+                        break;
+                }
                 lines.forEach(function (line, i) {
                     var selection = writingArea.append("g");
                     SVGTypewriter.Utils.DOM.transform(selection, 0, (i + 1) * lineHeight);
-                    _this.writeLine(line, selection, width, height, options.xAlign, options.yAlign);
+                    _this.writeLine(line, selection, width, height, alignTranslator[options.xAlign], alignTranslator[options.yAlign]);
                 });
+                var xForm = d3.transform("");
+                xForm.rotate = rotate;
+                xForm.translate = translate;
+                writingArea.attr("transform", xForm.toString());
+                writingArea.classed("rotated-" + rotate, true);
             };
             Writer.prototype.write = function (text, width, height, options) {
                 var orientHorizontally = options.textOrientation === "horizontal";
@@ -514,6 +539,27 @@ var SVGTypewriter;
                 top: 0,
                 center: 0.5,
                 bottom: 1
+            };
+            Writer.RightTranslator = {
+                left: "bottom",
+                right: "top",
+                center: "center",
+                top: "left",
+                bottom: "right"
+            };
+            Writer.LeftTranslator = {
+                left: "top",
+                right: "bottom",
+                center: "center",
+                top: "right",
+                bottom: "left"
+            };
+            Writer.HorizontalTranslator = {
+                left: "left",
+                right: "right",
+                center: "center",
+                top: "top",
+                bottom: "bottom"
             };
             return Writer;
         })();
