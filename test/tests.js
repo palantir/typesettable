@@ -77,6 +77,74 @@ describe("Cache", function () {
 
 ///<reference path="../testReference.ts" />
 var assert = chai.assert;
+describe("Utils.DOM Test Suite", function () {
+    var domUtils = SVGTypewriter.Utils.DOM;
+    it("getBBox works properly", function () {
+        var svg = generateSVG();
+        var expectedBox = {
+            x: 0,
+            y: 0,
+            width: 40,
+            height: 20
+        };
+        var rect = svg.append("rect").attr(expectedBox);
+        var measuredBox = domUtils.getBBox(rect);
+        assert.deepEqual(measuredBox, expectedBox, "getBBox measures correctly");
+        svg.remove();
+    });
+    it("getBBox does not fail on disconnected and display:none nodes", function () {
+        var expectedBox = {
+            x: 0,
+            y: 0,
+            width: 40,
+            height: 20
+        };
+        var removedSVG = generateSVG().remove();
+        var rect = removedSVG.append("rect").attr(expectedBox);
+        domUtils.getBBox(rect); // could throw NS_ERROR on FF
+        var noneSVG = generateSVG().style("display", "none");
+        rect = noneSVG.append("rect").attr(expectedBox);
+        domUtils.getBBox(rect); // could throw NS_ERROR on FF
+        noneSVG.remove();
+    });
+});
+
+///<reference path="../testReference.ts" />
+var assert = chai.assert;
+describe("Utils.Methods Test Suite", function () {
+    var utils = SVGTypewriter.Utils.Methods;
+    it("objEq works as expected", function () {
+        assert.isTrue(utils.objEq({}, {}));
+        assert.isTrue(utils.objEq({ a: 5 }, { a: 5 }));
+        assert.isFalse(utils.objEq({ a: 5, b: 6 }, { a: 5 }));
+        assert.isFalse(utils.objEq({ a: 5 }, { a: 5, b: 6 }));
+        assert.isTrue(utils.objEq({ a: "hello" }, { a: "hello" }));
+        assert.isFalse(utils.objEq({ constructor: {}.constructor }, {}), "using \"constructor\" isn't hidden");
+    });
+    it("trimStart works as expected", function () {
+        assert.equal(utils.trimStart(""), "", "works on empty string");
+        assert.equal(utils.trimStart("  "), "", "works on whitespace string");
+        assert.equal(utils.trimStart("aa"), "aa", "works on non-whitespace string");
+        assert.equal(utils.trimStart("a a"), "a a", "works on whitespace in the middle");
+        assert.equal(utils.trimStart("a a   "), "a a   ", "works on whitespace at the end");
+        assert.equal(utils.trimStart(" \t a a   "), "a a   ", "works on whitespace at both ends");
+        assert.equal(utils.trimStart(null), null, "works on null");
+        assert.equal(utils.trimStart(undefined), undefined, "works on undefined");
+    });
+    it("trimEnd works as expected", function () {
+        assert.equal(utils.trimEnd(""), "", "works on empty string");
+        assert.equal(utils.trimEnd("  "), "", "works on whitespace string");
+        assert.equal(utils.trimEnd("aa"), "aa", "works on non-whitespace string");
+        assert.equal(utils.trimEnd("a a"), "a a", "works on whitespace in the middle");
+        assert.equal(utils.trimEnd("a a   "), "a a", "works on whitespace at the end");
+        assert.equal(utils.trimEnd(" \t a a   "), " \t a a", "works on whitespace at both ends");
+        assert.equal(utils.trimEnd(null), null, "works on null");
+        assert.equal(utils.trimEnd(undefined), undefined, "works on undefined");
+    });
+});
+
+///<reference path="../testReference.ts" />
+var assert = chai.assert;
 describe("Tokenizer Test Suite", function () {
     var tokenizer;
     before(function () {
@@ -378,6 +446,21 @@ describe("Wrapper Test Suite", function () {
             assert.equal(result.noBrokeWords, 2, "wrapping with breaking one word");
             assert.equal(result.noLines, 3, "wrapping was needed");
             assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+        });
+    });
+    describe("Ellipsis", function () {
+        var text;
+        beforeEach(function () {
+            text = "hello";
+            wrapper = new SVGTypewriter.Wrappers.Wrapper().maxLines(1);
+        });
+        it("single word", function () {
+            var availableWidth = measurer.measure(text).width - 0.1;
+            var result = wrapper.wrap(text, measurer, availableWidth);
+            assert.deepEqual(result.originalText, text, "original text has been set");
+            assert.notEqual(result.wrappedText.indexOf("..."), -1, "ellipsis has been added");
+            assert.deepEqual(result.noBrokeWords, 1, "one breaks");
+            assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
         });
     });
     afterEach(function () {

@@ -58,11 +58,17 @@ var SVGTypewriter;
             }
             Methods.isNotEmptyString = isNotEmptyString;
             function trimStart(str) {
+                if (!str) {
+                    return str;
+                }
                 var chars = str.split("");
                 return chars.reduce(function (s, c) { return isNotEmptyString(s + c) ? s + c : s; }, "");
             }
             Methods.trimStart = trimStart;
             function trimEnd(str) {
+                if (!str) {
+                    return str;
+                }
                 var reversedChars = str.split("");
                 reversedChars.reverse();
                 reversedChars = trimStart(reversedChars.join("")).split("");

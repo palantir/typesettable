@@ -279,6 +279,22 @@ describe("Wrapper Test Suite", () => {
     });
   });
 
+  describe("Ellipsis", () => {
+    var text: string;
+    beforeEach(() => {
+      text = "hello";
+      wrapper = new SVGTypewriter.Wrappers.Wrapper().maxLines(1);
+    });
+    it("single word", () => {
+      var availableWidth = measurer.measure(text).width - 0.1;
+      var result = wrapper.wrap(text, measurer, availableWidth);
+      assert.deepEqual(result.originalText, text, "original text has been set");
+      assert.notEqual(result.wrappedText.indexOf("..."), -1, "ellipsis has been added");
+      assert.deepEqual(result.noBrokeWords, 1, "one breaks");
+      assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+    });
+  });
+
   afterEach(() => {
     svg.remove();
   });
