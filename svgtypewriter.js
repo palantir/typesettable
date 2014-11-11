@@ -292,9 +292,9 @@ var SVGTypewriter;
                     canFitText: true
                 };
                 var lines = text.split("\n");
-                return lines.reduce(function (state, line) { return _this.breakLineToFitWidth(state, line, measurer); }, state).wrapping;
+                return lines.reduce(function (state, line, i) { return _this.breakLineToFitWidth(state, line, i !== lines.length - 1, measurer); }, state).wrapping;
             };
-            Wrapper.prototype.breakLineToFitWidth = function (state, line, measurer) {
+            Wrapper.prototype.breakLineToFitWidth = function (state, line, hasNextLine, measurer) {
                 var _this = this;
                 if (!state.canFitText && state.wrapping.truncatedText !== "") {
                     state.wrapping.truncatedText += "\n";
@@ -303,7 +303,16 @@ var SVGTypewriter;
                 state = tokens.reduce(function (state, token) { return _this.wrapNextToken(token, state, measurer); }, state);
                 var wrappedText = SVGTypewriter.Utils.Methods.trimEnd(state.currentLine);
                 state.wrapping.noLines += +(wrappedText !== "");
-                state.wrapping.wrappedText += wrappedText;
+                // HACKHACK it needs to be refactored.
+                if (state.wrapping.noLines === state.availableLines && this._textTrimming !== "none" && hasNextLine) {
+                    var ellipsisResult = this.addEllipsis(wrappedText, state.availableWidth, measurer);
+                    state.wrapping.wrappedText += ellipsisResult.wrappedToken;
+                    state.wrapping.truncatedText += ellipsisResult.remainingToken;
+                    state.canFitText = false;
+                }
+                else {
+                    state.wrapping.wrappedText += wrappedText;
+                }
                 state.currentLine = "\n";
                 return state;
             };
@@ -340,7 +349,6 @@ var SVGTypewriter;
                 };
             };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
-                debugger;
                 if (!state.canFitText || state.availableLines === state.wrapping.noLines || !this.canFitToken(token, state.availableWidth, measurer)) {
                     if (state.canFitText && state.availableLines !== state.wrapping.noLines && this._allowBreakingWords && this._textTrimming !== "none") {
                         var res = this.addEllipsis(state.currentLine + token, state.availableWidth, measurer);
@@ -461,29 +469,51 @@ var SVGTypewriter;
                     return this;
                 }
             };
-            Writer.prototype.writeLine = function (line, g, align) {
-                if (align === void 0) { align = "left"; }
-                var textEl = g.append("text");
+            Writer.prototype.writeLine = function (line, g, width, height, xAlign, yAlign) {
+                if (xAlign === void 0) { xAlign = "left"; }
+                if (yAlign === void 0) { yAlign = "top"; }
+                var innerG = g.append("g");
+                var textEl = innerG.append("text");
                 textEl.text(line);
-                var anchor = Writer.AnchorConverter[align];
-                textEl.attr("text-anchor", anchor);
+                var xOff = width * Writer.XOffsetFactor[xAlign];
+                var yOff = height * Writer.YOffsetFactor[yAlign];
+                var ems = 0.85 - Writer.YOffsetFactor[yAlign];
+                var anchor = Writer.AnchorConverter[xAlign];
+                textEl.attr("text-anchor", anchor).attr("y", ems + "em");
+                SVGTypewriter.Utils.DOM.transform(innerG, xOff, yOff);
+            };
+            Writer.prototype.writeText = function (text, writingArea, width, height, options) {
+                var _this = this;
+                var lines = text.split("\n");
+                var lineHeight = this._measurer.measure().height;
+                lines.forEach(function (line, i) {
+                    var selection = writingArea.append("g");
+                    SVGTypewriter.Utils.DOM.transform(selection, 0, (i + 1) * lineHeight);
+                    _this.writeLine(line, selection, width, height, options.xAlign, options.yAlign);
+                });
             };
             Writer.prototype.write = function (text, width, height, options) {
-                var _this = this;
-                var wrappedText = this._wrapper.wrap(text, this._measurer, width).wrappedText;
-                var innerG = options.selection.append("g").classed("writeText-inner-g", true);
-                var lines = wrappedText.split("\n");
-                var h = this._measurer.measure().height;
-                lines.forEach(function (line, i) {
-                    var selection = innerG.append("g");
-                    SVGTypewriter.Utils.DOM.transform(selection, 0, (i + 1) * h);
-                    _this.writeLine(line, selection);
-                });
+                var orientHorizontally = options.textOrientation === "horizontal";
+                var primaryDimension = orientHorizontally ? width : height;
+                var secondaryDimension = orientHorizontally ? height : width;
+                var wrappedText = this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText;
+                var writingArea = options.selection.append("g").classed("writeText-inner-g", true);
+                this.writeText(wrappedText, writingArea, width, height, options);
             };
             Writer.AnchorConverter = {
                 left: "start",
                 center: "middle",
                 right: "end"
+            };
+            Writer.XOffsetFactor = {
+                left: 0,
+                center: 0.5,
+                right: 1
+            };
+            Writer.YOffsetFactor = {
+                top: 0,
+                center: 0.5,
+                bottom: 1
             };
             return Writer;
         })();

@@ -98,14 +98,15 @@ module SVGTypewriter.Wrappers {
 
       var lines = text.split("\n");
 
-      return lines.reduce((state: IterativeWrappingState, line: string) =>
-                    this.breakLineToFitWidth(state, line, measurer),
+      return lines.reduce((state: IterativeWrappingState, line: string, i: number) =>
+                    this.breakLineToFitWidth(state, line, i !== lines.length - 1, measurer),
                     state
                   ).wrapping;
     }
 
     private breakLineToFitWidth(state: IterativeWrappingState,
                                 line: string,
+                                hasNextLine: boolean,
                                 measurer: Measurers.AbstractMeasurer): IterativeWrappingState {
       if (!state.canFitText && state.wrapping.truncatedText !== "") {
         state.wrapping.truncatedText += "\n";
@@ -118,7 +119,16 @@ module SVGTypewriter.Wrappers {
       );
       var wrappedText = Utils.Methods.trimEnd(state.currentLine);
       state.wrapping.noLines += +(wrappedText !== "");
-      state.wrapping.wrappedText += wrappedText;
+      // HACKHACK it needs to be refactored.
+      if (state.wrapping.noLines === state.availableLines && this._textTrimming !== "none" && hasNextLine) {
+        var ellipsisResult = this.addEllipsis(wrappedText, state.availableWidth, measurer);
+        state.wrapping.wrappedText += ellipsisResult.wrappedToken;
+        state.wrapping.truncatedText += ellipsisResult.remainingToken;
+        state.canFitText = false;
+      } else {
+        state.wrapping.wrappedText += wrappedText;
+      }
+
       state.currentLine = "\n";
 
       return state;
@@ -163,7 +173,6 @@ module SVGTypewriter.Wrappers {
     }
 
     private wrapNextToken(token: string, state: IterativeWrappingState, measurer: Measurers.AbstractMeasurer): IterativeWrappingState {
-      debugger;
       if (!state.canFitText ||
           state.availableLines === state.wrapping.noLines ||
           !this.canFitToken(token, state.availableWidth, measurer)) {

@@ -331,6 +331,19 @@ describe("Wrapper Test Suite", () => {
       assert.deepEqual(result.noBrokeWords, 1, "one breaks");
       assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
     });
+
+    it("multiple lines", () => {
+      text = "hello  world!.\nhello  world!.";
+      var availableWidth = measurer.measure(text).width;
+      var result = wrapper.wrap(text, measurer, availableWidth);
+      assert.deepEqual(result.originalText, text, "original text has been set");
+      assert.operator(result.wrappedText.indexOf("..."), ">", 0, "ellipsis has been added");
+      assert.deepEqual(result.wrappedText.substring(0, result.wrappedText.length - 3) + result.truncatedText,
+                       text,
+                       "non of letters disappeard");
+      assert.deepEqual(result.noBrokeWords, 0, "one breaks");
+      assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+    });
   });
 
   afterEach(() => {
