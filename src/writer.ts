@@ -60,26 +60,14 @@ module SVGTypewriter.Writers {
       this.wrapper(wrapper);
     }
 
-    public measurer(): Measurers.AbstractMeasurer;
-    public measurer(newMeasurer: Measurers.AbstractMeasurer): Writer;
-    public measurer(newMeasurer?: any): any {
-      if(newMeasurer == null) {
-        return this._measurer;
-      } else {
-        this._measurer = newMeasurer;
-        return this;
-      }
+    public measurer(newMeasurer: Measurers.AbstractMeasurer): Writer {
+      this._measurer = newMeasurer;
+      return this;
     }
 
-    public wrapper(): Wrappers.Wrapper;
-    public wrapper(newWrapper: Wrappers.Wrapper): Writer;
-    public wrapper(newWrapper?: any): any {
-      if(newWrapper == null) {
-        return this._wrapper;
-      } else {
-        this._wrapper = newWrapper;
-        return this;
-      }
+    public wrapper(newWrapper: Wrappers.Wrapper): Writer {
+      this._wrapper = newWrapper;
+      return this;
     }
 
     private writeLine(line: string, g: D3.Selection, width: number, height: number, xAlign = "left", yAlign = "top") {

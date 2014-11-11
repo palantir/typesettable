@@ -106,9 +106,7 @@ declare module SVGTypewriter.Writers {
     }
     class Writer {
         constructor(measurer: Measurers.AbstractMeasurer, wrapper: Wrappers.Wrapper);
-        measurer(): Measurers.AbstractMeasurer;
         measurer(newMeasurer: Measurers.AbstractMeasurer): Writer;
-        wrapper(): Wrappers.Wrapper;
         wrapper(newWrapper: Wrappers.Wrapper): Writer;
         write(text: string, width: number, height: number, options: WriteOptions): void;
     }
@@ -145,10 +143,7 @@ declare module SVGTypewriter.Measurers {
 
 declare module SVGTypewriter.Measurers {
     class CharacterMeasurer extends Measurer {
-        _measureCharacter(c: string): {
-            width: number;
-            height: number;
-        };
+        _measureCharacter(c: string): Dimensions;
         _measureLine(line: string): {
             width: number;
             height: number;
@@ -160,6 +155,7 @@ declare module SVGTypewriter.Measurers {
 declare module SVGTypewriter.Measurers {
     class CacheCharacterMeasurer extends CharacterMeasurer {
         constructor(area: D3.Selection, className?: string);
+        _measureCharacterNotFromCache(c: string): Dimensions;
         _measureCharacter(c: string): Dimensions;
     }
 }

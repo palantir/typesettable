@@ -27,6 +27,16 @@ describe("Wrapper Test Suite", () => {
       assert.throws(() => wrapper.textTrimming("hello"));
       assert.equal(wrapper.textTrimming(), "ellipsis", "wrong option does not modify wrapper");
     });
+
+    it("max lines", () => {
+      assert.equal(wrapper.maxLines(), Infinity, "max lines has been set to default");
+      wrapper.maxLines(3);
+      assert.equal(wrapper.maxLines(), 3, "max lines has been changed");
+    });
+
+    it("allow breaking words", () => {
+      assert.isTrue(wrapper.allowBreakingWords(), "allow breaking words has been set to default");
+    });
   });
 
   describe("One token wrapping", () => {
@@ -305,6 +315,17 @@ describe("Wrapper Test Suite", () => {
       assert.deepEqual(result.originalText, text, "original text has been set");
       assert.deepEqual(result.wrappedText, "!...", "ellipsis has been added");
       assert.deepEqual(result.truncatedText, "HHH", "only first sign fits");
+      assert.deepEqual(result.noBrokeWords, 0, "one breaks");
+      assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+    });
+
+    it("nothing fits", () => {
+      var text = "!HHH";
+      var availableWidth = measurer.measure("..").width;
+      var result = wrapper.wrap(text, measurer, availableWidth);
+      assert.deepEqual(result.originalText, text, "original text has been set");
+      assert.deepEqual(result.wrappedText, "..", "ellipsis has been added");
+      assert.deepEqual(result.truncatedText, "!HHH", "whole word is truncated");
       assert.deepEqual(result.noBrokeWords, 0, "one breaks");
       assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
     });

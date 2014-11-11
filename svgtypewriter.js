@@ -452,22 +452,12 @@ var SVGTypewriter;
                 this.wrapper(wrapper);
             }
             Writer.prototype.measurer = function (newMeasurer) {
-                if (newMeasurer == null) {
-                    return this._measurer;
-                }
-                else {
-                    this._measurer = newMeasurer;
-                    return this;
-                }
+                this._measurer = newMeasurer;
+                return this;
             };
             Writer.prototype.wrapper = function (newWrapper) {
-                if (newWrapper == null) {
-                    return this._wrapper;
-                }
-                else {
-                    this._wrapper = newWrapper;
-                    return this;
-                }
+                this._wrapper = newWrapper;
+                return this;
             };
             Writer.prototype.writeLine = function (line, g, width, height, xAlign, yAlign) {
                 if (xAlign === void 0) { xAlign = "left"; }
@@ -687,7 +677,7 @@ var SVGTypewriter;
                 _super.apply(this, arguments);
             }
             CharacterMeasurer.prototype._measureCharacter = function (c) {
-                return _super.prototype.measure.call(this, c);
+                return _super.prototype._measureLine.call(this, c);
             };
             CharacterMeasurer.prototype._measureLine = function (line) {
                 var _this = this;
@@ -717,9 +707,13 @@ var SVGTypewriter;
         var CacheCharacterMeasurer = (function (_super) {
             __extends(CacheCharacterMeasurer, _super);
             function CacheCharacterMeasurer(area, className) {
+                var _this = this;
                 _super.call(this, area, className);
-                this.cache = new SVGTypewriter.Utils.Cache(_super.prototype._measureCharacter, SVGTypewriter.Utils.Methods.objEq);
+                this.cache = new SVGTypewriter.Utils.Cache(function (c) { return _this._measureCharacterNotFromCache(c); }, SVGTypewriter.Utils.Methods.objEq);
             }
+            CacheCharacterMeasurer.prototype._measureCharacterNotFromCache = function (c) {
+                return _super.prototype._measureCharacter.call(this, c);
+            };
             CacheCharacterMeasurer.prototype._measureCharacter = function (c) {
                 return this.cache.get(c);
             };

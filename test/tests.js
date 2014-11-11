@@ -115,6 +115,11 @@ describe("Utils.Methods Test Suite", function () {
     var utils = SVGTypewriter.Utils.Methods;
     it("objEq works as expected", function () {
         assert.isTrue(utils.objEq({}, {}));
+        assert.isTrue(utils.objEq(null, null));
+        assert.isFalse(utils.objEq(null, "null"));
+        assert.isTrue(utils.arrayEq(null, null));
+        assert.isFalse(utils.arrayEq(null, [null]));
+        assert.isFalse(utils.arrayEq([1], [null]));
         assert.isTrue(utils.objEq({ a: 5 }, { a: 5 }));
         assert.isFalse(utils.objEq({ a: 5, b: 6 }, { a: 5 }));
         assert.isFalse(utils.objEq({ a: 5 }, { a: 5, b: 6 }));
@@ -226,6 +231,14 @@ describe("Wrapper Test Suite", function () {
         it("wrong text trimming option", function () {
             assert.throws(function () { return wrapper.textTrimming("hello"); });
             assert.equal(wrapper.textTrimming(), "ellipsis", "wrong option does not modify wrapper");
+        });
+        it("max lines", function () {
+            assert.equal(wrapper.maxLines(), Infinity, "max lines has been set to default");
+            wrapper.maxLines(3);
+            assert.equal(wrapper.maxLines(), 3, "max lines has been changed");
+        });
+        it("allow breaking words", function () {
+            assert.isTrue(wrapper.allowBreakingWords(), "allow breaking words has been set to default");
         });
     });
     describe("One token wrapping", function () {
@@ -478,6 +491,16 @@ describe("Wrapper Test Suite", function () {
             assert.deepEqual(result.originalText, text, "original text has been set");
             assert.deepEqual(result.wrappedText, "!...", "ellipsis has been added");
             assert.deepEqual(result.truncatedText, "HHH", "only first sign fits");
+            assert.deepEqual(result.noBrokeWords, 0, "one breaks");
+            assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+        });
+        it("nothing fits", function () {
+            var text = "!HHH";
+            var availableWidth = measurer.measure("..").width;
+            var result = wrapper.wrap(text, measurer, availableWidth);
+            assert.deepEqual(result.originalText, text, "original text has been set");
+            assert.deepEqual(result.wrappedText, "..", "ellipsis has been added");
+            assert.deepEqual(result.truncatedText, "!HHH", "whole word is truncated");
             assert.deepEqual(result.noBrokeWords, 0, "one breaks");
             assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
         });
@@ -743,6 +766,25 @@ describe("Measurer Test Suite", function () {
             var result = measurer.measure("a\na");
             assert.equal(result.width, baseResult.width, "width has not changed");
             assert.equal(result.height, baseResult.height * 2, "height has changed");
+        });
+        afterEach(function () {
+            svg.remove();
+        });
+    });
+    describe("Cache measurer", function () {
+        beforeEach(function () {
+            svg = generateSVG(200, 200);
+            measurer = new SVGTypewriter.Measurers.CacheCharacterMeasurer(svg);
+        });
+        it("line", function () {
+            var text = "hello world";
+            var dimesnsions = measurer.measure(text);
+            var characterDimensions = text.split("").map(function (c) { return measurer.measure(c); });
+            var dimensionsByCharacter = {
+                width: d3.sum(characterDimensions.map(function (c) { return c.width; })),
+                height: d3.max(characterDimensions.map(function (c) { return c.height; }))
+            };
+            assert.deepEqual(dimesnsions, dimensionsByCharacter, "text has been measured by characters.");
         });
         afterEach(function () {
             svg.remove();

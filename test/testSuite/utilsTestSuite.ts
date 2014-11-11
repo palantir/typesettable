@@ -6,6 +6,11 @@ describe("Utils.Methods Test Suite", () => {
   var utils = SVGTypewriter.Utils.Methods;
   it("objEq works as expected", () => {
     assert.isTrue(utils.objEq({}, {}));
+    assert.isTrue(utils.objEq(null, null));
+    assert.isFalse(utils.objEq(null, "null"));
+    assert.isTrue(utils.arrayEq(null, null));
+    assert.isFalse(utils.arrayEq(null, [null]));
+    assert.isFalse(utils.arrayEq([1], [null]));
     assert.isTrue(utils.objEq({a: 5}, {a: 5}));
     assert.isFalse(utils.objEq({a: 5, b: 6}, {a: 5}));
     assert.isFalse(utils.objEq({a: 5}, {a: 5, b: 6}));

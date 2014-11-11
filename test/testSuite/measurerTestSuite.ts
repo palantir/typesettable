@@ -55,6 +55,29 @@ describe("Measurer Test Suite", () => {
     });
   });
 
+  describe("Cache measurer", () => {
+    beforeEach(() => {
+      svg = generateSVG(200, 200);
+      measurer = new SVGTypewriter.Measurers.CacheCharacterMeasurer(svg);
+    });
+
+    it("line", () => {
+      var text = "hello world";
+      var dimesnsions = measurer.measure(text);
+      var characterDimensions: SVGTypewriter.Measurers.Dimensions[] = text.split("").map(c => measurer.measure(c));
+      var dimensionsByCharacter = {
+        width: d3.sum(characterDimensions.map(c => c.width)),
+        height: d3.max(characterDimensions.map(c => c.height))
+      };
+
+      assert.deepEqual(dimesnsions, dimensionsByCharacter, "text has been measured by characters.");
+    });
+
+    afterEach(() => {
+      svg.remove();
+    });
+  });
+
   describe("DOM element", () => {
     before(() => {
       svg = generateSVG(200, 200);

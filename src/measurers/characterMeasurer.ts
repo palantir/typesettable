@@ -3,7 +3,7 @@
 module SVGTypewriter.Measurers {
   export class CharacterMeasurer extends Measurer {
     public _measureCharacter(c: string) {
-      return super.measure(c);
+      return super._measureLine(c);
     }
 
     public _measureLine(line: string) {
