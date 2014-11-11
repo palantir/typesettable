@@ -31,8 +31,9 @@ describe("Wrapper Test Suite", () => {
 
   describe("One token wrapping", () => {
     var token: string;
-    before(() => {
+    beforeEach(() => {
       token = "hello";
+      wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
     });
 
     it("does not wrap", () => {
@@ -81,7 +82,7 @@ describe("Wrapper Test Suite", () => {
       var availableWidth = measurer.measure("h").width - 0.1;
       var result = wrapper.wrap(token, measurer, availableWidth);
       assert.deepEqual(result.originalText, token, "original text has been set");
-      assert.equal(result.wrappedText, "", "wrapping was impossible");
+      assert.equal(result.wrappedText, "", "wrapping was impossible so no wrapping");
       assert.deepEqual(result.truncatedText, token, "whole text has been truncated");
       assert.deepEqual(result.noBrokeWords, 0, "no breaks");
       assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
@@ -92,17 +93,18 @@ describe("Wrapper Test Suite", () => {
       var availableWidth = measurer.measure("a-").width;
       var result = wrapper.wrap(tokenWithSmallFirstSign, measurer, availableWidth);
       assert.deepEqual(result.originalText, tokenWithSmallFirstSign, "original text has been set");
-      assert.equal(result.wrappedText, "", "wrapping was impossible");
-      assert.deepEqual(result.truncatedText, tokenWithSmallFirstSign, "whole text has been truncated");
-      assert.deepEqual(result.noBrokeWords, 0, "no breaks");
-      assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
+      assert.equal(result.wrappedText, "a", "wrapping was impossible, but one letter fits");
+      assert.deepEqual(result.truncatedText, tokenWithSmallFirstSign.substring(1), "suffix has been truncated");
+      assert.deepEqual(result.noBrokeWords, 1, "no breaks");
+      assert.deepEqual(result.noLines, 1, "wrapped text has no lines");
     });
   });
 
   describe("One line wrapping", () => {
     var line: string;
-    before(() => {
+    beforeEach(() => {
       line = "hello  world!.";
+      wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
     });
 
     it("does not wrap", () => {
@@ -187,6 +189,7 @@ describe("Wrapper Test Suite", () => {
     var lines: string;
     before(() => {
       lines = "hello  world!.\nhello  world!.";
+      wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
     });
 
     it("does not wrap", () => {
@@ -285,11 +288,35 @@ describe("Wrapper Test Suite", () => {
       text = "hello";
       wrapper = new SVGTypewriter.Wrappers.Wrapper().maxLines(1);
     });
+
     it("single word", () => {
       var availableWidth = measurer.measure(text).width - 0.1;
       var result = wrapper.wrap(text, measurer, availableWidth);
       assert.deepEqual(result.originalText, text, "original text has been set");
       assert.notEqual(result.wrappedText.indexOf("..."), -1, "ellipsis has been added");
+      assert.deepEqual(result.noBrokeWords, 1, "one breaks");
+      assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+    });
+
+    it("ellipsis just fit", () => {
+      var availableWidth = measurer.measure("h-").width;
+      var result = wrapper.wrap(text, measurer, availableWidth);
+      assert.deepEqual(result.originalText, text, "original text has been set");
+      assert.deepEqual(result.wrappedText, "...", "ellipsis has been added");
+      assert.deepEqual(result.truncatedText, text, "text has been truncated");
+      assert.deepEqual(result.noBrokeWords, 1, "one breaks");
+      assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+    });
+
+    it("multiple token", () => {
+      text = "hello world!";
+      var availableWidth = measurer.measure("hello worl-").width;
+      var result = wrapper.wrap(text, measurer, availableWidth);
+      assert.deepEqual(result.originalText, text, "original text has been set");
+      assert.operator(result.wrappedText.indexOf("..."), ">", 0, "ellipsis has been added");
+      assert.deepEqual(result.wrappedText.substring(0, result.wrappedText.length - 3) + result.truncatedText,
+                       text,
+                       "non of letters disappeard");
       assert.deepEqual(result.noBrokeWords, 1, "one breaks");
       assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
     });

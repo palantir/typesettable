@@ -127,7 +127,10 @@ describe("Utils.Methods Test Suite", function () {
         assert.equal(utils.trimStart("aa"), "aa", "works on non-whitespace string");
         assert.equal(utils.trimStart("a a"), "a a", "works on whitespace in the middle");
         assert.equal(utils.trimStart("a a   "), "a a   ", "works on whitespace at the end");
-        assert.equal(utils.trimStart(" \t a a   "), "a a   ", "works on whitespace at both ends");
+        assert.equal(utils.trimStart("  a a   "), "a a   ", "works on whitespace at both ends");
+        assert.equal(utils.trimStart("aba", "b"), "aba", "works on special character in the middle");
+        assert.equal(utils.trimStart("a abbb", "b"), "a abbb", "works on special character at the end");
+        assert.equal(utils.trimStart("bbba ab   ", "b"), "a ab   ", "works on special character at both ends");
         assert.equal(utils.trimStart(null), null, "works on null");
         assert.equal(utils.trimStart(undefined), undefined, "works on undefined");
     });
@@ -138,6 +141,9 @@ describe("Utils.Methods Test Suite", function () {
         assert.equal(utils.trimEnd("a a"), "a a", "works on whitespace in the middle");
         assert.equal(utils.trimEnd("a a   "), "a a", "works on whitespace at the end");
         assert.equal(utils.trimEnd(" \t a a   "), " \t a a", "works on whitespace at both ends");
+        assert.equal(utils.trimEnd("aba", "b"), "aba", "works on special character in the middle");
+        assert.equal(utils.trimEnd("a abbb", "b"), "a a", "works on special character at the end");
+        assert.equal(utils.trimEnd("   bbba ab", "b"), "   bbba a", "works on special character at both ends");
         assert.equal(utils.trimEnd(null), null, "works on null");
         assert.equal(utils.trimEnd(undefined), undefined, "works on undefined");
     });
@@ -224,8 +230,9 @@ describe("Wrapper Test Suite", function () {
     });
     describe("One token wrapping", function () {
         var token;
-        before(function () {
+        beforeEach(function () {
             token = "hello";
+            wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
         });
         it("does not wrap", function () {
             var dimensions = measurer.measure(token);
@@ -269,7 +276,7 @@ describe("Wrapper Test Suite", function () {
             var availableWidth = measurer.measure("h").width - 0.1;
             var result = wrapper.wrap(token, measurer, availableWidth);
             assert.deepEqual(result.originalText, token, "original text has been set");
-            assert.equal(result.wrappedText, "", "wrapping was impossible");
+            assert.equal(result.wrappedText, "", "wrapping was impossible so no wrapping");
             assert.deepEqual(result.truncatedText, token, "whole text has been truncated");
             assert.deepEqual(result.noBrokeWords, 0, "no breaks");
             assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
@@ -279,16 +286,17 @@ describe("Wrapper Test Suite", function () {
             var availableWidth = measurer.measure("a-").width;
             var result = wrapper.wrap(tokenWithSmallFirstSign, measurer, availableWidth);
             assert.deepEqual(result.originalText, tokenWithSmallFirstSign, "original text has been set");
-            assert.equal(result.wrappedText, "", "wrapping was impossible");
-            assert.deepEqual(result.truncatedText, tokenWithSmallFirstSign, "whole text has been truncated");
-            assert.deepEqual(result.noBrokeWords, 0, "no breaks");
-            assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
+            assert.equal(result.wrappedText, "a", "wrapping was impossible, but one letter fits");
+            assert.deepEqual(result.truncatedText, tokenWithSmallFirstSign.substring(1), "suffix has been truncated");
+            assert.deepEqual(result.noBrokeWords, 1, "no breaks");
+            assert.deepEqual(result.noLines, 1, "wrapped text has no lines");
         });
     });
     describe("One line wrapping", function () {
         var line;
-        before(function () {
+        beforeEach(function () {
             line = "hello  world!.";
+            wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
         });
         it("does not wrap", function () {
             var dimensions = measurer.measure(line);
@@ -365,6 +373,7 @@ describe("Wrapper Test Suite", function () {
         var lines;
         before(function () {
             lines = "hello  world!.\nhello  world!.";
+            wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
         });
         it("does not wrap", function () {
             var dimensions = measurer.measure(lines);
@@ -459,6 +468,25 @@ describe("Wrapper Test Suite", function () {
             var result = wrapper.wrap(text, measurer, availableWidth);
             assert.deepEqual(result.originalText, text, "original text has been set");
             assert.notEqual(result.wrappedText.indexOf("..."), -1, "ellipsis has been added");
+            assert.deepEqual(result.noBrokeWords, 1, "one breaks");
+            assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+        });
+        it("ellipsis just fit", function () {
+            var availableWidth = measurer.measure("h-").width;
+            var result = wrapper.wrap(text, measurer, availableWidth);
+            assert.deepEqual(result.originalText, text, "original text has been set");
+            assert.deepEqual(result.wrappedText, "...", "ellipsis has been added");
+            assert.deepEqual(result.truncatedText, text, "text has been truncated");
+            assert.deepEqual(result.noBrokeWords, 1, "one breaks");
+            assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+        });
+        it("multiple token", function () {
+            text = "hello world!";
+            var availableWidth = measurer.measure("hello worl-").width;
+            var result = wrapper.wrap(text, measurer, availableWidth);
+            assert.deepEqual(result.originalText, text, "original text has been set");
+            assert.operator(result.wrappedText.indexOf("..."), ">", 0, "ellipsis has been added");
+            assert.deepEqual(result.wrappedText.substring(0, result.wrappedText.length - 3) + result.truncatedText, text, "non of letters disappeard");
             assert.deepEqual(result.noBrokeWords, 1, "one breaks");
             assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
         });

@@ -44,23 +44,24 @@ module SVGTypewriter.Utils.Methods {
     return str && str.trim() !== "";
   }
 
-  export function trimStart(str: string) {
+  export function trimStart(str: string, c?: string) {
     if (!str) {
       return str;
     }
 
     var chars = str.split("");
-    return chars.reduce((s: string, c : string) => isNotEmptyString(s + c) ? s + c : s, "");
+    var reduceFunction = c ? (s: string) => s.split(c).some(isNotEmptyString) : isNotEmptyString;
+    return chars.reduce((s: string, c : string) => reduceFunction(s + c) ? s + c : s, "");
   }
 
-  export function trimEnd(str: string) {
+  export function trimEnd(str: string, c?: string) {
     if (!str) {
       return str;
     }
 
     var reversedChars = str.split("");
     reversedChars.reverse();
-    reversedChars = trimStart(reversedChars.join("")).split("");
+    reversedChars = trimStart(reversedChars.join(""), c).split("");
     reversedChars.reverse();
     return reversedChars.join("");
   }

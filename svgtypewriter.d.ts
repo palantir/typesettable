@@ -14,8 +14,8 @@ declare module SVGTypewriter.Utils.Methods {
      */
     function objEq(a: any, b: any): boolean;
     function isNotEmptyString(str: string): boolean;
-    function trimStart(str: string): string;
-    function trimEnd(str: string): string;
+    function trimStart(str: string, c?: string): string;
+    function trimEnd(str: string, c?: string): string;
 }
 
 declare module SVGTypewriter.Utils.DOM {
