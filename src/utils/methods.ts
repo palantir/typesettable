@@ -43,4 +43,17 @@ module SVGTypewriter.Utils.Methods {
   export function isNotEmptyString(str: string) {
     return str && str.trim() !== "";
   }
+
+  export function trimStart(str: string) {
+    var chars = str.split("");
+    return chars.reduce((s: string, c : string) => isNotEmptyString(s + c) ? s + c : s, "");
+  }
+
+  export function trimEnd(str: string) {
+    var reversedChars = str.split("");
+    reversedChars.reverse();
+    reversedChars = trimStart(reversedChars.join("")).split("");
+    reversedChars.reverse();
+    return reversedChars.join("");
+  }
 }

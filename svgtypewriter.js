@@ -57,6 +57,19 @@ var SVGTypewriter;
                 return str && str.trim() !== "";
             }
             Methods.isNotEmptyString = isNotEmptyString;
+            function trimStart(str) {
+                var chars = str.split("");
+                return chars.reduce(function (s, c) { return isNotEmptyString(s + c) ? s + c : s; }, "");
+            }
+            Methods.trimStart = trimStart;
+            function trimEnd(str) {
+                var reversedChars = str.split("");
+                reversedChars.reverse();
+                reversedChars = trimStart(reversedChars.join("")).split("");
+                reversedChars.reverse();
+                return reversedChars.join("");
+            }
+            Methods.trimEnd = trimEnd;
         })(Utils.Methods || (Utils.Methods = {}));
         var Methods = Utils.Methods;
     })(SVGTypewriter.Utils || (SVGTypewriter.Utils = {}));
@@ -272,15 +285,19 @@ var SVGTypewriter;
                     canFitText: true
                 };
                 var lines = text.split("\n");
-                return lines.map(function (line, i) { return i !== lines.length - 1 ? line + "\n" : line; }).reduce(function (state, line) { return _this.breakLineToFitWidth(state, line, measurer); }, state).wrapping;
+                return lines.reduce(function (state, line) { return _this.breakLineToFitWidth(state, line, measurer); }, state).wrapping;
             };
             Wrapper.prototype.breakLineToFitWidth = function (state, line, measurer) {
                 var _this = this;
+                if (!state.canFitText && state.wrapping.truncatedText !== "") {
+                    state.wrapping.truncatedText += "\n";
+                }
                 var tokens = this._tokenizer.tokenize(line);
-                state = tokens.reduce(function (state, token) { return state.canFitText ? _this.wrapNextToken(token, state, measurer) : _this.truncateNextToken(token, state); }, state);
-                state.wrapping.wrappedText += state.currentLine;
-                state.wrapping.noLines += +(state.currentLine !== "");
-                state.currentLine = "";
+                state = tokens.reduce(function (state, token) { return _this.wrapNextToken(token, state, measurer); }, state);
+                var wrappedText = SVGTypewriter.Utils.Methods.trimEnd(state.currentLine);
+                state.wrapping.noLines += +(wrappedText !== "");
+                state.wrapping.wrappedText += wrappedText;
+                state.currentLine = "\n";
                 return state;
             };
             Wrapper.prototype.truncateNextToken = function (token, state) {
@@ -293,6 +310,9 @@ var SVGTypewriter;
                 return possibleBreaks.every(function (c) { return measurer.measure(c).width <= width; });
             };
             Wrapper.prototype.addEllipsis = function (line, width, measurer) {
+                if (this._textTrimming === "none") {
+                    return line;
+                }
                 var truncatedLine = line.trim();
                 var lineWidth = measurer.measure(truncatedLine).width;
                 var ellipsesWidth = measurer.measure("...").width;
@@ -308,7 +328,7 @@ var SVGTypewriter;
                 return truncatedLine + "...";
             };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
-                if (state.availableLines === 0 || !this.canFitToken(token, state.availableWidth, measurer)) {
+                if (!state.canFitText || state.availableLines === state.wrapping.noLines || !this.canFitToken(token, state.availableWidth, measurer)) {
                     state.canFitText = false;
                     state.wrapping.truncatedText += token;
                 }
@@ -322,8 +342,7 @@ var SVGTypewriter;
                         if (remainingToken != null) {
                             state.wrapping.noBrokeWords += +result.breakWord;
                             ++state.wrapping.noLines;
-                            --state.availableLines;
-                            if (state.availableLines === 0) {
+                            if (state.availableLines === state.wrapping.noLines) {
                                 state.wrapping.wrappedText += this.addEllipsis(state.currentLine, state.availableWidth, measurer);
                                 state.currentLine = "";
                                 state.wrapping.truncatedText += remainingToken;

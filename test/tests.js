@@ -293,6 +293,93 @@ describe("Wrapper Test Suite", function () {
             assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
         });
     });
+    describe("multiple line wrapping", function () {
+        var lines;
+        before(function () {
+            lines = "hello  world!.\nhello  world!.";
+        });
+        it("does not wrap", function () {
+            var dimensions = measurer.measure(lines);
+            var result = wrapper.wrap(lines, measurer, dimensions.width * 2);
+            assert.deepEqual(result.originalText, lines, "original text has been set");
+            assert.deepEqual(result.wrappedText, lines, "wrapped text is the same as original");
+            assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+            assert.equal(result.noBrokeWords, 0, "non of tokens has been broken");
+            assert.equal(result.noLines, 2, "no wrapping was needed");
+        });
+        it("only token sign fits", function () {
+            var tokenWithSmallFirstSign = "!HHH\n.";
+            var availableWidth = measurer.measure("!-").width;
+            var result = wrapper.wrap(tokenWithSmallFirstSign, measurer, availableWidth);
+            assert.deepEqual(result.originalText, tokenWithSmallFirstSign, "original text has been set");
+            assert.equal(result.wrappedText, tokenWithSmallFirstSign.substring(0, 1), "wrapping was possible");
+            assert.deepEqual(result.truncatedText, tokenWithSmallFirstSign.substring(1), "big letters have been truncated");
+            assert.deepEqual(result.noBrokeWords, 0, "no breaks");
+            assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+        });
+        it("one time wrapping", function () {
+            var availableWidth = measurer.measure(lines).width * 0.75;
+            var result = wrapper.wrap(lines, measurer, availableWidth);
+            assert.deepEqual(result.originalText, lines, "original text has been set");
+            assert.lengthOf(result.wrappedText.split("\n"), 4, "wrapping occured");
+            assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+            assert.equal(result.noBrokeWords, 2, "wrapping with breaking one word");
+            assert.equal(result.noLines, 4, "wrapping was needed");
+            assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+        });
+    });
+    describe("Max lines", function () {
+        var text;
+        beforeEach(function () {
+            text = "hello  world!.\nhello  world!.";
+            wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
+        });
+        it("no lines fits", function () {
+            var dimensions = measurer.measure(text);
+            wrapper.maxLines(0);
+            var result = wrapper.wrap(text, measurer, dimensions.width * 2);
+            assert.deepEqual(result.originalText, text, "original text has been set");
+            assert.deepEqual(result.wrappedText, "", "wrapped text contains non characters");
+            assert.deepEqual(result.truncatedText, text, "maxLines truncates both lines");
+            assert.equal(result.noBrokeWords, 0, "non of tokens has been broken");
+            assert.equal(result.noLines, 0, "no lines fits");
+        });
+        it("does not wrap", function () {
+            var lines = text.split("\n");
+            var dimensions = measurer.measure(text);
+            wrapper.maxLines(1);
+            var result = wrapper.wrap(text, measurer, dimensions.width * 2);
+            assert.deepEqual(result.originalText, text, "original text has been set");
+            assert.deepEqual(result.wrappedText, lines[0], "wrapped text contains first line");
+            assert.deepEqual(result.truncatedText, lines[1], "maxLines truncates second line");
+            assert.equal(result.noBrokeWords, 0, "non of tokens has been broken");
+            assert.equal(result.noLines, 1, "only first line fits");
+        });
+        it("one time wrapping", function () {
+            var lines = text.split("\n");
+            wrapper.maxLines(2);
+            var availableWidth = measurer.measure(text).width * 0.75;
+            var result = wrapper.wrap(text, measurer, availableWidth);
+            assert.deepEqual(result.originalText, text, "original text has been set");
+            assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
+            assert.deepEqual(result.truncatedText, lines[1], "maxLines truncates second line");
+            assert.equal(result.noBrokeWords, 1, "wrapping with breaking one word");
+            assert.equal(result.noLines, 2, "wrapping was needed");
+            assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+        });
+        it("in the middle of line", function () {
+            var lines = text.split("\n");
+            var availableWidth = measurer.measure(text).width * 0.75;
+            wrapper.maxLines(3);
+            var result = wrapper.wrap(text, measurer, availableWidth);
+            assert.deepEqual(result.originalText, text, "original text has been set");
+            assert.lengthOf(result.wrappedText.split("\n"), 3, "wrapping occured");
+            assert.notEqual(result.truncatedText, "", "maxLines truncates second line");
+            assert.equal(result.noBrokeWords, 2, "wrapping with breaking one word");
+            assert.equal(result.noLines, 3, "wrapping was needed");
+            assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+        });
+    });
     afterEach(function () {
         svg.remove();
     });
