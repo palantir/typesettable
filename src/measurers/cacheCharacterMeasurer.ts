@@ -4,8 +4,8 @@ module SVGTypewriter.Measurers {
 
   export class CacheCharacterMeasurer extends CharacterMeasurer {
     private cache: Utils.Cache<Dimensions>;
-    constructor(area: D3.Selection) {
-      super(area);
+    constructor(area: D3.Selection, className?: string) {
+      super(area, className);
       this.cache = new Utils.Cache<Dimensions>(super._measureCharacter, Utils.Methods.objEq);
     }
 

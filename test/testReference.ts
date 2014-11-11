@@ -8,6 +8,7 @@
 
 ///<reference path="globalInitialization.ts" />
 
+///<reference path="testSuite/cacheTestSuite.ts" />
 ///<reference path="testSuite/tokenizerTestSuite.ts" />
 ///<reference path="testSuite/wrapperTestSuite.ts" />
 ///<reference path="testSuite/writerTestSuite.ts" />

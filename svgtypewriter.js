@@ -595,8 +595,8 @@ var SVGTypewriter;
     (function (Measurers) {
         var CacheCharacterMeasurer = (function (_super) {
             __extends(CacheCharacterMeasurer, _super);
-            function CacheCharacterMeasurer(area) {
-                _super.call(this, area);
+            function CacheCharacterMeasurer(area, className) {
+                _super.call(this, area, className);
                 this.cache = new SVGTypewriter.Utils.Cache(_super.prototype._measureCharacter, SVGTypewriter.Utils.Methods.objEq);
             }
             CacheCharacterMeasurer.prototype._measureCharacter = function (c) {

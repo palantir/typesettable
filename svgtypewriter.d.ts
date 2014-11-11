@@ -156,7 +156,7 @@ declare module SVGTypewriter.Measurers {
 
 declare module SVGTypewriter.Measurers {
     class CacheCharacterMeasurer extends CharacterMeasurer {
-        constructor(area: D3.Selection);
+        constructor(area: D3.Selection, className?: string);
         _measureCharacter(c: string): Dimensions;
     }
 }
