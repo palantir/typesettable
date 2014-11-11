@@ -22,12 +22,7 @@ describe("Measurer Test Suite", () => {
     });
 
     it("default text", () => {
-      var originalMeasureBBox = (<any>measurer).measureBBox;
-      (<any>measurer).measureBBox = (d: D3.Selection, text: string) => {
-        assert.equal(text, (<any>SVGTypewriter.Measurers.AbstractMeasurer).HEIGHT_TEXT, "default text was used");
-        return originalMeasureBBox(d, text);
-      };
-      measurer.measure();
+      assert.deepEqual(measurer.measure(), measurer.measure(SVGTypewriter.Measurers.AbstractMeasurer.HEIGHT_TEXT), "default text was used");
     });
 
     it("works on empty string", () => {

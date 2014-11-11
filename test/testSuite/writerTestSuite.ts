@@ -38,6 +38,22 @@ describe("Writer Test Suite", () => {
     it("wrapping", () => {
       writer.write("reallylongsentencewithmanycharacters", 50, 150, writeOptions);
     });
+
+    it("maxLines", () => {
+      wrapper.maxLines(3);
+      writer.write("reallylongsentencewithmanycharacters", 50, 150, writeOptions);
+    });
+
+    it("maxLines + no ellipsis", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writer.write("reallylongsentencewithmanycharacters", 50, 150, writeOptions);
+    });
+
+    it("allignment", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.yAlign = "center";
+      writer.write("reallylongsentencewithmanycharacters", 50, 150, writeOptions);
+    });
   });
 
   afterEach(() => {

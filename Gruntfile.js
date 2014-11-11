@@ -169,7 +169,7 @@ module.exports = function(grunt) {
     blanket_mocha: {
       all: ['test/coverage.html'],
       options: {
-        threshold: 85
+        threshold: 90
       }
     },
     connect: {

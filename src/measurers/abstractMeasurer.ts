@@ -17,7 +17,7 @@ module SVGTypewriter.Measurers {
     private textMeasurer: TextMeasurer;
     private defaultText: string;
 
-    private static HEIGHT_TEXT = "bqpdl";
+    public static HEIGHT_TEXT = "bqpdl";
 
     constructor(area: D3.Selection, className?: string) {
       this.textMeasurer = this.getTextMeasurer(area, className);

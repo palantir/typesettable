@@ -23,7 +23,7 @@ module SVGTypewriter.Measurers {
       return measuredLineDimensions;
     }
 
-    public measure(text: string) {
+    public measure(text: string = AbstractMeasurer.HEIGHT_TEXT) {
       if (text == null || text === "") {
         return {width: 0, height: 0};
       }

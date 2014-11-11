@@ -549,6 +549,19 @@ describe("Writer Test Suite", function () {
         it("wrapping", function () {
             writer.write("reallylongsentencewithmanycharacters", 50, 150, writeOptions);
         });
+        it("maxLines", function () {
+            wrapper.maxLines(3);
+            writer.write("reallylongsentencewithmanycharacters", 50, 150, writeOptions);
+        });
+        it("maxLines + no ellipsis", function () {
+            wrapper.maxLines(3).textTrimming("none");
+            writer.write("reallylongsentencewithmanycharacters", 50, 150, writeOptions);
+        });
+        it("allignment", function () {
+            wrapper.maxLines(3).textTrimming("none");
+            writeOptions.yAlign = "center";
+            writer.write("reallylongsentencewithmanycharacters", 50, 150, writeOptions);
+        });
     });
     afterEach(function () {
         svg.remove();
@@ -644,12 +657,7 @@ describe("Measurer Test Suite", function () {
             assert.deepEqual(textSelection.text(), defaultText, "Text inside selection has been reseted to default");
         });
         it("default text", function () {
-            var originalMeasureBBox = measurer.measureBBox;
-            measurer.measureBBox = function (d, text) {
-                assert.equal(text, SVGTypewriter.Measurers.AbstractMeasurer.HEIGHT_TEXT, "default text was used");
-                return originalMeasureBBox(d, text);
-            };
-            measurer.measure();
+            assert.deepEqual(measurer.measure(), measurer.measure(SVGTypewriter.Measurers.AbstractMeasurer.HEIGHT_TEXT), "default text was used");
         });
         it("works on empty string", function () {
             var result = measurer.measure("");

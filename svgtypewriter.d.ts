@@ -124,6 +124,7 @@ declare module SVGTypewriter.Measurers {
         height: number;
     }
     class AbstractMeasurer {
+        static HEIGHT_TEXT: string;
         constructor(area: D3.Selection, className?: string);
         measure(text?: string): Dimensions;
     }
@@ -134,7 +135,7 @@ declare module SVGTypewriter.Measurers {
     class Measurer extends AbstractMeasurer {
         _addGuards(text: string): string;
         _measureLine(line: string): Dimensions;
-        measure(text: string): {
+        measure(text?: string): {
             width: number;
             height: number;
         };

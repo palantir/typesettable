@@ -607,6 +607,7 @@ var SVGTypewriter;
             };
             Measurer.prototype.measure = function (text) {
                 var _this = this;
+                if (text === void 0) { text = Measurers.AbstractMeasurer.HEIGHT_TEXT; }
                 if (text == null || text === "") {
                     return { width: 0, height: 0 };
                 }
