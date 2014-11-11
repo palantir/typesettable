@@ -382,41 +382,91 @@ var assert = chai.assert;
 describe("Measurer Test Suite", function () {
     var svg;
     var measurer;
-    var defaultText;
-    var textSelection;
-    before(function () {
-        svg = generateSVG(200, 200);
-        defaultText = "a\na";
-        textSelection = svg.append("text");
-        textSelection.text(defaultText);
-        measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
+    describe("Text element", function () {
+        var defaultText;
+        var textSelection;
+        beforeEach(function () {
+            svg = generateSVG(200, 200);
+            defaultText = "a\na";
+            textSelection = svg.append("text");
+            textSelection.text(defaultText);
+            measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
+        });
+        it("resets default string", function () {
+            measurer.measure("hello world");
+            assert.deepEqual(textSelection.text(), defaultText, "Text inside selection has been reseted to default");
+        });
+        it("default text", function () {
+            var originalMeasureBBox = measurer.measureBBox;
+            measurer.measureBBox = function (d, text) {
+                assert.equal(text, SVGTypewriter.Measurers.AbstractMeasurer.HEIGHT_TEXT, "default text was used");
+                return originalMeasureBBox(d, text);
+            };
+            measurer.measure();
+        });
+        it("works on empty string", function () {
+            var result = measurer.measure("");
+            assert.deepEqual(result, { width: 0, height: 0 }, "empty string has 0 width and height");
+        });
+        it("works on whitespace", function () {
+            var result = measurer.measure(" ");
+            assert.operator(result.width, ">", 0, "whitespace has width greater than 0");
+            assert.operator(result.height, ">", 0, "whitespace has height greater than 0");
+        });
+        it("works on multiple whitespaces", function () {
+            var baseResult = measurer.measure(" ");
+            var result = measurer.measure("   ");
+            assert.equal(result.width, baseResult.width, "width has no changed");
+            assert.equal(result.height, baseResult.height, "height has not changed");
+        });
+        it("works on multiple lines", function () {
+            var baseResult = measurer.measure("a");
+            var result = measurer.measure("a\na");
+            assert.equal(result.width, baseResult.width, "width has not changed");
+            assert.equal(result.height, baseResult.height * 2, "height has changed");
+        });
+        afterEach(function () {
+            svg.remove();
+        });
     });
-    it("resets default string", function () {
-        measurer.measure("hello world");
-        assert.deepEqual(textSelection.text(), defaultText, "Text inside selection has been reseted to default");
-    });
-    it("works on empty string", function () {
-        var result = measurer.measure("");
-        assert.deepEqual(result, { width: 0, height: 0 }, "empty string has 0 width and height");
-    });
-    it("works on whitespace", function () {
-        var result = measurer.measure(" ");
-        assert.operator(result.width, ">", 0, "whitespace has width greater than 0");
-        assert.operator(result.height, ">", 0, "whitespace has height greater than 0");
-    });
-    it("works on multiple whitespaces", function () {
-        var baseResult = measurer.measure(" ");
-        var result = measurer.measure("   ");
-        assert.equal(result.width, baseResult.width, "width has no changed");
-        assert.equal(result.height, baseResult.height, "height has not changed");
-    });
-    it("works on multiple lines", function () {
-        var baseResult = measurer.measure("a");
-        var result = measurer.measure("a\na");
-        assert.equal(result.width, baseResult.width, "width has not changed");
-        assert.equal(result.height, baseResult.height * 2, "height has changed");
-    });
-    after(function () {
-        svg.remove();
+    describe("DOM element", function () {
+        before(function () {
+            svg = generateSVG(200, 200);
+            measurer = new SVGTypewriter.Measurers.Measurer(svg);
+        });
+        it("class is applied", function () {
+            var className = "testClass";
+            var measurerWithClass = new SVGTypewriter.Measurers.Measurer(svg, className);
+            var originalMeasureBBox = measurerWithClass.measureBBox;
+            measurerWithClass.measureBBox = function (d, text) {
+                assert.isTrue(d.classed(className), "class has been applied to text element");
+                return originalMeasureBBox(d, text);
+            };
+            measurer.measure();
+        });
+        it("works on empty string", function () {
+            var result = measurer.measure("");
+            assert.deepEqual(result, { width: 0, height: 0 }, "empty string has 0 width and height");
+        });
+        it("works on whitespace", function () {
+            var result = measurer.measure(" ");
+            assert.operator(result.width, ">", 0, "whitespace has width greater than 0");
+            assert.operator(result.height, ">", 0, "whitespace has height greater than 0");
+        });
+        it("works on multiple whitespaces", function () {
+            var baseResult = measurer.measure(" ");
+            var result = measurer.measure("   ");
+            assert.equal(result.width, baseResult.width, "width has no changed");
+            assert.equal(result.height, baseResult.height, "height has not changed");
+        });
+        it("works on multiple lines", function () {
+            var baseResult = measurer.measure("a");
+            var result = measurer.measure("a\na");
+            assert.equal(result.width, baseResult.width, "width has not changed");
+            assert.equal(result.height, baseResult.height * 2, "height has changed");
+        });
+        after(function () {
+            svg.remove();
+        });
     });
 });
