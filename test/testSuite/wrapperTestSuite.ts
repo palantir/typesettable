@@ -93,10 +93,10 @@ describe("Wrapper Test Suite", () => {
       var availableWidth = measurer.measure("a-").width;
       var result = wrapper.wrap(tokenWithSmallFirstSign, measurer, availableWidth);
       assert.deepEqual(result.originalText, tokenWithSmallFirstSign, "original text has been set");
-      assert.equal(result.wrappedText, "a", "wrapping was impossible, but one letter fits");
-      assert.deepEqual(result.truncatedText, tokenWithSmallFirstSign.substring(1), "suffix has been truncated");
-      assert.deepEqual(result.noBrokeWords, 1, "no breaks");
-      assert.deepEqual(result.noLines, 1, "wrapped text has no lines");
+      assert.equal(result.wrappedText, "", "wrapping was impossible");
+      assert.deepEqual(result.truncatedText, tokenWithSmallFirstSign, "whole word has been truncated");
+      assert.deepEqual(result.noBrokeWords, 0, "none word breaks");
+      assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
     });
   });
 
@@ -131,7 +131,7 @@ describe("Wrapper Test Suite", () => {
 
     it("only token sign fits", () => {
       var tokenWithSmallFirstSign = "!HHH";
-      var availableWidth = measurer.measure("!-").width;
+      var availableWidth = measurer.measure("!").width * 2;
       var result = wrapper.wrap(tokenWithSmallFirstSign, measurer, availableWidth);
       assert.deepEqual(result.originalText, tokenWithSmallFirstSign, "original text has been set");
       assert.equal(result.wrappedText, "!", "wrapping was possible");
@@ -187,7 +187,7 @@ describe("Wrapper Test Suite", () => {
 
   describe("multiple line wrapping", () => {
     var lines: string;
-    before(() => {
+    beforeEach(() => {
       lines = "hello  world!.\nhello  world!.";
       wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
     });
@@ -295,6 +295,17 @@ describe("Wrapper Test Suite", () => {
       assert.deepEqual(result.originalText, text, "original text has been set");
       assert.notEqual(result.wrappedText.indexOf("..."), -1, "ellipsis has been added");
       assert.deepEqual(result.noBrokeWords, 1, "one breaks");
+      assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+    });
+
+    it("single token fits", () => {
+      var text = "!HHH";
+      var availableWidth = measurer.measure("!...").width;
+      var result = wrapper.wrap(text, measurer, availableWidth);
+      assert.deepEqual(result.originalText, text, "original text has been set");
+      assert.deepEqual(result.wrappedText, "!...", "ellipsis has been added");
+      assert.deepEqual(result.truncatedText, "HHH", "only first sign fits");
+      assert.deepEqual(result.noBrokeWords, 0, "one breaks");
       assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
     });
 

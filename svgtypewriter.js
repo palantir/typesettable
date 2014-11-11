@@ -340,13 +340,15 @@ var SVGTypewriter;
                 };
             };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
+                debugger;
                 if (!state.canFitText || state.availableLines === state.wrapping.noLines || !this.canFitToken(token, state.availableWidth, measurer)) {
-                    if (state.canFitText && state.availableLines !== state.wrapping.noLines) {
-                        var breakingResult = this.breakTokenToFitInWidth(token, "", state.availableWidth, measurer, "");
-                        state.wrapping.wrappedText += breakingResult.line;
-                        state.wrapping.truncatedText += breakingResult.remainingToken;
-                        state.wrapping.noBrokeWords += +breakingResult.breakWord;
-                        state.wrapping.noLines += +(breakingResult.line.length > 0);
+                    if (state.canFitText && state.availableLines !== state.wrapping.noLines && this._allowBreakingWords && this._textTrimming !== "none") {
+                        var res = this.addEllipsis(state.currentLine + token, state.availableWidth, measurer);
+                        state.wrapping.wrappedText += res.wrappedToken;
+                        state.wrapping.truncatedText += res.remainingToken;
+                        state.wrapping.noBrokeWords += +(res.remainingToken.length < token.length);
+                        state.wrapping.noLines += +(res.wrappedToken.length > 0);
+                        state.currentLine = "";
                     }
                     else {
                         state.wrapping.truncatedText += token;
