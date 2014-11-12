@@ -2,16 +2,15 @@
 
 module SVGTypewriter.Measurers {
   export class Measurer extends AbstractMeasurer {
-    private static NotWhitespaceCharacter = "a";
     private nonWhitespaceCharacterWidth: number;
 
     public _addGuards(text: string) {
-      return Measurer.NotWhitespaceCharacter + text + Measurer.NotWhitespaceCharacter;
+      return AbstractMeasurer.HEIGHT_TEXT + text + AbstractMeasurer.HEIGHT_TEXT;
     }
 
     private getNotWhitespaceCharacterWidth() {
       if (this.nonWhitespaceCharacterWidth == null) {
-        this.nonWhitespaceCharacterWidth = super.measure(Measurer.NotWhitespaceCharacter).width;
+        this.nonWhitespaceCharacterWidth = super.measure(AbstractMeasurer.HEIGHT_TEXT).width;
       }
       return this.nonWhitespaceCharacterWidth;
     }

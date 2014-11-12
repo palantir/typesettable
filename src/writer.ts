@@ -103,7 +103,7 @@ module SVGTypewriter.Writers {
     }
 
     private writeText(text: string, area: D3.Selection, width: number, height: number, xAlign: string, yAlign: string) {
-      var writingArea = area.append("g").classed("writeText-inner-g", true);
+      var writingArea = area.append("g").classed("textArea", true);
       var textHeight = this._measurer.measure(text).height;
       this.insertText(text, writingArea, width, xAlign);
       var xForm = d3.transform("");
@@ -131,7 +131,7 @@ module SVGTypewriter.Writers {
           rotate = 90;
           break;
       }
-      var textArea = options.selection.append("g").classed("writeText-inner-g", true);
+      var textArea = options.selection.append("g").classed("writingArea", true);
       var wrappedText = this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText;
       this.writeText(wrappedText,
                      textArea,

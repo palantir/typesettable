@@ -11,8 +11,7 @@ describe("Writer Test Suite", () => {
 
   beforeEach(() => {
     svg = generateSVG(200, 200);
-    var textSelection = svg.append("text");
-    measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
+    measurer = new SVGTypewriter.Measurers.Measurer(svg);
     wrapper = new SVGTypewriter.Wrappers.Wrapper();
     writer = new SVGTypewriter.Writers.Writer(measurer, wrapper);
   });
@@ -28,11 +27,21 @@ describe("Writer Test Suite", () => {
     });
 
     it("one word", () => {
-      writer.write("test", 200, 200, writeOptions);
+      var text = "test";
+      writer.write(text, 200, 200, writeOptions);
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var dimensions = measurer.measure(text);
+      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
+      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
     });
 
     it("multiple lines", () => {
-      writer.write("test\ntest", 200, 200, writeOptions);
+      var text = "test\ntest";
+      writer.write(text, 200, 200, writeOptions);
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var dimensions = measurer.measure(text);
+      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
+      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
     });
 
     it("wrapping", () => {
@@ -67,11 +76,21 @@ describe("Writer Test Suite", () => {
     });
 
     it("one word", () => {
-      writer.write("test", 200, 200, writeOptions);
+      var text = "test";
+      writer.write(text, 200, 200, writeOptions);
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var dimensions = measurer.measure(text);
+      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
+      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
     });
 
     it("multiple lines", () => {
-      writer.write("test\ntest", 200, 200, writeOptions);
+      var text = "test\ntest";
+      writer.write(text, 200, 200, writeOptions);
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var dimensions = measurer.measure(text);
+      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
+      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
     });
 
     it("wrapping", () => {
@@ -112,11 +131,21 @@ describe("Writer Test Suite", () => {
     });
 
     it("one word", () => {
-      writer.write("test", 200, 200, writeOptions);
+      var text = "test";
+      writer.write(text, 200, 200, writeOptions);
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var dimensions = measurer.measure(text);
+      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
+      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
     });
 
     it("multiple lines", () => {
-      writer.write("test\ntest", 200, 200, writeOptions);
+      var text = "test\ntest";
+      writer.write(text, 200, 200, writeOptions);
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var dimensions = measurer.measure(text);
+      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
+      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
     });
 
     it("wrapping", () => {

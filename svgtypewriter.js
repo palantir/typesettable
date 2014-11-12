@@ -480,7 +480,7 @@ var SVGTypewriter;
                 });
             };
             Writer.prototype.writeText = function (text, area, width, height, xAlign, yAlign) {
-                var writingArea = area.append("g").classed("writeText-inner-g", true);
+                var writingArea = area.append("g").classed("textArea", true);
                 var textHeight = this._measurer.measure(text).height;
                 this.insertText(text, writingArea, width, xAlign);
                 var xForm = d3.transform("");
@@ -507,7 +507,7 @@ var SVGTypewriter;
                         rotate = 90;
                         break;
                 }
-                var textArea = options.selection.append("g").classed("writeText-inner-g", true);
+                var textArea = options.selection.append("g").classed("writingArea", true);
                 var wrappedText = this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText;
                 this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, alignTranslator[options.xAlign], alignTranslator[options.yAlign]);
                 var xForm = d3.transform("");
@@ -638,11 +638,11 @@ var SVGTypewriter;
                 _super.apply(this, arguments);
             }
             Measurer.prototype._addGuards = function (text) {
-                return Measurer.NotWhitespaceCharacter + text + Measurer.NotWhitespaceCharacter;
+                return Measurers.AbstractMeasurer.HEIGHT_TEXT + text + Measurers.AbstractMeasurer.HEIGHT_TEXT;
             };
             Measurer.prototype.getNotWhitespaceCharacterWidth = function () {
                 if (this.nonWhitespaceCharacterWidth == null) {
-                    this.nonWhitespaceCharacterWidth = _super.prototype.measure.call(this, Measurer.NotWhitespaceCharacter).width;
+                    this.nonWhitespaceCharacterWidth = _super.prototype.measure.call(this, Measurers.AbstractMeasurer.HEIGHT_TEXT).width;
                 }
                 return this.nonWhitespaceCharacterWidth;
             };
@@ -664,7 +664,6 @@ var SVGTypewriter;
                     height: d3.sum(linesDimensions, function (dim) { return dim.height; })
                 };
             };
-            Measurer.NotWhitespaceCharacter = "a";
             return Measurer;
         })(Measurers.AbstractMeasurer);
         Measurers.Measurer = Measurer;
