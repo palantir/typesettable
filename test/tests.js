@@ -590,8 +590,8 @@ describe("Writer Test Suite", function () {
         beforeEach(function () {
             writeOptions = {
                 selection: svg,
-                xAlign: "left",
-                yAlign: "top",
+                xAlign: "bottom",
+                yAlign: "left",
                 textOrientation: "left"
             };
         });
@@ -612,9 +612,14 @@ describe("Writer Test Suite", function () {
             wrapper.maxLines(3).textTrimming("none");
             writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
         });
-        it("allignment", function () {
+        it("allignment center", function () {
             wrapper.maxLines(3).textTrimming("none");
-            writeOptions.xAlign = "center";
+            writeOptions.yAlign = "center";
+            writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+        });
+        it("allignment right", function () {
+            wrapper.maxLines(3).textTrimming("none");
+            writeOptions.yAlign = "right";
             writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
         });
     });
@@ -622,8 +627,8 @@ describe("Writer Test Suite", function () {
         beforeEach(function () {
             writeOptions = {
                 selection: svg,
-                xAlign: "left",
-                yAlign: "top",
+                xAlign: "top",
+                yAlign: "left",
                 textOrientation: "right"
             };
         });
@@ -644,9 +649,14 @@ describe("Writer Test Suite", function () {
             wrapper.maxLines(3).textTrimming("none");
             writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
         });
-        it("allignment", function () {
+        it("allignment center", function () {
             wrapper.maxLines(3).textTrimming("none");
             writeOptions.xAlign = "center";
+            writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+        });
+        it("allignment bottom", function () {
+            wrapper.maxLines(3).textTrimming("none");
+            writeOptions.xAlign = "bottom";
             writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
         });
     });

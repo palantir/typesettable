@@ -60,8 +60,8 @@ describe("Writer Test Suite", () => {
     beforeEach(() => {
       writeOptions = {
         selection: svg,
-        xAlign: "left",
-        yAlign: "top",
+        xAlign: "bottom",
+        yAlign: "left",
         textOrientation: "left"
       };
     });
@@ -88,9 +88,15 @@ describe("Writer Test Suite", () => {
       writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
     });
 
-    it("allignment", () => {
+    it("allignment center", () => {
       wrapper.maxLines(3).textTrimming("none");
-      writeOptions.xAlign = "center";
+      writeOptions.yAlign = "center";
+      writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+    });
+
+    it("allignment right", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.yAlign = "right";
       writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
     });
   });
@@ -99,8 +105,8 @@ describe("Writer Test Suite", () => {
     beforeEach(() => {
       writeOptions = {
         selection: svg,
-        xAlign: "left",
-        yAlign: "top",
+        xAlign: "top",
+        yAlign: "left",
         textOrientation: "right"
       };
     });
@@ -127,9 +133,15 @@ describe("Writer Test Suite", () => {
       writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
     });
 
-    it("allignment", () => {
+    it("allignment center", () => {
       wrapper.maxLines(3).textTrimming("none");
       writeOptions.xAlign = "center";
+      writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
+    });
+
+    it("allignment bottom", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.xAlign = "bottom";
       writer.write("reallylongsentencewithmanycharacters", 150, 50, writeOptions);
     });
   });

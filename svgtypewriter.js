@@ -459,61 +459,62 @@ var SVGTypewriter;
                 this._wrapper = newWrapper;
                 return this;
             };
-            Writer.prototype.writeLine = function (line, g, width, height, xAlign, yAlign) {
+            Writer.prototype.writeLine = function (line, g, width, xAlign) {
                 if (xAlign === void 0) { xAlign = "left"; }
-                if (yAlign === void 0) { yAlign = "top"; }
                 var innerG = g.append("g");
                 var textEl = innerG.append("text");
                 textEl.text(line);
-                var xOff = width * Writer.XOffsetFactor[xAlign];
-                var yOff = height * Writer.YOffsetFactor[yAlign];
-                var ems = 0.85 - Writer.YOffsetFactor[yAlign];
+                var xOff = width * Writer.XOffsetFactor2[xAlign];
                 var anchor = Writer.AnchorConverter[xAlign];
-                textEl.attr("text-anchor", anchor).attr("y", ems + "em");
-                SVGTypewriter.Utils.DOM.transform(innerG, xOff, yOff);
+                textEl.attr("text-anchor", anchor);
+                SVGTypewriter.Utils.DOM.transform(textEl, xOff, 0);
             };
-            Writer.prototype.writeText = function (text, writingArea, width, height, options) {
+            Writer.prototype.insertText = function (text, writingArea, width, xAlign) {
                 var _this = this;
                 var lines = text.split("\n");
                 var lineHeight = this._measurer.measure().height;
-                var alignTranslator;
-                var rotate;
-                var translate;
-                switch (options.textOrientation) {
-                    case "horizontal":
-                        alignTranslator = Writer.HorizontalTranslator;
-                        translate = [0, 0];
-                        rotate = 0;
-                        break;
-                    case "left":
-                        alignTranslator = Writer.LeftTranslator;
-                        translate = [0, height];
-                        rotate = -90;
-                        break;
-                    case "right":
-                        alignTranslator = Writer.RightTranslator;
-                        translate = [width, 0];
-                        rotate = 90;
-                        break;
-                }
                 lines.forEach(function (line, i) {
                     var selection = writingArea.append("g");
                     SVGTypewriter.Utils.DOM.transform(selection, 0, (i + 1) * lineHeight);
-                    _this.writeLine(line, selection, width, height, alignTranslator[options.xAlign], alignTranslator[options.yAlign]);
+                    _this.writeLine(line, selection, width, xAlign);
                 });
+            };
+            Writer.prototype.writeText = function (text, area, width, height, xAlign, yAlign) {
+                var writingArea = area.append("g").classed("writeText-inner-g", true);
+                var textHeight = this._measurer.measure(text).height;
+                this.insertText(text, writingArea, width, xAlign);
                 var xForm = d3.transform("");
-                xForm.rotate = rotate;
-                xForm.translate = translate;
+                xForm.translate = [0, Writer.YOffsetFactor2[yAlign] * (height - textHeight)];
                 writingArea.attr("transform", xForm.toString());
-                writingArea.classed("rotated-" + rotate, true);
             };
             Writer.prototype.write = function (text, width, height, options) {
                 var orientHorizontally = options.textOrientation === "horizontal";
                 var primaryDimension = orientHorizontally ? width : height;
                 var secondaryDimension = orientHorizontally ? height : width;
+                var alignTranslator;
+                var rotate;
+                switch (options.textOrientation) {
+                    case "horizontal":
+                        alignTranslator = Writer.HorizontalTranslator;
+                        rotate = 0;
+                        break;
+                    case "left":
+                        alignTranslator = Writer.LeftTranslator;
+                        rotate = -90;
+                        break;
+                    case "right":
+                        alignTranslator = Writer.RightTranslator;
+                        rotate = 90;
+                        break;
+                }
+                var textArea = options.selection.append("g").classed("writeText-inner-g", true);
                 var wrappedText = this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText;
-                var writingArea = options.selection.append("g").classed("writeText-inner-g", true);
-                this.writeText(wrappedText, writingArea, width, height, options);
+                this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, alignTranslator[options.xAlign], alignTranslator[options.yAlign]);
+                var xForm = d3.transform("");
+                xForm.rotate = rotate;
+                xForm.translate = [Writer.XOffsetFactor[options.textOrientation] * width, Writer.YOffsetFactor[options.textOrientation] * height];
+                textArea.attr("transform", xForm.toString());
+                textArea.classed("rotated-" + rotate, true);
             };
             Writer.AnchorConverter = {
                 left: "start",
@@ -521,11 +522,21 @@ var SVGTypewriter;
                 right: "end"
             };
             Writer.XOffsetFactor = {
+                right: 1,
+                left: 0,
+                horizontal: 0
+            };
+            Writer.YOffsetFactor = {
+                right: 0,
+                left: 1,
+                horizontal: 0
+            };
+            Writer.XOffsetFactor2 = {
                 left: 0,
                 center: 0.5,
                 right: 1
             };
-            Writer.YOffsetFactor = {
+            Writer.YOffsetFactor2 = {
                 top: 0,
                 center: 0.5,
                 bottom: 1
