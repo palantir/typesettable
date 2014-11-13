@@ -124,7 +124,7 @@ describe("Writer Test Suite", () => {
     beforeEach(() => {
       writeOptions = {
         selection: svg,
-        xAlign: "top",
+        xAlign: "bottom",
         yAlign: "left",
         textOrientation: "right"
       };

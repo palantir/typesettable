@@ -345,7 +345,7 @@ var SVGTypewriter;
                 }
                 return {
                     wrappedToken: truncatedLine + "...",
-                    remainingToken: SVGTypewriter.Utils.Methods.trimEnd(line.substring(truncatedLine.length), "-")
+                    remainingToken: SVGTypewriter.Utils.Methods.trimEnd(line.substring(truncatedLine.length), "-").trim()
                 };
             };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
@@ -476,7 +476,8 @@ var SVGTypewriter;
                     _this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
                 });
             };
-            Writer.prototype.write = function (text, width, height, options) {
+            Writer.prototype.write = function (text, width, height, options, wrapBeforeRender) {
+                if (wrapBeforeRender === void 0) { wrapBeforeRender = true; }
                 var orientHorizontally = options.textOrientation === "horizontal";
                 var primaryDimension = orientHorizontally ? width : height;
                 var secondaryDimension = orientHorizontally ? height : width;
@@ -497,13 +498,12 @@ var SVGTypewriter;
                         break;
                 }
                 var textArea = options.selection.append("g").classed("textArea", true);
-                var wrappedText = this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText;
+                var wrappedText = wrapBeforeRender ? this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText : text;
                 this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, alignTranslator[options.xAlign], alignTranslator[options.yAlign]);
                 var xForm = d3.transform("");
                 xForm.rotate = rotate;
                 xForm.translate = [Writer.OrientationXOffsetFactor[options.textOrientation] * width, Writer.OrientationYOffsetFactor[options.textOrientation] * height];
                 textArea.attr("transform", xForm.toString());
-                textArea.classed("rotated-" + rotate, true);
             };
             Writer.AnchorConverter = {
                 left: "start",

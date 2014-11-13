@@ -330,6 +330,17 @@ describe("Wrapper Test Suite", () => {
       assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
     });
 
+    it("handling whitespaces", () => {
+      text = "this            aa";
+      var availableWidth = measurer.measure(text).width - 1;
+      var result = wrapper.wrap(text, measurer, availableWidth);
+      assert.deepEqual(result.originalText, text, "original text has been set");
+      assert.deepEqual(result.wrappedText, "this...", "whitespaces has been ommited");
+      assert.deepEqual(result.truncatedText, "aa", "suffix has been truncated");
+      assert.deepEqual(result.noBrokeWords, 1, "one break");
+      assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+    });
+
     it("ellipsis just fit", () => {
       var availableWidth = measurer.measure("h-").width;
       var result = wrapper.wrap(text, measurer, availableWidth);

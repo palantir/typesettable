@@ -162,13 +162,13 @@ module SVGTypewriter.Wrappers {
       }
 
       while (lineWidth + ellipsesWidth > width) {
-        truncatedLine = truncatedLine.substr(0, truncatedLine.length-1).trim();
+        truncatedLine = truncatedLine.substr(0, truncatedLine.length - 1).trim();
         lineWidth = measurer.measure(truncatedLine).width;
       }
 
       return {
         wrappedToken: truncatedLine + "...",
-        remainingToken: Utils.Methods.trimEnd(line.substring(truncatedLine.length), "-")
+        remainingToken: Utils.Methods.trimEnd(line.substring(truncatedLine.length), "-").trim()
       };
     }
 

@@ -100,7 +100,7 @@ module SVGTypewriter.Writers {
       });
     }
 
-    public write(text: string, width: number, height: number, options: WriteOptions) {
+    public write(text: string, width: number, height: number, options: WriteOptions, wrapBeforeRender = true) {
       var orientHorizontally = options.textOrientation === "horizontal";
       var primaryDimension = orientHorizontally ? width : height;
       var secondaryDimension = orientHorizontally ? height : width;
@@ -120,8 +120,11 @@ module SVGTypewriter.Writers {
           rotate = 90;
           break;
       }
+
       var textArea = options.selection.append("g").classed("textArea", true);
-      var wrappedText = this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText;
+      var wrappedText = wrapBeforeRender ?
+                          this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText :
+                          text;
       this.writeText(wrappedText,
                      textArea,
                      primaryDimension,
@@ -134,7 +137,6 @@ module SVGTypewriter.Writers {
       xForm.translate = [Writer.OrientationXOffsetFactor[options.textOrientation] * width,
                          Writer.OrientationYOffsetFactor[options.textOrientation] * height];
       textArea.attr("transform", xForm.toString());
-      textArea.classed("rotated-" + rotate, true);
     }
   }
 }

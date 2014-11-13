@@ -504,6 +504,16 @@ describe("Wrapper Test Suite", function () {
             assert.deepEqual(result.noBrokeWords, 0, "one breaks");
             assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
         });
+        it("handling whitespaces", function () {
+            text = "this            aa";
+            var availableWidth = measurer.measure(text).width - 1;
+            var result = wrapper.wrap(text, measurer, availableWidth);
+            assert.deepEqual(result.originalText, text, "original text has been set");
+            assert.deepEqual(result.wrappedText, "this...", "whitespaces has been ommited");
+            assert.deepEqual(result.truncatedText, "aa", "suffix has been truncated");
+            assert.deepEqual(result.noBrokeWords, 1, "one break");
+            assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
+        });
         it("ellipsis just fit", function () {
             var availableWidth = measurer.measure("h-").width;
             var result = wrapper.wrap(text, measurer, availableWidth);
@@ -646,7 +656,7 @@ describe("Writer Test Suite", function () {
         beforeEach(function () {
             writeOptions = {
                 selection: svg,
-                xAlign: "top",
+                xAlign: "bottom",
                 yAlign: "left",
                 textOrientation: "right"
             };
