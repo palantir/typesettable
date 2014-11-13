@@ -459,33 +459,22 @@ var SVGTypewriter;
                 this._wrapper = newWrapper;
                 return this;
             };
-            Writer.prototype.writeLine = function (line, g, width, xAlign) {
-                if (xAlign === void 0) { xAlign = "left"; }
-                var innerG = g.append("g");
-                var textEl = innerG.append("text");
+            Writer.prototype.writeLine = function (line, g, width, xAlign, yOffset) {
+                var textEl = g.append("text");
                 textEl.text(line);
-                var xOff = width * Writer.XOffsetFactor2[xAlign];
+                var xOffset = width * Writer.XOffsetFactor[xAlign];
                 var anchor = Writer.AnchorConverter[xAlign];
-                textEl.attr("text-anchor", anchor);
-                SVGTypewriter.Utils.DOM.transform(textEl, xOff, 0);
+                textEl.attr("text-anchor", anchor).classed("text-line", true);
+                SVGTypewriter.Utils.DOM.transform(textEl, xOffset, yOffset);
             };
-            Writer.prototype.insertText = function (text, writingArea, width, xAlign) {
+            Writer.prototype.writeText = function (text, writingArea, width, height, xAlign, yAlign) {
                 var _this = this;
                 var lines = text.split("\n");
                 var lineHeight = this._measurer.measure().height;
+                var yOffset = Writer.YOffsetFactor[yAlign] * (height - lines.length * lineHeight);
                 lines.forEach(function (line, i) {
-                    var selection = writingArea.append("g");
-                    SVGTypewriter.Utils.DOM.transform(selection, 0, (i + 1) * lineHeight);
-                    _this.writeLine(line, selection, width, xAlign);
+                    _this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
                 });
-            };
-            Writer.prototype.writeText = function (text, area, width, height, xAlign, yAlign) {
-                var writingArea = area.append("g").classed("textArea", true);
-                var textHeight = this._measurer.measure(text).height;
-                this.insertText(text, writingArea, width, xAlign);
-                var xForm = d3.transform("");
-                xForm.translate = [0, Writer.YOffsetFactor2[yAlign] * (height - textHeight)];
-                writingArea.attr("transform", xForm.toString());
             };
             Writer.prototype.write = function (text, width, height, options) {
                 var orientHorizontally = options.textOrientation === "horizontal";
@@ -507,12 +496,12 @@ var SVGTypewriter;
                         rotate = 90;
                         break;
                 }
-                var textArea = options.selection.append("g").classed("writingArea", true);
+                var textArea = options.selection.append("g").classed("textArea", true);
                 var wrappedText = this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText;
                 this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, alignTranslator[options.xAlign], alignTranslator[options.yAlign]);
                 var xForm = d3.transform("");
                 xForm.rotate = rotate;
-                xForm.translate = [Writer.XOffsetFactor[options.textOrientation] * width, Writer.YOffsetFactor[options.textOrientation] * height];
+                xForm.translate = [Writer.OrientationXOffsetFactor[options.textOrientation] * width, Writer.OrientationYOffsetFactor[options.textOrientation] * height];
                 textArea.attr("transform", xForm.toString());
                 textArea.classed("rotated-" + rotate, true);
             };
@@ -521,22 +510,22 @@ var SVGTypewriter;
                 center: "middle",
                 right: "end"
             };
-            Writer.XOffsetFactor = {
+            Writer.OrientationXOffsetFactor = {
                 right: 1,
                 left: 0,
                 horizontal: 0
             };
-            Writer.YOffsetFactor = {
+            Writer.OrientationYOffsetFactor = {
                 right: 0,
                 left: 1,
                 horizontal: 0
             };
-            Writer.XOffsetFactor2 = {
+            Writer.XOffsetFactor = {
                 left: 0,
                 center: 0.5,
                 right: 1
             };
-            Writer.YOffsetFactor2 = {
+            Writer.YOffsetFactor = {
                 top: 0,
                 center: 0.5,
                 bottom: 1
@@ -637,25 +626,26 @@ var SVGTypewriter;
             function Measurer() {
                 _super.apply(this, arguments);
             }
+            // Guards assures same line height and width of whitespaces on both ends.
             Measurer.prototype._addGuards = function (text) {
                 return Measurers.AbstractMeasurer.HEIGHT_TEXT + text + Measurers.AbstractMeasurer.HEIGHT_TEXT;
             };
-            Measurer.prototype.getNotWhitespaceCharacterWidth = function () {
-                if (this.nonWhitespaceCharacterWidth == null) {
-                    this.nonWhitespaceCharacterWidth = _super.prototype.measure.call(this, Measurers.AbstractMeasurer.HEIGHT_TEXT).width;
+            Measurer.prototype.getGuardWidth = function () {
+                if (this.guardWidth == null) {
+                    this.guardWidth = _super.prototype.measure.call(this).width;
                 }
-                return this.nonWhitespaceCharacterWidth;
+                return this.guardWidth;
             };
             Measurer.prototype._measureLine = function (line) {
                 var measuredLine = this._addGuards(line);
                 var measuredLineDimensions = _super.prototype.measure.call(this, measuredLine);
-                measuredLineDimensions.width -= 2 * this.getNotWhitespaceCharacterWidth();
+                measuredLineDimensions.width -= 2 * this.getGuardWidth();
                 return measuredLineDimensions;
             };
             Measurer.prototype.measure = function (text) {
                 var _this = this;
                 if (text === void 0) { text = Measurers.AbstractMeasurer.HEIGHT_TEXT; }
-                if (text == null || text === "") {
+                if (text === "") {
                     return { width: 0, height: 0 };
                 }
                 var linesDimensions = text.split("\n").map(function (line) { return _this._measureLine(line); });

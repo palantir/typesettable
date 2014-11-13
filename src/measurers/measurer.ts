@@ -2,28 +2,29 @@
 
 module SVGTypewriter.Measurers {
   export class Measurer extends AbstractMeasurer {
-    private nonWhitespaceCharacterWidth: number;
+    private guardWidth: number;
 
+    // Guards assures same line height and width of whitespaces on both ends.
     public _addGuards(text: string) {
       return AbstractMeasurer.HEIGHT_TEXT + text + AbstractMeasurer.HEIGHT_TEXT;
     }
 
-    private getNotWhitespaceCharacterWidth() {
-      if (this.nonWhitespaceCharacterWidth == null) {
-        this.nonWhitespaceCharacterWidth = super.measure(AbstractMeasurer.HEIGHT_TEXT).width;
+    private getGuardWidth() {
+      if (this.guardWidth == null) {
+        this.guardWidth = super.measure().width;
       }
-      return this.nonWhitespaceCharacterWidth;
+      return this.guardWidth;
     }
 
     public _measureLine(line: string) {
       var measuredLine = this._addGuards(line);
       var measuredLineDimensions = super.measure(measuredLine);
-      measuredLineDimensions.width -= 2 * this.getNotWhitespaceCharacterWidth();
+      measuredLineDimensions.width -= 2 * this.getGuardWidth();
       return measuredLineDimensions;
     }
 
     public measure(text: string = AbstractMeasurer.HEIGHT_TEXT) {
-      if (text == null || text === "") {
+      if (text === "") {
         return {width: 0, height: 0};
       }
       var linesDimensions = text.split("\n").map(line => this._measureLine(line));

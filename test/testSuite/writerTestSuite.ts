@@ -29,7 +29,7 @@ describe("Writer Test Suite", () => {
     it("one word", () => {
       var text = "test";
       writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
       var dimensions = measurer.measure(text);
       assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
       assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
@@ -38,7 +38,7 @@ describe("Writer Test Suite", () => {
     it("multiple lines", () => {
       var text = "test\ntest";
       writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
       var dimensions = measurer.measure(text);
       assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
       assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
@@ -78,7 +78,7 @@ describe("Writer Test Suite", () => {
     it("one word", () => {
       var text = "test";
       writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
       var dimensions = measurer.measure(text);
       assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
       assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
@@ -87,7 +87,7 @@ describe("Writer Test Suite", () => {
     it("multiple lines", () => {
       var text = "test\ntest";
       writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
       var dimensions = measurer.measure(text);
       assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
       assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
@@ -133,7 +133,7 @@ describe("Writer Test Suite", () => {
     it("one word", () => {
       var text = "test";
       writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
       var dimensions = measurer.measure(text);
       assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
       assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
@@ -142,7 +142,7 @@ describe("Writer Test Suite", () => {
     it("multiple lines", () => {
       var text = "test\ntest";
       writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".writingArea"));
+      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
       var dimensions = measurer.measure(text);
       assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
       assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
