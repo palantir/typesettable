@@ -117,7 +117,7 @@ module SVGTypewriter.Wrappers {
         (state: IterativeWrappingState, token: string) => this.wrapNextToken(token, state, measurer),
         state
       );
-      var wrappedText = Utils.Methods.trimEnd(state.currentLine);
+      var wrappedText = Utils.StringMethods.trimEnd(state.currentLine);
       state.wrapping.noLines += +(wrappedText !== "");
       // HACKHACK it needs to be refactored.
       if (state.wrapping.noLines === state.availableLines && this._textTrimming !== "none" && hasNextLine) {
@@ -168,7 +168,7 @@ module SVGTypewriter.Wrappers {
 
       return {
         wrappedToken: truncatedLine + "...",
-        remainingToken: Utils.Methods.trimEnd(line.substring(truncatedLine.length), "-").trim()
+        remainingToken: Utils.StringMethods.trimEnd(line.substring(truncatedLine.length), "-").trim()
       };
     }
 
@@ -207,7 +207,7 @@ module SVGTypewriter.Wrappers {
               state.currentLine = "";
               return state;
             } else {
-              state.wrapping.wrappedText += Utils.Methods.trimEnd(state.currentLine) + "\n";
+              state.wrapping.wrappedText += Utils.StringMethods.trimEnd(state.currentLine) + "\n";
               state.currentLine = "";
             }
           }

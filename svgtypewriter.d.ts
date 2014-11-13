@@ -13,9 +13,6 @@ declare module SVGTypewriter.Utils.Methods {
      *          with ===.
      */
     function objEq(a: any, b: any): boolean;
-    function isNotEmptyString(str: string): boolean;
-    function trimStart(str: string, c?: string): string;
-    function trimEnd(str: string, c?: string): string;
 }
 
 declare module SVGTypewriter.Utils.DOM {
@@ -60,18 +57,14 @@ declare module SVGTypewriter.Utils {
 }
 
 
-declare module SVGTypewriter {
-    module Converters {
-        interface Converter {
-            (text: string): string;
-        }
-        function ident(): (s: string) => string;
-        /**
-         * @return {Parser} A converter that will treat all
-         * sequences of consecutive whitespace as a single " ".
-         */
-        function combineWhitespace(con: Converter): (s: string) => string;
-    }
+declare module SVGTypewriter.Utils.StringMethods {
+    /**
+     * Treat all sequences of consecutive whitespace as a single " ".
+     */
+    function combineWhitespace(str: string): string;
+    function isNotEmptyString(str: string): boolean;
+    function trimStart(str: string, c?: string): string;
+    function trimEnd(str: string, c?: string): string;
 }
 
 

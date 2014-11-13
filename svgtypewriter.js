@@ -53,30 +53,6 @@ var SVGTypewriter;
                 return arrayEq(keysA, keysB) && arrayEq(valuesA, valuesB);
             }
             Methods.objEq = objEq;
-            function isNotEmptyString(str) {
-                return str && str.trim() !== "";
-            }
-            Methods.isNotEmptyString = isNotEmptyString;
-            function trimStart(str, c) {
-                if (!str) {
-                    return str;
-                }
-                var chars = str.split("");
-                var reduceFunction = c ? function (s) { return s.split(c).some(isNotEmptyString); } : isNotEmptyString;
-                return chars.reduce(function (s, c) { return reduceFunction(s + c) ? s + c : s; }, "");
-            }
-            Methods.trimStart = trimStart;
-            function trimEnd(str, c) {
-                if (!str) {
-                    return str;
-                }
-                var reversedChars = str.split("");
-                reversedChars.reverse();
-                reversedChars = trimStart(reversedChars.join(""), c).split("");
-                reversedChars.reverse();
-                return reversedChars.join("");
-            }
-            Methods.trimEnd = trimEnd;
         })(Utils.Methods || (Utils.Methods = {}));
         var Methods = Utils.Methods;
     })(SVGTypewriter.Utils || (SVGTypewriter.Utils = {}));
@@ -212,24 +188,46 @@ var SVGTypewriter;
     var Utils = SVGTypewriter.Utils;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
-///<reference path="reference.ts" />
+///<reference path="../reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
-    (function (Converters) {
-        function ident() {
-            return function (s) { return s; };
-        }
-        Converters.ident = ident;
-        /**
-         * @return {Parser} A converter that will treat all
-         * sequences of consecutive whitespace as a single " ".
-         */
-        function combineWhitespace(con) {
-            return function (s) { return con(s.replace(/\s+/g, " ")); };
-        }
-        Converters.combineWhitespace = combineWhitespace;
-    })(SVGTypewriter.Converters || (SVGTypewriter.Converters = {}));
-    var Converters = SVGTypewriter.Converters;
+    (function (Utils) {
+        (function (StringMethods) {
+            /**
+             * Treat all sequences of consecutive whitespace as a single " ".
+             */
+            function combineWhitespace(str) {
+                return str.replace(/\s+/g, " ");
+            }
+            StringMethods.combineWhitespace = combineWhitespace;
+            function isNotEmptyString(str) {
+                return str && str.trim() !== "";
+            }
+            StringMethods.isNotEmptyString = isNotEmptyString;
+            function trimStart(str, c) {
+                if (!str) {
+                    return str;
+                }
+                var chars = str.split("");
+                var reduceFunction = c ? function (s) { return s.split(c).some(isNotEmptyString); } : isNotEmptyString;
+                return chars.reduce(function (s, c) { return reduceFunction(s + c) ? s + c : s; }, "");
+            }
+            StringMethods.trimStart = trimStart;
+            function trimEnd(str, c) {
+                if (!str) {
+                    return str;
+                }
+                var reversedChars = str.split("");
+                reversedChars.reverse();
+                reversedChars = trimStart(reversedChars.join(""), c).split("");
+                reversedChars.reverse();
+                return reversedChars.join("");
+            }
+            StringMethods.trimEnd = trimEnd;
+        })(Utils.StringMethods || (Utils.StringMethods = {}));
+        var StringMethods = Utils.StringMethods;
+    })(SVGTypewriter.Utils || (SVGTypewriter.Utils = {}));
+    var Utils = SVGTypewriter.Utils;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="reference.ts" />
@@ -301,7 +299,7 @@ var SVGTypewriter;
                 }
                 var tokens = this._tokenizer.tokenize(line);
                 state = tokens.reduce(function (state, token) { return _this.wrapNextToken(token, state, measurer); }, state);
-                var wrappedText = SVGTypewriter.Utils.Methods.trimEnd(state.currentLine);
+                var wrappedText = SVGTypewriter.Utils.StringMethods.trimEnd(state.currentLine);
                 state.wrapping.noLines += +(wrappedText !== "");
                 // HACKHACK it needs to be refactored.
                 if (state.wrapping.noLines === state.availableLines && this._textTrimming !== "none" && hasNextLine) {
@@ -345,7 +343,7 @@ var SVGTypewriter;
                 }
                 return {
                     wrappedToken: truncatedLine + "...",
-                    remainingToken: SVGTypewriter.Utils.Methods.trimEnd(line.substring(truncatedLine.length), "-").trim()
+                    remainingToken: SVGTypewriter.Utils.StringMethods.trimEnd(line.substring(truncatedLine.length), "-").trim()
                 };
             };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
@@ -381,7 +379,7 @@ var SVGTypewriter;
                                 return state;
                             }
                             else {
-                                state.wrapping.wrappedText += SVGTypewriter.Utils.Methods.trimEnd(state.currentLine) + "\n";
+                                state.wrapping.wrappedText += SVGTypewriter.Utils.StringMethods.trimEnd(state.currentLine) + "\n";
                                 state.currentLine = "";
                             }
                         }

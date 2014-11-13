@@ -126,32 +126,6 @@ describe("Utils.Methods Test Suite", function () {
         assert.isTrue(utils.objEq({ a: "hello" }, { a: "hello" }));
         assert.isFalse(utils.objEq({ constructor: {}.constructor }, {}), "using \"constructor\" isn't hidden");
     });
-    it("trimStart works as expected", function () {
-        assert.equal(utils.trimStart(""), "", "works on empty string");
-        assert.equal(utils.trimStart("  "), "", "works on whitespace string");
-        assert.equal(utils.trimStart("aa"), "aa", "works on non-whitespace string");
-        assert.equal(utils.trimStart("a a"), "a a", "works on whitespace in the middle");
-        assert.equal(utils.trimStart("a a   "), "a a   ", "works on whitespace at the end");
-        assert.equal(utils.trimStart("  a a   "), "a a   ", "works on whitespace at both ends");
-        assert.equal(utils.trimStart("aba", "b"), "aba", "works on special character in the middle");
-        assert.equal(utils.trimStart("a abbb", "b"), "a abbb", "works on special character at the end");
-        assert.equal(utils.trimStart("bbba ab   ", "b"), "a ab   ", "works on special character at both ends");
-        assert.equal(utils.trimStart(null), null, "works on null");
-        assert.equal(utils.trimStart(undefined), undefined, "works on undefined");
-    });
-    it("trimEnd works as expected", function () {
-        assert.equal(utils.trimEnd(""), "", "works on empty string");
-        assert.equal(utils.trimEnd("  "), "", "works on whitespace string");
-        assert.equal(utils.trimEnd("aa"), "aa", "works on non-whitespace string");
-        assert.equal(utils.trimEnd("a a"), "a a", "works on whitespace in the middle");
-        assert.equal(utils.trimEnd("a a   "), "a a", "works on whitespace at the end");
-        assert.equal(utils.trimEnd(" \t a a   "), " \t a a", "works on whitespace at both ends");
-        assert.equal(utils.trimEnd("aba", "b"), "aba", "works on special character in the middle");
-        assert.equal(utils.trimEnd("a abbb", "b"), "a a", "works on special character at the end");
-        assert.equal(utils.trimEnd("   bbba ab", "b"), "   bbba a", "works on special character at both ends");
-        assert.equal(utils.trimEnd(null), null, "works on null");
-        assert.equal(utils.trimEnd(undefined), undefined, "works on undefined");
-    });
 });
 
 ///<reference path="../testReference.ts" />
@@ -690,70 +664,41 @@ describe("Writer Test Suite", function () {
 
 ///<reference path="../testReference.ts" />
 var assert = chai.assert;
-describe("Converter Test Suite", function () {
-    describe("Ident Converter", function () {
-        it("single letter", function () {
-            var s;
-            var id = SVGTypewriter.Converters.ident();
-            s = "a";
-            assert.equal(s, id(s), "ident returns same single letter");
-        });
-        it("multiple letter", function () {
-            var s;
-            var id = SVGTypewriter.Converters.ident();
-            s = "aaaa";
-            assert.equal(s, id(s), "ident returns same multiple letter");
-        });
-        it("special character", function () {
-            var s;
-            var id = SVGTypewriter.Converters.ident();
-            s = "<?#$";
-            assert.equal(s, id(s), "ident returns same special characters");
-        });
-        it("multiple words", function () {
-            var s;
-            var id = SVGTypewriter.Converters.ident();
-            s = "foo bar boo\n fun zoo.\n";
-            assert.equal(s, id(s), "ident returns same multiple words");
-        });
+describe("String Methods Test Suite", function () {
+    var utils = SVGTypewriter.Utils.StringMethods;
+    it("combine whitespaces works as expected", function () {
+        assert.equal(utils.combineWhitespace("a"), "a", "combine whitespaces returns same single letter");
+        assert.equal(utils.combineWhitespace("a "), "a ", "combine whitespaces returns same single letter with space");
+        assert.equal(utils.combineWhitespace(" "), " ", "combine whitespaces returns same single space");
+        assert.equal(utils.combineWhitespace("    "), " ", "combine whitespaces returns same single letter with sapce");
+        assert.equal(utils.combineWhitespace("a    aa"), "a aa", "combine whitespaces returns words with single space between");
+        assert.equal(utils.combineWhitespace("aa   \t   aa"), "aa aa", "combine whitespaces returns words with single space between");
     });
-    describe("Combine White Spaces Converter", function () {
-        it("single letter", function () {
-            var s;
-            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
-            s = "a";
-            assert.equal(s, converter(s), "combine whitespaces returns same single letter");
-        });
-        it("single space", function () {
-            var s;
-            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
-            s = "a ";
-            assert.equal(s, converter(s), "combine whitespaces returns same single letter with sapce");
-        });
-        it("only space", function () {
-            var s;
-            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
-            s = " ";
-            assert.equal(s, converter(s), "combine whitespaces returns same single space");
-        });
-        it("multiple space", function () {
-            var s;
-            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
-            s = "    ";
-            assert.equal(" ", converter(s), "combine whitespaces returns single space");
-        });
-        it("multiple space between words", function () {
-            var s;
-            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
-            s = "aa    aa";
-            assert.equal("aa aa", converter(s), "combine whitespaces returns words with single space between");
-        });
-        it("multiple whitechars between words", function () {
-            var s;
-            var converter = SVGTypewriter.Converters.combineWhitespace(SVGTypewriter.Converters.ident());
-            s = "aa    \taa";
-            assert.equal("aa aa", converter(s), "combine whitespaces returns words with single space between");
-        });
+    it("trimStart works as expected", function () {
+        assert.equal(utils.trimStart(""), "", "works on empty string");
+        assert.equal(utils.trimStart("  "), "", "works on whitespace string");
+        assert.equal(utils.trimStart("aa"), "aa", "works on non-whitespace string");
+        assert.equal(utils.trimStart("a a"), "a a", "works on whitespace in the middle");
+        assert.equal(utils.trimStart("a a   "), "a a   ", "works on whitespace at the end");
+        assert.equal(utils.trimStart("  a a   "), "a a   ", "works on whitespace at both ends");
+        assert.equal(utils.trimStart("aba", "b"), "aba", "works on special character in the middle");
+        assert.equal(utils.trimStart("a abbb", "b"), "a abbb", "works on special character at the end");
+        assert.equal(utils.trimStart("bbba ab   ", "b"), "a ab   ", "works on special character at both ends");
+        assert.equal(utils.trimStart(null), null, "works on null");
+        assert.equal(utils.trimStart(undefined), undefined, "works on undefined");
+    });
+    it("trimEnd works as expected", function () {
+        assert.equal(utils.trimEnd(""), "", "works on empty string");
+        assert.equal(utils.trimEnd("  "), "", "works on whitespace string");
+        assert.equal(utils.trimEnd("aa"), "aa", "works on non-whitespace string");
+        assert.equal(utils.trimEnd("a a"), "a a", "works on whitespace in the middle");
+        assert.equal(utils.trimEnd("a a   "), "a a", "works on whitespace at the end");
+        assert.equal(utils.trimEnd(" \t a a   "), " \t a a", "works on whitespace at both ends");
+        assert.equal(utils.trimEnd("aba", "b"), "aba", "works on special character in the middle");
+        assert.equal(utils.trimEnd("a abbb", "b"), "a a", "works on special character at the end");
+        assert.equal(utils.trimEnd("   bbba ab", "b"), "   bbba a", "works on special character at both ends");
+        assert.equal(utils.trimEnd(null), null, "works on null");
+        assert.equal(utils.trimEnd(undefined), undefined, "works on undefined");
     });
 });
 
