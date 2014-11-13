@@ -55,7 +55,7 @@ module SVGTypewriter.Writers {
       textEl.text(line);
       var xOffset = width * Writer.XOffsetFactor[xAlign];
       var anchor: string = Writer.AnchorConverter[xAlign];
-      textEl.attr("text-anchor", anchor).classed("text-line", true);
+      textEl.attr("text-anchor", anchor).classed("text-line", true).attr("y", "-0.25em");
       Utils.DOM.transform(textEl, xOffset, yOffset);
     }
 
@@ -91,6 +91,8 @@ module SVGTypewriter.Writers {
                      );
       var xForm = d3.transform("");
       xForm.rotate = options.textRotation;
+
+      var lineHeight = this._measurer.measure().height;
 
       switch (options.textRotation) {
         case 90:

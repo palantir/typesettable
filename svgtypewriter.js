@@ -465,7 +465,7 @@ var SVGTypewriter;
                 textEl.text(line);
                 var xOffset = width * Writer.XOffsetFactor[xAlign];
                 var anchor = Writer.AnchorConverter[xAlign];
-                textEl.attr("text-anchor", anchor).classed("text-line", true);
+                textEl.attr("text-anchor", anchor).classed("text-line", true).attr("y", "-0.25em");
                 SVGTypewriter.Utils.DOM.transform(textEl, xOffset, yOffset);
             };
             Writer.prototype.writeText = function (text, writingArea, width, height, xAlign, yAlign) {
@@ -489,6 +489,7 @@ var SVGTypewriter;
                 this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, options.xAlign, options.yAlign);
                 var xForm = d3.transform("");
                 xForm.rotate = options.textRotation;
+                var lineHeight = this._measurer.measure().height;
                 switch (options.textRotation) {
                     case 90:
                         xForm.translate = [width, 0];
