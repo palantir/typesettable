@@ -207,7 +207,7 @@ module SVGTypewriter.Wrappers {
               state.currentLine = "";
               return state;
             } else {
-              state.wrapping.wrappedText += state.currentLine + "\n";
+              state.wrapping.wrappedText += Utils.Methods.trimEnd(state.currentLine) + "\n";
               state.currentLine = "";
             }
           }

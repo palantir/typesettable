@@ -9,6 +9,16 @@ describe("Writer Test Suite", () => {
   var svg: D3.Selection;
   var writeOptions: SVGTypewriter.Writers.WriteOptions;
 
+  var checkWriting = (text: string, width: number, height: number, isHorizontal = true) => {
+    writer.write(text, width, height, writeOptions);
+    var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
+    var dimensions = measurer.measure(
+                      wrapper.wrap(text, measurer, isHorizontal ? width : height, isHorizontal ? height : width).wrappedText);
+    assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
+    assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+    svg.remove();
+  };
+
   beforeEach(() => {
     svg = generateSVG(200, 200);
     measurer = new SVGTypewriter.Measurers.Measurer(svg);
@@ -27,61 +37,35 @@ describe("Writer Test Suite", () => {
     });
 
     it("one word", () => {
-      var text = "test";
-      writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(text);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("test", 200, 200);
     });
 
     it("multiple lines", () => {
-      var text = "test\ntest";
-      writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(text);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("test\ntest", 200, 200);
     });
 
     it("wrapping", () => {
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 50, 150).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("whitespaces", () => {
+      checkWriting("a    a", 50, 150);
     });
 
     it("maxLines", () => {
       wrapper.maxLines(3);
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 50, 150).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
     });
 
     it("maxLines + no ellipsis", () => {
       wrapper.maxLines(3).textTrimming("none");
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 50, 150).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
     });
 
     it("allignment", () => {
       wrapper.maxLines(3).textTrimming("none");
       writeOptions.yAlign = "center";
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 50, 150).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
     });
   });
 
@@ -96,61 +80,35 @@ describe("Writer Test Suite", () => {
     });
 
     it("one word", () => {
-      var text = "test";
-      writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(text);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("test", 200, 200, false);
     });
 
     it("multiple lines", () => {
-      var text = "test\ntest";
-      writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(text);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("test\ntest", 200, 200, false);
     });
 
     it("wrapping", () => {
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 150, 50).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150, false);
+    });
+
+    it("whitespaces", () => {
+      checkWriting("a    a", 50, 150, false);
     });
 
     it("maxLines", () => {
       wrapper.maxLines(3);
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 150, 50).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150, false);
     });
 
     it("maxLines + no ellipsis", () => {
       wrapper.maxLines(3).textTrimming("none");
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 150, 50).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150, false);
     });
 
     it("allignment", () => {
       wrapper.maxLines(3).textTrimming("none");
       writeOptions.yAlign = "center";
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 150, 50).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150, false);
     });
   });
 
@@ -165,65 +123,35 @@ describe("Writer Test Suite", () => {
     });
 
     it("one word", () => {
-      var text = "test";
-      writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(text);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("test", 200, 200, false);
     });
 
     it("multiple lines", () => {
-      var text = "test\ntest";
-      writer.write(text, 200, 200, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(text);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("test\ntest", 200, 200, false);
     });
 
     it("wrapping", () => {
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 150, 50).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150, false);
+    });
+
+    it("whitespaces", () => {
+      checkWriting("a    a", 50, 150, false);
     });
 
     it("maxLines", () => {
       wrapper.maxLines(3);
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 150, 50).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150, false);
     });
 
     it("maxLines + no ellipsis", () => {
       wrapper.maxLines(3).textTrimming("none");
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 150, 50).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150, false);
     });
 
     it("allignment", () => {
       wrapper.maxLines(3).textTrimming("none");
       writeOptions.yAlign = "center";
-      var text = "reallylongsentencewithmanycharacters";
-      writer.write(text, 50, 150, writeOptions);
-      var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
-      var dimensions = measurer.measure(wrapper.wrap(text, measurer, 150, 50).wrappedText);
-      assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-      assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150, false);
     });
-  });
-
-  afterEach(() => {
-    svg.remove();
   });
 });

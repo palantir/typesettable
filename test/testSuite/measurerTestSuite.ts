@@ -30,17 +30,17 @@ describe("Measurer Test Suite", () => {
       assert.deepEqual(result, {width: 0, height: 0}, "empty string has 0 width and height");
     });
 
-    it("works on whitespace", () => {
-      var result = measurer.measure(" ");
-      assert.operator(result.width, ">", 0, "whitespace has width greater than 0");
-      assert.operator(result.height, ">", 0, "whitespace has height greater than 0");
+    it("works on whitespaces", () => {
+      var result = measurer.measure(" \t  ");
+      assert.equal(result.width, 0, "whitespace has width 0");
+      assert.equal(result.height, 0, "whitespace has height 0");
     });
 
-    it("works on multiple whitespaces", () => {
-      var baseResult = measurer.measure(" ");
-      var result = measurer.measure("   ");
-      assert.equal(result.width, baseResult.width, "width has no changed");
-      assert.equal(result.height, baseResult.height, "height has not changed");
+    it("works on whitespaces in middle", () => {
+      var baseResult = measurer.measure("a a");
+      var result = measurer.measure("a   a");
+      assert.equal(result.width, baseResult.width, "multiple whitespaces occupy same space");
+      assert.equal(result.height, baseResult.height, "height is the same");
     });
 
     it("works on multiple lines", () => {
@@ -62,7 +62,7 @@ describe("Measurer Test Suite", () => {
     });
 
     it("line", () => {
-      var text = "hello world";
+      var text = "helloworld";
       var dimesnsions = measurer.measure(text);
       var characterDimensions: SVGTypewriter.Measurers.Dimensions[] = text.split("").map(c => measurer.measure(c));
       var dimensionsByCharacter = {
@@ -100,17 +100,10 @@ describe("Measurer Test Suite", () => {
       assert.deepEqual(result, {width: 0, height: 0}, "empty string has 0 width and height");
     });
 
-    it("works on whitespace", () => {
-      var result = measurer.measure(" ");
-      assert.operator(result.width, ">", 0, "whitespace has width greater than 0");
-      assert.operator(result.height, ">", 0, "whitespace has height greater than 0");
-    });
-
-    it("works on multiple whitespaces", () => {
-      var baseResult = measurer.measure(" ");
-      var result = measurer.measure("   ");
-      assert.equal(result.width, baseResult.width, "width has no changed");
-      assert.equal(result.height, baseResult.height, "height has not changed");
+    it("works on whitespaces", () => {
+      var result = measurer.measure(" \t  ");
+      assert.equal(result.width, 0, "whitespace has width 0");
+      assert.equal(result.height, 0, "whitespace has height 0");
     });
 
     it("works on multiple lines", () => {

@@ -161,7 +161,18 @@ describe("Wrapper Test Suite", () => {
       assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
     });
 
-    it("multi time wrapping", () => {
+    it("whitespaces at the end", () => {
+      var line = "hello wor";
+      var availableWidth = measurer.measure("hello").width;
+      var result = wrapper.wrap(line, measurer, availableWidth);
+      assert.deepEqual(result.originalText, line, "original text has been set");
+      assert.deepEqual(result.wrappedText, "hello\nwor", "only first word fits");
+      assert.deepEqual(result.truncatedText, "", "whole line fits");
+      assert.equal(result.noLines, 2, "wrapping was needed");
+      assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+    });
+
+     it("multi time wrapping", () => {
       var availableWidth = measurer.measure("hell").width;
       var result = wrapper.wrap(line, measurer, availableWidth);
       assert.deepEqual(result.originalText, line, "original text has been set");
@@ -184,13 +195,12 @@ describe("Wrapper Test Suite", () => {
 
     it("wrapping many whitespaces", () => {
       var lineWithWhitespaces = "hello              \t !!!";
-      var availableWidth = measurer.measure("hello").width + 0.1;
+      var availableWidth = measurer.measure("hello !!!").width;
       var result = wrapper.wrap(lineWithWhitespaces, measurer, availableWidth);
       assert.deepEqual(result.originalText, lineWithWhitespaces, "original text has been set");
-      assert.lengthOf(result.wrappedText.split("\n"), 2, "one wrapping occured");
       assert.deepEqual(result.truncatedText, "", "whole text has fit in");
       assert.equal(result.noBrokeWords, 0, "no breaks");
-      assert.equal(result.noLines, 2, "wrapped text has two lines");
+      assert.equal(result.noLines, 1, "wrapped text has two lines");
       assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
     });
   });

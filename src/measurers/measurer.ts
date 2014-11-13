@@ -24,10 +24,10 @@ module SVGTypewriter.Measurers {
     }
 
     public measure(text: string = AbstractMeasurer.HEIGHT_TEXT) {
-      if (text === "") {
+      if (text.trim() === "") {
         return {width: 0, height: 0};
       }
-      var linesDimensions = text.split("\n").map(line => this._measureLine(line));
+      var linesDimensions = text.trim().split("\n").map(line => this._measureLine(line));
       return {
           width: d3.max(linesDimensions, dim => dim.width),
           height: d3.sum(linesDimensions, dim => dim.height)

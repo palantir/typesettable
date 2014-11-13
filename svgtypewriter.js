@@ -381,7 +381,7 @@ var SVGTypewriter;
                                 return state;
                             }
                             else {
-                                state.wrapping.wrappedText += state.currentLine + "\n";
+                                state.wrapping.wrappedText += SVGTypewriter.Utils.Methods.trimEnd(state.currentLine) + "\n";
                                 state.currentLine = "";
                             }
                         }
@@ -645,10 +645,10 @@ var SVGTypewriter;
             Measurer.prototype.measure = function (text) {
                 var _this = this;
                 if (text === void 0) { text = Measurers.AbstractMeasurer.HEIGHT_TEXT; }
-                if (text === "") {
+                if (text.trim() === "") {
                     return { width: 0, height: 0 };
                 }
-                var linesDimensions = text.split("\n").map(function (line) { return _this._measureLine(line); });
+                var linesDimensions = text.trim().split("\n").map(function (line) { return _this._measureLine(line); });
                 return {
                     width: d3.max(linesDimensions, function (dim) { return dim.width; }),
                     height: d3.sum(linesDimensions, function (dim) { return dim.height; })
