@@ -301,7 +301,6 @@ var SVGTypewriter;
                 state = tokens.reduce(function (state, token) { return _this.wrapNextToken(token, state, measurer); }, state);
                 var wrappedText = SVGTypewriter.Utils.StringMethods.trimEnd(state.currentLine);
                 state.wrapping.noLines += +(wrappedText !== "");
-                // HACKHACK it needs to be refactored.
                 if (state.wrapping.noLines === state.availableLines && this._textTrimming !== "none" && hasNextLine) {
                     var ellipsisResult = this.addEllipsis(wrappedText, state.availableWidth, measurer);
                     state.wrapping.wrappedText += ellipsisResult.wrappedToken;
@@ -348,43 +347,45 @@ var SVGTypewriter;
             };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
                 if (!state.canFitText || state.availableLines === state.wrapping.noLines || !this.canFitToken(token, state.availableWidth, measurer)) {
-                    if (state.canFitText && state.availableLines !== state.wrapping.noLines && this._allowBreakingWords && this._textTrimming !== "none") {
-                        var res = this.addEllipsis(state.currentLine + token, state.availableWidth, measurer);
-                        state.wrapping.wrappedText += res.wrappedToken;
-                        state.wrapping.truncatedText += res.remainingToken;
-                        state.wrapping.noBrokeWords += +(res.remainingToken.length < token.length);
-                        state.wrapping.noLines += +(res.wrappedToken.length > 0);
-                        state.currentLine = "";
-                    }
-                    else {
-                        state.wrapping.truncatedText += token;
-                    }
-                    state.canFitText = false;
+                    return this.finishWrapping(token, state, measurer);
                 }
-                else {
-                    var remainingToken = token;
-                    var noLines = 0;
-                    while (remainingToken) {
-                        var result = this.breakTokenToFitInWidth(remainingToken, state.currentLine, state.availableWidth, measurer);
-                        state.currentLine = result.line;
-                        remainingToken = result.remainingToken;
-                        if (remainingToken != null) {
-                            state.wrapping.noBrokeWords += +result.breakWord;
-                            ++state.wrapping.noLines;
-                            if (state.availableLines === state.wrapping.noLines) {
-                                var ellipsisResult = this.addEllipsis(state.currentLine, state.availableWidth, measurer);
-                                state.wrapping.wrappedText += ellipsisResult.wrappedToken;
-                                state.wrapping.truncatedText += ellipsisResult.remainingToken + remainingToken;
-                                state.currentLine = "";
-                                return state;
-                            }
-                            else {
-                                state.wrapping.wrappedText += SVGTypewriter.Utils.StringMethods.trimEnd(state.currentLine) + "\n";
-                                state.currentLine = "";
-                            }
+                var remainingToken = token;
+                while (remainingToken) {
+                    var result = this.breakTokenToFitInWidth(remainingToken, state.currentLine, state.availableWidth, measurer);
+                    state.currentLine = result.line;
+                    remainingToken = result.remainingToken;
+                    if (remainingToken != null) {
+                        state.wrapping.noBrokeWords += +result.breakWord;
+                        ++state.wrapping.noLines;
+                        if (state.availableLines === state.wrapping.noLines) {
+                            var ellipsisResult = this.addEllipsis(state.currentLine, state.availableWidth, measurer);
+                            state.wrapping.wrappedText += ellipsisResult.wrappedToken;
+                            state.wrapping.truncatedText += ellipsisResult.remainingToken + remainingToken;
+                            state.currentLine = "\n";
+                            return state;
+                        }
+                        else {
+                            state.wrapping.wrappedText += SVGTypewriter.Utils.StringMethods.trimEnd(state.currentLine);
+                            state.currentLine = "\n";
                         }
                     }
                 }
+                return state;
+            };
+            Wrapper.prototype.finishWrapping = function (token, state, measurer) {
+                // Token is really long, but we have a space to put part of the word.
+                if (state.canFitText && state.availableLines !== state.wrapping.noLines && this._allowBreakingWords && this._textTrimming !== "none") {
+                    var res = this.addEllipsis(state.currentLine + token, state.availableWidth, measurer);
+                    state.wrapping.wrappedText += res.wrappedToken;
+                    state.wrapping.truncatedText += res.remainingToken;
+                    state.wrapping.noBrokeWords += +(res.remainingToken.length < token.length);
+                    state.wrapping.noLines += +(res.wrappedToken.length > 0);
+                    state.currentLine = "";
+                }
+                else {
+                    state.wrapping.truncatedText += token;
+                }
+                state.canFitText = false;
                 return state;
             };
             /**
