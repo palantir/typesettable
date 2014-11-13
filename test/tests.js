@@ -545,8 +545,8 @@ describe("Writer Test Suite", function () {
         writer.write(text, width, height, writeOptions);
         var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
         var dimensions = measurer.measure(wrapper.wrap(text, measurer, isHorizontal ? width : height, isHorizontal ? height : width).wrappedText);
-        assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-        assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+        assert.closeTo(bbox.width, dimensions.width, 0.05, "width should be the same");
+        assert.closeTo(bbox.height, dimensions.height, 0.05, "height should be the same");
         svg.remove();
     };
     beforeEach(function () {
@@ -561,7 +561,42 @@ describe("Writer Test Suite", function () {
                 selection: svg,
                 xAlign: "left",
                 yAlign: "top",
-                textOrientation: "horizontal"
+                textRotation: 0
+            };
+        });
+        it("one word", function () {
+            checkWriting("test", 200, 200);
+        });
+        it("multiple lines", function () {
+            checkWriting("test\ntest", 200, 200);
+        });
+        it("wrapping", function () {
+            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+        });
+        it("whitespaces", function () {
+            checkWriting("a    a", 50, 150);
+        });
+        it("maxLines", function () {
+            wrapper.maxLines(3);
+            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+        });
+        it("maxLines + no ellipsis", function () {
+            wrapper.maxLines(3).textTrimming("none");
+            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+        });
+        it("allignment", function () {
+            wrapper.maxLines(3).textTrimming("none");
+            writeOptions.yAlign = "center";
+            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+        });
+    });
+    describe("Horizontal flipside", function () {
+        beforeEach(function () {
+            writeOptions = {
+                selection: svg,
+                xAlign: "left",
+                yAlign: "top",
+                textRotation: 180
             };
         });
         it("one word", function () {
@@ -594,9 +629,9 @@ describe("Writer Test Suite", function () {
         beforeEach(function () {
             writeOptions = {
                 selection: svg,
-                xAlign: "bottom",
-                yAlign: "left",
-                textOrientation: "left"
+                xAlign: "left",
+                yAlign: "top",
+                textRotation: -90
             };
         });
         it("one word", function () {
@@ -629,9 +664,9 @@ describe("Writer Test Suite", function () {
         beforeEach(function () {
             writeOptions = {
                 selection: svg,
-                xAlign: "bottom",
-                yAlign: "left",
-                textOrientation: "right"
+                xAlign: "left",
+                yAlign: "top",
+                textRotation: 90
             };
         });
         it("one word", function () {

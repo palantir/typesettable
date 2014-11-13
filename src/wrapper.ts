@@ -163,7 +163,7 @@ module SVGTypewriter.Wrappers {
       }
 
       while (lineWidth + ellipsesWidth > width) {
-        truncatedLine = truncatedLine.substr(0, truncatedLine.length - 1).trim();
+        truncatedLine = Utils.StringMethods.trimEnd(truncatedLine.substr(0, truncatedLine.length - 1));
         lineWidth = measurer.measure(truncatedLine).width;
       }
 

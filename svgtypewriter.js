@@ -337,7 +337,7 @@ var SVGTypewriter;
                     };
                 }
                 while (lineWidth + ellipsesWidth > width) {
-                    truncatedLine = truncatedLine.substr(0, truncatedLine.length - 1).trim();
+                    truncatedLine = SVGTypewriter.Utils.StringMethods.trimEnd(truncatedLine.substr(0, truncatedLine.length - 1));
                     lineWidth = measurer.measure(truncatedLine).width;
                 }
                 return {
@@ -448,7 +448,9 @@ var SVGTypewriter;
         var Writer = (function () {
             function Writer(measurer, wrapper) {
                 this.measurer(measurer);
-                this.wrapper(wrapper);
+                if (wrapper) {
+                    this.wrapper(wrapper);
+                }
             }
             Writer.prototype.measurer = function (newMeasurer) {
                 this._measurer = newMeasurer;
@@ -475,49 +477,36 @@ var SVGTypewriter;
                     _this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
                 });
             };
-            Writer.prototype.write = function (text, width, height, options, wrapBeforeRender) {
-                if (wrapBeforeRender === void 0) { wrapBeforeRender = true; }
-                var orientHorizontally = options.textOrientation === "horizontal";
+            Writer.prototype.write = function (text, width, height, options) {
+                if (Writer.SupportedRotation.indexOf(options.textRotation) === -1) {
+                    throw new Error("unsupported rotation - " + options.textRotation);
+                }
+                var orientHorizontally = Math.abs(Math.abs(options.textRotation) - 90) > 45;
                 var primaryDimension = orientHorizontally ? width : height;
                 var secondaryDimension = orientHorizontally ? height : width;
-                var alignTranslator;
-                var rotate;
-                switch (options.textOrientation) {
-                    case "horizontal":
-                        alignTranslator = Writer.HorizontalTranslator;
-                        rotate = 0;
+                var textArea = options.selection.append("g").classed("textArea", true);
+                var wrappedText = this._wrapper ? this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText : text;
+                this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, options.xAlign, options.yAlign);
+                var xForm = d3.transform("");
+                xForm.rotate = options.textRotation;
+                switch (options.textRotation) {
+                    case 90:
+                        xForm.translate = [width, 0];
                         break;
-                    case "left":
-                        alignTranslator = Writer.LeftTranslator;
-                        rotate = -90;
+                    case -90:
+                        xForm.translate = [0, height];
                         break;
-                    case "right":
-                        alignTranslator = Writer.RightTranslator;
-                        rotate = 90;
+                    case 180:
+                        xForm.translate = [width, height];
                         break;
                 }
-                var textArea = options.selection.append("g").classed("textArea", true);
-                var wrappedText = wrapBeforeRender ? this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText : text;
-                this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, alignTranslator[options.xAlign], alignTranslator[options.yAlign]);
-                var xForm = d3.transform("");
-                xForm.rotate = rotate;
-                xForm.translate = [Writer.OrientationXOffsetFactor[options.textOrientation] * width, Writer.OrientationYOffsetFactor[options.textOrientation] * height];
                 textArea.attr("transform", xForm.toString());
             };
+            Writer.SupportedRotation = [-90, 0, 180, 90];
             Writer.AnchorConverter = {
                 left: "start",
                 center: "middle",
                 right: "end"
-            };
-            Writer.OrientationXOffsetFactor = {
-                right: 1,
-                left: 0,
-                horizontal: 0
-            };
-            Writer.OrientationYOffsetFactor = {
-                right: 0,
-                left: 1,
-                horizontal: 0
             };
             Writer.XOffsetFactor = {
                 left: 0,
@@ -528,27 +517,6 @@ var SVGTypewriter;
                 top: 0,
                 center: 0.5,
                 bottom: 1
-            };
-            Writer.RightTranslator = {
-                left: "bottom",
-                right: "top",
-                center: "center",
-                top: "left",
-                bottom: "right"
-            };
-            Writer.LeftTranslator = {
-                left: "top",
-                right: "bottom",
-                center: "center",
-                top: "right",
-                bottom: "left"
-            };
-            Writer.HorizontalTranslator = {
-                left: "left",
-                right: "right",
-                center: "center",
-                top: "top",
-                bottom: "bottom"
             };
             return Writer;
         })();

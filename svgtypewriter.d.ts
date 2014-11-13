@@ -95,13 +95,13 @@ declare module SVGTypewriter.Writers {
         selection: D3.Selection;
         xAlign: string;
         yAlign: string;
-        textOrientation: string;
+        textRotation: number;
     }
     class Writer {
-        constructor(measurer: Measurers.AbstractMeasurer, wrapper: Wrappers.Wrapper);
+        constructor(measurer: Measurers.AbstractMeasurer, wrapper?: Wrappers.Wrapper);
         measurer(newMeasurer: Measurers.AbstractMeasurer): Writer;
         wrapper(newWrapper: Wrappers.Wrapper): Writer;
-        write(text: string, width: number, height: number, options: WriteOptions, wrapBeforeRender?: boolean): void;
+        write(text: string, width: number, height: number, options: WriteOptions): void;
     }
 }
 

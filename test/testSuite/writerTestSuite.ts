@@ -14,8 +14,9 @@ describe("Writer Test Suite", () => {
     var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
     var dimensions = measurer.measure(
                       wrapper.wrap(text, measurer, isHorizontal ? width : height, isHorizontal ? height : width).wrappedText);
-    assert.closeTo(dimensions.width, bbox.width, 0.05, "width should be the same");
-    assert.closeTo(dimensions.height, bbox.height, 0.05, "height should be the same");
+
+    assert.closeTo(bbox.width, dimensions.width, 0.05, "width should be the same");
+    assert.closeTo(bbox.height, dimensions.height, 0.05, "height should be the same");
     svg.remove();
   };
 
@@ -32,7 +33,50 @@ describe("Writer Test Suite", () => {
         selection: svg,
         xAlign: "left",
         yAlign: "top",
-        textOrientation: "horizontal"
+        textRotation: 0
+      };
+    });
+
+    it("one word", () => {
+      checkWriting("test", 200, 200);
+    });
+
+    it("multiple lines", () => {
+      checkWriting("test\ntest", 200, 200);
+    });
+
+    it("wrapping", () => {
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("whitespaces", () => {
+      checkWriting("a    a", 50, 150);
+    });
+
+    it("maxLines", () => {
+      wrapper.maxLines(3);
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("maxLines + no ellipsis", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("allignment", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.yAlign = "center";
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+  });
+
+  describe("Horizontal flipside", () => {
+    beforeEach(() => {
+      writeOptions = {
+        selection: svg,
+        xAlign: "left",
+        yAlign: "top",
+        textRotation: 180
       };
     });
 
@@ -73,9 +117,9 @@ describe("Writer Test Suite", () => {
     beforeEach(() => {
       writeOptions = {
         selection: svg,
-        xAlign: "bottom",
-        yAlign: "left",
-        textOrientation: "left"
+        xAlign: "left",
+        yAlign: "top",
+        textRotation: -90
       };
     });
 
@@ -116,9 +160,9 @@ describe("Writer Test Suite", () => {
     beforeEach(() => {
       writeOptions = {
         selection: svg,
-        xAlign: "bottom",
-        yAlign: "left",
-        textOrientation: "right"
+        xAlign: "left",
+        yAlign: "top",
+        textRotation: 90
       };
     });
 
