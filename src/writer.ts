@@ -11,6 +11,7 @@ module SVGTypewriter.Writers {
   export class Writer {
     private _measurer: Measurers.AbstractMeasurer;
     private _wrapper: Wrappers.Wrapper;
+    private _addTitleElement: boolean;
 
     private static SupportedRotation = [-90, 0, 180, 90];
 
@@ -38,6 +39,8 @@ module SVGTypewriter.Writers {
       if (wrapper) {
         this.wrapper(wrapper);
       }
+
+      this.addTitleElement(false);
     }
 
     public measurer(newMeasurer: Measurers.AbstractMeasurer): Writer {
@@ -47,6 +50,11 @@ module SVGTypewriter.Writers {
 
     public wrapper(newWrapper: Wrappers.Wrapper): Writer {
       this._wrapper = newWrapper;
+      return this;
+    }
+
+    public addTitleElement(add: boolean): Writer {
+      this._addTitleElement = add;
       return this;
     }
 
@@ -77,7 +85,12 @@ module SVGTypewriter.Writers {
       var primaryDimension = orientHorizontally ? width : height;
       var secondaryDimension = orientHorizontally ? height : width;
 
-      var textArea = options.selection.append("g").classed("textArea", true);
+      var textContainer = options.selection.append("g").classed("text-container", true);
+      if (this._addTitleElement) {
+        textContainer.append("title").text(text);
+      }
+
+      var textArea = textContainer.append("g").classed("text-area", true);
       var wrappedText = this._wrapper ?
                           this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText :
                           text;

@@ -101,6 +101,7 @@ declare module SVGTypewriter.Writers {
         constructor(measurer: Measurers.AbstractMeasurer, wrapper?: Wrappers.Wrapper);
         measurer(newMeasurer: Measurers.AbstractMeasurer): Writer;
         wrapper(newWrapper: Wrappers.Wrapper): Writer;
+        addTitleElement(add: boolean): Writer;
         write(text: string, width: number, height: number, options: WriteOptions): void;
     }
 }

@@ -549,15 +549,17 @@ describe("Writer Test Suite", function () {
     var svg;
     var writeOptions;
     var isHorizontal;
-    var checkWriting = function (text, width, height) {
+    var checkWriting = function (text, width, height, checkTitle) {
+        if (checkTitle === void 0) { checkTitle = false; }
         svg.attr("width", width);
         svg.attr("height", height);
         writer.write(text, width, height, writeOptions);
-        var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
+        var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".text-area"));
         var dimensions = measurer.measure(wrapper.wrap(text, measurer, isHorizontal ? width : height, isHorizontal ? height : width).wrappedText);
         assert.closeTo(bbox.width, dimensions.width, 1, "width should be almost the same");
         assert.closeTo(bbox.height, dimensions.height, 1, "height should be almost the same");
-        assertBBoxInclusion(svg, svg.select(".textArea"));
+        assertBBoxInclusion(svg, svg.select(".text-area"));
+        assert.equal(svg.select(".text-container").select("title").empty(), !checkTitle, "title was creatin accordingly");
         svg.remove();
     };
     beforeEach(function () {
@@ -646,6 +648,11 @@ describe("Writer Test Suite", function () {
             writeOptions.yAlign = "center";
             writeOptions.xAlign = "center";
             checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+        });
+        it("addTitleElement", function () {
+            wrapper.maxLines(3);
+            writer.addTitleElement(true);
+            checkWriting("reallylongsentencewithmanycharacters", 50, 150, true);
         });
     });
     describe("Vertical left", function () {

@@ -451,6 +451,7 @@ var SVGTypewriter;
                 if (wrapper) {
                     this.wrapper(wrapper);
                 }
+                this.addTitleElement(false);
             }
             Writer.prototype.measurer = function (newMeasurer) {
                 this._measurer = newMeasurer;
@@ -458,6 +459,10 @@ var SVGTypewriter;
             };
             Writer.prototype.wrapper = function (newWrapper) {
                 this._wrapper = newWrapper;
+                return this;
+            };
+            Writer.prototype.addTitleElement = function (add) {
+                this._addTitleElement = add;
                 return this;
             };
             Writer.prototype.writeLine = function (line, g, width, xAlign, yOffset) {
@@ -484,7 +489,11 @@ var SVGTypewriter;
                 var orientHorizontally = Math.abs(Math.abs(options.textRotation) - 90) > 45;
                 var primaryDimension = orientHorizontally ? width : height;
                 var secondaryDimension = orientHorizontally ? height : width;
-                var textArea = options.selection.append("g").classed("textArea", true);
+                var textContainer = options.selection.append("g").classed("text-container", true);
+                if (this._addTitleElement) {
+                    textContainer.append("title").text(text);
+                }
+                var textArea = textContainer.append("g").classed("text-area", true);
                 var wrappedText = this._wrapper ? this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText : text;
                 this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, options.xAlign, options.yAlign);
                 var xForm = d3.transform("");
