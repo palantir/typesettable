@@ -90,6 +90,13 @@ declare module SVGTypewriter.Wrappers {
 }
 
 
+declare module SVGTypewriter.Wrappers {
+    class SingleLineWrapper extends Wrapper {
+        wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number, height?: number): WrappingResult;
+    }
+}
+
+
 declare module SVGTypewriter.Writers {
     interface WriteOptions {
         selection: D3.Selection;

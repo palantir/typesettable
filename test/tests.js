@@ -535,6 +535,31 @@ describe("Wrapper Test Suite", function () {
             assert.deepEqual(result.noLines, 1, "wrapped text has one lines");
         });
     });
+    describe("Single Line wrapper", function () {
+        beforeEach(function () {
+            wrapper = new SVGTypewriter.Wrappers.SingleLineWrapper().maxLines(2);
+        });
+        it("simple", function () {
+            var text = "hello  world!.";
+            var availableWidth = measurer.measure(text).width - 2;
+            var baseWrapper = new SVGTypewriter.Wrappers.Wrapper().maxLines(2);
+            var result = wrapper.wrap(text, measurer, availableWidth);
+            var baseResult = baseWrapper.wrap(text, measurer, availableWidth);
+            var baseDimensions = measurer.measure(baseResult.wrappedText);
+            var dimensions = measurer.measure(result.wrappedText);
+            assert.deepEqual(result.originalText, text, "original text has been set");
+            assert.notEqual(result.wrappedText, text, "wrapped text is not the whole line");
+            assert.notEqual(result.wrappedText, baseResult.wrappedText, "wrapped text looks better");
+            assert.operator(dimensions.width, "<", baseDimensions.width, "occupies less width");
+            assert.equal(dimensions.height, baseDimensions.height, "occupies same height");
+            assert.operator(dimensions.width, "<=", availableWidth, "wrapped text fits in");
+        });
+        it("only one line", function () {
+            var text = "hello  world!.\naa";
+            var availableWidth = measurer.measure(text).width - 2;
+            assert.throws(function () { return wrapper.wrap(text, measurer, availableWidth); }, "SingleLineWrapper is designed to work only on single line");
+        });
+    });
     afterEach(function () {
         svg.remove();
     });

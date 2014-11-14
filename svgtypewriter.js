@@ -230,7 +230,7 @@ var SVGTypewriter;
     var Utils = SVGTypewriter.Utils;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
-///<reference path="reference.ts" />
+///<reference path="../reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
     (function (Wrappers) {
@@ -437,6 +437,59 @@ var SVGTypewriter;
             return Wrapper;
         })();
         Wrappers.Wrapper = Wrapper;
+    })(SVGTypewriter.Wrappers || (SVGTypewriter.Wrappers = {}));
+    var Wrappers = SVGTypewriter.Wrappers;
+})(SVGTypewriter || (SVGTypewriter = {}));
+
+///<reference path="../reference.ts" />
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var SVGTypewriter;
+(function (SVGTypewriter) {
+    (function (Wrappers) {
+        var SingleLineWrapper = (function (_super) {
+            __extends(SingleLineWrapper, _super);
+            function SingleLineWrapper() {
+                _super.apply(this, arguments);
+            }
+            SingleLineWrapper.prototype.wrap = function (text, measurer, width, height) {
+                var _this = this;
+                if (height === void 0) { height = Infinity; }
+                var lines = text.split("\n");
+                if (lines.length > 1) {
+                    throw new Error("SingleLineWrapper is designed to work only on single line");
+                }
+                var wrapFN = function (w) { return _super.prototype.wrap.call(_this, text, measurer, w, height); };
+                var result = wrapFN(width);
+                if (result.noLines < 2) {
+                    return result;
+                }
+                var left = 0;
+                var right = width;
+                for (var i = 0; i < SingleLineWrapper.NO_WRAP_ITERATIONS && right > left; ++i) {
+                    var currentWidth = (right + left) / 2;
+                    var currentResult = wrapFN(currentWidth);
+                    if (this.areSameResults(result, currentResult)) {
+                        right = currentWidth;
+                        result = currentResult;
+                    }
+                    else {
+                        left = currentWidth;
+                    }
+                }
+                return result;
+            };
+            SingleLineWrapper.prototype.areSameResults = function (one, two) {
+                return one.noLines === two.noLines && one.truncatedText === two.truncatedText;
+            };
+            SingleLineWrapper.NO_WRAP_ITERATIONS = 5;
+            return SingleLineWrapper;
+        })(Wrappers.Wrapper);
+        Wrappers.SingleLineWrapper = SingleLineWrapper;
     })(SVGTypewriter.Wrappers || (SVGTypewriter.Wrappers = {}));
     var Wrappers = SVGTypewriter.Wrappers;
 })(SVGTypewriter || (SVGTypewriter = {}));
