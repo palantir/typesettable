@@ -1,8 +1,9 @@
 /// <reference path="utils/methods.ts" />
+/// <reference path="utils/dom.ts" />
 /// <reference path="utils/cache.ts" />
 /// <reference path="utils/tokenizer.ts" />
+/// <reference path="utils/stringMethods.ts" />
 
-/// <reference path="parsers.ts" />
 /// <reference path="wrapper.ts" />
 /// <reference path="writer.ts" />
 

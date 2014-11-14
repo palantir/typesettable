@@ -5,12 +5,14 @@ module SVGTypewriter.Writers {
       selection: D3.Selection;
       xAlign: string;
       yAlign: string;
-      textOrientation: string;
+      textRotation: number;
     }
 
   export class Writer {
     private _measurer: Measurers.AbstractMeasurer;
     private _wrapper: Wrappers.Wrapper;
+
+    private static SupportedRotation = [-90, 0, 180, 90];
 
     private static AnchorConverter: {[s: string]: string} = {
       left: "start",
@@ -18,66 +20,93 @@ module SVGTypewriter.Writers {
       right: "end"
     };
 
-    private static HEIGHT_TEXT = "bqpdl";
+    private static XOffsetFactor: {[s: string]: number} = {
+      left: 0,
+      center: 0.5,
+      right: 1
+    };
+
+    private static YOffsetFactor: {[s: string]: number} = {
+      top: 0,
+      center: 0.5,
+      bottom: 1
+    };
 
     constructor(measurer: Measurers.AbstractMeasurer,
-                wrapper: Wrappers.Wrapper) {
-      this._measurer = measurer;
-      this._wrapper = wrapper;
-    }
-
-    public measurer(): Measurers.AbstractMeasurer;
-    public measurer(newMeasurer: Measurers.AbstractMeasurer): Writer;
-    public measurer(newMeasurer?: any): any {
-      if(newMeasurer == null) {
-        return this._measurer;
-      } else {
-        this._measurer = newMeasurer;
-        return this;
+                wrapper?: Wrappers.Wrapper) {
+      this.measurer(measurer);
+      if (wrapper) {
+        this.wrapper(wrapper);
       }
     }
 
-    public wrapper(): Wrappers.Wrapper;
-    public wrapper(newWrapper: Wrappers.Wrapper): Writer;
-    public wrapper(newWrapper?: any): any {
-      if(newWrapper == null) {
-        return this._wrapper;
-      } else {
-        this._wrapper = newWrapper;
-        return this;
-      }
+    public measurer(newMeasurer: Measurers.AbstractMeasurer): Writer {
+      this._measurer = newMeasurer;
+      return this;
     }
 
-    private translate(s: D3.Selection, x?: number, y?: number) {
-      var xform = d3.transform(s.attr("transform"));
-      if (x == null) {
-        return xform.translate;
-      } else {
-        y = (y == null) ? 0 : y;
-        xform.translate[0] = x;
-        xform.translate[1] = y;
-        s.attr("transform", xform.toString());
-        return s;
-      }
+    public wrapper(newWrapper: Wrappers.Wrapper): Writer {
+      this._wrapper = newWrapper;
+      return this;
     }
 
-    private writeLine(line: string, g: D3.Selection, align = "left") {
+    private writeLine(line: string, g: D3.Selection, width: number, xAlign: string, yOffset: number) {
       var textEl = g.append("text");
       textEl.text(line);
-      var anchor: string = Writer.AnchorConverter[align];
-      textEl.attr("text-anchor", anchor);
+      var xOffset = width * Writer.XOffsetFactor[xAlign];
+      var anchor: string = Writer.AnchorConverter[xAlign];
+      textEl.attr("text-anchor", anchor).classed("text-line", true).attr("y", "-0.25em");
+      Utils.DOM.transform(textEl, xOffset, yOffset);
+    }
+
+    private writeText(text: string, writingArea: D3.Selection, width: number, height: number, xAlign: string, yAlign: string) {
+      var lines = text.split("\n");
+      var lineHeight = this._measurer.measure().height;
+      var yOffset = Writer.YOffsetFactor[yAlign] * (height - lines.length * lineHeight);
+      lines.forEach((line: string, i: number) => {
+        this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
+      });
     }
 
     public write(text: string, width: number, height: number, options: WriteOptions) {
-      var wrappedText = this._wrapper.wrap(text, this._measurer, width, height).wrappedText;
-      var innerG = options.selection.append("g").classed("writeText-inner-g", true);
-      var lines = wrappedText.split("\n");
-      var h = this._measurer.measure(Writer.HEIGHT_TEXT).height;
-      lines.forEach((line: string, i: number) => {
-        var selection = innerG.append("g");
-        this.translate(selection, 0, (i + 1) * h);
-        this.writeLine(line, selection);
-      });
+      if (Writer.SupportedRotation.indexOf(options.textRotation) === -1) {
+        throw new Error("unsupported rotation - " + options.textRotation);
+      }
+
+      var orientHorizontally = Math.abs(Math.abs(options.textRotation) - 90) > 45;
+      var primaryDimension = orientHorizontally ? width : height;
+      var secondaryDimension = orientHorizontally ? height : width;
+
+      var textArea = options.selection.append("g").classed("textArea", true);
+      var wrappedText = this._wrapper ?
+                          this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText :
+                          text;
+
+      this.writeText(wrappedText,
+                     textArea,
+                     primaryDimension,
+                     secondaryDimension,
+                     options.xAlign,
+                     options.yAlign
+                     );
+      var xForm = d3.transform("");
+      xForm.rotate = options.textRotation;
+
+      var lineHeight = this._measurer.measure().height;
+
+      switch (options.textRotation) {
+        case 90:
+          xForm.translate = [width, 0];
+          break;
+        case -90:
+          xForm.translate = [0, height];
+          break;
+        case 180:
+          xForm.translate = [width, height];
+          break;
+      }
+
+      textArea.attr("transform", xForm.toString());
     }
   }
 }

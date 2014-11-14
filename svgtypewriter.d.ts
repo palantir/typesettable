@@ -13,7 +13,11 @@ declare module SVGTypewriter.Utils.Methods {
      *          with ===.
      */
     function objEq(a: any, b: any): boolean;
-    function isNotEmptyString(str: string): boolean;
+}
+
+declare module SVGTypewriter.Utils.DOM {
+    function transform(s: D3.Selection, x?: number, y?: number): any;
+    function getBBox(element: D3.Selection): SVGRect;
 }
 
 
@@ -53,18 +57,14 @@ declare module SVGTypewriter.Utils {
 }
 
 
-declare module SVGTypewriter {
-    module Parsers {
-        interface Parser {
-            (text: string): string;
-        }
-        function ident(): (s: string) => string;
-        /**
-         * @return {Parser} A test parser that will treat all
-         * sequences of consecutive whitespace as a single " ".
-         */
-        function combineWhitespace(pr: Parser): (s: string) => string;
-    }
+declare module SVGTypewriter.Utils.StringMethods {
+    /**
+     * Treat all sequences of consecutive whitespace as a single " ".
+     */
+    function combineWhitespace(str: string): string;
+    function isNotEmptyString(str: string): boolean;
+    function trimStart(str: string, c?: string): string;
+    function trimEnd(str: string, c?: string): string;
 }
 
 
@@ -95,13 +95,11 @@ declare module SVGTypewriter.Writers {
         selection: D3.Selection;
         xAlign: string;
         yAlign: string;
-        textOrientation: string;
+        textRotation: number;
     }
     class Writer {
-        constructor(measurer: Measurers.AbstractMeasurer, wrapper: Wrappers.Wrapper);
-        measurer(): Measurers.AbstractMeasurer;
+        constructor(measurer: Measurers.AbstractMeasurer, wrapper?: Wrappers.Wrapper);
         measurer(newMeasurer: Measurers.AbstractMeasurer): Writer;
-        wrapper(): Wrappers.Wrapper;
         wrapper(newWrapper: Wrappers.Wrapper): Writer;
         write(text: string, width: number, height: number, options: WriteOptions): void;
     }
@@ -117,24 +115,18 @@ declare module SVGTypewriter.Measurers {
         height: number;
     }
     class AbstractMeasurer {
-        constructor(area: D3.Selection);
-        measure(text: string): {
-            width: number;
-            height: number;
-        };
+        static HEIGHT_TEXT: string;
+        constructor(area: D3.Selection, className?: string);
+        measure(text?: string): Dimensions;
     }
 }
 
 
 declare module SVGTypewriter.Measurers {
     class Measurer extends AbstractMeasurer {
-        constructor(area: D3.Selection);
         _addGuards(text: string): string;
-        _measureLine(line: string): {
-            width: number;
-            height: number;
-        };
-        measure(text: string): {
+        _measureLine(line: string): Dimensions;
+        measure(text?: string): {
             width: number;
             height: number;
         };
@@ -144,11 +136,7 @@ declare module SVGTypewriter.Measurers {
 
 declare module SVGTypewriter.Measurers {
     class CharacterMeasurer extends Measurer {
-        constructor(area: D3.Selection);
-        _measureCharacter(c: string): {
-            width: number;
-            height: number;
-        };
+        _measureCharacter(c: string): Dimensions;
         _measureLine(line: string): {
             width: number;
             height: number;
@@ -159,7 +147,8 @@ declare module SVGTypewriter.Measurers {
 
 declare module SVGTypewriter.Measurers {
     class CacheCharacterMeasurer extends CharacterMeasurer {
-        constructor(area: D3.Selection);
+        constructor(area: D3.Selection, className?: string);
+        _measureCharacterNotFromCache(c: string): Dimensions;
         _measureCharacter(c: string): Dimensions;
     }
 }

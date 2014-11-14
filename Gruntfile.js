@@ -169,7 +169,7 @@ module.exports = function(grunt) {
     blanket_mocha: {
       all: ['test/coverage.html'],
       options: {
-        threshold: 70
+        threshold: 95
       }
     },
     connect: {
@@ -216,6 +216,31 @@ module.exports = function(grunt) {
       main: {
         files: {'svgtypewriter.min.js': ['svgtypewriter.js']}
       }
+    },
+    'saucelabs-mocha': {
+      all: {
+        options: {
+          urls: ['http://127.0.0.1:9999/test/tests.html'],
+          testname: 'SVGTypewriter Sauce Unit Tests',
+          browsers: [{
+            browserName: "firefox",
+            version: "30" 
+          }, {
+            browserName: "chrome",
+            version: "35"
+          }, {
+            browserName: "internet explorer",
+            version: "9",
+            platform: "WIN7"
+          }, {
+            browserName: "safari",
+            platform: "OS X 10.10",
+            version: "8"
+          }],
+          build: process.env.TRAVIS_JOB_ID,
+          "tunnel-identifier": process.env.TRAVIS_JOB_NUMBER
+        }
+      }
     }
   };
 
@@ -250,13 +275,19 @@ module.exports = function(grunt) {
 
   grunt.registerTask("dev-compile", compile_task);
   grunt.registerTask("docs", "typedoc:build");
+  grunt.registerTask("test-sauce", ["connect", "saucelabs-mocha"]);
+  grunt.registerTask("test", ["dev-compile", "blanket_mocha", "parallelize:tslint", "jshint", "ts:verify_d_ts"]);
 
   grunt.registerTask("test-compile", [
                                       "ts:test",
                                       "concat:tests"
                                       ]);
 
-  grunt.registerTask("test", ["dev-compile", "blanket_mocha", "parallelize:tslint", "jshint", "ts:verify_d_ts"]);
+  var travisTests = ["test"];
+  if (process.env.SAUCE_USERNAME) {
+    travisTests.push("test-sauce");
+  }
+  grunt.registerTask("test-travis", travisTests);
 
   grunt.registerTask("dist-compile", [
                                   "release-compile",

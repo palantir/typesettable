@@ -8,39 +8,221 @@ describe("Writer Test Suite", () => {
   var writer: SVGTypewriter.Writers.Writer;
   var svg: D3.Selection;
   var writeOptions: SVGTypewriter.Writers.WriteOptions;
+  var isHorizontal: boolean;
+
+  var checkWriting = (text: string, width: number, height: number) => {
+    svg.attr("width", width);
+    svg.attr("height", height);
+    writer.write(text, width, height, writeOptions);
+    var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
+    var dimensions = measurer.measure(
+                      wrapper.wrap(text, measurer, isHorizontal ? width : height, isHorizontal ? height : width).wrappedText);
+
+    assert.closeTo(bbox.width, dimensions.width, 1, "width should be almost the same");
+    assert.closeTo(bbox.height, dimensions.height, 1, "height should be almost the same");
+
+    assertBBoxInclusion(svg, svg.select(".textArea"));
+    svg.remove();
+  };
 
   beforeEach(() => {
     svg = generateSVG(200, 200);
-    var textSelection = svg.append("text");
-    measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
+    measurer = new SVGTypewriter.Measurers.Measurer(svg);
     wrapper = new SVGTypewriter.Wrappers.Wrapper();
     writer = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+    writeOptions = {
+      selection: svg,
+      xAlign: "left",
+      yAlign: "top",
+      textRotation: 0
+    };
   });
 
   describe("Horizontal", () => {
     beforeEach(() => {
-      writeOptions = {
-        selection: svg,
-        xAlign: "left",
-        yAlign: "top",
-        textOrientation: "horizontal"
-      };
+      writeOptions.textRotation = 0;
+      isHorizontal = true;
     });
 
     it("one word", () => {
-      writer.write("test", 200, 200, writeOptions);
+      checkWriting("test", 200, 200);
     });
 
     it("multiple lines", () => {
-      writer.write("test\ntest", 200, 200, writeOptions);
+      checkWriting("test\ntest", 200, 200);
     });
 
     it("wrapping", () => {
-      writer.write("reallylongsentencewithmanycharacters", 50, 150, writeOptions);
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("whitespaces", () => {
+      checkWriting("a    a", 50, 150);
+    });
+
+    it("maxLines", () => {
+      wrapper.maxLines(3);
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("maxLines + no ellipsis", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("allignment corner", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.yAlign = "bottom";
+      writeOptions.xAlign = "right";
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("allignment center", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.yAlign = "center";
+      writeOptions.xAlign = "center";
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
     });
   });
 
-  afterEach(() => {
-    svg.remove();
+  describe("Horizontal flipside", () => {
+    beforeEach(() => {
+      writeOptions.textRotation = 180;
+      isHorizontal = true;
+    });
+
+    it("one word", () => {
+      checkWriting("test", 200, 200);
+    });
+
+    it("multiple lines", () => {
+      checkWriting("test\ntest", 200, 200);
+    });
+
+    it("wrapping", () => {
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("whitespaces", () => {
+      checkWriting("a    a", 50, 150);
+    });
+
+    it("maxLines", () => {
+      wrapper.maxLines(3);
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("maxLines + no ellipsis", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("allignment corner", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.yAlign = "bottom";
+      writeOptions.xAlign = "right";
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("allignment center", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.yAlign = "center";
+      writeOptions.xAlign = "center";
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+  });
+
+  describe("Vertical left", () => {
+    beforeEach(() => {
+      writeOptions.textRotation = -90;
+      isHorizontal = false;
+    });
+
+    it("one word", () => {
+      checkWriting("test", 200, 200);
+    });
+
+    it("multiple lines", () => {
+      checkWriting("test\ntest", 200, 200);
+    });
+
+    it("wrapping", () => {
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("whitespaces", () => {
+      checkWriting("a    a", 50, 150);
+    });
+
+    it("maxLines", () => {
+      wrapper.maxLines(3);
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("maxLines + no ellipsis", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("allignment corner", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.yAlign = "bottom";
+      writeOptions.xAlign = "right";
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("allignment center", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.yAlign = "center";
+      writeOptions.xAlign = "center";
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+  });
+
+  describe("Vertical right", () => {
+    beforeEach(() => {
+      writeOptions.textRotation = 90;
+      isHorizontal = false;
+    });
+
+    it("one word", () => {
+      checkWriting("test", 200, 200);
+    });
+
+    it("multiple lines", () => {
+      checkWriting("test\ntest", 200, 200);
+    });
+
+    it("wrapping", () => {
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("whitespaces", () => {
+      checkWriting("a    a", 50, 150);
+    });
+
+    it("maxLines", () => {
+      wrapper.maxLines(3);
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("maxLines + no ellipsis", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("allignment corner", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.yAlign = "bottom";
+      writeOptions.xAlign = "right";
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("allignment center", () => {
+      wrapper.maxLines(3).textTrimming("none");
+      writeOptions.yAlign = "center";
+      writeOptions.xAlign = "center";
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
   });
 });

@@ -53,12 +53,48 @@ var SVGTypewriter;
                 return arrayEq(keysA, keysB) && arrayEq(valuesA, valuesB);
             }
             Methods.objEq = objEq;
-            function isNotEmptyString(str) {
-                return str && str.trim() !== "";
-            }
-            Methods.isNotEmptyString = isNotEmptyString;
         })(Utils.Methods || (Utils.Methods = {}));
         var Methods = Utils.Methods;
+    })(SVGTypewriter.Utils || (SVGTypewriter.Utils = {}));
+    var Utils = SVGTypewriter.Utils;
+})(SVGTypewriter || (SVGTypewriter = {}));
+
+var SVGTypewriter;
+(function (SVGTypewriter) {
+    (function (Utils) {
+        (function (DOM) {
+            function transform(s, x, y) {
+                var xform = d3.transform(s.attr("transform"));
+                if (x == null) {
+                    return xform.translate;
+                }
+                else {
+                    y = (y == null) ? 0 : y;
+                    xform.translate[0] = x;
+                    xform.translate[1] = y;
+                    s.attr("transform", xform.toString());
+                    return s;
+                }
+            }
+            DOM.transform = transform;
+            function getBBox(element) {
+                var bbox;
+                try {
+                    bbox = element.node().getBBox();
+                }
+                catch (err) {
+                    bbox = {
+                        x: 0,
+                        y: 0,
+                        width: 0,
+                        height: 0
+                    };
+                }
+                return bbox;
+            }
+            DOM.getBBox = getBBox;
+        })(Utils.DOM || (Utils.DOM = {}));
+        var DOM = Utils.DOM;
     })(SVGTypewriter.Utils || (SVGTypewriter.Utils = {}));
     var Utils = SVGTypewriter.Utils;
 })(SVGTypewriter || (SVGTypewriter = {}));
@@ -152,24 +188,46 @@ var SVGTypewriter;
     var Utils = SVGTypewriter.Utils;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
-///<reference path="reference.ts" />
+///<reference path="../reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
-    (function (Parsers) {
-        function ident() {
-            return function (s) { return s; };
-        }
-        Parsers.ident = ident;
-        /**
-         * @return {Parser} A test parser that will treat all
-         * sequences of consecutive whitespace as a single " ".
-         */
-        function combineWhitespace(pr) {
-            return function (s) { return pr(s.replace(/\s+/g, " ")); };
-        }
-        Parsers.combineWhitespace = combineWhitespace;
-    })(SVGTypewriter.Parsers || (SVGTypewriter.Parsers = {}));
-    var Parsers = SVGTypewriter.Parsers;
+    (function (Utils) {
+        (function (StringMethods) {
+            /**
+             * Treat all sequences of consecutive whitespace as a single " ".
+             */
+            function combineWhitespace(str) {
+                return str.replace(/\s+/g, " ");
+            }
+            StringMethods.combineWhitespace = combineWhitespace;
+            function isNotEmptyString(str) {
+                return str && str.trim() !== "";
+            }
+            StringMethods.isNotEmptyString = isNotEmptyString;
+            function trimStart(str, c) {
+                if (!str) {
+                    return str;
+                }
+                var chars = str.split("");
+                var reduceFunction = c ? function (s) { return s.split(c).some(isNotEmptyString); } : isNotEmptyString;
+                return chars.reduce(function (s, c) { return reduceFunction(s + c) ? s + c : s; }, "");
+            }
+            StringMethods.trimStart = trimStart;
+            function trimEnd(str, c) {
+                if (!str) {
+                    return str;
+                }
+                var reversedChars = str.split("");
+                reversedChars.reverse();
+                reversedChars = trimStart(reversedChars.join(""), c).split("");
+                reversedChars.reverse();
+                return reversedChars.join("");
+            }
+            StringMethods.trimEnd = trimEnd;
+        })(Utils.StringMethods || (Utils.StringMethods = {}));
+        var StringMethods = Utils.StringMethods;
+    })(SVGTypewriter.Utils || (SVGTypewriter.Utils = {}));
+    var Utils = SVGTypewriter.Utils;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="reference.ts" />
@@ -215,11 +273,8 @@ var SVGTypewriter;
                 }
             };
             Wrapper.prototype.wrap = function (text, measurer, width, height) {
-                this._measurer = measurer;
-                return this.breakLineToFitWidth(text, width);
-            };
-            Wrapper.prototype.breakLineToFitWidth = function (text, availableWidth) {
-                var tokens = this._tokenizer.tokenize(text);
+                var _this = this;
+                if (height === void 0) { height = Infinity; }
                 var initialWrappingResult = {
                     originalText: text,
                     wrappedText: "",
@@ -229,90 +284,154 @@ var SVGTypewriter;
                 };
                 var state = {
                     wrapping: initialWrappingResult,
-                    remainingWidthInLine: availableWidth,
-                    availableWidth: availableWidth,
+                    currentLine: "",
+                    availableWidth: width,
+                    availableLines: Math.min(height / measurer.measure().height, this._maxLines),
                     canFitText: true
                 };
-                for (var i = 0; i < tokens.length; ++i) {
-                    var token = tokens[i];
-                    if (state.canFitText) {
-                        this.wrapNextToken(token, state);
-                    }
-                    else {
-                        state.wrapping.truncatedText += token;
-                    }
-                }
-                return state.wrapping;
+                var lines = text.split("\n");
+                return lines.reduce(function (state, line, i) { return _this.breakLineToFitWidth(state, line, i !== lines.length - 1, measurer); }, state).wrapping;
             };
-            Wrapper.prototype.wrapNextToken = function (token, state) {
-                var remainingToken = token;
-                var lastRemainingToken;
-                var remainingWidth = state.remainingWidthInLine;
-                var lastRemainingWidth;
-                var brokeWord = false;
-                var wrappedText = "";
-                var noLines = 0;
-                while (remainingToken && (remainingWidth !== lastRemainingWidth || remainingToken !== lastRemainingToken)) {
-                    var result = this.breakTokenToFitInWidth(remainingToken, remainingWidth);
-                    wrappedText += result.brokenToken[0];
-                    lastRemainingToken = remainingToken;
-                    lastRemainingWidth = remainingWidth;
-                    if (SVGTypewriter.Utils.Methods.isNotEmptyString(result.brokenToken[0]) && SVGTypewriter.Utils.Methods.isNotEmptyString(result.brokenToken[1])) {
-                        brokeWord = true;
-                    }
-                    remainingToken = result.brokenToken[1];
-                    remainingWidth = result.remainingWidth || state.availableWidth;
-                    if (remainingToken !== undefined) {
-                        ++noLines;
-                    }
+            Wrapper.prototype.breakLineToFitWidth = function (state, line, hasNextLine, measurer) {
+                var _this = this;
+                if (!state.canFitText && state.wrapping.truncatedText !== "") {
+                    state.wrapping.truncatedText += "\n";
                 }
-                if (remainingToken) {
+                var tokens = this._tokenizer.tokenize(line);
+                state = tokens.reduce(function (state, token) { return _this.wrapNextToken(token, state, measurer); }, state);
+                var wrappedText = SVGTypewriter.Utils.StringMethods.trimEnd(state.currentLine);
+                state.wrapping.noLines += +(wrappedText !== "");
+                if (state.wrapping.noLines === state.availableLines && this._textTrimming !== "none" && hasNextLine) {
+                    var ellipsisResult = this.addEllipsis(wrappedText, state.availableWidth, measurer);
+                    state.wrapping.wrappedText += ellipsisResult.wrappedToken;
+                    state.wrapping.truncatedText += ellipsisResult.remainingToken;
                     state.canFitText = false;
-                    state.wrapping.truncatedText += token;
                 }
                 else {
-                    if (state.wrapping.noLines === 0) {
-                        ++state.wrapping.noLines;
-                    }
-                    state.remainingWidthInLine = remainingWidth;
-                    state.wrapping.noBrokeWords += +brokeWord;
                     state.wrapping.wrappedText += wrappedText;
-                    state.wrapping.noLines += noLines;
                 }
+                state.currentLine = "\n";
+                return state;
             };
-            Wrapper.prototype.breakTokenToFitInWidth = function (token, availableWidth) {
-                var tokenWidth = this._measurer.measure(token).width;
-                if (tokenWidth <= availableWidth) {
+            Wrapper.prototype.canFitToken = function (token, width, measurer) {
+                var _this = this;
+                var possibleBreaks = this._allowBreakingWords ? token.split("").map(function (c, i) { return (i !== token.length - 1) ? c + _this._breakingCharacter : c; }) : [token];
+                return possibleBreaks.every(function (c) { return measurer.measure(c).width <= width; });
+            };
+            Wrapper.prototype.addEllipsis = function (line, width, measurer) {
+                if (this._textTrimming === "none") {
                     return {
-                        brokenToken: [token],
-                        remainingWidth: availableWidth - tokenWidth
+                        wrappedToken: line,
+                        remainingToken: ""
+                    };
+                }
+                var truncatedLine = line.substring(0);
+                var lineWidth = measurer.measure(truncatedLine).width;
+                var ellipsesWidth = measurer.measure("...").width;
+                if (width <= ellipsesWidth) {
+                    var periodWidth = measurer.measure(".").width;
+                    var numPeriodsThatFit = Math.floor(width / periodWidth);
+                    return {
+                        wrappedToken: "...".substr(0, numPeriodsThatFit),
+                        remainingToken: line
+                    };
+                }
+                while (lineWidth + ellipsesWidth > width) {
+                    truncatedLine = SVGTypewriter.Utils.StringMethods.trimEnd(truncatedLine.substr(0, truncatedLine.length - 1));
+                    lineWidth = measurer.measure(truncatedLine).width;
+                }
+                return {
+                    wrappedToken: truncatedLine + "...",
+                    remainingToken: SVGTypewriter.Utils.StringMethods.trimEnd(line.substring(truncatedLine.length), "-").trim()
+                };
+            };
+            Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
+                if (!state.canFitText || state.availableLines === state.wrapping.noLines || !this.canFitToken(token, state.availableWidth, measurer)) {
+                    return this.finishWrapping(token, state, measurer);
+                }
+                var remainingToken = token;
+                while (remainingToken) {
+                    var result = this.breakTokenToFitInWidth(remainingToken, state.currentLine, state.availableWidth, measurer);
+                    state.currentLine = result.line;
+                    remainingToken = result.remainingToken;
+                    if (remainingToken != null) {
+                        state.wrapping.noBrokeWords += +result.breakWord;
+                        ++state.wrapping.noLines;
+                        if (state.availableLines === state.wrapping.noLines) {
+                            var ellipsisResult = this.addEllipsis(state.currentLine, state.availableWidth, measurer);
+                            state.wrapping.wrappedText += ellipsisResult.wrappedToken;
+                            state.wrapping.truncatedText += ellipsisResult.remainingToken + remainingToken;
+                            state.currentLine = "\n";
+                            return state;
+                        }
+                        else {
+                            state.wrapping.wrappedText += SVGTypewriter.Utils.StringMethods.trimEnd(state.currentLine);
+                            state.currentLine = "\n";
+                        }
+                    }
+                }
+                return state;
+            };
+            Wrapper.prototype.finishWrapping = function (token, state, measurer) {
+                // Token is really long, but we have a space to put part of the word.
+                if (state.canFitText && state.availableLines !== state.wrapping.noLines && this._allowBreakingWords && this._textTrimming !== "none") {
+                    var res = this.addEllipsis(state.currentLine + token, state.availableWidth, measurer);
+                    state.wrapping.wrappedText += res.wrappedToken;
+                    state.wrapping.truncatedText += res.remainingToken;
+                    state.wrapping.noBrokeWords += +(res.remainingToken.length < token.length);
+                    state.wrapping.noLines += +(res.wrappedToken.length > 0);
+                    state.currentLine = "";
+                }
+                else {
+                    state.wrapping.truncatedText += token;
+                }
+                state.canFitText = false;
+                return state;
+            };
+            /**
+             * Breaks single token to fit current line.
+             * If token contains only whitespaces then they will not be populated to next line.
+             */
+            Wrapper.prototype.breakTokenToFitInWidth = function (token, line, availableWidth, measurer, breakingCharacter) {
+                if (breakingCharacter === void 0) { breakingCharacter = this._breakingCharacter; }
+                if (measurer.measure(line + token).width <= availableWidth) {
+                    return {
+                        remainingToken: null,
+                        line: line + token,
+                        breakWord: false
                     };
                 }
                 if (token.trim() === "") {
                     return {
-                        brokenToken: ["\n", ""],
-                        remainingWidth: 0
+                        remainingToken: "",
+                        line: line,
+                        breakWord: false
                     };
                 }
-                var fitToken = "";
-                var tokenLetters = token.split("");
-                for (var i = 0; i < tokenLetters.length; ++i) {
-                    var currentLetter = tokenLetters[i];
-                    if (this._measurer.measure(fitToken + currentLetter + this._breakingCharacter).width <= availableWidth) {
-                        fitToken += currentLetter;
+                if (!this._allowBreakingWords) {
+                    return {
+                        remainingToken: token,
+                        line: line,
+                        breakWord: false
+                    };
+                }
+                var fitTokenLength = 0;
+                while (fitTokenLength < token.length) {
+                    if (measurer.measure(line + token.substring(0, fitTokenLength + 1) + breakingCharacter).width <= availableWidth) {
+                        ++fitTokenLength;
                     }
                     else {
                         break;
                     }
                 }
-                var remainingToken = token.slice(fitToken.length);
-                if (fitToken.length > 0) {
-                    fitToken += "-";
+                var suffix = "";
+                if (fitTokenLength > 0) {
+                    suffix = breakingCharacter;
                 }
-                fitToken += "\n";
                 return {
-                    brokenToken: [fitToken, remainingToken],
-                    remainingWidth: 0
+                    remainingToken: token.substring(fitTokenLength),
+                    line: line + token.substring(0, fitTokenLength) + suffix,
+                    breakWord: fitTokenLength > 0
                 };
             };
             return Wrapper;
@@ -328,65 +447,78 @@ var SVGTypewriter;
     (function (Writers) {
         var Writer = (function () {
             function Writer(measurer, wrapper) {
-                this._measurer = measurer;
-                this._wrapper = wrapper;
+                this.measurer(measurer);
+                if (wrapper) {
+                    this.wrapper(wrapper);
+                }
             }
             Writer.prototype.measurer = function (newMeasurer) {
-                if (newMeasurer == null) {
-                    return this._measurer;
-                }
-                else {
-                    this._measurer = newMeasurer;
-                    return this;
-                }
+                this._measurer = newMeasurer;
+                return this;
             };
             Writer.prototype.wrapper = function (newWrapper) {
-                if (newWrapper == null) {
-                    return this._wrapper;
-                }
-                else {
-                    this._wrapper = newWrapper;
-                    return this;
-                }
+                this._wrapper = newWrapper;
+                return this;
             };
-            Writer.prototype.translate = function (s, x, y) {
-                var xform = d3.transform(s.attr("transform"));
-                if (x == null) {
-                    return xform.translate;
-                }
-                else {
-                    y = (y == null) ? 0 : y;
-                    xform.translate[0] = x;
-                    xform.translate[1] = y;
-                    s.attr("transform", xform.toString());
-                    return s;
-                }
-            };
-            Writer.prototype.writeLine = function (line, g, align) {
-                if (align === void 0) { align = "left"; }
+            Writer.prototype.writeLine = function (line, g, width, xAlign, yOffset) {
                 var textEl = g.append("text");
                 textEl.text(line);
-                var anchor = Writer.AnchorConverter[align];
-                textEl.attr("text-anchor", anchor);
+                var xOffset = width * Writer.XOffsetFactor[xAlign];
+                var anchor = Writer.AnchorConverter[xAlign];
+                textEl.attr("text-anchor", anchor).classed("text-line", true).attr("y", "-0.25em");
+                SVGTypewriter.Utils.DOM.transform(textEl, xOffset, yOffset);
             };
-            Writer.prototype.write = function (text, width, height, options) {
+            Writer.prototype.writeText = function (text, writingArea, width, height, xAlign, yAlign) {
                 var _this = this;
-                var wrappedText = this._wrapper.wrap(text, this._measurer, width, height).wrappedText;
-                var innerG = options.selection.append("g").classed("writeText-inner-g", true);
-                var lines = wrappedText.split("\n");
-                var h = this._measurer.measure(Writer.HEIGHT_TEXT).height;
+                var lines = text.split("\n");
+                var lineHeight = this._measurer.measure().height;
+                var yOffset = Writer.YOffsetFactor[yAlign] * (height - lines.length * lineHeight);
                 lines.forEach(function (line, i) {
-                    var selection = innerG.append("g");
-                    _this.translate(selection, 0, (i + 1) * h);
-                    _this.writeLine(line, selection);
+                    _this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
                 });
             };
+            Writer.prototype.write = function (text, width, height, options) {
+                if (Writer.SupportedRotation.indexOf(options.textRotation) === -1) {
+                    throw new Error("unsupported rotation - " + options.textRotation);
+                }
+                var orientHorizontally = Math.abs(Math.abs(options.textRotation) - 90) > 45;
+                var primaryDimension = orientHorizontally ? width : height;
+                var secondaryDimension = orientHorizontally ? height : width;
+                var textArea = options.selection.append("g").classed("textArea", true);
+                var wrappedText = this._wrapper ? this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText : text;
+                this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, options.xAlign, options.yAlign);
+                var xForm = d3.transform("");
+                xForm.rotate = options.textRotation;
+                var lineHeight = this._measurer.measure().height;
+                switch (options.textRotation) {
+                    case 90:
+                        xForm.translate = [width, 0];
+                        break;
+                    case -90:
+                        xForm.translate = [0, height];
+                        break;
+                    case 180:
+                        xForm.translate = [width, height];
+                        break;
+                }
+                textArea.attr("transform", xForm.toString());
+            };
+            Writer.SupportedRotation = [-90, 0, 180, 90];
             Writer.AnchorConverter = {
                 left: "start",
                 center: "middle",
                 right: "end"
             };
-            Writer.HEIGHT_TEXT = "bqpdl";
+            Writer.XOffsetFactor = {
+                left: 0,
+                center: 0.5,
+                right: 1
+            };
+            Writer.YOffsetFactor = {
+                top: 0,
+                center: 0.5,
+                bottom: 1
+            };
             return Writer;
         })();
         Writers.Writer = Writer;
@@ -400,32 +532,46 @@ var SVGTypewriter;
     (function (Measurers) {
         ;
         var AbstractMeasurer = (function () {
-            function AbstractMeasurer(area) {
-                this.measurerArea = area;
-                this.defaultText = area.text();
+            function AbstractMeasurer(area, className) {
+                this.textMeasurer = this.getTextMeasurer(area, className);
             }
-            AbstractMeasurer.prototype.getBBox = function (element) {
-                var bbox;
-                try {
-                    bbox = element.node().getBBox();
-                }
-                catch (err) {
-                    bbox = {
-                        x: 0,
-                        y: 0,
-                        width: 0,
-                        height: 0
+            AbstractMeasurer.prototype.checkSelectionIsText = function (d) {
+                return d[0][0].tagName === "text";
+            };
+            AbstractMeasurer.prototype.getTextMeasurer = function (area, className) {
+                var _this = this;
+                if (!this.checkSelectionIsText(area)) {
+                    var textElement = area.append("text");
+                    if (className) {
+                        textElement.classed(className, true);
+                    }
+                    textElement.remove();
+                    return function (text) {
+                        area.node().appendChild(textElement.node());
+                        var areaDimension = _this.measureBBox(textElement, text);
+                        textElement.remove();
+                        return areaDimension;
                     };
                 }
-                return bbox;
+                else {
+                    var defaultText = area.text();
+                    return function (text) {
+                        var areaDimension = _this.measureBBox(area, text);
+                        area.text(defaultText);
+                        return areaDimension;
+                    };
+                }
+            };
+            AbstractMeasurer.prototype.measureBBox = function (d, text) {
+                d.text(text);
+                var bb = SVGTypewriter.Utils.DOM.getBBox(d);
+                return { width: bb.width, height: bb.height };
             };
             AbstractMeasurer.prototype.measure = function (text) {
-                this.measurerArea.text(text);
-                var bb = this.getBBox(this.measurerArea);
-                var areaDimension = { width: bb.width, height: bb.height };
-                this.measurerArea.text(this.defaultText);
-                return areaDimension;
+                if (text === void 0) { text = AbstractMeasurer.HEIGHT_TEXT; }
+                return this.textMeasurer(text);
             };
+            AbstractMeasurer.HEIGHT_TEXT = "bqpdl";
             return AbstractMeasurer;
         })();
         Measurers.AbstractMeasurer = AbstractMeasurer;
@@ -445,36 +591,37 @@ var SVGTypewriter;
     (function (Measurers) {
         var Measurer = (function (_super) {
             __extends(Measurer, _super);
-            function Measurer(area) {
-                _super.call(this, area);
+            function Measurer() {
+                _super.apply(this, arguments);
             }
+            // Guards assures same line height and width of whitespaces on both ends.
             Measurer.prototype._addGuards = function (text) {
-                return Measurer.NotWhitespaceCharacter + text + Measurer.NotWhitespaceCharacter;
+                return Measurers.AbstractMeasurer.HEIGHT_TEXT + text + Measurers.AbstractMeasurer.HEIGHT_TEXT;
             };
-            Measurer.prototype.getNotWhitespaceCharacterWidth = function () {
-                if (this.nonWhitespaceCharacterWidth == null) {
-                    this.nonWhitespaceCharacterWidth = _super.prototype.measure.call(this, Measurer.NotWhitespaceCharacter).width;
+            Measurer.prototype.getGuardWidth = function () {
+                if (this.guardWidth == null) {
+                    this.guardWidth = _super.prototype.measure.call(this).width;
                 }
-                return this.nonWhitespaceCharacterWidth;
+                return this.guardWidth;
             };
             Measurer.prototype._measureLine = function (line) {
                 var measuredLine = this._addGuards(line);
                 var measuredLineDimensions = _super.prototype.measure.call(this, measuredLine);
-                measuredLineDimensions.width -= 2 * this.getNotWhitespaceCharacterWidth();
+                measuredLineDimensions.width -= 2 * this.getGuardWidth();
                 return measuredLineDimensions;
             };
             Measurer.prototype.measure = function (text) {
                 var _this = this;
-                if (text == null || text === "") {
+                if (text === void 0) { text = Measurers.AbstractMeasurer.HEIGHT_TEXT; }
+                if (text.trim() === "") {
                     return { width: 0, height: 0 };
                 }
-                var linesDimensions = text.split("\n").map(function (line) { return _this._measureLine(line); });
+                var linesDimensions = text.trim().split("\n").map(function (line) { return _this._measureLine(line); });
                 return {
                     width: d3.max(linesDimensions, function (dim) { return dim.width; }),
                     height: d3.sum(linesDimensions, function (dim) { return dim.height; })
                 };
             };
-            Measurer.NotWhitespaceCharacter = "a";
             return Measurer;
         })(Measurers.AbstractMeasurer);
         Measurers.Measurer = Measurer;
@@ -494,11 +641,11 @@ var SVGTypewriter;
     (function (Measurers) {
         var CharacterMeasurer = (function (_super) {
             __extends(CharacterMeasurer, _super);
-            function CharacterMeasurer(area) {
-                _super.call(this, area);
+            function CharacterMeasurer() {
+                _super.apply(this, arguments);
             }
             CharacterMeasurer.prototype._measureCharacter = function (c) {
-                return _super.prototype.measure.call(this, c);
+                return _super.prototype._measureLine.call(this, c);
             };
             CharacterMeasurer.prototype._measureLine = function (line) {
                 var _this = this;
@@ -527,10 +674,14 @@ var SVGTypewriter;
     (function (Measurers) {
         var CacheCharacterMeasurer = (function (_super) {
             __extends(CacheCharacterMeasurer, _super);
-            function CacheCharacterMeasurer(area) {
-                _super.call(this, area);
-                this.cache = new SVGTypewriter.Utils.Cache(_super.prototype._measureCharacter, SVGTypewriter.Utils.Methods.objEq);
+            function CacheCharacterMeasurer(area, className) {
+                var _this = this;
+                _super.call(this, area, className);
+                this.cache = new SVGTypewriter.Utils.Cache(function (c) { return _this._measureCharacterNotFromCache(c); }, SVGTypewriter.Utils.Methods.objEq);
             }
+            CacheCharacterMeasurer.prototype._measureCharacterNotFromCache = function (c) {
+                return _super.prototype._measureCharacter.call(this, c);
+            };
             CacheCharacterMeasurer.prototype._measureCharacter = function (c) {
                 return this.cache.get(c);
             };

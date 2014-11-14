@@ -11,14 +11,21 @@ module SVGTypewriter.Wrappers {
 
   interface IterativeWrappingState {
     wrapping: WrappingResult;
+    currentLine: string;
     availableWidth: number;
-    remainingWidthInLine: number;
+    availableLines: number;
     canFitText: boolean;
   }
 
   interface BreakingTokenResult {
-    brokenToken: string[];
-    remainingWidth: number;
+    remainingToken: string;
+    breakWord: boolean;
+    line: string;
+  }
+
+  interface EllipsisResult {
+    wrappedToken: string;
+    remainingToken: string;
   }
 
   export class Wrapper {
@@ -27,7 +34,6 @@ module SVGTypewriter.Wrappers {
     private _allowBreakingWords: boolean;
     private _tokenizer: Utils.Tokenizer;
     public _breakingCharacter: string;
-    private _measurer: Measurers.AbstractMeasurer;
 
     constructor() {
       this.maxLines(Infinity);
@@ -73,14 +79,7 @@ module SVGTypewriter.Wrappers {
       }
     }
 
-    public wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number, height?: number): WrappingResult {
-      this._measurer = measurer;
-      return this.breakLineToFitWidth(text, width);
-    }
-
-    private breakLineToFitWidth(text: string, availableWidth: number): WrappingResult {
-      var tokens = this._tokenizer.tokenize(text);
-
+    public wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number, height: number = Infinity): WrappingResult {
       var initialWrappingResult = {
         originalText: text,
         wrappedText: "",
@@ -88,95 +87,195 @@ module SVGTypewriter.Wrappers {
         noBrokeWords: 0,
         truncatedText: ""
       };
+
       var state = {
         wrapping: initialWrappingResult,
-        remainingWidthInLine: availableWidth,
-        availableWidth: availableWidth,
+        currentLine: "",
+        availableWidth: width,
+        availableLines: Math.min(height / measurer.measure().height, this._maxLines),
         canFitText: true
       };
 
-      for(var i = 0; i < tokens.length; ++i) {
-        var token = tokens[i];
-        if(state.canFitText) {
-          this.wrapNextToken(token, state);
-        } else {
-          state.wrapping.truncatedText += token;
-        }
-      }
-      return state.wrapping;
+      var lines = text.split("\n");
+
+      return lines.reduce((state: IterativeWrappingState, line: string, i: number) =>
+                    this.breakLineToFitWidth(state, line, i !== lines.length - 1, measurer),
+                    state
+                  ).wrapping;
     }
 
-    private wrapNextToken(token: string, state: IterativeWrappingState) {
-      var remainingToken = token;
-      var lastRemainingToken: string;
-      var remainingWidth = state.remainingWidthInLine;
-      var lastRemainingWidth: number;
-      var brokeWord = false;
-      var wrappedText = "";
-      var noLines = 0;
-      while(remainingToken && (remainingWidth !== lastRemainingWidth || remainingToken !== lastRemainingToken)) {
-        var result = this.breakTokenToFitInWidth(remainingToken, remainingWidth);
-        wrappedText += result.brokenToken[0];
-        lastRemainingToken = remainingToken;
-        lastRemainingWidth = remainingWidth;
-        if (Utils.Methods.isNotEmptyString(result.brokenToken[0]) && Utils.Methods.isNotEmptyString(result.brokenToken[1])) {
-          brokeWord = true;
-        }
-        remainingToken = result.brokenToken[1];
-        remainingWidth = result.remainingWidth || state.availableWidth;
-        if(remainingToken !== undefined) {
-          ++noLines;
-        }
+    private breakLineToFitWidth(state: IterativeWrappingState,
+                                line: string,
+                                hasNextLine: boolean,
+                                measurer: Measurers.AbstractMeasurer): IterativeWrappingState {
+      if (!state.canFitText && state.wrapping.truncatedText !== "") {
+        state.wrapping.truncatedText += "\n";
       }
 
-      if (remainingToken) {
+      var tokens = this._tokenizer.tokenize(line);
+      state = tokens.reduce(
+        (state: IterativeWrappingState, token: string) => this.wrapNextToken(token, state, measurer),
+        state
+      );
+
+      var wrappedText = Utils.StringMethods.trimEnd(state.currentLine);
+      state.wrapping.noLines += +(wrappedText !== "");
+
+      if (state.wrapping.noLines === state.availableLines && this._textTrimming !== "none" && hasNextLine) {
+        var ellipsisResult = this.addEllipsis(wrappedText, state.availableWidth, measurer);
+        state.wrapping.wrappedText += ellipsisResult.wrappedToken;
+        state.wrapping.truncatedText += ellipsisResult.remainingToken;
         state.canFitText = false;
-        state.wrapping.truncatedText += token;
       } else {
-        if (state.wrapping.noLines === 0) {
-          ++state.wrapping.noLines;
-        }
-        state.remainingWidthInLine = remainingWidth;
-        state.wrapping.noBrokeWords += +brokeWord;
         state.wrapping.wrappedText += wrappedText;
-        state.wrapping.noLines += noLines;
       }
+
+      state.currentLine = "\n";
+
+      return state;
     }
 
-    private breakTokenToFitInWidth(token: string, availableWidth: number): BreakingTokenResult {
-      var tokenWidth = this._measurer.measure(token).width;
-      if (tokenWidth <= availableWidth) {
+    private canFitToken(token: string, width: number, measurer: Measurers.AbstractMeasurer) {
+      var possibleBreaks = this._allowBreakingWords ?
+                            token.split("").map((c, i) => (i !== token.length - 1) ? c + this._breakingCharacter : c)
+                            : [token];
+      return possibleBreaks.every(c => measurer.measure(c).width <= width);
+    }
+
+    private addEllipsis(line: string, width: number, measurer: Measurers.AbstractMeasurer): EllipsisResult {
+      if (this._textTrimming === "none") {
         return {
-          brokenToken: [token],
-          remainingWidth: availableWidth - tokenWidth
+          wrappedToken: line,
+          remainingToken: ""
+        };
+      }
+      var truncatedLine = line.substring(0);
+      var lineWidth = measurer.measure(truncatedLine).width;
+      var ellipsesWidth = measurer.measure("...").width;
+
+      if (width <= ellipsesWidth) {
+        var periodWidth = measurer.measure(".").width;
+        var numPeriodsThatFit = Math.floor(width / periodWidth);
+        return {
+          wrappedToken: "...".substr(0, numPeriodsThatFit),
+          remainingToken: line
+        };
+      }
+
+      while (lineWidth + ellipsesWidth > width) {
+        truncatedLine = Utils.StringMethods.trimEnd(truncatedLine.substr(0, truncatedLine.length - 1));
+        lineWidth = measurer.measure(truncatedLine).width;
+      }
+
+      return {
+        wrappedToken: truncatedLine + "...",
+        remainingToken: Utils.StringMethods.trimEnd(line.substring(truncatedLine.length), "-").trim()
+      };
+    }
+
+    private wrapNextToken(token: string, state: IterativeWrappingState, measurer: Measurers.AbstractMeasurer): IterativeWrappingState {
+      if (!state.canFitText ||
+          state.availableLines === state.wrapping.noLines ||
+          !this.canFitToken(token, state.availableWidth, measurer)) {
+        return this.finishWrapping(token, state, measurer);
+      }
+
+      var remainingToken = token;
+      while (remainingToken) {
+        var result = this.breakTokenToFitInWidth(remainingToken, state.currentLine, state.availableWidth, measurer);
+        state.currentLine = result.line;
+        remainingToken = result.remainingToken;
+        if (remainingToken != null) {
+          state.wrapping.noBrokeWords += +result.breakWord;
+          ++state.wrapping.noLines;
+          if(state.availableLines === state.wrapping.noLines) {
+            var ellipsisResult = this.addEllipsis(state.currentLine, state.availableWidth, measurer);
+            state.wrapping.wrappedText += ellipsisResult.wrappedToken;
+            state.wrapping.truncatedText += ellipsisResult.remainingToken + remainingToken;
+            state.currentLine = "\n";
+            return state;
+          } else {
+            state.wrapping.wrappedText += Utils.StringMethods.trimEnd(state.currentLine);
+            state.currentLine = "\n";
+          }
+        }
+      }
+
+      return state;
+    }
+
+    private finishWrapping(token: string, state: IterativeWrappingState, measurer: Measurers.AbstractMeasurer) {
+      // Token is really long, but we have a space to put part of the word.
+      if (state.canFitText &&
+          state.availableLines !== state.wrapping.noLines &&
+          this._allowBreakingWords &&
+          this._textTrimming !== "none") {
+        var res = this.addEllipsis(state.currentLine + token, state.availableWidth, measurer);
+        state.wrapping.wrappedText += res.wrappedToken;
+        state.wrapping.truncatedText += res.remainingToken;
+        state.wrapping.noBrokeWords += +(res.remainingToken.length < token.length);
+        state.wrapping.noLines += +(res.wrappedToken.length > 0);
+        state.currentLine = "";
+      } else {
+        state.wrapping.truncatedText += token;
+      }
+
+      state.canFitText = false;
+
+      return state;
+    }
+
+    /**
+     * Breaks single token to fit current line. 
+     * If token contains only whitespaces then they will not be populated to next line.
+     */
+    private breakTokenToFitInWidth(token: string,
+                                   line: string,
+                                   availableWidth: number,
+                                   measurer: Measurers.AbstractMeasurer,
+                                   breakingCharacter: string = this._breakingCharacter): BreakingTokenResult {
+      if (measurer.measure(line + token).width <= availableWidth) {
+        return {
+          remainingToken: null,
+          line: line + token,
+          breakWord: false
         };
       }
 
       if (token.trim() === "") {
         return {
-          brokenToken: ["\n", ""],
-          remainingWidth: 0
+          remainingToken: "",
+          line: line,
+          breakWord: false
         };
       }
 
-      var fitToken = "";
-      var tokenLetters = token.split("");
-      for(var i = 0; i < tokenLetters.length; ++i) {
-        var currentLetter = tokenLetters[i];
-        if(this._measurer.measure(fitToken + currentLetter + this._breakingCharacter).width <= availableWidth) {
-          fitToken += currentLetter;
+      if (!this._allowBreakingWords) {
+        return {
+          remainingToken: token,
+          line: line,
+          breakWord: false
+        };
+      }
+
+      var fitTokenLength = 0;
+      while (fitTokenLength < token.length) {
+        if(measurer.measure(line + token.substring(0, fitTokenLength + 1) + breakingCharacter).width <= availableWidth) {
+          ++fitTokenLength;
         } else {
           break;
         }
       }
-      var remainingToken = token.slice(fitToken.length);
-      if (fitToken.length > 0) {
-        fitToken += "-";
+
+      var suffix = "";
+      if (fitTokenLength > 0) {
+        suffix = breakingCharacter;
       }
-      fitToken += "\n";
+
       return {
-        brokenToken: [fitToken, remainingToken],
-        remainingWidth: 0
+        remainingToken: token.substring(fitTokenLength),
+        line: line + token.substring(0, fitTokenLength) + suffix,
+        breakWord: fitTokenLength > 0
       };
     }
   }

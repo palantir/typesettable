@@ -2,36 +2,32 @@
 
 module SVGTypewriter.Measurers {
   export class Measurer extends AbstractMeasurer {
-    private static NotWhitespaceCharacter = "a";
-    private nonWhitespaceCharacterWidth: number;
+    private guardWidth: number;
 
-    constructor(area: D3.Selection) {
-      super(area);
-    }
-
+    // Guards assures same line height and width of whitespaces on both ends.
     public _addGuards(text: string) {
-      return Measurer.NotWhitespaceCharacter + text + Measurer.NotWhitespaceCharacter;
+      return AbstractMeasurer.HEIGHT_TEXT + text + AbstractMeasurer.HEIGHT_TEXT;
     }
 
-    private getNotWhitespaceCharacterWidth() {
-      if (this.nonWhitespaceCharacterWidth == null) {
-        this.nonWhitespaceCharacterWidth = super.measure(Measurer.NotWhitespaceCharacter).width;
+    private getGuardWidth() {
+      if (this.guardWidth == null) {
+        this.guardWidth = super.measure().width;
       }
-      return this.nonWhitespaceCharacterWidth;
+      return this.guardWidth;
     }
 
     public _measureLine(line: string) {
       var measuredLine = this._addGuards(line);
       var measuredLineDimensions = super.measure(measuredLine);
-      measuredLineDimensions.width -= 2 * this.getNotWhitespaceCharacterWidth();
+      measuredLineDimensions.width -= 2 * this.getGuardWidth();
       return measuredLineDimensions;
     }
 
-    public measure(text: string) {
-      if (text == null || text === "") {
+    public measure(text: string = AbstractMeasurer.HEIGHT_TEXT) {
+      if (text.trim() === "") {
         return {width: 0, height: 0};
       }
-      var linesDimensions = text.split("\n").map(line => this._measureLine(line));
+      var linesDimensions = text.trim().split("\n").map(line => this._measureLine(line));
       return {
           width: d3.max(linesDimensions, dim => dim.width),
           height: d3.sum(linesDimensions, dim => dim.height)

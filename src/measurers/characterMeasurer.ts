@@ -2,12 +2,8 @@
 
 module SVGTypewriter.Measurers {
   export class CharacterMeasurer extends Measurer {
-    constructor(area: D3.Selection) {
-      super(area);
-    }
-
     public _measureCharacter(c: string) {
-      return super.measure(c);
+      return super._measureLine(c);
     }
 
     public _measureLine(line: string) {
