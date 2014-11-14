@@ -2,8 +2,12 @@ svg{
   float: left;
 }
 
-.navigation{
-  background-color: #db2e65;
+body{
+  font-family: sans-serif;
+}
+
+.controls{
+  background-color: #2c2b6f;
   width: 100%;
   height: 50px;
   position: fixed;
@@ -13,16 +17,31 @@ svg{
   z-index: 1;
 }
 
-input{
-  top: 10px;
+.control-knob{
+  margin-top: 10px;
+  color: white;
+  font-family: sans-serif;
+  font-weight: 100;
+  font-size: 13px;
+  display: inline-block;
+}
+
+input, select{
   position: relative;
   border: solid 1px;
+  border-radius: 5px;
   border-color: white;
-  border-radius: 5;
-  width: 150px;
+  width: auto;
   height: 30px;
   font-family: sans-serif;
   font-weight: 100;
   font-size: 13px;
   text-align: center;
 }
+
+#measurer, #trimming{
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+}
+
