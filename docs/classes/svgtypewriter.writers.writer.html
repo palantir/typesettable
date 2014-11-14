@@ -81,7 +81,9 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="svgtypewriter.writers.writer.html#static-anchorconverter" class="tsd-kind-icon">Anchor<wbr>Converter</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="svgtypewriter.writers.writer.html#static-height_text" class="tsd-kind-icon">HEIGHT_<wbr>TEXT</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="svgtypewriter.writers.writer.html#static-supportedrotation" class="tsd-kind-icon">Supported<wbr>Rotation</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="svgtypewriter.writers.writer.html#static-xoffsetfactor" class="tsd-kind-icon">XOffset<wbr>Factor</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="svgtypewriter.writers.writer.html#static-yoffsetfactor" class="tsd-kind-icon">YOffset<wbr>Factor</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="svgtypewriter.writers.writer.html#_measurer" class="tsd-kind-icon">_measurer</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="svgtypewriter.writers.writer.html#_wrapper" class="tsd-kind-icon">_wrapper</a></li>
 							</ul>
@@ -90,10 +92,10 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="svgtypewriter.writers.writer.html#measurer" class="tsd-kind-icon">measurer</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="svgtypewriter.writers.writer.html#translate" class="tsd-kind-icon">translate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="svgtypewriter.writers.writer.html#wrapper" class="tsd-kind-icon">wrapper</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="svgtypewriter.writers.writer.html#write" class="tsd-kind-icon">write</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="svgtypewriter.writers.writer.html#writeline" class="tsd-kind-icon">write<wbr>Line</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="svgtypewriter.writers.writer.html#writetext" class="tsd-kind-icon">write<wbr>Text</a></li>
 							</ul>
 						</section>
 					</div>
@@ -104,12 +106,12 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">constructor<span class="tsd-signature-symbol">(</span>measurer<span class="tsd-signature-symbol">: </span><a href="svgtypewriter.measurers.abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a>, wrapper<span class="tsd-signature-symbol">: </span><a href="svgtypewriter.wrappers.wrapper.html" class="tsd-signature-type">Wrapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgtypewriter.writers.writer.html" class="tsd-signature-type">Writer</a></li>
+						<li class="tsd-signature tsd-kind-icon">constructor<span class="tsd-signature-symbol">(</span>measurer<span class="tsd-signature-symbol">: </span><a href="svgtypewriter.measurers.abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a>, wrapper<span class="tsd-signature-symbol">?: </span><a href="svgtypewriter.wrappers.wrapper.html" class="tsd-signature-type">Wrapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgtypewriter.writers.writer.html" class="tsd-signature-type">Writer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description"><aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L23">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L35">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:35</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -118,7 +120,7 @@
 									<h5>measurer:         <a href="svgtypewriter.measurers.abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a></h5>
 								</li>
 								<li>
-									<h5>wrapper:         <a href="svgtypewriter.wrappers.wrapper.html" class="tsd-signature-type">Wrapper</a></h5>
+									<h5>wrapper?:         <a href="svgtypewriter.wrappers.wrapper.html" class="tsd-signature-type">Wrapper</a> <span class="tsd-flag ts-flagoptional">optional</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns         <a href="svgtypewriter.writers.writer.html" class="tsd-signature-type">Writer</a>
@@ -133,7 +135,7 @@
 					<div class="tsd-signature tsd-kind-icon">Anchor<wbr>Converter<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">Object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L15">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L17">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:17</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-index-signature tsd-parent-kind-property">
@@ -145,7 +147,7 @@
 						<ul class="tsd-descriptions">
 							<li class="tsd-description"><aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L15">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:15</a></li>
+										<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L17">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:17</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-parameters-title">Parameters</h4>
@@ -159,15 +161,77 @@
 							</li>
 						</ul>
 					</section></section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a name="static-height_text" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagprivate">private</span> <span class="tsd-flag ts-flagstatic">static</span> HEIGHT_<wbr>TEXT</h3>
-					<div class="tsd-signature tsd-kind-icon">HEIGHT_<wbr>TEXT<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">string</span></div>
+					<a name="static-supportedrotation" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagprivate">private</span> <span class="tsd-flag ts-flagstatic">static</span> Supported<wbr>Rotation</h3>
+					<div class="tsd-signature tsd-kind-icon">Supported<wbr>Rotation<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">Array&lt;number&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L21">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L15">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:15</a></li>
 						</ul>
 					</aside>
-					</section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					</section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+					<a name="static-xoffsetfactor" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagprivate">private</span> <span class="tsd-flag ts-flagstatic">static</span> XOffset<wbr>Factor</h3>
+					<div class="tsd-signature tsd-kind-icon">XOffset<wbr>Factor<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">Object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L23">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:23</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-index-signature tsd-parent-kind-property">
+						<a name="xoffsetfactor.xoffsetfactor__" class="tsd-anchor"></a>
+						<h3>XOffset<wbr>Factor[]</h3>
+						<ul class="tsd-signatures tsd-kind-index-signature tsd-parent-kind-property">
+							<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>s<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description"><aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L23">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:23</a></li>
+									</ul>
+								</aside>
+								<h4 class="tsd-parameters-title">Parameters</h4>
+								<ul class="tsd-parameters">
+									<li>
+										<h5>s:         <span class="tsd-signature-type">string</span></h5>
+									</li>
+								</ul>
+								<h4 class="tsd-returns-title">Returns         <span class="tsd-signature-type">number</span>
+								</h4>
+							</li>
+						</ul>
+					</section></section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+					<a name="static-yoffsetfactor" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagprivate">private</span> <span class="tsd-flag ts-flagstatic">static</span> YOffset<wbr>Factor</h3>
+					<div class="tsd-signature tsd-kind-icon">YOffset<wbr>Factor<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">Object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L29">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:29</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-index-signature tsd-parent-kind-property">
+						<a name="yoffsetfactor.yoffsetfactor__" class="tsd-anchor"></a>
+						<h3>YOffset<wbr>Factor[]</h3>
+						<ul class="tsd-signatures tsd-kind-index-signature tsd-parent-kind-property">
+							<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>s<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description"><aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L29">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:29</a></li>
+									</ul>
+								</aside>
+								<h4 class="tsd-parameters-title">Parameters</h4>
+								<ul class="tsd-parameters">
+									<li>
+										<h5>s:         <span class="tsd-signature-type">string</span></h5>
+									</li>
+								</ul>
+								<h4 class="tsd-returns-title">Returns         <span class="tsd-signature-type">number</span>
+								</h4>
+							</li>
+						</ul>
+					</section></section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_measurer" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagprivate">private</span> _measurer</h3>
 					<div class="tsd-signature tsd-kind-icon">_measurer<span class="tsd-signature-symbol">:</span>         <a href="svgtypewriter.measurers.abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a></div>
@@ -191,21 +255,12 @@
 					<a name="measurer" class="tsd-anchor"></a>
 					<h3>measurer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">measurer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgtypewriter.measurers.abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a></li>
 						<li class="tsd-signature tsd-kind-icon">measurer<span class="tsd-signature-symbol">(</span>newMeasurer<span class="tsd-signature-symbol">: </span><a href="svgtypewriter.measurers.abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgtypewriter.writers.writer.html" class="tsd-signature-type">Writer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description"><aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L29">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:29</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns         <a href="svgtypewriter.measurers.abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a>
-							</h4>
-						</li>
-						<li class="tsd-description"><aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L30">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L43">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -218,53 +273,16 @@
 							</h4>
 						</li>
 					</ul>
-					</section>            <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="translate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagprivate">private</span> translate</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">translate<span class="tsd-signature-symbol">(</span>s<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, x<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description"><aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L51">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:51</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>s:         <span class="tsd-signature-type">any</span></h5>
-								</li>
-								<li>
-									<h5>x?:         <span class="tsd-signature-type">number</span> <span class="tsd-flag ts-flagoptional">optional</span></h5>
-								</li>
-								<li>
-									<h5>y?:         <span class="tsd-signature-type">number</span> <span class="tsd-flag ts-flagoptional">optional</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns         <span class="tsd-signature-type">any</span>
-							</h4>
-						</li>
-					</ul>
 					</section>            <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="wrapper" class="tsd-anchor"></a>
 					<h3>wrapper</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">wrapper<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgtypewriter.wrappers.wrapper.html" class="tsd-signature-type">Wrapper</a></li>
 						<li class="tsd-signature tsd-kind-icon">wrapper<span class="tsd-signature-symbol">(</span>newWrapper<span class="tsd-signature-symbol">: </span><a href="svgtypewriter.wrappers.wrapper.html" class="tsd-signature-type">Wrapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgtypewriter.writers.writer.html" class="tsd-signature-type">Writer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description"><aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L40">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:40</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns         <a href="svgtypewriter.wrappers.wrapper.html" class="tsd-signature-type">Wrapper</a>
-							</h4>
-						</li>
-						<li class="tsd-description"><aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L41">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L48">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -310,12 +328,12 @@
 					<a name="writeline" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagprivate">private</span> write<wbr>Line</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">write<wbr>Line<span class="tsd-signature-symbol">(</span>line<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, g<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, align<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;</span>&quot;left&quot;<span class="tsd-signature-symbol">)</span></li>
+						<li class="tsd-signature tsd-kind-icon">write<wbr>Line<span class="tsd-signature-symbol">(</span>line<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, g<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, xAlign<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, yOffset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description"><aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L64">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L53">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -327,7 +345,48 @@
 									<h5>g:         <span class="tsd-signature-type">any</span></h5>
 								</li>
 								<li>
-									<h5>align?:         <span class="tsd-signature-type">string</span> <span class="tsd-flag ts-flagoptional">optional</span></h5>
+									<h5>width:         <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>xAlign:         <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>yOffset:         <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					</section>            <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="writetext" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagprivate">private</span> write<wbr>Text</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">write<wbr>Text<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, writingArea<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, xAlign<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, yAlign<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description"><aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/writer.ts#L62">/Users/askrodzki/Work/svg-typewriter-page/src/writer.ts:62</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>text:         <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>writingArea:         <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>width:         <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>height:         <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>xAlign:         <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>yAlign:         <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 						</li>
@@ -347,13 +406,16 @@
 						<a href="../modules/svgtypewriter.measurers.html">SVGTypewriter.<wbr>Measurers</a>
 					</li>
 					<li class=" tsd-kind-container tsd-parent-kind-container">
-						<a href="../modules/svgtypewriter.parsers.html">SVGTypewriter.<wbr>Parsers</a>
-					</li>
-					<li class=" tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.utils.html">SVGTypewriter.<wbr>Utils</a>
 					</li>
 					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.utils.dom.html">SVGTypewriter.<wbr>Utils.DOM</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.utils.methods.html">SVGTypewriter.<wbr>Utils.<wbr>Methods</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.utils.stringmethods.html">SVGTypewriter.<wbr>Utils.<wbr>String<wbr>Methods</a>
 					</li>
 					<li class=" tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.wrappers.html">SVGTypewriter.<wbr>Wrappers</a>
@@ -380,7 +442,13 @@
 								<a href="svgtypewriter.writers.writer.html#static-anchorconverter" class="tsd-kind-icon">Anchor<wbr>Converter</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
-								<a href="svgtypewriter.writers.writer.html#static-height_text" class="tsd-kind-icon">HEIGHT_<wbr>TEXT</a>
+								<a href="svgtypewriter.writers.writer.html#static-supportedrotation" class="tsd-kind-icon">Supported<wbr>Rotation</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+								<a href="svgtypewriter.writers.writer.html#static-xoffsetfactor" class="tsd-kind-icon">XOffset<wbr>Factor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+								<a href="svgtypewriter.writers.writer.html#static-yoffsetfactor" class="tsd-kind-icon">YOffset<wbr>Factor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="svgtypewriter.writers.writer.html#_measurer" class="tsd-kind-icon">_measurer</a>
@@ -391,9 +459,6 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="svgtypewriter.writers.writer.html#measurer" class="tsd-kind-icon">measurer</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="svgtypewriter.writers.writer.html#translate" class="tsd-kind-icon">translate</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="svgtypewriter.writers.writer.html#wrapper" class="tsd-kind-icon">wrapper</a>
 							</li>
@@ -402,6 +467,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="svgtypewriter.writers.writer.html#writeline" class="tsd-kind-icon">write<wbr>Line</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="svgtypewriter.writers.writer.html#writetext" class="tsd-kind-icon">write<wbr>Text</a>
 							</li>
 						</ul>
 					</li>

@@ -89,10 +89,10 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Constructor methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor-method tsd-parent-kind-class tsd-is-overwrite"><a href="svgtypewriter.measurers.charactermeasurer.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor-method tsd-parent-kind-class tsd-is-inherited"><a href="svgtypewriter.measurers.charactermeasurer.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -106,20 +106,20 @@
 						</section>
 					</div>
 				</section>
-				</section>            <section class="tsd-panel-group tsd-member-group ">
+				</section>            <section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Constructor methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor-method tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-constructor-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">constructor<span class="tsd-signature-symbol">(</span>area<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgtypewriter.measurers.charactermeasurer.html" class="tsd-signature-type">CharacterMeasurer</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">constructor<span class="tsd-signature-symbol">(</span>area<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, className<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgtypewriter.measurers.abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description"><aside class="tsd-sources">
-								<p>Overwrites         <a href="svgtypewriter.measurers.abstractmeasurer.html">AbstractMeasurer</a>.<a href="svgtypewriter.measurers.abstractmeasurer.html#constructor">constructor</a>
+								<p>Inherited from         <a href="svgtypewriter.measurers.abstractmeasurer.html">AbstractMeasurer</a>.<a href="svgtypewriter.measurers.abstractmeasurer.html#constructor">constructor</a>
 								</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/measurers/characterMeasurer.ts#L5">/Users/askrodzki/Work/svg-typewriter-page/src/measurers/characterMeasurer.ts:5</a></li>
+									<li>Defined in /Users/askrodzki/Work/svg-typewriter-page/src/measurers/abstractMeasurer.ts:22</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -127,8 +127,11 @@
 								<li>
 									<h5>area:         <span class="tsd-signature-type">any</span></h5>
 								</li>
+								<li>
+									<h5>className?:         <span class="tsd-signature-type">string</span> <span class="tsd-flag ts-flagoptional">optional</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns         <a href="svgtypewriter.measurers.charactermeasurer.html" class="tsd-signature-type">CharacterMeasurer</a>
+							<h4 class="tsd-returns-title">Returns         <a href="svgtypewriter.measurers.abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a>
 							</h4>
 						</li>
 					</ul>
@@ -145,7 +148,7 @@
 								<p>Inherited from         <a href="svgtypewriter.measurers.measurer.html">Measurer</a>.<a href="svgtypewriter.measurers.measurer.html#_addguards">_addGuards</a>
 								</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/measurers/measurer.ts#L12">/Users/askrodzki/Work/svg-typewriter-page/src/measurers/measurer.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/measurers/measurer.ts#L8">/Users/askrodzki/Work/svg-typewriter-page/src/measurers/measurer.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -162,12 +165,12 @@
 					<a name="_measurecharacter" class="tsd-anchor"></a>
 					<h3>_measure<wbr>Character</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_measure<wbr>Character<span class="tsd-signature-symbol">(</span>c<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">{ width: any; height: any; }</span></li>
+						<li class="tsd-signature tsd-kind-icon">_measure<wbr>Character<span class="tsd-signature-symbol">(</span>c<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/svgtypewriter.measurers.dimensions.html" class="tsd-signature-type">Dimensions</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description"><aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/measurers/characterMeasurer.ts#L9">/Users/askrodzki/Work/svg-typewriter-page/src/measurers/characterMeasurer.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/measurers/characterMeasurer.ts#L5">/Users/askrodzki/Work/svg-typewriter-page/src/measurers/characterMeasurer.ts:5</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -176,7 +179,7 @@
 									<h5>c:         <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns         <span class="tsd-signature-type">{ width: any; height: any; }</span>
+							<h4 class="tsd-returns-title">Returns         <a href="../interfaces/svgtypewriter.measurers.dimensions.html" class="tsd-signature-type">Dimensions</a>
 							</h4>
 						</li>
 					</ul>
@@ -191,7 +194,7 @@
 								<p>Overwrites         <a href="svgtypewriter.measurers.measurer.html">Measurer</a>.<a href="svgtypewriter.measurers.measurer.html#_measureline">_measureLine</a>
 								</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/measurers/characterMeasurer.ts#L13">/Users/askrodzki/Work/svg-typewriter-page/src/measurers/characterMeasurer.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/measurers/characterMeasurer.ts#L9">/Users/askrodzki/Work/svg-typewriter-page/src/measurers/characterMeasurer.ts:9</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -208,7 +211,7 @@
 					<a name="measure" class="tsd-anchor"></a>
 					<h3>measure</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">measure<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">{ width: any; height: any; }</span></li>
+						<li class="tsd-signature tsd-kind-icon">measure<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;</span>AbstractMeasurer.HEIGHT_TEXT<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">{ width: any; height: any; }</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description"><aside class="tsd-sources">
@@ -217,13 +220,13 @@
 								<p>Overwrites         <a href="svgtypewriter.measurers.abstractmeasurer.html">AbstractMeasurer</a>.<a href="svgtypewriter.measurers.abstractmeasurer.html#measure">measure</a>
 								</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/measurers/measurer.ts#L30">/Users/askrodzki/Work/svg-typewriter-page/src/measurers/measurer.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/measurers/measurer.ts#L26">/Users/askrodzki/Work/svg-typewriter-page/src/measurers/measurer.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>text:         <span class="tsd-signature-type">string</span></h5>
+									<h5>text?:         <span class="tsd-signature-type">string</span> <span class="tsd-flag ts-flagoptional">optional</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns         <span class="tsd-signature-type">{ width: any; height: any; }</span>
@@ -245,13 +248,16 @@
 						<a href="../modules/svgtypewriter.measurers.html">SVGTypewriter.<wbr>Measurers</a>
 					</li>
 					<li class=" tsd-kind-container tsd-parent-kind-container">
-						<a href="../modules/svgtypewriter.parsers.html">SVGTypewriter.<wbr>Parsers</a>
-					</li>
-					<li class=" tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.utils.html">SVGTypewriter.<wbr>Utils</a>
 					</li>
 					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.utils.dom.html">SVGTypewriter.<wbr>Utils.DOM</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.utils.methods.html">SVGTypewriter.<wbr>Utils.<wbr>Methods</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.utils.stringmethods.html">SVGTypewriter.<wbr>Utils.<wbr>String<wbr>Methods</a>
 					</li>
 					<li class=" tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.wrappers.html">SVGTypewriter.<wbr>Wrappers</a>
@@ -266,6 +272,9 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-container">
 						<a href="../interfaces/svgtypewriter.measurers.dimensions.html" class="tsd-kind-icon">Dimensions</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-container tsd-is-not-exported">
+						<a href="../interfaces/svgtypewriter.measurers.textmeasurer.html" class="tsd-kind-icon">Text<wbr>Measurer</a>
+					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-container">
 						<a href="svgtypewriter.measurers.abstractmeasurer.html" class="tsd-kind-icon">Abstract<wbr>Measurer</a>
 					</li>
@@ -277,7 +286,7 @@
 					<li class="current tsd-kind-class tsd-parent-kind-container">
 						<a href="svgtypewriter.measurers.charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
 						<ul>
-							<li class=" tsd-kind-constructor-method tsd-parent-kind-class tsd-is-overwrite">
+							<li class=" tsd-kind-constructor-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="svgtypewriter.measurers.charactermeasurer.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">

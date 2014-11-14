@@ -74,8 +74,9 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="svgtypewriter.wrappers.breakingtokenresult.html#brokentoken" class="tsd-kind-icon">broken<wbr>Token</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="svgtypewriter.wrappers.breakingtokenresult.html#remainingwidth" class="tsd-kind-icon">remaining<wbr>Width</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="svgtypewriter.wrappers.breakingtokenresult.html#breakword" class="tsd-kind-icon">break<wbr>Word</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="svgtypewriter.wrappers.breakingtokenresult.html#line" class="tsd-kind-icon">line</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="svgtypewriter.wrappers.breakingtokenresult.html#remainingtoken" class="tsd-kind-icon">remaining<wbr>Token</a></li>
 							</ul>
 						</section>
 					</div>
@@ -83,18 +84,27 @@
 				</section>            <section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="brokentoken" class="tsd-anchor"></a>
-					<h3>broken<wbr>Token</h3>
-					<div class="tsd-signature tsd-kind-icon">broken<wbr>Token<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">Array&lt;string&gt;</span></div>
+					<a name="breakword" class="tsd-anchor"></a>
+					<h3>break<wbr>Word</h3>
+					<div class="tsd-signature tsd-kind-icon">break<wbr>Word<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/wrapper.ts#L20">/Users/askrodzki/Work/svg-typewriter-page/src/wrapper.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/wrapper.ts#L22">/Users/askrodzki/Work/svg-typewriter-page/src/wrapper.ts:22</a></li>
 						</ul>
 					</aside>
 					</section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="remainingwidth" class="tsd-anchor"></a>
-					<h3>remaining<wbr>Width</h3>
-					<div class="tsd-signature tsd-kind-icon">remaining<wbr>Width<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">number</span></div>
+					<a name="line" class="tsd-anchor"></a>
+					<h3>line</h3>
+					<div class="tsd-signature tsd-kind-icon">line<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/wrapper.ts#L23">/Users/askrodzki/Work/svg-typewriter-page/src/wrapper.ts:23</a></li>
+						</ul>
+					</aside>
+					</section>            <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="remainingtoken" class="tsd-anchor"></a>
+					<h3>remaining<wbr>Token</h3>
+					<div class="tsd-signature tsd-kind-icon">remaining<wbr>Token<span class="tsd-signature-symbol">:</span>         <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/endrjuskr/svg-typewriter/blob/gh-pages/src/wrapper.ts#L21">/Users/askrodzki/Work/svg-typewriter-page/src/wrapper.ts:21</a></li>
@@ -115,13 +125,16 @@
 						<a href="../modules/svgtypewriter.measurers.html">SVGTypewriter.<wbr>Measurers</a>
 					</li>
 					<li class=" tsd-kind-container tsd-parent-kind-container">
-						<a href="../modules/svgtypewriter.parsers.html">SVGTypewriter.<wbr>Parsers</a>
-					</li>
-					<li class=" tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.utils.html">SVGTypewriter.<wbr>Utils</a>
 					</li>
 					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.utils.dom.html">SVGTypewriter.<wbr>Utils.DOM</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.utils.methods.html">SVGTypewriter.<wbr>Utils.<wbr>Methods</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="../modules/svgtypewriter.utils.stringmethods.html">SVGTypewriter.<wbr>Utils.<wbr>String<wbr>Methods</a>
 					</li>
 					<li class="current tsd-kind-container tsd-parent-kind-container">
 						<a href="../modules/svgtypewriter.wrappers.html">SVGTypewriter.<wbr>Wrappers</a>
@@ -139,15 +152,21 @@
 						<a href="svgtypewriter.wrappers.breakingtokenresult.html" class="tsd-kind-icon">Breaking<wbr>Token<wbr>Result</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="svgtypewriter.wrappers.breakingtokenresult.html#brokentoken" class="tsd-kind-icon">broken<wbr>Token</a>
+								<a href="svgtypewriter.wrappers.breakingtokenresult.html#breakword" class="tsd-kind-icon">break<wbr>Word</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="svgtypewriter.wrappers.breakingtokenresult.html#remainingwidth" class="tsd-kind-icon">remaining<wbr>Width</a>
+								<a href="svgtypewriter.wrappers.breakingtokenresult.html#line" class="tsd-kind-icon">line</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="svgtypewriter.wrappers.breakingtokenresult.html#remainingtoken" class="tsd-kind-icon">remaining<wbr>Token</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-container tsd-is-not-exported">
+						<a href="svgtypewriter.wrappers.ellipsisresult.html" class="tsd-kind-icon">Ellipsis<wbr>Result</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-container tsd-is-not-exported">
 						<a href="svgtypewriter.wrappers.iterativewrappingstate.html" class="tsd-kind-icon">Iterative<wbr>Wrapping<wbr>State</a>
 					</li>
