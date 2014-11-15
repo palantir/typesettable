@@ -233,6 +233,103 @@ var SVGTypewriter;
 ///<reference path="../reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
+    (function (Animators) {
+        var BaseAnimator = (function () {
+            function BaseAnimator() {
+                this.duration(BaseAnimator.DEFAULT_DURATION_MILLISECONDS);
+                this.delay(0);
+                this.easing(BaseAnimator.DEFAULT_EASING);
+                this.direction("bottom");
+            }
+            BaseAnimator.prototype.animate = function (selection) {
+                var attr = SVGTypewriter.Utils.DOM.getBBox(selection);
+                var mask = selection.append("mask").append("rect");
+                mask.attr("id", "maskurl");
+                mask.attr("width", 0);
+                mask.attr("height", 0);
+                switch (this._direction) {
+                    case "top":
+                        mask.attr("y", attr.y + attr.height);
+                        mask.attr("x", attr.x);
+                        mask.attr("width", attr.width);
+                        break;
+                    case "bottom":
+                        mask.attr("y", attr.y);
+                        mask.attr("x", attr.x);
+                        mask.attr("width", attr.width);
+                        break;
+                    case "left":
+                        mask.attr("y", attr.y);
+                        mask.attr("x", attr.x);
+                        mask.attr("height", attr.height);
+                        break;
+                    case "right":
+                        mask.attr("y", attr.y);
+                        mask.attr("x", attr.x + attr.width);
+                        mask.attr("width", attr.height);
+                        break;
+                }
+                selection.select(".text-area").style("width", 20);
+                return mask.transition().ease(this.easing()).duration(this.duration()).delay(this.delay()).attr(attr);
+            };
+            BaseAnimator.prototype.duration = function (duration) {
+                if (duration == null) {
+                    return this._duration;
+                }
+                else {
+                    this._duration = duration;
+                    return this;
+                }
+            };
+            BaseAnimator.prototype.delay = function (delay) {
+                if (delay == null) {
+                    return this._delay;
+                }
+                else {
+                    this._delay = delay;
+                    return this;
+                }
+            };
+            BaseAnimator.prototype.easing = function (easing) {
+                if (easing == null) {
+                    return this._easing;
+                }
+                else {
+                    this._easing = easing;
+                    return this;
+                }
+            };
+            BaseAnimator.prototype.direction = function (direction) {
+                if (direction == null) {
+                    return this._direction;
+                }
+                else {
+                    if (BaseAnimator.SupportedDirections.indexOf(direction) === -1) {
+                        throw new Error("unsupported direction - " + direction);
+                    }
+                    this._direction = direction;
+                    return this;
+                }
+            };
+            /**
+             * The default duration of the animation in milliseconds
+             */
+            BaseAnimator.DEFAULT_DURATION_MILLISECONDS = 300;
+            /**
+             * The default easing of the animation
+             */
+            BaseAnimator.DEFAULT_EASING = "exp-out";
+            BaseAnimator.SupportedDirections = ["top", "bottom", "left", "right"];
+            return BaseAnimator;
+        })();
+        Animators.BaseAnimator = BaseAnimator;
+    })(SVGTypewriter.Animators || (SVGTypewriter.Animators = {}));
+    var Animators = SVGTypewriter.Animators;
+})(SVGTypewriter || (SVGTypewriter = {}));
+
+///<reference path="../reference.ts" />
+var SVGTypewriter;
+(function (SVGTypewriter) {
     (function (Wrappers) {
         var Wrapper = (function () {
             function Wrapper() {
@@ -564,6 +661,9 @@ var SVGTypewriter;
                         break;
                 }
                 textArea.attr("transform", xForm.toString());
+                if (options.animator) {
+                    options.animator.animate(textContainer);
+                }
             };
             Writer.SupportedRotation = [-90, 0, 180, 90];
             Writer.AnchorConverter = {

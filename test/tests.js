@@ -756,6 +756,15 @@ describe("Writer Test Suite", function () {
             checkWriting("reallylongsentencewithmanycharacters", 50, 150);
         });
     });
+    describe("Animator", function () {
+        beforeEach(function () {
+            writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator();
+            isHorizontal = true;
+        });
+        it("simple", function () {
+            checkWriting("test", 200, 200);
+        });
+    });
 });
 
 ///<reference path="../testReference.ts" />

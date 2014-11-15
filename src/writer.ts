@@ -6,6 +6,7 @@ module SVGTypewriter.Writers {
       xAlign: string;
       yAlign: string;
       textRotation: number;
+      animator?: Animators.BaseAnimator;
     }
 
   export class Writer {
@@ -120,6 +121,9 @@ module SVGTypewriter.Writers {
       }
 
       textArea.attr("transform", xForm.toString());
+      if (options.animator) {
+        options.animator.animate(textContainer);
+      }
     }
   }
 }

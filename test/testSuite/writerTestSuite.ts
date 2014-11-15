@@ -233,4 +233,15 @@ describe("Writer Test Suite", () => {
       checkWriting("reallylongsentencewithmanycharacters", 50, 150);
     });
   });
+
+  describe("Animator", () => {
+    beforeEach(() => {
+      writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator();
+      isHorizontal = true;
+    });
+
+    it("simple", () => {
+      checkWriting("test", 200, 200);
+    });
+  });
 });
