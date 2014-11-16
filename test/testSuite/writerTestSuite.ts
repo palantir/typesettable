@@ -240,7 +240,7 @@ describe("Writer Test Suite", () => {
       isHorizontal = true;
     });
 
-    it("simple", () => {
+    it.skip("simple", () => {
       checkWriting("test", 200, 200);
     });
   });

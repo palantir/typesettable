@@ -761,7 +761,7 @@ describe("Writer Test Suite", function () {
             writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator();
             isHorizontal = true;
         });
-        it("simple", function () {
+        it.skip("simple", function () {
             checkWriting("test", 200, 200);
         });
     });
