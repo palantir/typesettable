@@ -239,36 +239,12 @@ var SVGTypewriter;
                 this.duration(BaseAnimator.DEFAULT_DURATION_MILLISECONDS);
                 this.delay(0);
                 this.easing(BaseAnimator.DEFAULT_EASING);
-                this.direction("bottom");
             }
             BaseAnimator.prototype.animate = function (selection) {
-                var attr = SVGTypewriter.Utils.DOM.getBBox(selection);
-                var mask = selection.select(".clip-rect");
-                mask.attr("width", 0);
-                mask.attr("height", 0);
-                switch (this._direction) {
-                    case "top":
-                        mask.attr("y", attr.y + attr.height);
-                        mask.attr("x", attr.x);
-                        mask.attr("width", attr.width);
-                        break;
-                    case "bottom":
-                        mask.attr("y", attr.y);
-                        mask.attr("x", attr.x);
-                        mask.attr("width", attr.width);
-                        break;
-                    case "left":
-                        mask.attr("y", attr.y);
-                        mask.attr("x", attr.x);
-                        mask.attr("height", attr.height);
-                        break;
-                    case "right":
-                        mask.attr("y", attr.y);
-                        mask.attr("x", attr.x + attr.width);
-                        mask.attr("height", attr.height);
-                        break;
-                }
-                return mask.transition().ease(this.easing()).duration(this.duration()).delay(this.delay()).attr(attr);
+                return this._animate(selection.select(".clip-rect"), SVGTypewriter.Utils.DOM.getBBox(selection));
+            };
+            BaseAnimator.prototype._animate = function (selection, attr) {
+                return selection.transition().ease(this.easing()).duration(this.duration()).delay(this.delay()).attr(attr);
             };
             BaseAnimator.prototype.duration = function (duration) {
                 if (duration == null) {
@@ -297,18 +273,6 @@ var SVGTypewriter;
                     return this;
                 }
             };
-            BaseAnimator.prototype.direction = function (direction) {
-                if (direction == null) {
-                    return this._direction;
-                }
-                else {
-                    if (BaseAnimator.SupportedDirections.indexOf(direction) === -1) {
-                        throw new Error("unsupported direction - " + direction);
-                    }
-                    this._direction = direction;
-                    return this;
-                }
-            };
             /**
              * The default duration of the animation in milliseconds
              */
@@ -317,10 +281,105 @@ var SVGTypewriter;
              * The default easing of the animation
              */
             BaseAnimator.DEFAULT_EASING = "exp-out";
-            BaseAnimator.SupportedDirections = ["top", "bottom", "left", "right"];
             return BaseAnimator;
         })();
         Animators.BaseAnimator = BaseAnimator;
+    })(SVGTypewriter.Animators || (SVGTypewriter.Animators = {}));
+    var Animators = SVGTypewriter.Animators;
+})(SVGTypewriter || (SVGTypewriter = {}));
+
+///<reference path="../reference.ts" />
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var SVGTypewriter;
+(function (SVGTypewriter) {
+    (function (Animators) {
+        var UnveilAnimator = (function (_super) {
+            __extends(UnveilAnimator, _super);
+            function UnveilAnimator() {
+                this.direction("bottom");
+                _super.call(this);
+            }
+            UnveilAnimator.prototype.direction = function (direction) {
+                if (direction == null) {
+                    return this._direction;
+                }
+                else {
+                    if (UnveilAnimator.SupportedDirections.indexOf(direction) === -1) {
+                        throw new Error("unsupported direction - " + direction);
+                    }
+                    this._direction = direction;
+                    return this;
+                }
+            };
+            UnveilAnimator.prototype.animate = function (selection) {
+                var attr = SVGTypewriter.Utils.DOM.getBBox(selection);
+                var mask = selection.select(".clip-rect");
+                mask.attr("width", 0);
+                mask.attr("height", 0);
+                switch (this._direction) {
+                    case "top":
+                        mask.attr("y", attr.y + attr.height);
+                        mask.attr("x", attr.x);
+                        mask.attr("width", attr.width);
+                        break;
+                    case "bottom":
+                        mask.attr("y", attr.y);
+                        mask.attr("x", attr.x);
+                        mask.attr("width", attr.width);
+                        break;
+                    case "left":
+                        mask.attr("y", attr.y);
+                        mask.attr("x", attr.x);
+                        mask.attr("height", attr.height);
+                        break;
+                    case "right":
+                        mask.attr("y", attr.y);
+                        mask.attr("x", attr.x + attr.width);
+                        mask.attr("height", attr.height);
+                        break;
+                }
+                return this._animate(mask, attr);
+            };
+            UnveilAnimator.SupportedDirections = ["top", "bottom", "left", "right"];
+            return UnveilAnimator;
+        })(Animators.BaseAnimator);
+        Animators.UnveilAnimator = UnveilAnimator;
+    })(SVGTypewriter.Animators || (SVGTypewriter.Animators = {}));
+    var Animators = SVGTypewriter.Animators;
+})(SVGTypewriter || (SVGTypewriter = {}));
+
+///<reference path="../reference.ts" />
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var SVGTypewriter;
+(function (SVGTypewriter) {
+    (function (Animators) {
+        var OpacityAnimator = (function (_super) {
+            __extends(OpacityAnimator, _super);
+            function OpacityAnimator() {
+                _super.apply(this, arguments);
+            }
+            OpacityAnimator.prototype.animate = function (selection) {
+                debugger;
+                var area = selection.select(".text-area");
+                area.attr("opacity", 0);
+                var attr = {
+                    opacity: 1
+                };
+                return this._animate(area, attr);
+            };
+            return OpacityAnimator;
+        })(Animators.BaseAnimator);
+        Animators.OpacityAnimator = OpacityAnimator;
     })(SVGTypewriter.Animators || (SVGTypewriter.Animators = {}));
     var Animators = SVGTypewriter.Animators;
 })(SVGTypewriter || (SVGTypewriter = {}));
@@ -675,7 +734,7 @@ var SVGTypewriter;
                 var clipPathParent = selection.append("clipPath").attr("id", clipPathID);
                 var attr = SVGTypewriter.Utils.DOM.getBBox(selection.select(".text-area"));
                 var box = clipPathParent.append("rect");
-                box.classed("clip-rect", true).attr("width", attr.width).attr("height", attr.height);
+                box.classed("clip-rect", true).attr(attr);
             };
             Writer.nextID = 0;
             Writer.SupportedRotation = [-90, 0, 180, 90];

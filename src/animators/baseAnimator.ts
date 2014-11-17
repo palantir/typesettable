@@ -1,12 +1,5 @@
 ///<reference path="../reference.ts" />
 module SVGTypewriter.Animators {
-  export interface AnimatorAttribute {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  }
-
   export class BaseAnimator {
 
     /**
@@ -19,50 +12,24 @@ module SVGTypewriter.Animators {
      */
     public static DEFAULT_EASING = "exp-out";
 
-    private static SupportedDirections = ["top", "bottom", "left", "right"];
-
     private _duration: number;
     private _delay: number;
     private _easing: string;
-    private _direction: string;
+
+
 
     constructor() {
       this.duration(BaseAnimator.DEFAULT_DURATION_MILLISECONDS);
       this.delay(0);
       this.easing(BaseAnimator.DEFAULT_EASING);
-      this.direction("bottom");
     }
 
-    public animate(selection: any): any {
-      var attr = Utils.DOM.getBBox(selection);
-      var mask = selection.select(".clip-rect");
-      mask.attr("width", 0);
-      mask.attr("height", 0);
-      switch (this._direction) {
-        case "top":
-          mask.attr("y" , attr.y + attr.height);
-          mask.attr("x" , attr.x);
-          mask.attr("width" , attr.width);
+    public animate(selection: D3.Selection): any {
+     return this._animate(selection.select(".clip-rect"), Utils.DOM.getBBox(selection));
+    }
 
-          break;
-        case "bottom":
-          mask.attr("y" , attr.y);
-          mask.attr("x" , attr.x);
-          mask.attr("width" , attr.width);
-          break;
-        case "left":
-          mask.attr("y" , attr.y);
-          mask.attr("x" , attr.x);
-          mask.attr("height" , attr.height);
-          break;
-        case "right":
-          mask.attr("y" , attr.y);
-          mask.attr("x" , attr.x + attr.width);
-          mask.attr("height" , attr.height);
-          break;
-      }
-
-      return mask.transition()
+    public _animate(selection: D3.Selection, attr: any) {
+      return selection.transition()
         .ease(this.easing())
         .duration(this.duration())
         .delay(this.delay())
@@ -98,21 +65,6 @@ module SVGTypewriter.Animators {
         return this._easing;
       } else {
         this._easing = easing;
-        return this;
-      }
-    }
-
-    public direction(): string;
-    public direction(direction: string): BaseAnimator;
-    public direction(direction?: string): any{
-      if (direction == null) {
-        return this._direction;
-      } else {
-        if (BaseAnimator.SupportedDirections.indexOf(direction) === -1) {
-          throw new Error("unsupported direction - " + direction);
-        }
-
-        this._direction = direction;
         return this;
       }
     }

@@ -10,7 +10,7 @@ describe("Writer Test Suite", () => {
   var writeOptions: SVGTypewriter.Writers.WriteOptions;
   var isHorizontal: boolean;
 
-  var checkWriting = (text: string, width: number, height: number, checkTitle = false) => {
+  var checkWriting = (text: string, width: number, height: number, shouldHaveTitle = false) => {
     svg.attr("width", width);
     svg.attr("height", height);
     writer.write(text, width, height, writeOptions);
@@ -18,11 +18,13 @@ describe("Writer Test Suite", () => {
     var dimensions = measurer.measure(
                       wrapper.wrap(text, measurer, isHorizontal ? width : height, isHorizontal ? height : width).wrappedText);
 
-    assert.closeTo(bbox.width, dimensions.width, 1, "width should be almost the same");
-    assert.closeTo(bbox.height, dimensions.height, 1, "height should be almost the same");
+    assert.closeTo(bbox.width, dimensions.width, 1, "width of the text should be almost the same as measurer width");
+    assert.closeTo(bbox.height, dimensions.height, 1, "height of the text should be almost the same as measurer height");
 
     assertBBoxInclusion(svg, svg.select(".text-area"));
-    assert.equal(svg.select(".text-container").select("title").empty(), !checkTitle, "title was creatin accordingly");
+    assert.equal(svg.select(".text-container").select("title").empty(),
+                 !shouldHaveTitle,
+                 "title element was created according to writer options");
 
     svg.remove();
   };
@@ -40,16 +42,24 @@ describe("Writer Test Suite", () => {
     };
   });
 
+  describe("Core", () => {
+    it("unsupported text rotation", () => {
+      writeOptions.textRotation = 45;
+      assert.throws(() => checkWriting("test", 200, 200), Error);
+      svg.remove();
+    });
+
+    it("unique writer id", () => {
+      var writer2 = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+      assert.operator(writer._writerID, "<" , writer2._writerID, "each writer has unique id");
+      svg.remove();
+    });
+  });
+
   describe("Horizontal", () => {
     beforeEach(() => {
       writeOptions.textRotation = 0;
       isHorizontal = true;
-    });
-
-    it("writer ID", () => {
-      var writer2 = new SVGTypewriter.Writers.Writer(measurer, wrapper);
-      assert.operator(writer._writerID, "<" , writer2._writerID, "unique writer ID");
-      svg.remove();
     });
 
     it("one word", () => {
@@ -237,39 +247,6 @@ describe("Writer Test Suite", () => {
       writeOptions.yAlign = "center";
       writeOptions.xAlign = "center";
       checkWriting("reallylongsentencewithmanycharacters", 50, 150);
-    });
-  });
-
-  describe("Animator", () => {
-    beforeEach(() => {
-      writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator();
-      isHorizontal = true;
-    });
-
-    it("simple", () => {
-      checkWriting("test", 200, 200);
-    });
-
-    it("duration", () => {
-      writeOptions.animator.duration(6000);
-      checkWriting("test\ntest", 200, 200);
-    });
-
-    describe("directions", () => {
-      it("direction - top", () => {
-        writeOptions.animator.duration(6000).direction("top");
-        checkWriting("test\ntest", 200, 200);
-      });
-
-      it("direction - left", () => {
-        writeOptions.animator.duration(6000).direction("left");
-        checkWriting("test\ntest", 200, 200);
-      });
-
-      it("direction - right", () => {
-        writeOptions.animator.duration(6000).direction("right");
-        checkWriting("test\ntest", 200, 200);
-      });
     });
   });
 });

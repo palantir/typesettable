@@ -5,6 +5,8 @@
 /// <reference path="utils/stringMethods.ts" />
 
 /// <reference path="animators/baseAnimator.ts" />
+/// <reference path="animators/unveilAnimator.ts" />
+/// <reference path="animators/opacityAnimator.ts" />
 
 /// <reference path="wrappers/wrapper.ts" />
 /// <reference path="wrappers/singleLineWrapper.ts" />

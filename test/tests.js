@@ -540,6 +540,21 @@ describe("Wrapper Test Suite", function () {
             wrapper = new SVGTypewriter.Wrappers.SingleLineWrapper().maxLines(2);
         });
         it("simple", function () {
+            var text = "hello.";
+            var availableWidth = measurer.measure(text).width;
+            var baseWrapper = new SVGTypewriter.Wrappers.Wrapper().maxLines(2);
+            var result = wrapper.wrap(text, measurer, availableWidth);
+            var baseResult = baseWrapper.wrap(text, measurer, availableWidth);
+            var baseDimensions = measurer.measure(baseResult.wrappedText);
+            var dimensions = measurer.measure(result.wrappedText);
+            assert.deepEqual(result.originalText, text, "original text has been set");
+            assert.equal(result.wrappedText, text, "wrapped text is not the whole line");
+            assert.equal(result.wrappedText, baseResult.wrappedText, "wrapped text looks better");
+            assert.equal(dimensions.width, baseDimensions.width, "occupies same width");
+            assert.equal(dimensions.height, baseDimensions.height, "occupies same height");
+            assert.operator(dimensions.width, "<=", availableWidth, "wrapped text fits in");
+        });
+        it("two lines", function () {
             var text = "hello  world!.";
             var availableWidth = measurer.measure(text).width - 2;
             var baseWrapper = new SVGTypewriter.Wrappers.Wrapper().maxLines(2);
@@ -574,17 +589,17 @@ describe("Writer Test Suite", function () {
     var svg;
     var writeOptions;
     var isHorizontal;
-    var checkWriting = function (text, width, height, checkTitle) {
-        if (checkTitle === void 0) { checkTitle = false; }
+    var checkWriting = function (text, width, height, shouldHaveTitle) {
+        if (shouldHaveTitle === void 0) { shouldHaveTitle = false; }
         svg.attr("width", width);
         svg.attr("height", height);
         writer.write(text, width, height, writeOptions);
         var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".text-area"));
         var dimensions = measurer.measure(wrapper.wrap(text, measurer, isHorizontal ? width : height, isHorizontal ? height : width).wrappedText);
-        assert.closeTo(bbox.width, dimensions.width, 1, "width should be almost the same");
-        assert.closeTo(bbox.height, dimensions.height, 1, "height should be almost the same");
+        assert.closeTo(bbox.width, dimensions.width, 1, "width of the text should be almost the same as measurer width");
+        assert.closeTo(bbox.height, dimensions.height, 1, "height of the text should be almost the same as measurer height");
         assertBBoxInclusion(svg, svg.select(".text-area"));
-        assert.equal(svg.select(".text-container").select("title").empty(), !checkTitle, "title was creatin accordingly");
+        assert.equal(svg.select(".text-container").select("title").empty(), !shouldHaveTitle, "title element was created according to writer options");
         svg.remove();
     };
     beforeEach(function () {
@@ -599,15 +614,22 @@ describe("Writer Test Suite", function () {
             textRotation: 0
         };
     });
+    describe("Core", function () {
+        it("unsupported text rotation", function () {
+            writeOptions.textRotation = 45;
+            assert.throws(function () { return checkWriting("test", 200, 200); }, Error);
+            svg.remove();
+        });
+        it("unique writer id", function () {
+            var writer2 = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+            assert.operator(writer._writerID, "<", writer2._writerID, "each writer has unique id");
+            svg.remove();
+        });
+    });
     describe("Horizontal", function () {
         beforeEach(function () {
             writeOptions.textRotation = 0;
             isHorizontal = true;
-        });
-        it("writer ID", function () {
-            var writer2 = new SVGTypewriter.Writers.Writer(measurer, wrapper);
-            assert.operator(writer._writerID, "<", writer2._writerID, "unique writer ID");
-            svg.remove();
         });
         it("one word", function () {
             checkWriting("test", 200, 200);
@@ -761,33 +783,6 @@ describe("Writer Test Suite", function () {
             checkWriting("reallylongsentencewithmanycharacters", 50, 150);
         });
     });
-    describe("Animator", function () {
-        beforeEach(function () {
-            writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator();
-            isHorizontal = true;
-        });
-        it("simple", function () {
-            checkWriting("test", 200, 200);
-        });
-        it("duration", function () {
-            writeOptions.animator.duration(6000);
-            checkWriting("test\ntest", 200, 200);
-        });
-        describe("directions", function () {
-            it("direction - top", function () {
-                writeOptions.animator.duration(6000).direction("top");
-                checkWriting("test\ntest", 200, 200);
-            });
-            it("direction - left", function () {
-                writeOptions.animator.duration(6000).direction("left");
-                checkWriting("test\ntest", 200, 200);
-            });
-            it("direction - right", function () {
-                writeOptions.animator.duration(6000).direction("right");
-                checkWriting("test\ntest", 200, 200);
-            });
-        });
-    });
 });
 
 ///<reference path="../testReference.ts" />
@@ -928,6 +923,82 @@ describe("Measurer Test Suite", function () {
         });
         after(function () {
             svg.remove();
+        });
+    });
+});
+
+///<reference path="../testReference.ts" />
+var assert = chai.assert;
+describe("Animator Test Suite", function () {
+    var writer;
+    var svg;
+    var writeOptions;
+    var checkWriting = function () {
+        writer.write("hello\nworld", 200, 200, writeOptions);
+        svg.remove();
+    };
+    beforeEach(function () {
+        svg = generateSVG(200, 200);
+        var measurer = new SVGTypewriter.Measurers.Measurer(svg);
+        var wrapper = new SVGTypewriter.Wrappers.Wrapper();
+        writer = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+        writeOptions = {
+            selection: svg,
+            xAlign: "left",
+            yAlign: "top",
+            textRotation: 0
+        };
+    });
+    describe("Base", function () {
+        beforeEach(function () {
+            writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator();
+        });
+        it("defaults", function () {
+            assert.equal(writeOptions.animator.duration(), 300, "duration is set to default");
+            assert.equal(writeOptions.animator.delay(), 0, "delay is set to default");
+            assert.equal(writeOptions.animator.easing(), "exp-out", "easing is set to default");
+            svg.remove();
+        });
+        it("simple", function () {
+            checkWriting();
+        });
+        it("duration", function () {
+            writeOptions.animator.duration(6000);
+            checkWriting();
+        });
+    });
+    describe("Unveil", function () {
+        beforeEach(function () {
+            writeOptions.animator = new SVGTypewriter.Animators.UnveilAnimator().duration(6000);
+        });
+        it("defaults", function () {
+            assert.equal(writeOptions.animator.direction(), "bottom", "direction is set to default");
+            assert.throws(function () { return writeOptions.animator.direction("aaa"); }, Error);
+            assert.equal(writeOptions.animator.direction(), "bottom", "direction is set to default");
+            svg.remove();
+        });
+        it("direction - bottom", function () {
+            checkWriting();
+        });
+        it("direction - top", function () {
+            writeOptions.animator.direction("top");
+            checkWriting();
+        });
+        it("direction - left", function () {
+            writeOptions.animator.direction("left");
+            checkWriting();
+        });
+        it("direction - right", function () {
+            writeOptions.animator.direction("right");
+            checkWriting();
+        });
+    });
+    describe("Opacity", function () {
+        beforeEach(function () {
+            writeOptions.animator = new SVGTypewriter.Animators.OpacityAnimator().duration(6000);
+        });
+        it("simple", function () {
+            checkWriting();
         });
     });
 });
