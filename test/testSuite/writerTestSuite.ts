@@ -46,6 +46,12 @@ describe("Writer Test Suite", () => {
       isHorizontal = true;
     });
 
+    it("writer ID", () => {
+      var writer2 = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+      assert.operator(writer._writerID, "<" , writer2._writerID, "unique writer ID");
+      svg.remove();
+    });
+
     it("one word", () => {
       checkWriting("test", 200, 200);
     });

@@ -136,6 +136,8 @@ declare module SVGTypewriter.Writers {
         animator?: Animators.BaseAnimator;
     }
     class Writer {
+        _writerID: number;
+        _elementID: number;
         constructor(measurer: Measurers.AbstractMeasurer, wrapper?: Wrappers.Wrapper);
         measurer(newMeasurer: Measurers.AbstractMeasurer): Writer;
         wrapper(newWrapper: Wrappers.Wrapper): Writer;

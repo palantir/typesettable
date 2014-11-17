@@ -13,6 +13,9 @@ module SVGTypewriter.Writers {
     private _measurer: Measurers.AbstractMeasurer;
     private _wrapper: Wrappers.Wrapper;
     private _addTitleElement: boolean;
+    private static nextID = 0;
+    public _writerID = Writer.nextID++;
+    public _elementID = 0;
 
     private static SupportedRotation = [-90, 0, 180, 90];
 

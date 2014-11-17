@@ -604,6 +604,11 @@ describe("Writer Test Suite", function () {
             writeOptions.textRotation = 0;
             isHorizontal = true;
         });
+        it("writer ID", function () {
+            var writer2 = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+            assert.operator(writer._writerID, "<", writer2._writerID, "unique writer ID");
+            svg.remove();
+        });
         it("one word", function () {
             checkWriting("test", 200, 200);
         });

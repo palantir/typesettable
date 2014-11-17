@@ -597,6 +597,8 @@ var SVGTypewriter;
     (function (Writers) {
         var Writer = (function () {
             function Writer(measurer, wrapper) {
+                this._writerID = Writer.nextID++;
+                this._elementID = 0;
                 this.measurer(measurer);
                 if (wrapper) {
                     this.wrapper(wrapper);
@@ -665,6 +667,7 @@ var SVGTypewriter;
                     options.animator.animate(textContainer);
                 }
             };
+            Writer.nextID = 0;
             Writer.SupportedRotation = [-90, 0, 180, 90];
             Writer.AnchorConverter = {
                 left: "start",
