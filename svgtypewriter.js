@@ -241,11 +241,10 @@ var SVGTypewriter;
                 this.easing(BaseAnimator.DEFAULT_EASING);
             }
             BaseAnimator.prototype.animate = function (selection) {
-                return this._animate(selection, SVGTypewriter.Utils.DOM.getBBox(selection));
+                return this._animate(selection.select(".clip-rect"), SVGTypewriter.Utils.DOM.getBBox(selection));
             };
             BaseAnimator.prototype._animate = function (selection, attr) {
-                var mask = selection.select(".clip-rect");
-                return mask.transition().ease(this.easing()).duration(this.duration()).delay(this.delay()).attr(attr);
+                return selection.transition().ease(this.easing()).duration(this.duration()).delay(this.delay()).attr(attr);
             };
             BaseAnimator.prototype.duration = function (duration) {
                 if (duration == null) {
@@ -344,7 +343,7 @@ var SVGTypewriter;
                         mask.attr("height", attr.height);
                         break;
                 }
-                return this._animate(selection, attr);
+                return this._animate(mask, attr);
             };
             UnveilAnimator.SupportedDirections = ["top", "bottom", "left", "right"];
             return UnveilAnimator;
@@ -370,11 +369,13 @@ var SVGTypewriter;
                 _super.apply(this, arguments);
             }
             OpacityAnimator.prototype.animate = function (selection) {
-                var attr = SVGTypewriter.Utils.DOM.getBBox(selection);
-                var mask = selection.select(".clip-rect");
-                mask.attr(attr).attr("opacity", 0);
-                attr.opacity = 1;
-                return this._animate(selection, attr);
+                debugger;
+                var area = selection.select(".text-area");
+                area.attr("opacity", 0);
+                var attr = {
+                    opacity: 1
+                };
+                return this._animate(area, attr);
             };
             return OpacityAnimator;
         })(Animators.BaseAnimator);

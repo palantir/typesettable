@@ -25,12 +25,11 @@ module SVGTypewriter.Animators {
     }
 
     public animate(selection: D3.Selection): any {
-     return this._animate(selection, Utils.DOM.getBBox(selection));
+     return this._animate(selection.select(".clip-rect"), Utils.DOM.getBBox(selection));
     }
 
     public _animate(selection: D3.Selection, attr: any) {
-      var mask = selection.select(".clip-rect");
-      return mask.transition()
+      return selection.transition()
         .ease(this.easing())
         .duration(this.duration())
         .delay(this.delay())
