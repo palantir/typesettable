@@ -35,8 +35,7 @@ module SVGTypewriter.Animators {
 
     public animate(selection: any): any {
       var attr = Utils.DOM.getBBox(selection);
-      var mask = selection.append("mask").append("rect");
-      mask.attr("id", "maskurl");
+      var mask = selection.select(".clip-rect");
       mask.attr("width", 0);
       mask.attr("height", 0);
       switch (this._direction) {
@@ -59,11 +58,10 @@ module SVGTypewriter.Animators {
         case "right":
           mask.attr("y" , attr.y);
           mask.attr("x" , attr.x + attr.width);
-          mask.attr("width" , attr.height);
+          mask.attr("height" , attr.height);
           break;
-
       }
-      selection.select(".text-area").style("width", 20);
+
       return mask.transition()
         .ease(this.easing())
         .duration(this.duration())

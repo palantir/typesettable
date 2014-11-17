@@ -124,9 +124,22 @@ module SVGTypewriter.Writers {
       }
 
       textArea.attr("transform", xForm.toString());
+      this.addClipPath(textContainer);
       if (options.animator) {
         options.animator.animate(textContainer);
       }
+    }
+
+    private addClipPath(selection: D3.Selection) {
+      var elementID = this._elementID++;
+      var prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
+      prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
+      var clipPathID = "clipPath" + this._writerID + "_" + elementID;
+      selection.select(".text-area").attr("clip-path", "url(\"" + prefix + "#" + clipPathID +"\")");
+      var clipPathParent = selection.append("clipPath").attr("id", clipPathID);
+      var attr = Utils.DOM.getBBox(selection.select(".text-area"));
+      var box = clipPathParent.append("rect");
+      box.classed("clip-rect", true).attr("width", attr.width).attr("height", attr.height);
     }
   }
 }

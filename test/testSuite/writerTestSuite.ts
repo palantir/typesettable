@@ -246,8 +246,30 @@ describe("Writer Test Suite", () => {
       isHorizontal = true;
     });
 
-    it.skip("simple", () => {
+    it("simple", () => {
       checkWriting("test", 200, 200);
+    });
+
+    it("duration", () => {
+      writeOptions.animator.duration(6000);
+      checkWriting("test\ntest", 200, 200);
+    });
+
+    describe("directions", () => {
+      it("direction - top", () => {
+        writeOptions.animator.duration(6000).direction("top");
+        checkWriting("test\ntest", 200, 200);
+      });
+
+      it("direction - left", () => {
+        writeOptions.animator.duration(6000).direction("left");
+        checkWriting("test\ntest", 200, 200);
+      });
+
+      it("direction - right", () => {
+        writeOptions.animator.duration(6000).direction("right");
+        checkWriting("test\ntest", 200, 200);
+      });
     });
   });
 });

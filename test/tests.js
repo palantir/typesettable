@@ -766,8 +766,26 @@ describe("Writer Test Suite", function () {
             writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator();
             isHorizontal = true;
         });
-        it.skip("simple", function () {
+        it("simple", function () {
             checkWriting("test", 200, 200);
+        });
+        it("duration", function () {
+            writeOptions.animator.duration(6000);
+            checkWriting("test\ntest", 200, 200);
+        });
+        describe("directions", function () {
+            it("direction - top", function () {
+                writeOptions.animator.duration(6000).direction("top");
+                checkWriting("test\ntest", 200, 200);
+            });
+            it("direction - left", function () {
+                writeOptions.animator.duration(6000).direction("left");
+                checkWriting("test\ntest", 200, 200);
+            });
+            it("direction - right", function () {
+                writeOptions.animator.duration(6000).direction("right");
+                checkWriting("test\ntest", 200, 200);
+            });
         });
     });
 });

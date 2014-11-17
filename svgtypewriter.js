@@ -243,8 +243,7 @@ var SVGTypewriter;
             }
             BaseAnimator.prototype.animate = function (selection) {
                 var attr = SVGTypewriter.Utils.DOM.getBBox(selection);
-                var mask = selection.append("mask").append("rect");
-                mask.attr("id", "maskurl");
+                var mask = selection.select(".clip-rect");
                 mask.attr("width", 0);
                 mask.attr("height", 0);
                 switch (this._direction) {
@@ -266,10 +265,9 @@ var SVGTypewriter;
                     case "right":
                         mask.attr("y", attr.y);
                         mask.attr("x", attr.x + attr.width);
-                        mask.attr("width", attr.height);
+                        mask.attr("height", attr.height);
                         break;
                 }
-                selection.select(".text-area").style("width", 20);
                 return mask.transition().ease(this.easing()).duration(this.duration()).delay(this.delay()).attr(attr);
             };
             BaseAnimator.prototype.duration = function (duration) {
@@ -663,9 +661,21 @@ var SVGTypewriter;
                         break;
                 }
                 textArea.attr("transform", xForm.toString());
+                this.addClipPath(textContainer);
                 if (options.animator) {
                     options.animator.animate(textContainer);
                 }
+            };
+            Writer.prototype.addClipPath = function (selection) {
+                var elementID = this._elementID++;
+                var prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
+                prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
+                var clipPathID = "clipPath" + this._writerID + "_" + elementID;
+                selection.select(".text-area").attr("clip-path", "url(\"" + prefix + "#" + clipPathID + "\")");
+                var clipPathParent = selection.append("clipPath").attr("id", clipPathID);
+                var attr = SVGTypewriter.Utils.DOM.getBBox(selection.select(".text-area"));
+                var box = clipPathParent.append("rect");
+                box.classed("clip-rect", true).attr("width", attr.width).attr("height", attr.height);
             };
             Writer.nextID = 0;
             Writer.SupportedRotation = [-90, 0, 180, 90];
