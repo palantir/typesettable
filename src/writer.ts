@@ -6,11 +6,16 @@ module SVGTypewriter.Writers {
       xAlign: string;
       yAlign: string;
       textRotation: number;
+      animator?: Animators.BaseAnimator;
     }
 
   export class Writer {
     private _measurer: Measurers.AbstractMeasurer;
     private _wrapper: Wrappers.Wrapper;
+    private _addTitleElement: boolean;
+    private static nextID = 0;
+    public _writerID = Writer.nextID++;
+    public _elementID = 0;
 
     private static SupportedRotation = [-90, 0, 180, 90];
 
@@ -38,6 +43,8 @@ module SVGTypewriter.Writers {
       if (wrapper) {
         this.wrapper(wrapper);
       }
+
+      this.addTitleElement(false);
     }
 
     public measurer(newMeasurer: Measurers.AbstractMeasurer): Writer {
@@ -47,6 +54,11 @@ module SVGTypewriter.Writers {
 
     public wrapper(newWrapper: Wrappers.Wrapper): Writer {
       this._wrapper = newWrapper;
+      return this;
+    }
+
+    public addTitleElement(add: boolean): Writer {
+      this._addTitleElement = add;
       return this;
     }
 
@@ -77,7 +89,12 @@ module SVGTypewriter.Writers {
       var primaryDimension = orientHorizontally ? width : height;
       var secondaryDimension = orientHorizontally ? height : width;
 
-      var textArea = options.selection.append("g").classed("textArea", true);
+      var textContainer = options.selection.append("g").classed("text-container", true);
+      if (this._addTitleElement) {
+        textContainer.append("title").text(text);
+      }
+
+      var textArea = textContainer.append("g").classed("text-area", true);
       var wrappedText = this._wrapper ?
                           this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText :
                           text;
@@ -107,6 +124,22 @@ module SVGTypewriter.Writers {
       }
 
       textArea.attr("transform", xForm.toString());
+      this.addClipPath(textContainer);
+      if (options.animator) {
+        options.animator.animate(textContainer);
+      }
+    }
+
+    private addClipPath(selection: D3.Selection) {
+      var elementID = this._elementID++;
+      var prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
+      prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
+      var clipPathID = "clipPath" + this._writerID + "_" + elementID;
+      selection.select(".text-area").attr("clip-path", "url(\"" + prefix + "#" + clipPathID +"\")");
+      var clipPathParent = selection.append("clipPath").attr("id", clipPathID);
+      var attr = Utils.DOM.getBBox(selection.select(".text-area"));
+      var box = clipPathParent.append("rect");
+      box.classed("clip-rect", true).attr("width", attr.width).attr("height", attr.height);
     }
   }
 }

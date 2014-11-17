@@ -4,7 +4,10 @@
 /// <reference path="utils/tokenizer.ts" />
 /// <reference path="utils/stringMethods.ts" />
 
-/// <reference path="wrapper.ts" />
+/// <reference path="animators/baseAnimator.ts" />
+
+/// <reference path="wrappers/wrapper.ts" />
+/// <reference path="wrappers/singleLineWrapper.ts" />
 /// <reference path="writer.ts" />
 
 /// <reference path="measurers/abstractMeasurer.ts" />

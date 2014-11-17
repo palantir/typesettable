@@ -230,7 +230,102 @@ var SVGTypewriter;
     var Utils = SVGTypewriter.Utils;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
-///<reference path="reference.ts" />
+///<reference path="../reference.ts" />
+var SVGTypewriter;
+(function (SVGTypewriter) {
+    (function (Animators) {
+        var BaseAnimator = (function () {
+            function BaseAnimator() {
+                this.duration(BaseAnimator.DEFAULT_DURATION_MILLISECONDS);
+                this.delay(0);
+                this.easing(BaseAnimator.DEFAULT_EASING);
+                this.direction("bottom");
+            }
+            BaseAnimator.prototype.animate = function (selection) {
+                var attr = SVGTypewriter.Utils.DOM.getBBox(selection);
+                var mask = selection.select(".clip-rect");
+                mask.attr("width", 0);
+                mask.attr("height", 0);
+                switch (this._direction) {
+                    case "top":
+                        mask.attr("y", attr.y + attr.height);
+                        mask.attr("x", attr.x);
+                        mask.attr("width", attr.width);
+                        break;
+                    case "bottom":
+                        mask.attr("y", attr.y);
+                        mask.attr("x", attr.x);
+                        mask.attr("width", attr.width);
+                        break;
+                    case "left":
+                        mask.attr("y", attr.y);
+                        mask.attr("x", attr.x);
+                        mask.attr("height", attr.height);
+                        break;
+                    case "right":
+                        mask.attr("y", attr.y);
+                        mask.attr("x", attr.x + attr.width);
+                        mask.attr("height", attr.height);
+                        break;
+                }
+                return mask.transition().ease(this.easing()).duration(this.duration()).delay(this.delay()).attr(attr);
+            };
+            BaseAnimator.prototype.duration = function (duration) {
+                if (duration == null) {
+                    return this._duration;
+                }
+                else {
+                    this._duration = duration;
+                    return this;
+                }
+            };
+            BaseAnimator.prototype.delay = function (delay) {
+                if (delay == null) {
+                    return this._delay;
+                }
+                else {
+                    this._delay = delay;
+                    return this;
+                }
+            };
+            BaseAnimator.prototype.easing = function (easing) {
+                if (easing == null) {
+                    return this._easing;
+                }
+                else {
+                    this._easing = easing;
+                    return this;
+                }
+            };
+            BaseAnimator.prototype.direction = function (direction) {
+                if (direction == null) {
+                    return this._direction;
+                }
+                else {
+                    if (BaseAnimator.SupportedDirections.indexOf(direction) === -1) {
+                        throw new Error("unsupported direction - " + direction);
+                    }
+                    this._direction = direction;
+                    return this;
+                }
+            };
+            /**
+             * The default duration of the animation in milliseconds
+             */
+            BaseAnimator.DEFAULT_DURATION_MILLISECONDS = 300;
+            /**
+             * The default easing of the animation
+             */
+            BaseAnimator.DEFAULT_EASING = "exp-out";
+            BaseAnimator.SupportedDirections = ["top", "bottom", "left", "right"];
+            return BaseAnimator;
+        })();
+        Animators.BaseAnimator = BaseAnimator;
+    })(SVGTypewriter.Animators || (SVGTypewriter.Animators = {}));
+    var Animators = SVGTypewriter.Animators;
+})(SVGTypewriter || (SVGTypewriter = {}));
+
+///<reference path="../reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
     (function (Wrappers) {
@@ -441,16 +536,72 @@ var SVGTypewriter;
     var Wrappers = SVGTypewriter.Wrappers;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
+///<reference path="../reference.ts" />
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var SVGTypewriter;
+(function (SVGTypewriter) {
+    (function (Wrappers) {
+        var SingleLineWrapper = (function (_super) {
+            __extends(SingleLineWrapper, _super);
+            function SingleLineWrapper() {
+                _super.apply(this, arguments);
+            }
+            SingleLineWrapper.prototype.wrap = function (text, measurer, width, height) {
+                var _this = this;
+                if (height === void 0) { height = Infinity; }
+                var lines = text.split("\n");
+                if (lines.length > 1) {
+                    throw new Error("SingleLineWrapper is designed to work only on single line");
+                }
+                var wrapFN = function (w) { return _super.prototype.wrap.call(_this, text, measurer, w, height); };
+                var result = wrapFN(width);
+                if (result.noLines < 2) {
+                    return result;
+                }
+                var left = 0;
+                var right = width;
+                for (var i = 0; i < SingleLineWrapper.NO_WRAP_ITERATIONS && right > left; ++i) {
+                    var currentWidth = (right + left) / 2;
+                    var currentResult = wrapFN(currentWidth);
+                    if (this.areSameResults(result, currentResult)) {
+                        right = currentWidth;
+                        result = currentResult;
+                    }
+                    else {
+                        left = currentWidth;
+                    }
+                }
+                return result;
+            };
+            SingleLineWrapper.prototype.areSameResults = function (one, two) {
+                return one.noLines === two.noLines && one.truncatedText === two.truncatedText;
+            };
+            SingleLineWrapper.NO_WRAP_ITERATIONS = 5;
+            return SingleLineWrapper;
+        })(Wrappers.Wrapper);
+        Wrappers.SingleLineWrapper = SingleLineWrapper;
+    })(SVGTypewriter.Wrappers || (SVGTypewriter.Wrappers = {}));
+    var Wrappers = SVGTypewriter.Wrappers;
+})(SVGTypewriter || (SVGTypewriter = {}));
+
 ///<reference path="reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
     (function (Writers) {
         var Writer = (function () {
             function Writer(measurer, wrapper) {
+                this._writerID = Writer.nextID++;
+                this._elementID = 0;
                 this.measurer(measurer);
                 if (wrapper) {
                     this.wrapper(wrapper);
                 }
+                this.addTitleElement(false);
             }
             Writer.prototype.measurer = function (newMeasurer) {
                 this._measurer = newMeasurer;
@@ -458,6 +609,10 @@ var SVGTypewriter;
             };
             Writer.prototype.wrapper = function (newWrapper) {
                 this._wrapper = newWrapper;
+                return this;
+            };
+            Writer.prototype.addTitleElement = function (add) {
+                this._addTitleElement = add;
                 return this;
             };
             Writer.prototype.writeLine = function (line, g, width, xAlign, yOffset) {
@@ -484,7 +639,11 @@ var SVGTypewriter;
                 var orientHorizontally = Math.abs(Math.abs(options.textRotation) - 90) > 45;
                 var primaryDimension = orientHorizontally ? width : height;
                 var secondaryDimension = orientHorizontally ? height : width;
-                var textArea = options.selection.append("g").classed("textArea", true);
+                var textContainer = options.selection.append("g").classed("text-container", true);
+                if (this._addTitleElement) {
+                    textContainer.append("title").text(text);
+                }
+                var textArea = textContainer.append("g").classed("text-area", true);
                 var wrappedText = this._wrapper ? this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText : text;
                 this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, options.xAlign, options.yAlign);
                 var xForm = d3.transform("");
@@ -502,7 +661,23 @@ var SVGTypewriter;
                         break;
                 }
                 textArea.attr("transform", xForm.toString());
+                this.addClipPath(textContainer);
+                if (options.animator) {
+                    options.animator.animate(textContainer);
+                }
             };
+            Writer.prototype.addClipPath = function (selection) {
+                var elementID = this._elementID++;
+                var prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
+                prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
+                var clipPathID = "clipPath" + this._writerID + "_" + elementID;
+                selection.select(".text-area").attr("clip-path", "url(\"" + prefix + "#" + clipPathID + "\")");
+                var clipPathParent = selection.append("clipPath").attr("id", clipPathID);
+                var attr = SVGTypewriter.Utils.DOM.getBBox(selection.select(".text-area"));
+                var box = clipPathParent.append("rect");
+                box.classed("clip-rect", true).attr("width", attr.width).attr("height", attr.height);
+            };
+            Writer.nextID = 0;
             Writer.SupportedRotation = [-90, 0, 180, 90];
             Writer.AnchorConverter = {
                 left: "start",

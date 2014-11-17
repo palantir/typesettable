@@ -68,6 +68,36 @@ declare module SVGTypewriter.Utils.StringMethods {
 }
 
 
+declare module SVGTypewriter.Animators {
+    interface AnimatorAttribute {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    }
+    class BaseAnimator {
+        /**
+         * The default duration of the animation in milliseconds
+         */
+        static DEFAULT_DURATION_MILLISECONDS: number;
+        /**
+         * The default easing of the animation
+         */
+        static DEFAULT_EASING: string;
+        constructor();
+        animate(selection: any): any;
+        duration(): number;
+        duration(duration: number): BaseAnimator;
+        delay(): number;
+        delay(delay: number): BaseAnimator;
+        easing(): string;
+        easing(easing: string): BaseAnimator;
+        direction(): string;
+        direction(direction: string): BaseAnimator;
+    }
+}
+
+
 declare module SVGTypewriter.Wrappers {
     interface WrappingResult {
         originalText: string;
@@ -90,17 +120,28 @@ declare module SVGTypewriter.Wrappers {
 }
 
 
+declare module SVGTypewriter.Wrappers {
+    class SingleLineWrapper extends Wrapper {
+        wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number, height?: number): WrappingResult;
+    }
+}
+
+
 declare module SVGTypewriter.Writers {
     interface WriteOptions {
         selection: D3.Selection;
         xAlign: string;
         yAlign: string;
         textRotation: number;
+        animator?: Animators.BaseAnimator;
     }
     class Writer {
+        _writerID: number;
+        _elementID: number;
         constructor(measurer: Measurers.AbstractMeasurer, wrapper?: Wrappers.Wrapper);
         measurer(newMeasurer: Measurers.AbstractMeasurer): Writer;
         wrapper(newWrapper: Wrappers.Wrapper): Writer;
+        addTitleElement(add: boolean): Writer;
         write(text: string, width: number, height: number, options: WriteOptions): void;
     }
 }

@@ -10,18 +10,20 @@ describe("Writer Test Suite", () => {
   var writeOptions: SVGTypewriter.Writers.WriteOptions;
   var isHorizontal: boolean;
 
-  var checkWriting = (text: string, width: number, height: number) => {
+  var checkWriting = (text: string, width: number, height: number, checkTitle = false) => {
     svg.attr("width", width);
     svg.attr("height", height);
     writer.write(text, width, height, writeOptions);
-    var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".textArea"));
+    var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".text-area"));
     var dimensions = measurer.measure(
                       wrapper.wrap(text, measurer, isHorizontal ? width : height, isHorizontal ? height : width).wrappedText);
 
     assert.closeTo(bbox.width, dimensions.width, 1, "width should be almost the same");
     assert.closeTo(bbox.height, dimensions.height, 1, "height should be almost the same");
 
-    assertBBoxInclusion(svg, svg.select(".textArea"));
+    assertBBoxInclusion(svg, svg.select(".text-area"));
+    assert.equal(svg.select(".text-container").select("title").empty(), !checkTitle, "title was creatin accordingly");
+
     svg.remove();
   };
 
@@ -42,6 +44,12 @@ describe("Writer Test Suite", () => {
     beforeEach(() => {
       writeOptions.textRotation = 0;
       isHorizontal = true;
+    });
+
+    it("writer ID", () => {
+      var writer2 = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+      assert.operator(writer._writerID, "<" , writer2._writerID, "unique writer ID");
+      svg.remove();
     });
 
     it("one word", () => {
@@ -129,6 +137,12 @@ describe("Writer Test Suite", () => {
       writeOptions.yAlign = "center";
       writeOptions.xAlign = "center";
       checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+
+    it("addTitleElement", () => {
+      wrapper.maxLines(3);
+      writer.addTitleElement(true);
+      checkWriting("reallylongsentencewithmanycharacters", 50, 150, true);
     });
   });
 
@@ -223,6 +237,39 @@ describe("Writer Test Suite", () => {
       writeOptions.yAlign = "center";
       writeOptions.xAlign = "center";
       checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+    });
+  });
+
+  describe("Animator", () => {
+    beforeEach(() => {
+      writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator();
+      isHorizontal = true;
+    });
+
+    it("simple", () => {
+      checkWriting("test", 200, 200);
+    });
+
+    it("duration", () => {
+      writeOptions.animator.duration(6000);
+      checkWriting("test\ntest", 200, 200);
+    });
+
+    describe("directions", () => {
+      it("direction - top", () => {
+        writeOptions.animator.duration(6000).direction("top");
+        checkWriting("test\ntest", 200, 200);
+      });
+
+      it("direction - left", () => {
+        writeOptions.animator.duration(6000).direction("left");
+        checkWriting("test\ntest", 200, 200);
+      });
+
+      it("direction - right", () => {
+        writeOptions.animator.duration(6000).direction("right");
+        checkWriting("test\ntest", 200, 200);
+      });
     });
   });
 });
