@@ -69,12 +69,6 @@ declare module SVGTypewriter.Utils.StringMethods {
 
 
 declare module SVGTypewriter.Animators {
-    interface AnimatorAttribute {
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-    }
     class BaseAnimator {
         /**
          * The default duration of the animation in milliseconds
@@ -85,15 +79,31 @@ declare module SVGTypewriter.Animators {
          */
         static DEFAULT_EASING: string;
         constructor();
-        animate(selection: any): any;
+        animate(selection: D3.Selection): any;
+        _animate(selection: D3.Selection, attr: any): D3.Transition.Transition;
         duration(): number;
         duration(duration: number): BaseAnimator;
         delay(): number;
         delay(delay: number): BaseAnimator;
         easing(): string;
         easing(easing: string): BaseAnimator;
+    }
+}
+
+
+declare module SVGTypewriter.Animators {
+    class UnveilAnimator extends BaseAnimator {
+        constructor();
         direction(): string;
-        direction(direction: string): BaseAnimator;
+        direction(direction: string): UnveilAnimator;
+        animate(selection: any): any;
+    }
+}
+
+
+declare module SVGTypewriter.Animators {
+    class OpacityAnimator extends BaseAnimator {
+        animate(selection: D3.Selection): any;
     }
 }
 

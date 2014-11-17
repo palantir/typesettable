@@ -46,6 +46,12 @@ describe("Writer Test Suite", () => {
       isHorizontal = true;
     });
 
+    it("textRotation", () => {
+      writeOptions.textRotation = 45;
+      assert.throws(() => checkWriting("test", 200, 200), Error);
+      svg.remove();
+    });
+
     it("writer ID", () => {
       var writer2 = new SVGTypewriter.Writers.Writer(measurer, wrapper);
       assert.operator(writer._writerID, "<" , writer2._writerID, "unique writer ID");
@@ -241,33 +247,69 @@ describe("Writer Test Suite", () => {
   });
 
   describe("Animator", () => {
-    beforeEach(() => {
-      writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator();
-      isHorizontal = true;
+    describe("Base", () => {
+      beforeEach(() => {
+        writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator();
+        isHorizontal = true;
+      });
+
+      it("defaults", () => {
+        assert.equal(writeOptions.animator.duration(), 300, "duration is set to default");
+        assert.equal(writeOptions.animator.delay(), 0, "delay is set to default");
+        assert.equal(writeOptions.animator.easing(), "exp-out", "easing is set to default");
+        svg.remove();
+      });
+
+      it("simple", () => {
+        checkWriting("test", 200, 200);
+      });
+
+      it("duration", () => {
+        writeOptions.animator.duration(6000);
+        checkWriting("test\ntest", 200, 200);
+      });
     });
 
-    it("simple", () => {
-      checkWriting("test", 200, 200);
-    });
+    describe("Unveil", () => {
+      beforeEach(() => {
+        writeOptions.animator = new SVGTypewriter.Animators.UnveilAnimator().duration(6000);
+        isHorizontal = true;
+      });
 
-    it("duration", () => {
-      writeOptions.animator.duration(6000);
-      checkWriting("test\ntest", 200, 200);
-    });
+      it("defaults", () => {
+        assert.equal((<any>writeOptions.animator).direction(), "bottom", "direction is set to default");
+        assert.throws(() => (<any>writeOptions.animator).direction("aaa"), Error);
+        assert.equal((<any>writeOptions.animator).direction(), "bottom", "direction is set to default");
+        svg.remove();
+      });
 
-    describe("directions", () => {
+      it("direction - bottom", () => {
+        checkWriting("test\ntest", 200, 200);
+      });
+
       it("direction - top", () => {
-        writeOptions.animator.duration(6000).direction("top");
+        (<any>writeOptions.animator).direction("top");
         checkWriting("test\ntest", 200, 200);
       });
 
       it("direction - left", () => {
-        writeOptions.animator.duration(6000).direction("left");
+        (<any>writeOptions.animator).direction("left");
         checkWriting("test\ntest", 200, 200);
       });
 
       it("direction - right", () => {
-        writeOptions.animator.duration(6000).direction("right");
+        (<any>writeOptions.animator).direction("right");
+        checkWriting("test\ntest", 200, 200);
+      });
+    });
+
+    describe("Opacity", () => {
+      beforeEach(() => {
+        writeOptions.animator = new SVGTypewriter.Animators.OpacityAnimator().duration(6000);
+        isHorizontal = true;
+      });
+
+      it("simple", () => {
         checkWriting("test\ntest", 200, 200);
       });
     });
