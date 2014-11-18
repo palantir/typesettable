@@ -15,17 +15,23 @@ module SVGTypewriter.Animators {
     private _duration: number;
     private _delay: number;
     private _easing: string;
-
-
+    private _moveX: number;
+    private _moveY: number;
 
     constructor() {
       this.duration(BaseAnimator.DEFAULT_DURATION_MILLISECONDS);
       this.delay(0);
       this.easing(BaseAnimator.DEFAULT_EASING);
+      this.moveX(0);
+      this.moveY(0);
     }
 
     public animate(selection: D3.Selection): any {
-     return this._animate(selection.select(".clip-rect"), Utils.DOM.getBBox(selection));
+     var xForm = d3.transform("");
+     xForm.translate = [this.moveX(), this.moveY()];
+     selection.attr("transform", xForm.toString());
+     xForm.translate = [0, 0];
+     return this._animate(selection, { transform: xForm.toString() });
     }
 
     public _animate(selection: D3.Selection, attr: any) {
@@ -43,6 +49,28 @@ module SVGTypewriter.Animators {
         return this._duration;
       } else {
         this._duration = duration;
+        return this;
+      }
+    }
+
+    public moveX(): number;
+    public moveX(shift: number): BaseAnimator;
+    public moveX(shift?: number): any{
+      if (shift == null) {
+        return this._moveX;
+      } else {
+        this._moveX = shift;
+        return this;
+      }
+    }
+
+    public moveY(): number;
+    public moveY(shift: number): BaseAnimator;
+    public moveY(shift?: number): any{
+      if (shift == null) {
+        return this._moveY;
+      } else {
+        this._moveY = shift;
         return this;
       }
     }

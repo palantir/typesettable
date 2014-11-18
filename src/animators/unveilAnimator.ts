@@ -55,7 +55,8 @@ module SVGTypewriter.Animators {
           break;
       }
 
-      return this._animate(mask, attr);
+      this._animate(mask, attr);
+      return super.animate(selection);
     }
   }
 }

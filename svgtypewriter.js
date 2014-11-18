@@ -239,9 +239,15 @@ var SVGTypewriter;
                 this.duration(BaseAnimator.DEFAULT_DURATION_MILLISECONDS);
                 this.delay(0);
                 this.easing(BaseAnimator.DEFAULT_EASING);
+                this.moveX(0);
+                this.moveY(0);
             }
             BaseAnimator.prototype.animate = function (selection) {
-                return this._animate(selection.select(".clip-rect"), SVGTypewriter.Utils.DOM.getBBox(selection));
+                var xForm = d3.transform("");
+                xForm.translate = [this.moveX(), this.moveY()];
+                selection.attr("transform", xForm.toString());
+                xForm.translate = [0, 0];
+                return this._animate(selection, { transform: xForm.toString() });
             };
             BaseAnimator.prototype._animate = function (selection, attr) {
                 return selection.transition().ease(this.easing()).duration(this.duration()).delay(this.delay()).attr(attr);
@@ -252,6 +258,24 @@ var SVGTypewriter;
                 }
                 else {
                     this._duration = duration;
+                    return this;
+                }
+            };
+            BaseAnimator.prototype.moveX = function (shift) {
+                if (shift == null) {
+                    return this._moveX;
+                }
+                else {
+                    this._moveX = shift;
+                    return this;
+                }
+            };
+            BaseAnimator.prototype.moveY = function (shift) {
+                if (shift == null) {
+                    return this._moveY;
+                }
+                else {
+                    this._moveY = shift;
                     return this;
                 }
             };
@@ -343,7 +367,8 @@ var SVGTypewriter;
                         mask.attr("height", attr.height);
                         break;
                 }
-                return this._animate(mask, attr);
+                this._animate(mask, attr);
+                return _super.prototype.animate.call(this, selection);
             };
             UnveilAnimator.SupportedDirections = ["top", "bottom", "left", "right"];
             return UnveilAnimator;
@@ -369,13 +394,13 @@ var SVGTypewriter;
                 _super.apply(this, arguments);
             }
             OpacityAnimator.prototype.animate = function (selection) {
-                debugger;
                 var area = selection.select(".text-area");
                 area.attr("opacity", 0);
                 var attr = {
                     opacity: 1
                 };
-                return this._animate(area, attr);
+                this._animate(area, attr);
+                return _super.prototype.animate.call(this, selection);
             };
             return OpacityAnimator;
         })(Animators.BaseAnimator);

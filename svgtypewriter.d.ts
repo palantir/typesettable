@@ -83,6 +83,10 @@ declare module SVGTypewriter.Animators {
         _animate(selection: D3.Selection, attr: any): D3.Transition.Transition;
         duration(): number;
         duration(duration: number): BaseAnimator;
+        moveX(): number;
+        moveX(shift: number): BaseAnimator;
+        moveY(): number;
+        moveY(shift: number): BaseAnimator;
         delay(): number;
         delay(delay: number): BaseAnimator;
         easing(): string;
