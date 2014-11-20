@@ -7,7 +7,7 @@ describe("Animator Test Suite", () => {
   var svg: D3.Selection;
   var writeOptions: SVGTypewriter.Writers.WriteOptions;
 
-  var checkWriting = () => {
+  var runAnimation = () => {
     writer.write("hello\nworld", 200, 200, writeOptions);
     svg.remove();
   };
@@ -37,12 +37,12 @@ describe("Animator Test Suite", () => {
     });
 
     it("simple", () => {
-      checkWriting();
+      runAnimation();
     });
 
     it("duration", () => {
       writeOptions.animator.duration(6000);
-      checkWriting();
+      runAnimation();
     });
   });
 
@@ -59,22 +59,22 @@ describe("Animator Test Suite", () => {
     });
 
     it("direction - bottom", () => {
-      checkWriting();
+      runAnimation();
     });
 
     it("direction - top", () => {
       (<any>writeOptions.animator).direction("top");
-      checkWriting();
+      runAnimation();
     });
 
     it("direction - left", () => {
       (<any>writeOptions.animator).direction("left");
-      checkWriting();
+      runAnimation();
     });
 
     it("direction - right", () => {
       (<any>writeOptions.animator).direction("right");
-      checkWriting();
+      runAnimation();
     });
   });
 
@@ -84,7 +84,41 @@ describe("Animator Test Suite", () => {
     });
 
     it("simple", () => {
-      checkWriting();
+      runAnimation();
+    });
+  });
+
+  describe("Moving X", () => {
+    it("simple", () => {
+      writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator().duration(6000).moveX(100);
+      runAnimation();
+    });
+
+    it("opacity", () => {
+      writeOptions.animator = new SVGTypewriter.Animators.OpacityAnimator().duration(6000).moveX(100);
+      runAnimation();
+    });
+
+    it("unveil", () => {
+      writeOptions.animator = new SVGTypewriter.Animators.UnveilAnimator().duration(6000).moveX(100);
+      runAnimation();
+    });
+  });
+
+  describe("Moving Y", () => {
+    it("simple", () => {
+      writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator().duration(6000).moveY(100);
+      runAnimation();
+    });
+
+    it("opacity", () => {
+      writeOptions.animator = new SVGTypewriter.Animators.OpacityAnimator().duration(6000).moveY(100);
+      runAnimation();
+    });
+
+    it("unveil", () => {
+      writeOptions.animator = new SVGTypewriter.Animators.UnveilAnimator().duration(6000).moveY(100);
+      runAnimation();
     });
   });
 });

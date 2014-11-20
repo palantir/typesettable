@@ -933,7 +933,7 @@ describe("Animator Test Suite", function () {
     var writer;
     var svg;
     var writeOptions;
-    var checkWriting = function () {
+    var runAnimation = function () {
         writer.write("hello\nworld", 200, 200, writeOptions);
         svg.remove();
     };
@@ -960,11 +960,11 @@ describe("Animator Test Suite", function () {
             svg.remove();
         });
         it("simple", function () {
-            checkWriting();
+            runAnimation();
         });
         it("duration", function () {
             writeOptions.animator.duration(6000);
-            checkWriting();
+            runAnimation();
         });
     });
     describe("Unveil", function () {
@@ -978,19 +978,19 @@ describe("Animator Test Suite", function () {
             svg.remove();
         });
         it("direction - bottom", function () {
-            checkWriting();
+            runAnimation();
         });
         it("direction - top", function () {
             writeOptions.animator.direction("top");
-            checkWriting();
+            runAnimation();
         });
         it("direction - left", function () {
             writeOptions.animator.direction("left");
-            checkWriting();
+            runAnimation();
         });
         it("direction - right", function () {
             writeOptions.animator.direction("right");
-            checkWriting();
+            runAnimation();
         });
     });
     describe("Opacity", function () {
@@ -998,7 +998,35 @@ describe("Animator Test Suite", function () {
             writeOptions.animator = new SVGTypewriter.Animators.OpacityAnimator().duration(6000);
         });
         it("simple", function () {
-            checkWriting();
+            runAnimation();
+        });
+    });
+    describe("Moving X", function () {
+        it("simple", function () {
+            writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator().duration(6000).moveX(100);
+            runAnimation();
+        });
+        it("opacity", function () {
+            writeOptions.animator = new SVGTypewriter.Animators.OpacityAnimator().duration(6000).moveX(100);
+            runAnimation();
+        });
+        it("unveil", function () {
+            writeOptions.animator = new SVGTypewriter.Animators.UnveilAnimator().duration(6000).moveX(100);
+            runAnimation();
+        });
+    });
+    describe("Moving Y", function () {
+        it("simple", function () {
+            writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator().duration(6000).moveY(100);
+            runAnimation();
+        });
+        it("opacity", function () {
+            writeOptions.animator = new SVGTypewriter.Animators.OpacityAnimator().duration(6000).moveY(100);
+            runAnimation();
+        });
+        it("unveil", function () {
+            writeOptions.animator = new SVGTypewriter.Animators.UnveilAnimator().duration(6000).moveY(100);
+            runAnimation();
         });
     });
 });
