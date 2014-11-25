@@ -12,6 +12,8 @@ The [svg text spec](http://www.w3.org/TR/SVG/text.html#Introduction) indicates t
 normally need to write their own code to accomplish this; **SVG Typewriter** aims
 to make this entire process easier.
 
+**SVG Typewriter** is based on [D3.js](http://d3js.org/).
+
 Features
 ---
 - *Measurers* efficiently measure the size of a piece of text when written to a particular SVG element, taking into account the CSS styles affecting that text.
@@ -59,6 +61,3 @@ writer.write("Hello World!", width, height, writeOptions);
 ```
 
 See [the docs](http://endrjuskr.github.io/svg-typewriter/docs/) for more detailed examples.
-
-
-API can be found [here](http://endrjuskr.github.io/svg-typewriter/docs)
