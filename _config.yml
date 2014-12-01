@@ -1,0 +1,19 @@
+url                   : 'http://0.0.0.0:4000'
+timezone              : America/Los_Angeles
+exclude               :
+  - 'Gemfile'
+  - 'Gemfile.lock'
+  - 'README.md'
+  - 'Gruntfile.js'
+  - 'package.json'
+  - 'sass'
+  - 'node_modules'
+  - '/js'
+  - '/images'
+  - '/*.ts'
+  - '/*.sh'
+  - '_typedoc'
+markdown              : kramdown
+google_analytics      : ''
+baseurl               :
+minifiedSuffix        : '.min'

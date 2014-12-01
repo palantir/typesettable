@@ -1,0 +1,123 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.32
+4 warn package.json svg-typewriter-website@0.0.1 No repository field.
+5 verbose readDependencies using package.json deps
+6 verbose install where, deps [ '/Users/askrodzki/Work/svg-typewriter-page',
+6 verbose install   [ 'grunt',
+6 verbose install     'grunt-contrib-concat',
+6 verbose install     'grunt-contrib-uglify',
+6 verbose install     'grunt-contrib-imagemin',
+6 verbose install     'grunt-svgmin',
+6 verbose install     'grunt-contrib-watch',
+6 verbose install     'grunt-contrib-compass',
+6 verbose install     'grunt-newer',
+6 verbose install     'typedoc',
+6 verbose install     'grunt-contrib-copy' ] ]
+7 info preinstall svg-typewriter-website@0.0.1
+8 verbose readDependencies using package.json deps
+9 verbose already installed skipping grunt@~0.4.1 /Users/askrodzki/Work/svg-typewriter-page
+10 verbose already installed skipping grunt-contrib-concat@^0.4.0 /Users/askrodzki/Work/svg-typewriter-page
+11 verbose already installed skipping grunt-contrib-uglify@^0.5.0 /Users/askrodzki/Work/svg-typewriter-page
+12 verbose already installed skipping grunt-contrib-imagemin@^0.7.1 /Users/askrodzki/Work/svg-typewriter-page
+13 verbose already installed skipping grunt-svgmin@^0.4.0 /Users/askrodzki/Work/svg-typewriter-page
+14 verbose already installed skipping grunt-contrib-watch@^0.6.1 /Users/askrodzki/Work/svg-typewriter-page
+15 verbose already installed skipping grunt-contrib-compass@^0.8.0 /Users/askrodzki/Work/svg-typewriter-page
+16 verbose already installed skipping grunt-newer@^0.7.0 /Users/askrodzki/Work/svg-typewriter-page
+17 verbose already installed skipping typedoc@~0.1.0 /Users/askrodzki/Work/svg-typewriter-page
+18 verbose already installed skipping grunt-contrib-copy@^0.7.0 /Users/askrodzki/Work/svg-typewriter-page
+19 silly resolved []
+20 info build /Users/askrodzki/Work/svg-typewriter-page
+21 verbose linkStuff [ false, false, false, '/Users/askrodzki/Work' ]
+22 info linkStuff svg-typewriter-website@0.0.1
+23 verbose linkBins svg-typewriter-website@0.0.1
+24 verbose linkMans svg-typewriter-website@0.0.1
+25 verbose rebuildBundles svg-typewriter-website@0.0.1
+26 verbose rebuildBundles [ '.bin',
+26 verbose rebuildBundles   'grunt',
+26 verbose rebuildBundles   'grunt-blanket-mocha',
+26 verbose rebuildBundles   'grunt-bump',
+26 verbose rebuildBundles   'grunt-cli',
+26 verbose rebuildBundles   'grunt-contrib-clean',
+26 verbose rebuildBundles   'grunt-contrib-compass',
+26 verbose rebuildBundles   'grunt-contrib-compress',
+26 verbose rebuildBundles   'grunt-contrib-concat',
+26 verbose rebuildBundles   'grunt-contrib-connect',
+26 verbose rebuildBundles   'grunt-contrib-copy',
+26 verbose rebuildBundles   'grunt-contrib-imagemin',
+26 verbose rebuildBundles   'grunt-contrib-jshint',
+26 verbose rebuildBundles   'grunt-contrib-uglify',
+26 verbose rebuildBundles   'grunt-contrib-watch',
+26 verbose rebuildBundles   'grunt-mocha-phantomjs',
+26 verbose rebuildBundles   'grunt-newer',
+26 verbose rebuildBundles   'grunt-parallelize',
+26 verbose rebuildBundles   'grunt-sed',
+26 verbose rebuildBundles   'grunt-shell',
+26 verbose rebuildBundles   'grunt-svgmin',
+26 verbose rebuildBundles   'grunt-ts',
+26 verbose rebuildBundles   'grunt-tslint',
+26 verbose rebuildBundles   'grunt-typedoc',
+26 verbose rebuildBundles   'load-grunt-tasks',
+26 verbose rebuildBundles   'typedoc',
+26 verbose rebuildBundles   'typescript' ]
+27 verbose rebuild bundle /Users/askrodzki/Work/svg-typewriter-page/node_modules/grunt-blanket-mocha
+28 info build /Users/askrodzki/Work/svg-typewriter-page/node_modules/grunt-blanket-mocha
+29 info preinstall grunt-blanket-mocha@0.4.1
+30 verbose linkStuff [ false,
+30 verbose linkStuff   false,
+30 verbose linkStuff   false,
+30 verbose linkStuff   '/Users/askrodzki/Work/svg-typewriter-page/node_modules' ]
+31 info linkStuff grunt-blanket-mocha@0.4.1
+32 verbose linkBins grunt-blanket-mocha@0.4.1
+33 verbose linkMans grunt-blanket-mocha@0.4.1
+34 verbose rebuildBundles grunt-blanket-mocha@0.4.1
+35 verbose rebuildBundles [ '.bin', 'blanket', 'grunt-lib-phantomjs', 'lodash', 'mocha' ]
+36 info install grunt-blanket-mocha@0.4.1
+37 info postinstall grunt-blanket-mocha@0.4.1
+38 verbose rebuild bundle /Users/askrodzki/Work/svg-typewriter-page/node_modules/grunt-bump
+39 info build /Users/askrodzki/Work/svg-typewriter-page/node_modules/grunt-bump
+40 info preinstall grunt-bump@0.0.13
+41 verbose linkStuff [ false,
+41 verbose linkStuff   false,
+41 verbose linkStuff   false,
+41 verbose linkStuff   '/Users/askrodzki/Work/svg-typewriter-page/node_modules' ]
+42 info linkStuff grunt-bump@0.0.13
+43 verbose linkBins grunt-bump@0.0.13
+44 verbose linkMans grunt-bump@0.0.13
+45 verbose rebuildBundles grunt-bump@0.0.13
+46 verbose rebuildBundles [ '.bin', 'semver' ]
+47 info install grunt-bump@0.0.13
+48 info postinstall grunt-bump@0.0.13
+49 verbose rebuild bundle /Users/askrodzki/Work/svg-typewriter-page/node_modules/grunt-cli
+50 info build /Users/askrodzki/Work/svg-typewriter-page/node_modules/grunt-cli
+51 info preinstall grunt-cli@0.1.6
+52 verbose linkStuff [ false,
+52 verbose linkStuff   false,
+52 verbose linkStuff   false,
+52 verbose linkStuff   '/Users/askrodzki/Work/svg-typewriter-page/node_modules' ]
+53 info linkStuff grunt-cli@0.1.6
+54 warn prefer global grunt-cli@0.1.6 should be installed with -g
+55 verbose linkBins grunt-cli@0.1.6
+56 verbose link bins [ { grunt: 'bin/grunt' },
+56 verbose link bins   '/Users/askrodzki/Work/svg-typewriter-page/node_modules/.bin',
+56 verbose link bins   false ]
+57 verbose linkMans grunt-cli@0.1.6
+58 verbose rebuildBundles grunt-cli@0.1.6
+59 verbose rebuildBundles [ '.bin', 'findup-sync', 'nopt' ]
+60 error Error: EACCES, unlink '/Users/askrodzki/Work/svg-typewriter-page/node_modules/.bin/grunt'
+60 error  { [Error: EACCES, unlink '/Users/askrodzki/Work/svg-typewriter-page/node_modules/.bin/grunt']
+60 error   errno: 3,
+60 error   code: 'EACCES',
+60 error   path: '/Users/askrodzki/Work/svg-typewriter-page/node_modules/.bin/grunt' }
+61 error Please try running this command again as root/Administrator.
+62 error System Darwin 13.4.0
+63 error command "node" "/usr/local/bin/npm" "install"
+64 error cwd /Users/askrodzki/Work/svg-typewriter-page
+65 error node -v v0.10.32
+66 error npm -v 1.4.28
+67 error path /Users/askrodzki/Work/svg-typewriter-page/node_modules/.bin/grunt
+68 error code EACCES
+69 error errno 3
+70 error stack Error: EACCES, unlink '/Users/askrodzki/Work/svg-typewriter-page/node_modules/.bin/grunt'
+71 verbose exit [ 3, true ]

@@ -1,36 +1,16 @@
 {
-  "name": "svgtypewriter",
+  "name": "svg-typewriter-website",
   "version": "0.0.1",
-  "description": "A library for manipulating text on SVG.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/endrjuskr/svg-textwriter.git"
-  },
-  "author": "Andrzej Skrodzki @ Palantir Technologies",
-  "scripts": {
-    "test": "grunt test-travis"
-  },
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-blanket-mocha": "~0.4.0",
-    "grunt-bump": "0.0.13",
-    "grunt-cli": "0.1.6",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-compress": "~0.9.1",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-connect": "~0.6.0",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-uglify": "~0.4.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-mocha-phantomjs": "~0.4.0",
-    "grunt-parallelize": "1.0.0",
-    "grunt-sed": "~0.1.1",
-    "grunt-saucelabs": "8.1.1",
-    "grunt-shell": "0.7.0",
-    "grunt-ts": "~1.11.6",
-    "grunt-tslint": "~0.4.0",
-    "grunt-typedoc": "^0.2.1",
-    "load-grunt-tasks": "~0.2.0",
-    "typescript": "1.0.1"
+    "grunt": "~0.4.1",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-uglify": "^0.5.0",
+    "grunt-contrib-imagemin": "^0.7.1",
+    "grunt-svgmin": "^0.4.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-compass": "^0.8.0",
+    "grunt-newer": "^0.7.0",
+    "typedoc": "~0.1.0",
+    "grunt-contrib-copy": "^0.7.0"
   }
 }

@@ -1,3 +1,6 @@
+---
+page_id : page-example
+---
 <!DOCTYPE html>
 <html>
   <head>
@@ -11,12 +14,13 @@
         fill: black;
       }
 
-      .font text, .animation text
+      .font text
        {
         font-family: "Helvetica Neue", sans-serif;
         font-size: 28px;
         fill: black;
       }
+
       .example-usage {
         width: 350px;
         border: 2px solid navy;
@@ -25,59 +29,100 @@
       } 
     </style>
     <script src="bower_components/d3/d3.js" charset="utf-8"></script>
-    <script src="../bower_components/jQuery/dist/jquery.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="svgtypewriter.js" data-cover></script>
     <script src="index.js"></script>
   </head>
 <body>
   <h2>What is SVG Typewriter?</h2>
   <p>
-    A library for manipulating text on SVG.
+    <b>SVG Typewriter</b> is a library for measuring, manipulating, and writing text on SVG.
+    The <a href="http://www.w3.org/TR/SVG/text.html#Introduction">svg text spec</a> indicates that "SVG performs no automatic line breaking or word wrapping", meaning that developers
+    normally need to write their own code to accomplish this; <b>SVG Typewriter</b> aims
+    to make this entire process easier.
   </p>
-  <h3> Here is some example of usage </h3>
-  <div class="example-usage" id="simple-measurer">
-    <div class="description"> Simple text measurment </div>
-    <svg class="area" >
-    <div class="result"></div>
-  </div>
-  <div class="example-usage font" id="font-measurer">
-    <div class="description"> Text measurment with applied class </div>
-    <svg class="area" >
-    <div class="result"></div>
-  </div>
-  <div  class="example-usage"id="simple-wrapping">
-    <div class="description"> Simple text wrapping </div>
-    <svg class="area" >
-    <div class="result">
-      <input id"small" class="width-option" type="button" value="25px">
-      <input id"meddium" class="width-option" type="button" value="50px">
-      <input id"large" class="width-option" type="button" value="75px">
-    </div>
-  </div>
-  <div class="example-usage" id="different-aligns">
-    <div class="description"> Different write alignments </div>
-    <svg class="area">
-    <div class="result"></div>
-  </div>
-  <div class="example-usage" id="different-rotations">
-    <div class="description"> Different text rotations </div>
-    <svg class="area">
-    <div class="result">
-    </div>
-  </div>
-  <div class="example-usage animation" id="opacity-animation">
-    <div class="description"> First text animation </div>
-    <svg class="area">
-    <div class="result">
-      <input class="re-run" type="button" value="Re-run animation">
-    </div>
-  </div>
-  <div class="example-usage animation" id="unveil-animation">
-    <div class="description"> Second text animation </div>
-    <svg class="area">
-    <div class="result">
-      <input class="re-run" type="button" value="Re-run animation">
-    </div>
-  </div>
+  <h3> Examples </h3>
+  <table class="example-usage" id="simple-measurer">
+    <thead>
+      <tr><td colspan="2" class="description">Simple text measurement</td></tr>
+    </thead>
+    <tbody>
+      <tr><td> Result </td><td> Code </td></tr>
+      <tr>
+        <td>
+          <svg class="area"></svg><br>
+          <div class="result"></div>
+        </td>
+        <td>
+          {% highlight javascript %}
+          {% include examples/measuring.js %}
+          {% endhighlight %}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="example-usage font" id="font-measurer">
+    <thead>
+      <tr><td colspan="2" class="description">Text measurment with applied class</td></tr>
+    </thead>
+    <tbody>
+      <tr><td> Result </td><td> Code </td></tr>
+      <tr>
+        <td>
+          <svg class="area"></svg><br>
+          <div class="result"></div>
+        </td>
+        <td>
+          {% highlight javascript %}
+          {% include examples/css-measuring.js %}
+          {% endhighlight %}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="example-usage" id="simple-wrapping">
+    <thead>
+      <tr><td colspan="2" class="description">Simple text wrapping</td></tr>
+    </thead>
+    <tbody>
+      <tr><td> Result </td><td> Code </td></tr>
+      <tr>
+        <td>
+          <svg class="area"></svg><br>
+          <div class="result">
+          <input id"small" class="width-option" type="button" value="25px">
+          <input id"meddium" class="width-option" type="button" value="50px">
+          <input id"large" class="width-option" type="button" value="75px">
+        </div>
+        </td>
+        <td>
+          {% highlight javascript %}
+          {% include examples/wrapping.js %}
+          {% endhighlight %}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="example-usage font" id="simple-writing">
+    <thead>
+      <tr><td colspan="2" class="description">Writing</td></tr>
+    </thead>
+    <tbody>
+      <tr><td> Result </td><td> Code </td></tr>
+      <tr>
+        <td>
+          <svg class="area"></svg><br>
+          <div class="result">
+             <input class="re-run" type="button" value="Re-run animation">
+          </div>
+        </td>
+        <td>
+          {% highlight javascript %}
+          {% include examples/write_options.js %}
+          {% endhighlight %}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

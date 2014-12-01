@@ -1,11 +1,2 @@
-language: node_js
-node_js:
-- '0.10'
-notifications:
-  email: false
-addons:
-  sauce_connect: true
-env:
-  global:
-  - secure: "KDU6XNmM3V/DC3LX/D5KIYg303DM+LbrYdco8+7+oRZ39IGeN4u7VoS+rtChbqZ/LrFGx4xydmHN57nHCFotcQg/DFKQxbDgO9b/k9bFF5E0ySCjxY5oEDSelR6zgbNiJyq9s4KOVH14sxGx5XVXOwCVNRi7XsAcgUragJUzzIM="
-  - secure: "lGAR3Vw8FahceLdZvFRA3oGhwhGxzFhBkvPLR+Lg3L66t4cJe9Losew9U+6Hnj0CLNMbQdPEtHH/jDohlG6frdIKLX8cMHX1piAPkyvis332yQCcQE+CoMakM5veeeHsQtpO7nG4zWVXrDw4u6RCxXQjPeuUkG5WpcwqXqPoORA="
+language: ruby
+script: "bundle exec jekyll build"
