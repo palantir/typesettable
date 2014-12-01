@@ -7,10 +7,10 @@ module.exports = function(grunt) {
         options: {
           specify     : ['sass/style.scss'],
           sassDir     : 'sass',
-          cssDir      : 'build/css',
+          cssDir      : 'build_site/css',
           fontsDir    : 'fonts',
           outputStyle : 'compressed',
-          imagesDir   : 'build/images'
+          imagesDir   : 'build_site/images'
         }
       },
     },
