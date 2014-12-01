@@ -1,266 +1,212 @@
-﻿---
-layout: subpage
-page_id: page-chartographer
----
-
-<!doctype html>
+﻿<!doctype html>
 <html class="default no-js">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SVGTypewriter.js</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <script src="assets/js/modernizr.js"></script>
-  <style>
-    .area {
-      background-color : #DEF;
-    }
-    text {
-      font-family: "Helvetica Neue", sans-serif;
-      font-size: 14px;
-      fill: black;
-    }
-
-    .font text, .animation text
-     {
-      font-family: "Helvetica Neue", sans-serif;
-      font-size: 28px;
-      fill: black;
-    }
-    .example-usage {
-      width: 350px;
-      border: 2px solid navy;
-      margin: 25px;
-      text-align: center;
-    }
-  </style>
-  <script src="../bower_components/d3/d3.js" charset="utf-8"></script>
-  <script src="../bower_components/jQuery/dist/jquery.js"></script>
-  <script src="../svgtypewriter.js" data-cover></script>
-  <script src="../index.js"></script>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>SVGTypewriter.js</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/js/modernizr.js"></script>
 </head>
 <body>
 <header>
-  <div class="tsd-page-toolbar">
-    <div class="container">
-      <div class="table-wrap">
-        <div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
-          <div class="field">
-            <label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-            <input id="tsd-search-field" type="text" />
-          </div>
-          <ul class="results">
-            <li class="state loading">Preparing search index...</li>
-            <li class="state failure">The search index is not available</li>
-          </ul>
-          <a href="index.html" class="title">SVGTypewriter.js</a>
-        </div>
-        <div class="table-cell" id="tsd-widgets">
-          <div id="tsd-filter">
-            <a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-            <div class="tsd-filter-group">
-              <input type="checkbox" id="tsd-filter-inherited" checked />
-              <label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-              <input type="checkbox" id="tsd-filter-private" checked />
-              <label class="tsd-widget" for="tsd-filter-private">Private</label>
-              <input type="checkbox" id="tsd-filter-externals" checked />
-              <label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-              <input type="checkbox" id="tsd-filter-only-exported" />
-              <label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
-            </div>
-          </div>
-          <a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="tsd-page-title">
-    <div class="container">
-      <ul class="tsd-breadcrumb">
-        <li>
-          <a href="globals.html">Globals</a>
-        </li>
-      </ul>
-      <h1> SVGTypewriter.js</h1>
-    </div>
-  </div>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">SVGTypewriter.js</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-private" checked />
+							<label class="tsd-widget" for="tsd-filter-private">Private</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> SVGTypewriter.js</h1>
+		</div>
+	</div>
 </header>
 <div class="container container-main">
-  <div class="row">
-    <div class="col-8 col-content">
-      <div class="tsd-panel tsd-typography">
-        <h1 id="svg-typewriter">SVG Typewriter</h1>
-        <p><a href="https://travis-ci.org/endrjuskr/svg-typewriter"><img src="https://travis-ci.org/endrjuskr/svg-typewriter.svg?branch=develop" alt="Build Status"></a></p>
-        <p><a href="https://saucelabs.com/u/andrzejskrodzki"><img src="https://saucelabs.com/browser-matrix/andrzejskrodzki.svg" alt="Sauce Test Status"></a></p>
-        <h2>What is SVG Typewriter?</h2>
-        <p>
-          <b>SVG Typewriter</b> is a library for measuring, manipulating, and writing text on SVG.
-The <a href="http://www.w3.org/TR/SVG/text.html#Introduction">svg text spec</a> indicates that
-"SVG performs no automatic line breaking or word wrapping", meaning that developers
-normally need to write their own code to accomplish this; <b>SVG Typewriter</b> aims
-to make this entire process easier.
-        </p>
-        <h3> Examples </h3>
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="svg-typewriter">SVG Typewriter</h1>
+				<p><a href="https://travis-ci.org/endrjuskr/svg-typewriter"><img src="https://travis-ci.org/endrjuskr/svg-typewriter.svg?branch=develop" alt="Build Status"></a></p>
+				<p><a href="https://saucelabs.com/u/andrzejskrodzki"><img src="https://saucelabs.com/browser-matrix/andrzejskrodzki.svg" alt="Sauce Test Status"></a></p>
+				<h2 id="overview">Overview</h2>
+				<p><strong>SVG Typewriter</strong> is a library for measuring, manipulating, and writing text on SVG.
+					The <a href="http://www.w3.org/TR/SVG/text.html#Introduction">svg text spec</a> indicates that
+					&quot;SVG performs no automatic line breaking or word wrapping&quot;, meaning that developers
+					normally need to write their own code to accomplish this; <strong>SVG Typewriter</strong> aims
+				to make this entire process easier.</p>
+				<p><strong>SVG Typewriter</strong> is based on <a href="http://d3js.org/">D3.js</a>.</p>
+				<h2 id="features">Features</h2>
+				<ul>
+					<li><em>Measurers</em> efficiently measure the size of a piece of text when written to a particular SVG element, taking into account the CSS styles affecting that text.</li>
+					<li><em>Wrappers</em> calculate how best to fit text into a given space, based on results from the Measurer.</li>
+					<li><em>Writers</em> write text to a given SVG element based on specified options such as alignment, rotation, and animation.</li>
+				</ul>
+				<p>In general, users will primarily interact with <em>Writers</em>, although they will need to instantiate <em>Measurers</em> based on specific SVG elements so that the library can perform accurate measurement and wrapping. Users can set options on <em>Wrappers</em> to control the wrapping behavior.</p>
+				<h2 id="-installation-">&quot;Installation&quot;</h2>
+				<p>Download <a href="https://raw.githubusercontent.com/endrjuskr/svg-typewriter/develop/svgtypewriter.js">svgtypewriter.js</a>
+				and include it via <code>&lt;script&gt;</code> tags.</p>
+				<p>We are working on a Bower package.</p>
+				<h2 id="example-usage">Example Usage</h2>
+				<pre><code class="lang-Javascript">// Create a Measurer based on the element we want to write into.
+// Passing in the intended element allows accurate measurement based
+// on the CSS styles that will actually be applied to that element.
+measurer = new SVGTypewriter.Measurers.Measurer(svg);
 
-        <table class="example-usage" id="simple-measurer">
-          <thead>
-            <tr><td colspan="2" class="description">Simple text measurement</td></tr>
-          </thead>
-          <tbody>
-            <tr><td> Result </td><td> Code </td></tr>
-            <tr>
-              <td>
-                <svg class="area"></svg><br>
-                <div class="result"></div>
-              </td>
-              <td>
-                {% include examples/measuring.js %}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+// Creates a Wrapper with default options.
+// A wrapper calculates how to break text to fit in a given space and returns
+// the wrapped text as strings. Wrappers do not directly write the wrapped text.
+wrapper = new SVGTypewriter.Wrappers.Wrapper();
 
+// Create a Writer.
+// A Writer uses the supplied Measurer and Wrapper to best decide how to fit
+// text in a given space, then writes the wrapped text to a given element.
+writer = new SVGTypewriter.Writers.Writer(measurer, wrapper);
 
-        <div class="example-usage font" id="font-measurer">
-          <div class="description"> Text measurment with applied class </div>
-          <svg class="area" >
-          <div class="result"></div>
-        </div>
-        <div  class="example-usage"id="simple-wrapping">
-          <div class="description"> Simple text wrapping </div>
-          <svg class="area" >
-          <div class="result">
-            <input id"small" class="width-option" type="button" value="25px">
-            <input id"meddium" class="width-option" type="button" value="50px">
-            <input id"large" class="width-option" type="button" value="75px">
-          </div>
-        </div>
-        <div class="example-usage" id="different-aligns">
-          <div class="description"> Different write alignments </div>
-          <svg class="area">
-          <div class="result"></div>
-        </div>
-        <div class="example-usage" id="different-rotations">
-          <div class="description"> Different text rotations </div>
-          <svg class="area">
-          <div class="result">
-          </div>
-        </div>
-        <div class="example-usage animation" id="opacity-animation">
-          <div class="description"> First text animation </div>
-          <svg class="area">
-          <div class="result">
-            <input class="re-run" type="button" value="Re-run animation">
-          </div>
-        </div>
-        <div class="example-usage animation" id="unveil-animation">
-          <div class="description"> Second text animation </div>
-          <svg class="area">
-          <div class="result">
-            <input class="re-run" type="button" value="Re-run animation">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-      <nav class="tsd-navigation primary">
-        <ul>
-          <li class="globals  ">
-            <a href="globals.html"><em>Globals</em></a>
-          </li>
-          <li class=" tsd-kind-container">
-            <a href="modules/svgtypewriter.html">SVGTypewriter</a>
-          </li>
-          <li class=" tsd-kind-container tsd-parent-kind-container">
-            <a href="modules/svgtypewriter.animators.html">SVGTypewriter.<wbr>Animators</a>
-          </li>
-          <li class=" tsd-kind-container tsd-parent-kind-container">
-            <a href="modules/svgtypewriter.measurers.html">SVGTypewriter.<wbr>Measurers</a>
-          </li>
-          <li class=" tsd-kind-container tsd-parent-kind-container">
-            <a href="modules/svgtypewriter.utils.html">SVGTypewriter.<wbr>Utils</a>
-          </li>
-          <li class=" tsd-kind-container tsd-parent-kind-container">
-            <a href="modules/svgtypewriter.utils.dom.html">SVGTypewriter.<wbr>Utils.DOM</a>
-          </li>
-          <li class=" tsd-kind-container tsd-parent-kind-container">
-            <a href="modules/svgtypewriter.utils.methods.html">SVGTypewriter.<wbr>Utils.<wbr>Methods</a>
-          </li>
-          <li class=" tsd-kind-container tsd-parent-kind-container">
-            <a href="modules/svgtypewriter.utils.stringmethods.html">SVGTypewriter.<wbr>Utils.<wbr>String<wbr>Methods</a>
-          </li>
-          <li class=" tsd-kind-container tsd-parent-kind-container">
-            <a href="modules/svgtypewriter.wrappers.html">SVGTypewriter.<wbr>Wrappers</a>
-          </li>
-          <li class=" tsd-kind-container tsd-parent-kind-container">
-            <a href="modules/svgtypewriter.writers.html">SVGTypewriter.<wbr>Writers</a>
-          </li>
-        </ul>
-      </nav>
-      <nav class="tsd-navigation secondary menu-sticky">
-        <ul class="before-current">
-        </ul>
-      </nav>
-    </div>
-  </div>
+// Set write options.
+writeOptions = {
+  selection: svg,
+  xAlign: &quot;left&quot;,
+  yAlign: &quot;top&quot;,
+  textRotation: 0
+};
+
+// write the text to the element.
+writer.write(&quot;Hello World!&quot;, width, height, writeOptions);
+</code></pre>
+				<p>See <a href="http://endrjuskr.github.io/svg-typewriter/docs/">the docs</a> for more detailed examples.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-container">
+						<a href="modules/svgtypewriter.html">SVGTypewriter</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="modules/svgtypewriter.animators.html">SVGTypewriter.<wbr>Animators</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="modules/svgtypewriter.measurers.html">SVGTypewriter.<wbr>Measurers</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="modules/svgtypewriter.utils.html">SVGTypewriter.<wbr>Utils</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="modules/svgtypewriter.utils.dom.html">SVGTypewriter.<wbr>Utils.DOM</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="modules/svgtypewriter.utils.methods.html">SVGTypewriter.<wbr>Utils.<wbr>Methods</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="modules/svgtypewriter.utils.stringmethods.html">SVGTypewriter.<wbr>Utils.<wbr>String<wbr>Methods</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="modules/svgtypewriter.wrappers.html">SVGTypewriter.<wbr>Wrappers</a>
+					</li>
+					<li class=" tsd-kind-container tsd-parent-kind-container">
+						<a href="modules/svgtypewriter.writers.html">SVGTypewriter.<wbr>Writers</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
 </div>
 <footer class="with-border-bottom">
-  <div class="container">
-    <h2>Legend</h2>
-    <div class="tsd-legend-group">
-      <ul class="tsd-legend">
-        <li class="tsd-kind-container"><span class="tsd-kind-icon">Container, dynamic module</span></li>
-      </ul>
-      <ul class="tsd-legend">
-        <li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-        <li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-      </ul>
-      <ul class="tsd-legend">
-        <li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-        <li class="tsd-kind-construct-signature"><span class="tsd-kind-icon">Constructor</span></li>
-        <li class="tsd-kind-property"><span class="tsd-kind-icon">Variable</span></li>
-        <li class="tsd-kind-call-signature"><span class="tsd-kind-icon">Function, call signature, accessor</span></li>
-        <li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-      </ul>
-      <ul class="tsd-legend">
-        <li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-        <li class="tsd-kind-construct-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-        <li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-        <li class="tsd-kind-call-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Member, accessor</span></li>
-        <li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-      </ul>
-      <ul class="tsd-legend">
-        <li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-        <li class="tsd-kind-construct-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-        <li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-        <li class="tsd-kind-call-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Member, accessor</span></li>
-        <li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-      </ul>
-      <ul class="tsd-legend">
-        <li>&nbsp;</li>
-        <li class="tsd-kind-construct-signature tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-        <li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-        <li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited member</span></li>
-      </ul>
-      <ul class="tsd-legend">
-        <li>&nbsp;</li>
-        <li class="tsd-kind-construct-signature tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private constructor</span></li>
-        <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-        <li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private member</span></li>
-      </ul>
-      <ul class="tsd-legend">
-        <li>&nbsp;</li>
-        <li>&nbsp;</li>
-        <li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-        <li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static member</span></li>
-      </ul>
-    </div>
-  </div>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-container"><span class="tsd-kind-icon">Container, dynamic module</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-construct-signature"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-call-signature"><span class="tsd-kind-icon">Function, call signature, accessor</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-construct-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Member, accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-construct-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Member, accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li>&nbsp;</li>
+				<li class="tsd-kind-construct-signature tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited member</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li>&nbsp;</li>
+				<li class="tsd-kind-construct-signature tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private member</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li>&nbsp;</li>
+				<li>&nbsp;</li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static member</span></li>
+			</ul>
+		</div>
+	</div>
 </footer>
 <div class="container tsd-generator">
-  <p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
