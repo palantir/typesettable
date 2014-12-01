@@ -19,17 +19,22 @@ module.exports = function(grunt) {
         tasks: ['copy:examples'],
         options: { spawn: false }
       }
-    }
+    },
+    typedoc: {
+      build: {
+        options: {
+          module: 'commonjs',
+          target: 'es5',
+          out: 'docs/',
+          name: 'SVGTypewriter.js'
+        },
+        src: 'src/**/*'
+      }
+    },
   });
 
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-imagemin');
-  grunt.loadNpmTasks('grunt-svgmin');
-  grunt.loadNpmTasks('grunt-contrib-compass');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-newer');
+  require('load-grunt-tasks')(grunt);
 
   grunt.registerTask('default', ['copy']);
+  grunt.registerTask("docs", "typedoc:build");
 }
