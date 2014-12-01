@@ -2,6 +2,18 @@ module.exports = function(grunt) {
   "use strict";
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    compass: {
+      dist: {
+        options: {
+          specify     : ['sass/style.scss'],
+          sassDir     : 'sass',
+          cssDir      : 'build/css',
+          fontsDir    : 'fonts',
+          outputStyle : 'compressed',
+          imagesDir   : 'build/images'
+        }
+      },
+    },
     copy: {
       examples: {
         src: ['examples/**/*', '!**/_*/**'],
@@ -36,6 +48,6 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('default', ['copy']);
+  grunt.registerTask('default', ['compass', 'copy']);
   grunt.registerTask("docs", "typedoc:build");
 }
