@@ -731,26 +731,32 @@ var SVGTypewriter;
                 var wrappedText = this._wrapper ? this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText : text;
                 this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, options.xAlign, options.yAlign);
                 var xForm = d3.transform("");
+                var xForm2 = d3.transform("");
                 xForm.rotate = options.textRotation;
-                var lineHeight = this._measurer.measure().height;
                 switch (options.textRotation) {
                     case 90:
                         xForm.translate = [width, 0];
+                        xForm2.rotate = -90;
+                        xForm2.translate = [0, 200];
                         break;
                     case -90:
                         xForm.translate = [0, height];
+                        xForm2.rotate = 90;
+                        xForm2.translate = [width, 0];
                         break;
                     case 180:
                         xForm.translate = [width, height];
+                        xForm2.translate = [width, height];
+                        xForm2.rotate = 180;
                         break;
                 }
                 textArea.attr("transform", xForm.toString());
-                this.addClipPath(textContainer);
+                this.addClipPath(textContainer, xForm2);
                 if (options.animator) {
                     options.animator.animate(textContainer);
                 }
             };
-            Writer.prototype.addClipPath = function (selection) {
+            Writer.prototype.addClipPath = function (selection, transform) {
                 var elementID = this._elementID++;
                 var prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
                 prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
@@ -760,6 +766,7 @@ var SVGTypewriter;
                 var attr = SVGTypewriter.Utils.DOM.getBBox(selection.select(".text-area"));
                 var box = clipPathParent.append("rect");
                 box.classed("clip-rect", true).attr(attr);
+                box.attr("transform", transform.toString());
             };
             Writer.nextID = 0;
             Writer.SupportedRotation = [-90, 0, 180, 90];
