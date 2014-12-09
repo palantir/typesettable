@@ -23,9 +23,9 @@
     "visualization"
   ],
   "dependencies": {
-    "d3": "3.4.12"
+    "d3": "3.4.13"
   },
-  "homepage": "https://github.com/palantir/svg-typewriter",
+  "homepage": "http://palantir.github.io/svg-typewriter/",
   "repository": {
     "type": "git",
     "url": "git://github.com/palantir/svg-typewriter.git"

@@ -25,7 +25,7 @@ In general, users will primarily interact with *Writers*, although they will nee
 
 "Installation"
 ---
-Download [svgtypewriter.js](https://raw.githubusercontent.com/endrjuskr/svg-typewriter/develop/svgtypewriter.js)
+Download [svgtypewriter.js](https://raw.githubusercontent.com/palantir/svg-typewriter/develop/svgtypewriter.js)
 and include it via `<script>` tags.
 
 We are working on a Bower package.
@@ -60,4 +60,4 @@ writeOptions = {
 writer.write("Hello World!", width, height, writeOptions);
 ```
 
-See [the docs](http://endrjuskr.github.io/svg-typewriter/docs/) for more detailed examples.
+See [the docs](http://palantir.github.io/svg-typewriter/docs/) for more detailed examples.
