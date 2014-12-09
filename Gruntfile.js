@@ -20,7 +20,6 @@ module.exports = function(grunt) {
     test: {
       src: ["test/*.ts", "typings/**/*.d.ts", "build/svgtypewriter.d.ts"],
       outDir: "build/test/",
-      // watch: "test",
       options: {
         target: 'es5',
         sourceMap: false,

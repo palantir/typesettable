@@ -1,11 +1,5 @@
 /*!
-SVG Typewriter @VERSION (https://github.com/endrjuskr/svg-typewriter)
+SVG Typewriter @VERSION (https://github.com/palantir/svg-typewriter)
 Copyright 2014 Palantir Technologies
-Licensed under MIT (https://github.com/endrjuskr/svg-typewriter/blob/master/LICENSE)
-
-          ************************************************
-          **          Looking for readable source?      **
-          **    Check out the .ts (typescript) file!    **
-          ************************************************
-
+Licensed under MIT (https://github.com/palantir/svg-typewriter/blob/master/LICENSE)
 */

@@ -1,10 +1,10 @@
 {
   "name": "svgtypewriter",
-  "version": "0.0.1",
-  "description": "A library for manipulating text on SVG.",
+  "version": "0.1.0",
+  "description": "A library for measuring, manipulating, and writing text on SVG.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/endrjuskr/svg-textwriter.git"
+    "url": "https://github.com/palantir/svg-textwriter.git"
   },
   "author": "Andrzej Skrodzki @ Palantir Technologies",
   "scripts": {
