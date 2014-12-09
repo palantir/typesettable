@@ -16,5 +16,9 @@ module SVGTypewriter.Measurers {
     public _measureCharacter(c: string) {
       return this.cache.get(c);
     }
+
+    public reset() {
+      this.cache.clear();
+    }
   }
 }
