@@ -145,7 +145,6 @@ module SVGTypewriter.Writers {
       var attr = Utils.DOM.getBBox(selection.select(".text-area"));
       var box = clipPathParent.append("rect");
       box.classed("clip-rect", true).attr(attr);
-      box.attr("transform", transform.toString());
     }
   }
 }

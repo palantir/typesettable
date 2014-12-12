@@ -609,8 +609,8 @@ describe("Writer Test Suite", function () {
         writer = new SVGTypewriter.Writers.Writer(measurer, wrapper);
         writeOptions = {
             selection: svg,
-            xAlign: "left",
-            yAlign: "top",
+            xAlign: "right",
+            yAlign: "center",
             textRotation: 0
         };
     });
