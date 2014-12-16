@@ -92,7 +92,7 @@ module SVGTypewriter.Wrappers {
         wrapping: initialWrappingResult,
         currentLine: "",
         availableWidth: width,
-        availableLines: Math.min(height / measurer.measure().height, this._maxLines),
+        availableLines: Math.min(Math.floor(height / measurer.measure().height), this._maxLines),
         canFitText: true
       };
 

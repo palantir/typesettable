@@ -56,6 +56,16 @@ describe("Wrapper Test Suite", () => {
       assert.deepEqual(result.noLines, 1, "no wrapping was needed");
     });
 
+    it("does not wrap becasue of height", () => {
+      var dimensions = measurer.measure(token);
+      var result = wrapper.wrap(token, measurer, dimensions.width, dimensions.height / 2);
+      assert.deepEqual(result.originalText, token, "original text has been set");
+      assert.deepEqual(result.wrappedText, "", "wrapped text is empty");
+      assert.deepEqual(result.truncatedText, token, "whole word has been truncated");
+      assert.deepEqual(result.noBrokeWords, 0, "non of tokens has been broken");
+      assert.deepEqual(result.noLines, 0, "no wrapping was needed");
+    });
+
     it("one time wrapping", () => {
       var availableWidth = measurer.measure(token).width * 3 / 4;
       var result = wrapper.wrap(token, measurer, availableWidth);
