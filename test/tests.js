@@ -847,14 +847,7 @@ describe("Measurer Test Suite", function () {
             defaultText = "a\na";
             textSelection = svg.append("text");
             textSelection.text(defaultText);
-            measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
-        });
-        it("resets default string", function () {
-            measurer.measure("hello world");
-            assert.deepEqual(textSelection.text(), defaultText, "Text inside selection has been reseted to default");
-        });
-        it("default text", function () {
-            assert.deepEqual(measurer.measure(), measurer.measure(SVGTypewriter.Measurers.AbstractMeasurer.HEIGHT_TEXT), "default text was used");
+            measurer = new SVGTypewriter.Measurers.Measurer(textSelection, null, true);
         });
         it("works on empty string", function () {
             var result = measurer.measure("");

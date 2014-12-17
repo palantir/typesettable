@@ -3,6 +3,12 @@
 module SVGTypewriter.Measurers {
   export class Measurer extends AbstractMeasurer {
     private guardWidth: number;
+    private useGuards: boolean;
+
+    constructor(area: D3.Selection, className: string = null, useGuards: boolean = false) {
+      super(area, className);
+      this.useGuards = useGuards;
+    }
 
     // Guards assures same line height and width of whitespaces on both ends.
     public _addGuards(text: string) {
@@ -17,9 +23,9 @@ module SVGTypewriter.Measurers {
     }
 
     public _measureLine(line: string) {
-      var measuredLine = this._addGuards(line);
+      var measuredLine = this.useGuards ? this._addGuards(line) : line;
       var measuredLineDimensions = super.measure(measuredLine);
-      measuredLineDimensions.width -= 2 * this.getGuardWidth();
+      measuredLineDimensions.width -= this.useGuards ? (2 * this.getGuardWidth()) : 0;
       return measuredLineDimensions;
     }
 

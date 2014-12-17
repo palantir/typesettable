@@ -41,10 +41,12 @@ module SVGTypewriter.Measurers {
           return areaDimension;
         };
       } else {
-        var defaultText = area.text();
+        var parentNode = area.node().parentNode;
+        area.remove();
         return (text: string) => {
+          parentNode.appendChild(area.node());
           var areaDimension = this.measureBBox(area, text);
-          area.text(defaultText);
+          area.remove();
           return areaDimension;
         };
       }
