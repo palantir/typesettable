@@ -710,7 +710,7 @@ var SVGTypewriter;
                 lines.forEach(function (line, i) {
                     var lineEl = _this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
                     var yOffsetFactor = { top: 0, center: 0.5, bottom: 1 };
-                    var ems = 0.85 - yOffsetFactor[yAlign];
+                    var ems = 0.30 - yOffsetFactor[yAlign];
                     lineEl.attr("y", ems + "em");
                 });
             };

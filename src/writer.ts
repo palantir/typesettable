@@ -79,7 +79,7 @@ module SVGTypewriter.Writers {
       lines.forEach((line: string, i: number) => {
         var lineEl = this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
         var yOffsetFactor: {[s: string]: number} = {top: 0, center: 0.5, bottom: 1};
-        var ems = 0.85 - yOffsetFactor[yAlign];
+        var ems = 0.30 - yOffsetFactor[yAlign];
         lineEl.attr("y", ems + "em");
       });
     }
