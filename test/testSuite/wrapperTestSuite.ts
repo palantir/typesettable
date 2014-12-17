@@ -9,7 +9,7 @@ describe("Wrapper Test Suite", () => {
   beforeEach(() => {
     svg = generateSVG(200, 200);
     var textSelection = svg.append("text");
-    measurer = new SVGTypewriter.Measurers.Measurer(textSelection);
+    measurer = new SVGTypewriter.Measurers.Measurer(svg, null, true);
     wrapper = new SVGTypewriter.Wrappers.Wrapper();
   });
 
@@ -88,13 +88,13 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("multi time wrapping", () => {
-      var availableWidth = measurer.measure("h").width * 2;
+      var availableWidth = measurer.measure("h-").width;
       var result = wrapper.wrap(token, measurer, availableWidth);
       assert.deepEqual(result.originalText, token, "original text has been set");
-      assert.lengthOf(result.wrappedText.split("\n"), 3, "wrapping occured");
+      assert.lengthOf(result.wrappedText.split("\n"), 4, "wrapping occured");
       assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
-      assert.deepEqual(result.noBrokeWords, 2, "wrapping with breaking word twice");
-      assert.deepEqual(result.noLines, 3, "wrapping was needed");
+      assert.deepEqual(result.noBrokeWords, 3, "wrapping with breaking word");
+      assert.deepEqual(result.noLines, 4, "wrapping was needed");
       assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
     });
 
@@ -344,7 +344,7 @@ describe("Wrapper Test Suite", () => {
       var availableWidth = measurer.measure("..").width;
       var result = wrapper.wrap(text, measurer, availableWidth);
       assert.deepEqual(result.originalText, text, "original text has been set");
-      assert.deepEqual(result.wrappedText, "..", "ellipsis has been added");
+      assert.deepEqual(result.wrappedText, ".", "ellipsis has been added");
       assert.deepEqual(result.truncatedText, "!HHH", "whole word is truncated");
       assert.deepEqual(result.noBrokeWords, 0, "one breaks");
       assert.deepEqual(result.noLines, 1, "wrapped text has one lines");

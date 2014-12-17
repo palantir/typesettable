@@ -154,7 +154,7 @@ module SVGTypewriter.Wrappers {
       var ellipsesWidth = measurer.measure("...").width;
 
       if (width <= ellipsesWidth) {
-        var periodWidth = measurer.measure(".").width;
+        var periodWidth = ellipsesWidth / 3;
         var numPeriodsThatFit = Math.floor(width / periodWidth);
         return {
           wrappedToken: "...".substr(0, numPeriodsThatFit),
