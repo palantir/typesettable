@@ -1,5 +1,5 @@
 /*!
-SVG Typewriter 0.1.5 (https://github.com/palantir/svg-typewriter)
+SVG Typewriter 0.1.7 (https://github.com/palantir/svg-typewriter)
 Copyright 2014 Palantir Technologies
 Licensed under MIT (https://github.com/palantir/svg-typewriter/blob/develop/LICENSE)
 */
@@ -698,7 +698,7 @@ var SVGTypewriter;
                 textEl.text(line);
                 var xOffset = width * Writer.XOffsetFactor[xAlign];
                 var anchor = Writer.AnchorConverter[xAlign];
-                textEl.attr("text-anchor", anchor).classed("text-line", true).attr("y", "-0.25em");
+                textEl.attr("text-anchor", anchor).classed("text-line", true).attr("y", "-0.3em");
                 SVGTypewriter.Utils.DOM.transform(textEl, xOffset, yOffset);
             };
             Writer.prototype.writeText = function (text, writingArea, width, height, xAlign, yAlign) {

@@ -67,7 +67,7 @@ module SVGTypewriter.Writers {
       textEl.text(line);
       var xOffset = width * Writer.XOffsetFactor[xAlign];
       var anchor: string = Writer.AnchorConverter[xAlign];
-      textEl.attr("text-anchor", anchor).classed("text-line", true).attr("y", "-0.25em");
+      textEl.attr("text-anchor", anchor).classed("text-line", true).attr("y", "-0.3em");
       Utils.DOM.transform(textEl, xOffset, yOffset);
     }
 
