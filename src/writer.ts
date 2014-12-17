@@ -67,8 +67,9 @@ module SVGTypewriter.Writers {
       textEl.text(line);
       var xOffset = width * Writer.XOffsetFactor[xAlign];
       var anchor: string = Writer.AnchorConverter[xAlign];
-      textEl.attr("text-anchor", anchor).classed("text-line", true).attr("y", "-0.3em");
+      textEl.attr("text-anchor", anchor).classed("text-line", true);
       Utils.DOM.transform(textEl, xOffset, yOffset);
+      return textEl;
     }
 
     private writeText(text: string, writingArea: D3.Selection, width: number, height: number, xAlign: string, yAlign: string) {
@@ -76,7 +77,10 @@ module SVGTypewriter.Writers {
       var lineHeight = this._measurer.measure().height;
       var yOffset = Writer.YOffsetFactor[yAlign] * (height - lines.length * lineHeight);
       lines.forEach((line: string, i: number) => {
-        this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
+        var lineEl = this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
+        var yOffsetFactor: {[s: string]: number} = {top: 0, center: 0.5, bottom: 1};
+        var ems = 0.85 - yOffsetFactor[yAlign];
+        lineEl.attr("y", ems + "em");
       });
     }
 

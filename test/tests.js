@@ -647,30 +647,30 @@ describe("Writer Test Suite", function () {
             checkWriting("test\ntest", 200, 200);
         });
         it("wrapping", function () {
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("whitespaces", function () {
             checkWriting("a    a", 50, 150);
         });
         it("maxLines", function () {
             wrapper.maxLines(3);
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("maxLines + no ellipsis", function () {
             wrapper.maxLines(3).textTrimming("none");
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("allignment corner", function () {
             wrapper.maxLines(3).textTrimming("none");
             writeOptions.yAlign = "bottom";
             writeOptions.xAlign = "right";
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("allignment center", function () {
             wrapper.maxLines(3).textTrimming("none");
             writeOptions.yAlign = "center";
             writeOptions.xAlign = "center";
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
     });
     describe("Horizontal flipside", function () {
@@ -685,35 +685,35 @@ describe("Writer Test Suite", function () {
             checkWriting("test\ntest", 200, 200);
         });
         it("wrapping", function () {
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("whitespaces", function () {
             checkWriting("a    a", 50, 150);
         });
         it("maxLines", function () {
             wrapper.maxLines(3);
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("maxLines + no ellipsis", function () {
             wrapper.maxLines(3).textTrimming("none");
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("allignment corner", function () {
             wrapper.maxLines(3).textTrimming("none");
             writeOptions.yAlign = "bottom";
             writeOptions.xAlign = "right";
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("allignment center", function () {
             wrapper.maxLines(3).textTrimming("none");
             writeOptions.yAlign = "center";
             writeOptions.xAlign = "center";
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("addTitleElement", function () {
             wrapper.maxLines(3);
             writer.addTitleElement(true);
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150, true);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150, true);
         });
     });
     describe("Vertical left", function () {
@@ -728,30 +728,30 @@ describe("Writer Test Suite", function () {
             checkWriting("test\ntest", 200, 200);
         });
         it("wrapping", function () {
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("whitespaces", function () {
             checkWriting("a    a", 50, 150);
         });
         it("maxLines", function () {
             wrapper.maxLines(3);
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("maxLines + no ellipsis", function () {
             wrapper.maxLines(3).textTrimming("none");
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("allignment corner", function () {
             wrapper.maxLines(3).textTrimming("none");
             writeOptions.yAlign = "bottom";
             writeOptions.xAlign = "right";
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("allignment center", function () {
             wrapper.maxLines(3).textTrimming("none");
             writeOptions.yAlign = "center";
             writeOptions.xAlign = "center";
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
     });
     describe("Vertical right", function () {
@@ -766,30 +766,30 @@ describe("Writer Test Suite", function () {
             checkWriting("test\ntest", 200, 200);
         });
         it("wrapping", function () {
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("whitespaces", function () {
             checkWriting("a    a", 50, 150);
         });
         it("maxLines", function () {
             wrapper.maxLines(3);
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("maxLines + no ellipsis", function () {
             wrapper.maxLines(3).textTrimming("none");
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("allignment corner", function () {
             wrapper.maxLines(3).textTrimming("none");
             writeOptions.yAlign = "bottom";
             writeOptions.xAlign = "right";
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
         it("allignment center", function () {
             wrapper.maxLines(3).textTrimming("none");
             writeOptions.yAlign = "center";
             writeOptions.xAlign = "center";
-            checkWriting("reallylongsentencewithmanycharacters", 50, 150);
+            checkWriting("reallylongsepntencewithmanycharacters", 50, 150);
         });
     });
 });
