@@ -1,6 +1,6 @@
 {
   "name": "svgtypewriter",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A library for measuring, manipulating, and writing text on SVG.",
   "repository": {
     "type": "git",

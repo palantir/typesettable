@@ -87,7 +87,7 @@ describe("Wrapper Test Suite", () => {
       assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
     });
 
-    it.skip("multi time wrapping", () => {
+    it("multi time wrapping", () => {
       var availableWidth = measurer.measure("H-").width;
       var result = wrapper.wrap(token, measurer, availableWidth);
       assert.deepEqual(result.originalText, token, "original text has been set");

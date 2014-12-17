@@ -1,5 +1,5 @@
 /*!
-SVG Typewriter 0.1.7 (https://github.com/palantir/svg-typewriter)
+SVG Typewriter 0.1.8 (https://github.com/palantir/svg-typewriter)
 Copyright 2014 Palantir Technologies
 Licensed under MIT (https://github.com/palantir/svg-typewriter/blob/develop/LICENSE)
 */
@@ -699,8 +699,8 @@ var SVGTypewriter;
                 var xOffset = width * Writer.XOffsetFactor[xAlign];
                 var anchor = Writer.AnchorConverter[xAlign];
                 textEl.attr("text-anchor", anchor).classed("text-line", true);
-                SVGTypewriter.Utils.DOM.transform(textEl, xOffset, yOffset);
-                return textEl;
+                SVGTypewriter.Utils.DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
+                ;
             };
             Writer.prototype.writeText = function (text, writingArea, width, height, xAlign, yAlign) {
                 var _this = this;
@@ -708,10 +708,7 @@ var SVGTypewriter;
                 var lineHeight = this._measurer.measure().height;
                 var yOffset = Writer.YOffsetFactor[yAlign] * (height - lines.length * lineHeight);
                 lines.forEach(function (line, i) {
-                    var lineEl = _this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
-                    var yOffsetFactor = { top: 0, center: 0.5, bottom: 1 };
-                    var ems = 0.30 - yOffsetFactor[yAlign];
-                    lineEl.attr("y", ems + "em");
+                    _this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
                 });
             };
             Writer.prototype.write = function (text, width, height, options) {
