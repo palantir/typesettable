@@ -231,6 +231,7 @@ describe("Wrapper Test Suite", function () {
         });
         it("does not wrap", function () {
             var dimensions = measurer.measure(token);
+            debugger;
             var result = wrapper.wrap(token, measurer, dimensions.width * 2);
             assert.deepEqual(result.originalText, token, "original text has been set");
             assert.deepEqual(result.wrappedText, token, "wrapped text is the same as original");

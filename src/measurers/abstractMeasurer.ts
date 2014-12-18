@@ -24,7 +24,7 @@ module SVGTypewriter.Measurers {
     }
 
     private checkSelectionIsText(d: D3.Selection) {
-      return d[0][0].tagName === "text";
+      return d[0][0].tagName === "text" || !d.select("text").empty();
     }
 
     private getTextMeasurer(area: D3.Selection, className: string) {
@@ -42,10 +42,16 @@ module SVGTypewriter.Measurers {
         };
       } else {
         var parentNode = area.node().parentNode;
+        var textSelection: D3.Selection;
+        if (area[0][0].tagName === "text") {
+          textSelection = area;
+        } else {
+          textSelection = area.select("text");
+        }
         area.remove();
         return (text: string) => {
           parentNode.appendChild(area.node());
-          var areaDimension = this.measureBBox(area, text);
+          var areaDimension = this.measureBBox(textSelection, text);
           area.remove();
           return areaDimension;
         };
