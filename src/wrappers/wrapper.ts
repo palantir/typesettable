@@ -139,7 +139,7 @@ module SVGTypewriter.Wrappers {
       var possibleBreaks = this._allowBreakingWords ?
                             token.split("").map((c, i) => (i !== token.length - 1) ? c + this._breakingCharacter : c)
                             : [token];
-      return possibleBreaks.every(c => measurer.measure(c).width <= width);
+      return (measurer.measure(token).width <= width) || possibleBreaks.every(c => measurer.measure(c).width <= width);
     }
 
     private addEllipsis(line: string, width: number, measurer: Measurers.AbstractMeasurer): EllipsisResult {
@@ -149,15 +149,16 @@ module SVGTypewriter.Wrappers {
           remainingToken: ""
         };
       }
-      var truncatedLine = line.substring(0);
+      var truncatedLine = line.substring(0).trim();
       var lineWidth = measurer.measure(truncatedLine).width;
       var ellipsesWidth = measurer.measure("...").width;
+      var prefix = (line.length > 0 && line[0] === "\n") ? "\n" : "";
 
       if (width <= ellipsesWidth) {
         var periodWidth = ellipsesWidth / 3;
         var numPeriodsThatFit = Math.floor(width / periodWidth);
         return {
-          wrappedToken: "...".substr(0, numPeriodsThatFit),
+          wrappedToken: prefix + "...".substr(0, numPeriodsThatFit),
           remainingToken: line
         };
       }
@@ -168,7 +169,7 @@ module SVGTypewriter.Wrappers {
       }
 
       return {
-        wrappedToken: truncatedLine + "...",
+        wrappedToken: prefix + truncatedLine + "...",
         remainingToken: Utils.StringMethods.trimEnd(line.substring(truncatedLine.length), "-").trim()
       };
     }
