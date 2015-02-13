@@ -9,18 +9,18 @@ module SVGTypewriter.Utils.StringMethods {
     return str.replace(/\s+/g, " ");
   }
 
-  export function isNotEmptyString(str: string) {
-    return str && str.trim() !== "";
+  export function isEmptyString(str: string) {
+    return str == null || str.trim() === "";
   }
 
-  export function trimStart(str: string, c?: string) {
+  export function trimStart(str: string, c: string = " ") {
     if (!str) {
       return str;
     }
 
     var chars = str.split("");
-    var reduceFunction = c ? (s: string) => s.split(c).some(isNotEmptyString) : isNotEmptyString;
-    return chars.reduce((s: string, c : string) => reduceFunction(s + c) ? s + c : s, "");
+    var reduceFunction = (s: string) => !isEmptyString(s.split(c)[0]);
+    return chars.reduce((s: string, char: string) => reduceFunction(s + char) ? s + char : s, "");
   }
 
   export function trimEnd(str: string, c?: string) {

@@ -62,7 +62,7 @@ declare module SVGTypewriter.Utils.StringMethods {
      * Treat all sequences of consecutive whitespace as a single " ".
      */
     function combineWhitespace(str: string): string;
-    function isNotEmptyString(str: string): boolean;
+    function isEmptyString(str: string): boolean;
     function trimStart(str: string, c?: string): string;
     function trimEnd(str: string, c?: string): string;
 }
