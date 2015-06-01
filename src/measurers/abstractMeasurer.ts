@@ -19,15 +19,15 @@ module SVGTypewriter.Measurers {
 
     public static HEIGHT_TEXT = "bqpdl";
 
-    constructor(area: D3.Selection, className?: string) {
+    constructor(area: d3.Selection<string>, className?: string) {
       this.textMeasurer = this.getTextMeasurer(area, className);
     }
 
-    private checkSelectionIsText(d: D3.Selection) {
-      return d[0][0].tagName === "text" || !d.select("text").empty();
+    private checkSelectionIsText(d: d3.Selection<string>) {
+      return (<Element> d[0][0]).tagName === "text" || !d.select("text").empty();
     }
 
-    private getTextMeasurer(area: D3.Selection, className: string) {
+    private getTextMeasurer(area: d3.Selection<string>, className: string) {
       if (!this.checkSelectionIsText(area)) {
         var textElement = area.append("text");
         if (className) {
@@ -35,22 +35,22 @@ module SVGTypewriter.Measurers {
         }
         textElement.remove();
         return (text: string)  => {
-          area.node().appendChild(textElement.node());
+          (<Element> area.node()).appendChild(<Element> textElement.node());
           var areaDimension = this.measureBBox(textElement, text);
           textElement.remove();
           return areaDimension;
         };
       } else {
-        var parentNode = area.node().parentNode;
-        var textSelection: D3.Selection;
-        if (area[0][0].tagName === "text") {
+        var parentNode = (<Element> area.node()).parentNode;
+        var textSelection: d3.Selection<string>;
+        if ((<Element> area[0][0]).tagName === "text") {
           textSelection = area;
         } else {
           textSelection = area.select("text");
         }
         area.remove();
         return (text: string) => {
-          parentNode.appendChild(area.node());
+          parentNode.appendChild(<Element> area.node());
           var areaDimension = this.measureBBox(textSelection, text);
           area.remove();
           return areaDimension;
@@ -58,7 +58,7 @@ module SVGTypewriter.Measurers {
       }
     }
 
-    private measureBBox(d: D3.Selection, text: string) {
+    private measureBBox(d: d3.Selection<string>, text: string) {
       d.text(text);
       var bb = Utils.DOM.getBBox(d);
       return { width: bb.width, height: bb.height };

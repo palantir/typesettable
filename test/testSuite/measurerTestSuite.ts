@@ -3,11 +3,11 @@
 var assert = chai.assert;
 
 describe("Measurer Test Suite", () => {
-  var svg: D3.Selection;
+  var svg: d3.Selection<any>;
   var measurer: SVGTypewriter.Measurers.AbstractMeasurer;
   describe("Text element", () => {
     var defaultText: string;
-    var textSelection: D3.Selection;
+    var textSelection: d3.Selection<string>;
     beforeEach(() => {
       svg = generateSVG(200, 200);
       defaultText = "a\na";
@@ -79,7 +79,7 @@ describe("Measurer Test Suite", () => {
       var className = "testClass";
       var measurerWithClass = new SVGTypewriter.Measurers.Measurer(svg, className);
       var originalMeasureBBox = (<any>measurerWithClass).measureBBox;
-      (<any>measurerWithClass).measureBBox = (d: D3.Selection, text: string) => {
+      (<any>measurerWithClass).measureBBox = (d: d3.Selection<string>, text: string) => {
           assert.isTrue(d.classed(className), "class has been applied to text element");
           return originalMeasureBBox(d, text);
       };

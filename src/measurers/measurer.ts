@@ -5,7 +5,7 @@ module SVGTypewriter.Measurers {
     private guardWidth: number;
     private useGuards: boolean;
 
-    constructor(area: D3.Selection, className: string = null, useGuards: boolean = false) {
+    constructor(area: d3.Selection<string>, className: string = null, useGuards: boolean = false) {
       super(area, className);
       this.useGuards = useGuards;
     }

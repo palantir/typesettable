@@ -2,7 +2,7 @@
 
 module SVGTypewriter.Utils {
   export class Cache<T> {
-    private cache: D3.Map<T> = d3.map();
+    private cache: d3.Map<T> = d3.map<T>();
     private compute: (k: string) => T;
     private valueEq: (v: T, w: T) => boolean;
 
@@ -41,7 +41,7 @@ module SVGTypewriter.Utils {
      * @return {Cache<T>} The calling Cache.
      */
     public clear(): Cache<T> {
-      this.cache = d3.map();
+      this.cache = d3.map<T>();
       return this;
     }
   }

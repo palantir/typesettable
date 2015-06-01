@@ -4,7 +4,7 @@ var assert = chai.assert;
 
 describe("Animator Test Suite", () => {
   var writer: SVGTypewriter.Writers.Writer;
-  var svg: D3.Selection;
+  var svg: d3.Selection<any>;
   var writeOptions: SVGTypewriter.Writers.WriteOptions;
 
   var runAnimation = () => {

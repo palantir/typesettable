@@ -18,7 +18,7 @@ before(() => {
 });
 
 after(() => {
-  var parent: D3.Selection = getSVGParent();
+  var parent = getSVGParent();
   var mocha = d3.select("#mocha-report");
   if (mocha.node() != null) {
     var suites = mocha.selectAll(".suite");
