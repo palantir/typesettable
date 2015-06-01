@@ -2,7 +2,7 @@
 
 module SVGTypewriter.Writers {
   export interface WriteOptions {
-      selection: D3.Selection;
+      selection: d3.Selection<any>;
       xAlign: string;
       yAlign: string;
       textRotation: number;
@@ -62,7 +62,7 @@ module SVGTypewriter.Writers {
       return this;
     }
 
-    private writeLine(line: string, g: D3.Selection, width: number, xAlign: string, yOffset: number) {
+    private writeLine(line: string, g: d3.Selection<any>, width: number, xAlign: string, yOffset: number) {
       var textEl = g.append("text");
       textEl.text(line);
       var xOffset = width * Writer.XOffsetFactor[xAlign];
@@ -71,7 +71,7 @@ module SVGTypewriter.Writers {
       Utils.DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");;
     }
 
-    private writeText(text: string, writingArea: D3.Selection, width: number, height: number, xAlign: string, yAlign: string) {
+    private writeText(text: string, writingArea: d3.Selection<any>, width: number, height: number, xAlign: string, yAlign: string) {
       var lines = text.split("\n");
       var lineHeight = this._measurer.measure().height;
       var yOffset = Writer.YOffsetFactor[yAlign] * (height - lines.length * lineHeight);
@@ -135,16 +135,21 @@ module SVGTypewriter.Writers {
       }
     }
 
-    private addClipPath(selection: D3.Selection, transform: any) {
+    private addClipPath(selection: d3.Selection<any>, transform: any) {
       var elementID = this._elementID++;
       var prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
       prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
       var clipPathID = "clipPath" + this._writerID + "_" + elementID;
       selection.select(".text-area").attr("clip-path", "url(\"" + prefix + "#" + clipPathID +"\")");
       var clipPathParent = selection.append("clipPath").attr("id", clipPathID);
-      var attr = Utils.DOM.getBBox(selection.select(".text-area"));
+      var bboxAttrs = Utils.DOM.getBBox(selection.select(".text-area"));
       var box = clipPathParent.append("rect");
-      box.classed("clip-rect", true).attr(attr);
+      box.classed("clip-rect", true).attr({
+        x: bboxAttrs.x,
+        y: bboxAttrs.y,
+        width: bboxAttrs.width,
+        height: bboxAttrs.height
+      });
     }
   }
 }

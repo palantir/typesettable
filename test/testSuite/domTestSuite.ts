@@ -6,7 +6,7 @@ describe("Utils.DOM Test Suite", () => {
   var domUtils = SVGTypewriter.Utils.DOM;
   it("getBBox works properly", () => {
     var svg = generateSVG();
-    var expectedBox = {
+    var expectedBox: { [key: string]: number } = {
       x: 0,
       y: 0,
       width: 40,
@@ -19,7 +19,7 @@ describe("Utils.DOM Test Suite", () => {
   });
 
   it("getBBox does not fail on disconnected and display:none nodes", () => {
-    var expectedBox = {
+    var expectedBox: { [key: string]: number } = {
       x: 0,
       y: 0,
       width: 40,

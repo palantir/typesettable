@@ -1,5 +1,7 @@
 module SVGTypewriter.Utils.DOM {
-  export function transform(s: D3.Selection, x?: number, y?: number) {
+  export function transform(s: d3.Selection<any>): d3.Transform;
+  export function transform(s: d3.Selection<any>, x: number, y: number): d3.Selection<any>;
+  export function transform(s: d3.Selection<any>, x?: number, y?: number): any {
     var xform = d3.transform(s.attr("transform"));
     if (x == null) {
       return xform.translate;
@@ -12,7 +14,7 @@ module SVGTypewriter.Utils.DOM {
     }
   }
 
-  export function getBBox(element: D3.Selection): SVGRect {
+  export function getBBox(element: d3.Selection<any>): SVGRect {
     var bbox: SVGRect;
     try {
       bbox = (<any> element.node()).getBBox();

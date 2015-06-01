@@ -26,7 +26,7 @@ module SVGTypewriter.Animators {
       this.moveY(0);
     }
 
-    public animate(selection: D3.Selection): any {
+    public animate(selection: d3.Selection<any>): any {
      var xForm = d3.transform("");
      xForm.translate = [this.moveX(), this.moveY()];
      selection.attr("transform", xForm.toString());
@@ -34,7 +34,7 @@ module SVGTypewriter.Animators {
      return this._animate(selection, { transform: xForm.toString() });
     }
 
-    public _animate(selection: D3.Selection, attr: any) {
+    public _animate(selection: d3.Selection<any>, attr: any) {
       return selection.transition()
         .ease(this.easing())
         .duration(this.duration())

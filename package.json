@@ -31,6 +31,6 @@
     "grunt-tslint": "~0.4.0",
     "grunt-typedoc": "^0.2.1",
     "load-grunt-tasks": "~0.2.0",
-    "typescript": "1.0.1"
+    "typescript": "1.4.1"
   }
 }

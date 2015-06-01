@@ -6,7 +6,7 @@ describe("Writer Test Suite", () => {
   var wrapper: SVGTypewriter.Wrappers.Wrapper;
   var measurer: SVGTypewriter.Measurers.AbstractMeasurer;
   var writer: SVGTypewriter.Writers.Writer;
-  var svg: D3.Selection;
+  var svg: d3.Selection<any>;
   var writeOptions: SVGTypewriter.Writers.WriteOptions;
   var isHorizontal: boolean;
 

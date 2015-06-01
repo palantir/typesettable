@@ -5,7 +5,7 @@ var assert = chai.assert;
 describe("Wrapper Test Suite", () => {
   var wrapper: SVGTypewriter.Wrappers.Wrapper;
   var measurer: SVGTypewriter.Measurers.AbstractMeasurer;
-  var svg: D3.Selection;
+  var svg: d3.Selection<any>;
   beforeEach(() => {
     svg = generateSVG(200, 200);
     var textSelection = svg.append("text");
@@ -48,7 +48,6 @@ describe("Wrapper Test Suite", () => {
 
     it("does not wrap", () => {
       var dimensions = measurer.measure(token);
-      debugger;
       var result = wrapper.wrap(token, measurer, dimensions.width * 2);
       assert.deepEqual(result.originalText, token, "original text has been set");
       assert.deepEqual(result.wrappedText, token, "wrapped text is the same as original");

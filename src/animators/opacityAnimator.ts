@@ -2,7 +2,7 @@
 
 module SVGTypewriter.Animators {
   export class OpacityAnimator extends BaseAnimator {
-    public animate(selection: D3.Selection): any {
+    public animate(selection: d3.Selection<any>): any {
       var area = selection.select(".text-area");
       area.attr("opacity", 0);
       var attr = {

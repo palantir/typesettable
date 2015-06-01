@@ -10,10 +10,10 @@ module.exports = function(grunt) {
       outDir: "build/src/",
       options: {
         target: 'es5',
-        noImplicitAny: true,
         sourceMap: false,
+        noImplicitAny: true,
         declaration: true,
-        compiler: "./node_modules/grunt-ts/customcompiler/tsc",
+        compiler: "./node_modules/typescript/bin/tsc",
         removeComments: false
       }
     },
@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         sourceMap: false,
         noImplicitAny: true,
         declaration: false,
-        compiler: "./node_modules/grunt-ts/customcompiler/tsc",
+        compiler: "./node_modules/typescript/bin/tsc",
         removeComments: false
       }
     },
@@ -223,10 +223,10 @@ module.exports = function(grunt) {
           testname: 'SVGTypewriter Sauce Unit Tests',
           browsers: [{
             browserName: "firefox",
-            version: "30" 
+            platform: "linux"
           }, {
             browserName: "chrome",
-            version: "35"
+            platform: "linux"
           }, {
             browserName: "internet explorer",
             version: "9",
