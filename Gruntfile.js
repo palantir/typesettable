@@ -223,10 +223,10 @@ module.exports = function(grunt) {
           testname: 'SVGTypewriter Sauce Unit Tests',
           browsers: [{
             browserName: "firefox",
-            version: "30"
+            platform: "linux"
           }, {
             browserName: "chrome",
-            version: "35"
+            platform: "linux"
           }, {
             browserName: "internet explorer",
             version: "9",
