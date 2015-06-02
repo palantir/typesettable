@@ -19,15 +19,15 @@ module SVGTypewriter.Measurers {
 
     public static HEIGHT_TEXT = "bqpdl";
 
-    constructor(area: d3.Selection<string>, className?: string) {
+    constructor(area: d3.Selection<void>, className?: string) {
       this.textMeasurer = this.getTextMeasurer(area, className);
     }
 
-    private checkSelectionIsText(d: d3.Selection<string>) {
+    private checkSelectionIsText(d: d3.Selection<any>) {
       return (<Element> d[0][0]).tagName === "text" || !d.select("text").empty();
     }
 
-    private getTextMeasurer(area: d3.Selection<string>, className: string) {
+    private getTextMeasurer(area: d3.Selection<void>, className: string) {
       if (!this.checkSelectionIsText(area)) {
         var textElement = area.append("text");
         if (className) {
@@ -42,7 +42,7 @@ module SVGTypewriter.Measurers {
         };
       } else {
         var parentNode = (<Element> area.node()).parentNode;
-        var textSelection: d3.Selection<string>;
+        var textSelection: d3.Selection<void>;
         if ((<Element> area[0][0]).tagName === "text") {
           textSelection = area;
         } else {
@@ -58,7 +58,7 @@ module SVGTypewriter.Measurers {
       }
     }
 
-    private measureBBox(d: d3.Selection<string>, text: string) {
+    private measureBBox(d: d3.Selection<void>, text: string) {
       d.text(text);
       var bb = Utils.DOM.getBBox(d);
       return { width: bb.width, height: bb.height };

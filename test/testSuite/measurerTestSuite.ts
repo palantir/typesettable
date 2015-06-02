@@ -7,7 +7,7 @@ describe("Measurer Test Suite", () => {
   var measurer: SVGTypewriter.Measurers.AbstractMeasurer;
   describe("Text element", () => {
     var defaultText: string;
-    var textSelection: d3.Selection<string>;
+    var textSelection: d3.Selection<void>;
     beforeEach(() => {
       svg = generateSVG(200, 200);
       defaultText = "a\na";
@@ -79,7 +79,7 @@ describe("Measurer Test Suite", () => {
       var className = "testClass";
       var measurerWithClass = new SVGTypewriter.Measurers.Measurer(svg, className);
       var originalMeasureBBox = (<any>measurerWithClass).measureBBox;
-      (<any>measurerWithClass).measureBBox = (d: d3.Selection<string>, text: string) => {
+      (<any>measurerWithClass).measureBBox = (d: d3.Selection<void>, text: string) => {
           assert.isTrue(d.classed(className), "class has been applied to text element");
           return originalMeasureBBox(d, text);
       };

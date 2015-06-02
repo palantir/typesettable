@@ -172,7 +172,7 @@ declare module SVGTypewriter.Measurers {
     }
     class AbstractMeasurer {
         static HEIGHT_TEXT: string;
-        constructor(area: d3.Selection<string>, className?: string);
+        constructor(area: d3.Selection<void>, className?: string);
         measure(text?: string): Dimensions;
     }
 }
@@ -180,7 +180,7 @@ declare module SVGTypewriter.Measurers {
 
 declare module SVGTypewriter.Measurers {
     class Measurer extends AbstractMeasurer {
-        constructor(area: d3.Selection<string>, className?: string, useGuards?: boolean);
+        constructor(area: d3.Selection<void>, className?: string, useGuards?: boolean);
         _addGuards(text: string): string;
         _measureLine(line: string): Dimensions;
         measure(text?: string): {
@@ -204,7 +204,7 @@ declare module SVGTypewriter.Measurers {
 
 declare module SVGTypewriter.Measurers {
     class CacheCharacterMeasurer extends CharacterMeasurer {
-        constructor(area: d3.Selection<string>, className?: string);
+        constructor(area: d3.Selection<void>, className?: string);
         _measureCharacterNotFromCache(c: string): Dimensions;
         _measureCharacter(c: string): Dimensions;
         reset(): void;
