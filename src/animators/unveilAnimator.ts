@@ -7,8 +7,8 @@ module SVGTypewriter.Animators {
     private _direction: string;
 
     constructor() {
-        this.direction("bottom");
         super();
+        this.direction("bottom");
     }
 
     public direction(): string;
