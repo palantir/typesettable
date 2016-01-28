@@ -80,10 +80,7 @@ var SVGTypewriter;
                 }
                 catch (err) {
                     bbox = {
-                        x: 0,
-                        y: 0,
-                        width: 0,
-                        height: 0
+                        x: 0, y: 0, width: 0, height: 0
                     };
                 }
                 return bbox;
@@ -153,7 +150,9 @@ var SVGTypewriter;
             }
             Tokenizer.prototype.tokenize = function (line) {
                 var _this = this;
-                return line.split("").reduce(function (tokens, c) { return tokens.slice(0, -1).concat(_this.shouldCreateNewToken(tokens[tokens.length - 1], c)); }, [""]);
+                return line.split("").reduce(function (tokens, c) {
+                    return tokens.slice(0, -1).concat(_this.shouldCreateNewToken(tokens[tokens.length - 1], c));
+                }, [""]);
             };
             Tokenizer.prototype.shouldCreateNewToken = function (token, newCharacter) {
                 if (!token) {
@@ -245,7 +244,11 @@ var SVGTypewriter;
                 return this._animate(selection, { transform: xForm.toString() });
             };
             BaseAnimator.prototype._animate = function (selection, attr) {
-                return selection.transition().ease(this.easing()).duration(this.duration()).delay(this.delay()).attr(attr);
+                return selection.transition()
+                    .ease(this.easing())
+                    .duration(this.duration())
+                    .delay(this.delay())
+                    .attr(attr);
             };
             BaseAnimator.prototype.duration = function (duration) {
                 if (duration == null) {
@@ -307,11 +310,10 @@ var SVGTypewriter;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -373,11 +375,10 @@ var SVGTypewriter;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -464,7 +465,9 @@ var SVGTypewriter;
                     canFitText: true
                 };
                 var lines = text.split("\n");
-                return lines.reduce(function (state, line, i) { return _this.breakLineToFitWidth(state, line, i !== lines.length - 1, measurer); }, state).wrapping;
+                return lines.reduce(function (state, line, i) {
+                    return _this.breakLineToFitWidth(state, line, i !== lines.length - 1, measurer);
+                }, state).wrapping;
             };
             Wrapper.prototype.breakLineToFitWidth = function (state, line, hasNextLine, measurer) {
                 var _this = this;
@@ -489,7 +492,9 @@ var SVGTypewriter;
             };
             Wrapper.prototype.canFitToken = function (token, width, measurer) {
                 var _this = this;
-                var possibleBreaks = this._allowBreakingWords ? token.split("").map(function (c, i) { return (i !== token.length - 1) ? c + _this._breakingCharacter : c; }) : [token];
+                var possibleBreaks = this._allowBreakingWords ?
+                    token.split("").map(function (c, i) { return (i !== token.length - 1) ? c + _this._breakingCharacter : c; })
+                    : [token];
                 return (measurer.measure(token).width <= width) || possibleBreaks.every(function (c) { return measurer.measure(c).width <= width; });
             };
             Wrapper.prototype.addEllipsis = function (line, width, measurer) {
@@ -521,7 +526,9 @@ var SVGTypewriter;
                 };
             };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
-                if (!state.canFitText || state.availableLines === state.wrapping.noLines || !this.canFitToken(token, state.availableWidth, measurer)) {
+                if (!state.canFitText ||
+                    state.availableLines === state.wrapping.noLines ||
+                    !this.canFitToken(token, state.availableWidth, measurer)) {
                     return this.finishWrapping(token, state, measurer);
                 }
                 var remainingToken = token;
@@ -549,7 +556,10 @@ var SVGTypewriter;
             };
             Wrapper.prototype.finishWrapping = function (token, state, measurer) {
                 // Token is really long, but we have a space to put part of the word.
-                if (state.canFitText && state.availableLines !== state.wrapping.noLines && this._allowBreakingWords && this._textTrimming !== "none") {
+                if (state.canFitText &&
+                    state.availableLines !== state.wrapping.noLines &&
+                    this._allowBreakingWords &&
+                    this._textTrimming !== "none") {
                     var res = this.addEllipsis(state.currentLine + token, state.availableWidth, measurer);
                     state.wrapping.wrappedText += res.wrappedToken;
                     state.wrapping.truncatedText += res.remainingToken;
@@ -616,11 +626,10 @@ var SVGTypewriter;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -725,7 +734,9 @@ var SVGTypewriter;
                     textContainer.append("title").text(text);
                 }
                 var textArea = textContainer.append("g").classed("text-area", true);
-                var wrappedText = this._wrapper ? this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText : text;
+                var wrappedText = this._wrapper ?
+                    this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText :
+                    text;
                 this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, options.xAlign, options.yAlign);
                 var xForm = d3.transform("");
                 var xForm2 = d3.transform("");
@@ -855,11 +866,10 @@ var SVGTypewriter;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -908,11 +918,10 @@ var SVGTypewriter;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -941,11 +950,10 @@ var SVGTypewriter;
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
