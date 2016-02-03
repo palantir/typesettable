@@ -17,3 +17,4 @@
 ///<reference path="testSuite/stringMethodsTestSuite.ts" />
 ///<reference path="testSuite/measurerTestSuite.ts" />
 ///<reference path="testSuite/animatorTestSuite.ts" />
+
