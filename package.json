@@ -24,12 +24,13 @@
     "grunt-contrib-watch": "~0.5.3",
     "grunt-mocha-phantomjs": "~0.4.0",
     "grunt-parallelize": "1.0.0",
-    "grunt-sed": "~0.1.1",
     "grunt-saucelabs": "8.1.1",
+    "grunt-sed": "~0.1.1",
     "grunt-shell": "0.7.0",
     "grunt-ts": "~1.11.6",
     "grunt-tslint": "~0.4.0",
     "grunt-typedoc": "^0.2.1",
+    "grunt-umd": "^2.3.5",
     "load-grunt-tasks": "~0.2.0",
     "typescript": "1.4.1"
   }

@@ -152,6 +152,17 @@ module.exports = function(grunt) {
         src: ["src/**/*.ts", "test/**/*.ts"]
       }
     },
+    umd: {
+        all: {
+            options: {
+                src: "svgtypewriter.js",
+                objectToExport: "SVGTypewriter",
+                deps: {
+                    default: ["d3"],
+                }
+            }
+        }
+    },
     watch: {
       "options": {
         livereload: 35731
@@ -251,6 +262,7 @@ module.exports = function(grunt) {
     "concat:definitions",
     "sed:definitions",
     "sed:private_definitions",
+    "umd",
     "concat:header",
     "sed:version_number",
     "definitions_prod",

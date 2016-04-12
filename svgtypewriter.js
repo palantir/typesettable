@@ -4,6 +4,22 @@ Copyright 2014 Palantir Technologies
 Licensed under MIT (https://github.com/palantir/svg-typewriter/blob/develop/LICENSE)
 */
 
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module unless amdModuleId is set
+    define(["d3"], function (a0) {
+      return (root['SVGTypewriter'] = factory(a0));
+    });
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory(require("d3"));
+  } else {
+    root['SVGTypewriter'] = factory(d3);
+  }
+}(this, function (d3) {
+
 ///<reference path="../reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -972,3 +988,7 @@ var SVGTypewriter;
         Measurers.CacheCharacterMeasurer = CacheCharacterMeasurer;
     })(Measurers = SVGTypewriter.Measurers || (SVGTypewriter.Measurers = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
+
+return SVGTypewriter;
+
+}));
