@@ -1,6 +1,7 @@
 SVG Typewriter
 =========
-[![Build Status](https://travis-ci.org/palantir/svg-typewriter.svg?branch=develop)](https://travis-ci.org/palantir/svg-typewriter)
+
+[![Circle CI](https://circleci.com/gh/palantir/svg-typewriter.svg?style=svg)](https://circleci.com/gh/palantir/svg-typewriter)
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/andrzejskrodzki.svg)](https://saucelabs.com/u/andrzejskrodzki)
 
