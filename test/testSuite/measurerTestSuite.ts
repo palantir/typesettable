@@ -27,7 +27,7 @@ describe("Measurer Test Suite", () => {
       assert.equal(result.height, 0, "whitespace has height 0");
     });
 
-    it("works on whitespaces in middle", () => {
+    it.skip("works on whitespaces in middle", () => {
       var baseResult = measurer.measure("a a");
       var result = measurer.measure("a   a");
       assert.equal(result.width, baseResult.width, "multiple whitespaces occupy same space");
