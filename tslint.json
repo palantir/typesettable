@@ -25,7 +25,7 @@
     "no-duplicate-variable": true,
     "no-empty": true,
     "no-eval": true,
-    "no-trailing-comma": true,
+    "trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
     "no-trailing-whitespace": true,
     "no-unused-variable": false,
     "no-unreachable": true,

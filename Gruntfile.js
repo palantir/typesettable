@@ -252,6 +252,7 @@ module.exports = function(grunt) {
     "update_ts_files",
     "update_test_ts_files",
     "ts:dev",
+    "tslint",
     "concat:svgtypewriter",
     "concat:definitions",
     "sed:definitions",
@@ -299,7 +300,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask("dist-compile", [
     "release-compile",
-    "tslint",
     "uglify",
   ]);
 

@@ -20,7 +20,10 @@ module SVGTypewriter.Utils.DOM {
       bbox = (<any> element.node()).getBBox();
     } catch (err) {
       bbox = {
-        x: 0, y: 0, width: 0, height: 0
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
       };
     }
     return bbox;

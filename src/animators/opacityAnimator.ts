@@ -6,7 +6,7 @@ module SVGTypewriter.Animators {
       var area = selection.select(".text-area");
       area.attr("opacity", 0);
       var attr = {
-        opacity: 1
+        opacity: 1,
       };
 
       this._animate(area, attr);

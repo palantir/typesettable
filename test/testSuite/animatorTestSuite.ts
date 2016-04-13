@@ -21,7 +21,7 @@ describe("Animator Test Suite", () => {
       selection: svg,
       xAlign: "right",
       yAlign: "center",
-      textRotation: 0
+      textRotation: 0,
     };
   });
   describe("Base", () => {

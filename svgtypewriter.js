@@ -96,7 +96,10 @@ var SVGTypewriter;
                 }
                 catch (err) {
                     bbox = {
-                        x: 0, y: 0, width: 0, height: 0
+                        x: 0,
+                        y: 0,
+                        width: 0,
+                        height: 0,
                     };
                 }
                 return bbox;
@@ -409,7 +412,7 @@ var SVGTypewriter;
                 var area = selection.select(".text-area");
                 area.attr("opacity", 0);
                 var attr = {
-                    opacity: 1
+                    opacity: 1,
                 };
                 this._animate(area, attr);
                 return _super.prototype.animate.call(this, selection);
@@ -471,14 +474,14 @@ var SVGTypewriter;
                     wrappedText: "",
                     noLines: 0,
                     noBrokeWords: 0,
-                    truncatedText: ""
+                    truncatedText: "",
                 };
                 var state = {
                     wrapping: initialWrappingResult,
                     currentLine: "",
                     availableWidth: width,
                     availableLines: Math.min(Math.floor(height / measurer.measure().height), this._maxLines),
-                    canFitText: true
+                    canFitText: true,
                 };
                 var lines = text.split("\n");
                 return lines.reduce(function (state, line, i) {
@@ -517,7 +520,7 @@ var SVGTypewriter;
                 if (this._textTrimming === "none") {
                     return {
                         wrappedToken: line,
-                        remainingToken: ""
+                        remainingToken: "",
                     };
                 }
                 var truncatedLine = line.substring(0).trim();
@@ -529,7 +532,7 @@ var SVGTypewriter;
                     var numPeriodsThatFit = Math.floor(width / periodWidth);
                     return {
                         wrappedToken: prefix + "...".substr(0, numPeriodsThatFit),
-                        remainingToken: line
+                        remainingToken: line,
                     };
                 }
                 while (lineWidth + ellipsesWidth > width) {
@@ -538,7 +541,7 @@ var SVGTypewriter;
                 }
                 return {
                     wrappedToken: prefix + truncatedLine + "...",
-                    remainingToken: SVGTypewriter.Utils.StringMethods.trimEnd(line.substring(truncatedLine.length), "-").trim()
+                    remainingToken: SVGTypewriter.Utils.StringMethods.trimEnd(line.substring(truncatedLine.length), "-").trim(),
                 };
             };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
@@ -599,21 +602,21 @@ var SVGTypewriter;
                     return {
                         remainingToken: null,
                         line: line + token,
-                        breakWord: false
+                        breakWord: false,
                     };
                 }
                 if (token.trim() === "") {
                     return {
                         remainingToken: "",
                         line: line,
-                        breakWord: false
+                        breakWord: false,
                     };
                 }
                 if (!this._allowBreakingWords) {
                     return {
                         remainingToken: token,
                         line: line,
-                        breakWord: false
+                        breakWord: false,
                     };
                 }
                 var fitTokenLength = 0;
@@ -632,7 +635,7 @@ var SVGTypewriter;
                 return {
                     remainingToken: token.substring(fitTokenLength),
                     line: line + token.substring(0, fitTokenLength) + suffix,
-                    breakWord: fitTokenLength > 0
+                    breakWord: fitTokenLength > 0,
                 };
             };
             return Wrapper;
@@ -793,7 +796,7 @@ var SVGTypewriter;
                     x: bboxAttrs.x,
                     y: bboxAttrs.y,
                     width: bboxAttrs.width,
-                    height: bboxAttrs.height
+                    height: bboxAttrs.height,
                 });
             };
             Writer.nextID = 0;
@@ -801,17 +804,17 @@ var SVGTypewriter;
             Writer.AnchorConverter = {
                 left: "start",
                 center: "middle",
-                right: "end"
+                right: "end",
             };
             Writer.XOffsetFactor = {
                 left: 0,
                 center: 0.5,
-                right: 1
+                right: 1,
             };
             Writer.YOffsetFactor = {
                 top: 0,
                 center: 0.5,
-                bottom: 1
+                bottom: 1,
             };
             return Writer;
         }());
@@ -924,7 +927,7 @@ var SVGTypewriter;
                 var linesDimensions = text.trim().split("\n").map(function (line) { return _this._measureLine(line); });
                 return {
                     width: d3.max(linesDimensions, function (dim) { return dim.width; }),
-                    height: d3.sum(linesDimensions, function (dim) { return dim.height; })
+                    height: d3.sum(linesDimensions, function (dim) { return dim.height; }),
                 };
             };
             return Measurer;
@@ -956,7 +959,7 @@ var SVGTypewriter;
                 var charactersDimensions = line.split("").map(function (c) { return _this._measureCharacter(c); });
                 return {
                     width: d3.sum(charactersDimensions, function (dim) { return dim.width; }),
-                    height: d3.max(charactersDimensions, function (dim) { return dim.height; })
+                    height: d3.max(charactersDimensions, function (dim) { return dim.height; }),
                 };
             };
             return CharacterMeasurer;

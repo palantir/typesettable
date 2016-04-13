@@ -22,19 +22,19 @@ module SVGTypewriter.Writers {
     private static AnchorConverter: {[s: string]: string} = {
       left: "start",
       center: "middle",
-      right: "end"
+      right: "end",
     };
 
     private static XOffsetFactor: {[s: string]: number} = {
       left: 0,
       center: 0.5,
-      right: 1
+      right: 1,
     };
 
     private static YOffsetFactor: {[s: string]: number} = {
       top: 0,
       center: 0.5,
-      bottom: 1
+      bottom: 1,
     };
 
     constructor(measurer: Measurers.AbstractMeasurer,
@@ -148,7 +148,7 @@ module SVGTypewriter.Writers {
         x: bboxAttrs.x,
         y: bboxAttrs.y,
         width: bboxAttrs.width,
-        height: bboxAttrs.height
+        height: bboxAttrs.height,
       });
     }
   }

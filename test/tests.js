@@ -93,7 +93,7 @@ describe("Utils.DOM Test Suite", function () {
             x: 0,
             y: 0,
             width: 40,
-            height: 20
+            height: 20,
         };
         var rect = svg.append("rect").attr(expectedBox);
         var measuredBox = domUtils.getBBox(rect);
@@ -105,7 +105,7 @@ describe("Utils.DOM Test Suite", function () {
             x: 0,
             y: 0,
             width: 40,
-            height: 20
+            height: 20,
         };
         var removedSVG = generateSVG().remove();
         var rect = removedSVG.append("rect").attr(expectedBox);
@@ -620,7 +620,7 @@ describe("Writer Test Suite", function () {
             selection: svg,
             xAlign: "right",
             yAlign: "center",
-            textRotation: 0
+            textRotation: 0,
         };
     });
     describe("Core", function () {
@@ -885,7 +885,7 @@ describe("Measurer Test Suite", function () {
             var characterDimensions = text.split("").map(function (c) { return measurer.measure(c); });
             var dimensionsByCharacter = {
                 width: d3.sum(characterDimensions.map(function (c) { return c.width; })),
-                height: d3.max(characterDimensions.map(function (c) { return c.height; }))
+                height: d3.max(characterDimensions.map(function (c) { return c.height; })),
             };
             assert.deepEqual(dimesnsions, dimensionsByCharacter, "text has been measured by characters.");
         });
@@ -948,7 +948,7 @@ describe("Animator Test Suite", function () {
             selection: svg,
             xAlign: "right",
             yAlign: "center",
-            textRotation: 0
+            textRotation: 0,
         };
     });
     describe("Base", function () {

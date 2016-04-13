@@ -85,7 +85,7 @@ module SVGTypewriter.Wrappers {
         wrappedText: "",
         noLines: 0,
         noBrokeWords: 0,
-        truncatedText: ""
+        truncatedText: "",
       };
 
       var state = {
@@ -93,7 +93,7 @@ module SVGTypewriter.Wrappers {
         currentLine: "",
         availableWidth: width,
         availableLines: Math.min(Math.floor(height / measurer.measure().height), this._maxLines),
-        canFitText: true
+        canFitText: true,
       };
 
       var lines = text.split("\n");
@@ -146,7 +146,7 @@ module SVGTypewriter.Wrappers {
       if (this._textTrimming === "none") {
         return {
           wrappedToken: line,
-          remainingToken: ""
+          remainingToken: "",
         };
       }
       var truncatedLine = line.substring(0).trim();
@@ -159,7 +159,7 @@ module SVGTypewriter.Wrappers {
         var numPeriodsThatFit = Math.floor(width / periodWidth);
         return {
           wrappedToken: prefix + "...".substr(0, numPeriodsThatFit),
-          remainingToken: line
+          remainingToken: line,
         };
       }
 
@@ -170,7 +170,7 @@ module SVGTypewriter.Wrappers {
 
       return {
         wrappedToken: prefix + truncatedLine + "...",
-        remainingToken: Utils.StringMethods.trimEnd(line.substring(truncatedLine.length), "-").trim()
+        remainingToken: Utils.StringMethods.trimEnd(line.substring(truncatedLine.length), "-").trim(),
       };
     }
 
@@ -239,7 +239,7 @@ module SVGTypewriter.Wrappers {
         return {
           remainingToken: null,
           line: line + token,
-          breakWord: false
+          breakWord: false,
         };
       }
 
@@ -247,7 +247,7 @@ module SVGTypewriter.Wrappers {
         return {
           remainingToken: "",
           line: line,
-          breakWord: false
+          breakWord: false,
         };
       }
 
@@ -255,7 +255,7 @@ module SVGTypewriter.Wrappers {
         return {
           remainingToken: token,
           line: line,
-          breakWord: false
+          breakWord: false,
         };
       }
 
@@ -276,7 +276,7 @@ module SVGTypewriter.Wrappers {
       return {
         remainingToken: token.substring(fitTokenLength),
         line: line + token.substring(0, fitTokenLength) + suffix,
-        breakWord: fitTokenLength > 0
+        breakWord: fitTokenLength > 0,
       };
     }
   }

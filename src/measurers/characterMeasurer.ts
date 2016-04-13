@@ -10,7 +10,7 @@ module SVGTypewriter.Measurers {
       var charactersDimensions = line.split("").map(c => this._measureCharacter(c));
       return {
         width: d3.sum(charactersDimensions, dim => dim.width),
-        height: d3.max(charactersDimensions, dim => dim.height)
+        height: d3.max(charactersDimensions, dim => dim.height),
       };
     }
   }

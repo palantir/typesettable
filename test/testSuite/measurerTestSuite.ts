@@ -58,7 +58,7 @@ describe("Measurer Test Suite", () => {
       var characterDimensions: SVGTypewriter.Measurers.Dimensions[] = text.split("").map(c => measurer.measure(c));
       var dimensionsByCharacter = {
         width: d3.sum(characterDimensions.map(c => c.width)),
-        height: d3.max(characterDimensions.map(c => c.height))
+        height: d3.max(characterDimensions.map(c => c.height)),
       };
 
       assert.deepEqual(dimesnsions, dimensionsByCharacter, "text has been measured by characters.");
