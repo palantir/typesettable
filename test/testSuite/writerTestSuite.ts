@@ -38,7 +38,7 @@ describe("Writer Test Suite", () => {
       selection: svg,
       xAlign: "right",
       yAlign: "center",
-      textRotation: 0
+      textRotation: 0,
     };
   });
 

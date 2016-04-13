@@ -1,6 +1,6 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Utils {
+namespace SVGTypewriter.Utils {
   export class Cache<T> {
     private cache: d3.Map<T> = d3.map<T>();
     private compute: (k: string) => T;

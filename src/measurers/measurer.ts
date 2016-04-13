@@ -1,6 +1,6 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Measurers {
+namespace SVGTypewriter.Measurers {
   export class Measurer extends AbstractMeasurer {
     private guardWidth: number;
     private useGuards: boolean;
@@ -36,7 +36,7 @@ module SVGTypewriter.Measurers {
       var linesDimensions = text.trim().split("\n").map(line => this._measureLine(line));
       return {
           width: d3.max(linesDimensions, dim => dim.width),
-          height: d3.sum(linesDimensions, dim => dim.height)
+          height: d3.sum(linesDimensions, dim => dim.height),
         };
     }
   }

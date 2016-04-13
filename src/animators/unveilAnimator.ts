@@ -1,14 +1,14 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Animators {
+namespace SVGTypewriter.Animators {
   export class UnveilAnimator extends BaseAnimator {
 
     private static SupportedDirections = ["top", "bottom", "left", "right"];
     private _direction: string;
 
     constructor() {
-        this.direction("bottom");
         super();
+        this.direction("bottom");
     }
 
     public direction(): string;

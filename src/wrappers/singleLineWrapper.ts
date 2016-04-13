@@ -1,6 +1,6 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Wrappers {
+namespace SVGTypewriter.Wrappers {
   export class SingleLineWrapper extends Wrapper {
     private static NO_WRAP_ITERATIONS = 5;
 

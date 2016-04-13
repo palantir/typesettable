@@ -1,6 +1,6 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Measurers {
+namespace SVGTypewriter.Measurers {
   export class CharacterMeasurer extends Measurer {
     public _measureCharacter(c: string) {
       return super._measureLine(c);
@@ -10,7 +10,7 @@ module SVGTypewriter.Measurers {
       var charactersDimensions = line.split("").map(c => this._measureCharacter(c));
       return {
         width: d3.sum(charactersDimensions, dim => dim.width),
-        height: d3.max(charactersDimensions, dim => dim.height)
+        height: d3.max(charactersDimensions, dim => dim.height),
       };
     }
   }

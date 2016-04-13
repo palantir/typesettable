@@ -10,7 +10,7 @@ describe("Utils.DOM Test Suite", () => {
       x: 0,
       y: 0,
       width: 40,
-      height: 20
+      height: 20,
     };
     var rect = svg.append("rect").attr(expectedBox);
     var measuredBox = domUtils.getBBox(rect);
@@ -23,7 +23,7 @@ describe("Utils.DOM Test Suite", () => {
       x: 0,
       y: 0,
       width: 40,
-      height: 20
+      height: 20,
     };
 
     var removedSVG = generateSVG().remove();

@@ -4,6 +4,22 @@ Copyright 2014 Palantir Technologies
 Licensed under MIT (https://github.com/palantir/svg-typewriter/blob/develop/LICENSE)
 */
 
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module unless amdModuleId is set
+    define(["d3"], function (a0) {
+      return (root['SVGTypewriter'] = factory(a0));
+    });
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory(require("d3"));
+  } else {
+    root['SVGTypewriter'] = factory(d3);
+  }
+}(this, function (d3) {
+
 ///<reference path="../reference.ts" />
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -83,7 +99,7 @@ var SVGTypewriter;
                         x: 0,
                         y: 0,
                         width: 0,
-                        height: 0
+                        height: 0,
                     };
                 }
                 return bbox;
@@ -136,7 +152,7 @@ var SVGTypewriter;
                 return this;
             };
             return Cache;
-        })();
+        }());
         Utils.Cache = Cache;
     })(Utils = SVGTypewriter.Utils || (SVGTypewriter.Utils = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
@@ -153,7 +169,9 @@ var SVGTypewriter;
             }
             Tokenizer.prototype.tokenize = function (line) {
                 var _this = this;
-                return line.split("").reduce(function (tokens, c) { return tokens.slice(0, -1).concat(_this.shouldCreateNewToken(tokens[tokens.length - 1], c)); }, [""]);
+                return line.split("").reduce(function (tokens, c) {
+                    return tokens.slice(0, -1).concat(_this.shouldCreateNewToken(tokens[tokens.length - 1], c));
+                }, [""]);
             };
             Tokenizer.prototype.shouldCreateNewToken = function (token, newCharacter) {
                 if (!token) {
@@ -177,7 +195,7 @@ var SVGTypewriter;
                 }
             };
             return Tokenizer;
-        })();
+        }());
         Utils.Tokenizer = Tokenizer;
     })(Utils = SVGTypewriter.Utils || (SVGTypewriter.Utils = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
@@ -245,7 +263,11 @@ var SVGTypewriter;
                 return this._animate(selection, { transform: xForm.toString() });
             };
             BaseAnimator.prototype._animate = function (selection, attr) {
-                return selection.transition().ease(this.easing()).duration(this.duration()).delay(this.delay()).attr(attr);
+                return selection.transition()
+                    .ease(this.easing())
+                    .duration(this.duration())
+                    .delay(this.delay())
+                    .attr(attr);
             };
             BaseAnimator.prototype.duration = function (duration) {
                 if (duration == null) {
@@ -301,17 +323,16 @@ var SVGTypewriter;
              */
             BaseAnimator.DEFAULT_EASING = "exp-out";
             return BaseAnimator;
-        })();
+        }());
         Animators.BaseAnimator = BaseAnimator;
     })(Animators = SVGTypewriter.Animators || (SVGTypewriter.Animators = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -320,8 +341,8 @@ var SVGTypewriter;
         var UnveilAnimator = (function (_super) {
             __extends(UnveilAnimator, _super);
             function UnveilAnimator() {
-                this.direction("bottom");
                 _super.call(this);
+                this.direction("bottom");
             }
             UnveilAnimator.prototype.direction = function (direction) {
                 if (direction == null) {
@@ -367,17 +388,16 @@ var SVGTypewriter;
             };
             UnveilAnimator.SupportedDirections = ["top", "bottom", "left", "right"];
             return UnveilAnimator;
-        })(Animators.BaseAnimator);
+        }(Animators.BaseAnimator));
         Animators.UnveilAnimator = UnveilAnimator;
     })(Animators = SVGTypewriter.Animators || (SVGTypewriter.Animators = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -392,13 +412,13 @@ var SVGTypewriter;
                 var area = selection.select(".text-area");
                 area.attr("opacity", 0);
                 var attr = {
-                    opacity: 1
+                    opacity: 1,
                 };
                 this._animate(area, attr);
                 return _super.prototype.animate.call(this, selection);
             };
             return OpacityAnimator;
-        })(Animators.BaseAnimator);
+        }(Animators.BaseAnimator));
         Animators.OpacityAnimator = OpacityAnimator;
     })(Animators = SVGTypewriter.Animators || (SVGTypewriter.Animators = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
@@ -454,17 +474,19 @@ var SVGTypewriter;
                     wrappedText: "",
                     noLines: 0,
                     noBrokeWords: 0,
-                    truncatedText: ""
+                    truncatedText: "",
                 };
                 var state = {
                     wrapping: initialWrappingResult,
                     currentLine: "",
                     availableWidth: width,
                     availableLines: Math.min(Math.floor(height / measurer.measure().height), this._maxLines),
-                    canFitText: true
+                    canFitText: true,
                 };
                 var lines = text.split("\n");
-                return lines.reduce(function (state, line, i) { return _this.breakLineToFitWidth(state, line, i !== lines.length - 1, measurer); }, state).wrapping;
+                return lines.reduce(function (state, line, i) {
+                    return _this.breakLineToFitWidth(state, line, i !== lines.length - 1, measurer);
+                }, state).wrapping;
             };
             Wrapper.prototype.breakLineToFitWidth = function (state, line, hasNextLine, measurer) {
                 var _this = this;
@@ -489,14 +511,16 @@ var SVGTypewriter;
             };
             Wrapper.prototype.canFitToken = function (token, width, measurer) {
                 var _this = this;
-                var possibleBreaks = this._allowBreakingWords ? token.split("").map(function (c, i) { return (i !== token.length - 1) ? c + _this._breakingCharacter : c; }) : [token];
+                var possibleBreaks = this._allowBreakingWords ?
+                    token.split("").map(function (c, i) { return (i !== token.length - 1) ? c + _this._breakingCharacter : c; })
+                    : [token];
                 return (measurer.measure(token).width <= width) || possibleBreaks.every(function (c) { return measurer.measure(c).width <= width; });
             };
             Wrapper.prototype.addEllipsis = function (line, width, measurer) {
                 if (this._textTrimming === "none") {
                     return {
                         wrappedToken: line,
-                        remainingToken: ""
+                        remainingToken: "",
                     };
                 }
                 var truncatedLine = line.substring(0).trim();
@@ -508,7 +532,7 @@ var SVGTypewriter;
                     var numPeriodsThatFit = Math.floor(width / periodWidth);
                     return {
                         wrappedToken: prefix + "...".substr(0, numPeriodsThatFit),
-                        remainingToken: line
+                        remainingToken: line,
                     };
                 }
                 while (lineWidth + ellipsesWidth > width) {
@@ -517,11 +541,13 @@ var SVGTypewriter;
                 }
                 return {
                     wrappedToken: prefix + truncatedLine + "...",
-                    remainingToken: SVGTypewriter.Utils.StringMethods.trimEnd(line.substring(truncatedLine.length), "-").trim()
+                    remainingToken: SVGTypewriter.Utils.StringMethods.trimEnd(line.substring(truncatedLine.length), "-").trim(),
                 };
             };
             Wrapper.prototype.wrapNextToken = function (token, state, measurer) {
-                if (!state.canFitText || state.availableLines === state.wrapping.noLines || !this.canFitToken(token, state.availableWidth, measurer)) {
+                if (!state.canFitText ||
+                    state.availableLines === state.wrapping.noLines ||
+                    !this.canFitToken(token, state.availableWidth, measurer)) {
                     return this.finishWrapping(token, state, measurer);
                 }
                 var remainingToken = token;
@@ -549,7 +575,10 @@ var SVGTypewriter;
             };
             Wrapper.prototype.finishWrapping = function (token, state, measurer) {
                 // Token is really long, but we have a space to put part of the word.
-                if (state.canFitText && state.availableLines !== state.wrapping.noLines && this._allowBreakingWords && this._textTrimming !== "none") {
+                if (state.canFitText &&
+                    state.availableLines !== state.wrapping.noLines &&
+                    this._allowBreakingWords &&
+                    this._textTrimming !== "none") {
                     var res = this.addEllipsis(state.currentLine + token, state.availableWidth, measurer);
                     state.wrapping.wrappedText += res.wrappedToken;
                     state.wrapping.truncatedText += res.remainingToken;
@@ -573,21 +602,21 @@ var SVGTypewriter;
                     return {
                         remainingToken: null,
                         line: line + token,
-                        breakWord: false
+                        breakWord: false,
                     };
                 }
                 if (token.trim() === "") {
                     return {
                         remainingToken: "",
                         line: line,
-                        breakWord: false
+                        breakWord: false,
                     };
                 }
                 if (!this._allowBreakingWords) {
                     return {
                         remainingToken: token,
                         line: line,
-                        breakWord: false
+                        breakWord: false,
                     };
                 }
                 var fitTokenLength = 0;
@@ -606,21 +635,20 @@ var SVGTypewriter;
                 return {
                     remainingToken: token.substring(fitTokenLength),
                     line: line + token.substring(0, fitTokenLength) + suffix,
-                    breakWord: fitTokenLength > 0
+                    breakWord: fitTokenLength > 0,
                 };
             };
             return Wrapper;
-        })();
+        }());
         Wrappers.Wrapper = Wrapper;
     })(Wrappers = SVGTypewriter.Wrappers || (SVGTypewriter.Wrappers = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -663,7 +691,7 @@ var SVGTypewriter;
             };
             SingleLineWrapper.NO_WRAP_ITERATIONS = 5;
             return SingleLineWrapper;
-        })(Wrappers.Wrapper);
+        }(Wrappers.Wrapper));
         Wrappers.SingleLineWrapper = SingleLineWrapper;
     })(Wrappers = SVGTypewriter.Wrappers || (SVGTypewriter.Wrappers = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
@@ -725,7 +753,9 @@ var SVGTypewriter;
                     textContainer.append("title").text(text);
                 }
                 var textArea = textContainer.append("g").classed("text-area", true);
-                var wrappedText = this._wrapper ? this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText : text;
+                var wrappedText = this._wrapper ?
+                    this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText :
+                    text;
                 this.writeText(wrappedText, textArea, primaryDimension, secondaryDimension, options.xAlign, options.yAlign);
                 var xForm = d3.transform("");
                 var xForm2 = d3.transform("");
@@ -766,7 +796,7 @@ var SVGTypewriter;
                     x: bboxAttrs.x,
                     y: bboxAttrs.y,
                     width: bboxAttrs.width,
-                    height: bboxAttrs.height
+                    height: bboxAttrs.height,
                 });
             };
             Writer.nextID = 0;
@@ -774,20 +804,20 @@ var SVGTypewriter;
             Writer.AnchorConverter = {
                 left: "start",
                 center: "middle",
-                right: "end"
+                right: "end",
             };
             Writer.XOffsetFactor = {
                 left: 0,
                 center: 0.5,
-                right: 1
+                right: 1,
             };
             Writer.YOffsetFactor = {
                 top: 0,
                 center: 0.5,
-                bottom: 1
+                bottom: 1,
             };
             return Writer;
-        })();
+        }());
         Writers.Writer = Writer;
     })(Writers = SVGTypewriter.Writers || (SVGTypewriter.Writers = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
@@ -849,17 +879,16 @@ var SVGTypewriter;
             };
             AbstractMeasurer.HEIGHT_TEXT = "bqpdl";
             return AbstractMeasurer;
-        })();
+        }());
         Measurers.AbstractMeasurer = AbstractMeasurer;
     })(Measurers = SVGTypewriter.Measurers || (SVGTypewriter.Measurers = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -898,21 +927,20 @@ var SVGTypewriter;
                 var linesDimensions = text.trim().split("\n").map(function (line) { return _this._measureLine(line); });
                 return {
                     width: d3.max(linesDimensions, function (dim) { return dim.width; }),
-                    height: d3.sum(linesDimensions, function (dim) { return dim.height; })
+                    height: d3.sum(linesDimensions, function (dim) { return dim.height; }),
                 };
             };
             return Measurer;
-        })(Measurers.AbstractMeasurer);
+        }(Measurers.AbstractMeasurer));
         Measurers.Measurer = Measurer;
     })(Measurers = SVGTypewriter.Measurers || (SVGTypewriter.Measurers = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -931,21 +959,20 @@ var SVGTypewriter;
                 var charactersDimensions = line.split("").map(function (c) { return _this._measureCharacter(c); });
                 return {
                     width: d3.sum(charactersDimensions, function (dim) { return dim.width; }),
-                    height: d3.max(charactersDimensions, function (dim) { return dim.height; })
+                    height: d3.max(charactersDimensions, function (dim) { return dim.height; }),
                 };
             };
             return CharacterMeasurer;
-        })(Measurers.Measurer);
+        }(Measurers.Measurer));
         Measurers.CharacterMeasurer = CharacterMeasurer;
     })(Measurers = SVGTypewriter.Measurers || (SVGTypewriter.Measurers = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
 
 ///<reference path="../reference.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var SVGTypewriter;
 (function (SVGTypewriter) {
@@ -968,7 +995,11 @@ var SVGTypewriter;
                 this.cache.clear();
             };
             return CacheCharacterMeasurer;
-        })(Measurers.CharacterMeasurer);
+        }(Measurers.CharacterMeasurer));
         Measurers.CacheCharacterMeasurer = CacheCharacterMeasurer;
     })(Measurers = SVGTypewriter.Measurers || (SVGTypewriter.Measurers = {}));
 })(SVGTypewriter || (SVGTypewriter = {}));
+
+return SVGTypewriter;
+
+}));

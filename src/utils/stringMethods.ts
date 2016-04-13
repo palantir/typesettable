@@ -1,6 +1,6 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Utils.StringMethods {
+namespace SVGTypewriter.Utils.StringMethods {
 
   /**
    * Treat all sequences of consecutive whitespace as a single " ".

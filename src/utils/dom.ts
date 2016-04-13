@@ -1,4 +1,4 @@
-module SVGTypewriter.Utils.DOM {
+namespace SVGTypewriter.Utils.DOM {
   export function transform(s: d3.Selection<any>): d3.Transform;
   export function transform(s: d3.Selection<any>, x: number, y: number): d3.Selection<any>;
   export function transform(s: d3.Selection<any>, x?: number, y?: number): any {
@@ -20,7 +20,10 @@ module SVGTypewriter.Utils.DOM {
       bbox = (<any> element.node()).getBBox();
     } catch (err) {
       bbox = {
-        x: 0, y: 0, width: 0, height: 0
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
       };
     }
     return bbox;
