@@ -1,6 +1,6 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Utils {
+namespace SVGTypewriter.Utils {
   export class Tokenizer {
     private WordDividerRegExp = new RegExp("\\W");
     private WhitespaceRegExp = new RegExp("\\s");

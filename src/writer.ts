@@ -1,6 +1,6 @@
 ///<reference path="reference.ts" />
 
-module SVGTypewriter.Writers {
+namespace SVGTypewriter.Writers {
   export interface WriteOptions {
       selection: d3.Selection<any>;
       xAlign: string;

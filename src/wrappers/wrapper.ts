@@ -1,6 +1,6 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Wrappers {
+namespace SVGTypewriter.Wrappers {
   export interface WrappingResult {
     originalText: string;
     wrappedText: string;

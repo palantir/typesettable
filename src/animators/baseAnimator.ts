@@ -1,5 +1,5 @@
 ///<reference path="../reference.ts" />
-module SVGTypewriter.Animators {
+namespace SVGTypewriter.Animators {
   export class BaseAnimator {
 
     /**

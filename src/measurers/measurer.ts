@@ -1,6 +1,6 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Measurers {
+namespace SVGTypewriter.Measurers {
   export class Measurer extends AbstractMeasurer {
     private guardWidth: number;
     private useGuards: boolean;

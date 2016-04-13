@@ -1,6 +1,6 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Measurers {
+namespace SVGTypewriter.Measurers {
   export class CharacterMeasurer extends Measurer {
     public _measureCharacter(c: string) {
       return super._measureLine(c);

@@ -1,6 +1,6 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Measurers {
+namespace SVGTypewriter.Measurers {
   /**
    * Dimension of area's BBox.
    */

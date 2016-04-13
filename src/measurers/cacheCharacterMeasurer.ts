@@ -1,6 +1,6 @@
 ///<reference path="../reference.ts" />
 
-module SVGTypewriter.Measurers {
+namespace SVGTypewriter.Measurers {
 
   export class CacheCharacterMeasurer extends CharacterMeasurer {
     private cache: Utils.Cache<Dimensions>;

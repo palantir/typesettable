@@ -1,5 +1,5 @@
 
-declare module SVGTypewriter.Utils.Methods {
+declare namespace SVGTypewriter.Utils.Methods {
     /**
      * Check if two arrays are equal by strict equality.
      */
@@ -15,14 +15,14 @@ declare module SVGTypewriter.Utils.Methods {
     function objEq(a: any, b: any): boolean;
 }
 
-declare module SVGTypewriter.Utils.DOM {
+declare namespace SVGTypewriter.Utils.DOM {
     function transform(s: d3.Selection<any>): d3.Transform;
     function transform(s: d3.Selection<any>, x: number, y: number): d3.Selection<any>;
     function getBBox(element: d3.Selection<any>): SVGRect;
 }
 
 
-declare module SVGTypewriter.Utils {
+declare namespace SVGTypewriter.Utils {
     class Cache<T> {
         /**
          * @constructor
@@ -51,14 +51,14 @@ declare module SVGTypewriter.Utils {
 }
 
 
-declare module SVGTypewriter.Utils {
+declare namespace SVGTypewriter.Utils {
     class Tokenizer {
         tokenize(line: string): string[];
     }
 }
 
 
-declare module SVGTypewriter.Utils.StringMethods {
+declare namespace SVGTypewriter.Utils.StringMethods {
     /**
      * Treat all sequences of consecutive whitespace as a single " ".
      */
@@ -69,7 +69,7 @@ declare module SVGTypewriter.Utils.StringMethods {
 }
 
 
-declare module SVGTypewriter.Animators {
+declare namespace SVGTypewriter.Animators {
     class BaseAnimator {
         /**
          * The default duration of the animation in milliseconds
@@ -96,7 +96,7 @@ declare module SVGTypewriter.Animators {
 }
 
 
-declare module SVGTypewriter.Animators {
+declare namespace SVGTypewriter.Animators {
     class UnveilAnimator extends BaseAnimator {
         constructor();
         direction(): string;
@@ -106,14 +106,14 @@ declare module SVGTypewriter.Animators {
 }
 
 
-declare module SVGTypewriter.Animators {
+declare namespace SVGTypewriter.Animators {
     class OpacityAnimator extends BaseAnimator {
         animate(selection: d3.Selection<any>): any;
     }
 }
 
 
-declare module SVGTypewriter.Wrappers {
+declare namespace SVGTypewriter.Wrappers {
     interface WrappingResult {
         originalText: string;
         wrappedText: string;
@@ -135,14 +135,14 @@ declare module SVGTypewriter.Wrappers {
 }
 
 
-declare module SVGTypewriter.Wrappers {
+declare namespace SVGTypewriter.Wrappers {
     class SingleLineWrapper extends Wrapper {
         wrap(text: string, measurer: Measurers.AbstractMeasurer, width: number, height?: number): WrappingResult;
     }
 }
 
 
-declare module SVGTypewriter.Writers {
+declare namespace SVGTypewriter.Writers {
     interface WriteOptions {
         selection: d3.Selection<any>;
         xAlign: string;
@@ -162,7 +162,7 @@ declare module SVGTypewriter.Writers {
 }
 
 
-declare module SVGTypewriter.Measurers {
+declare namespace SVGTypewriter.Measurers {
     /**
      * Dimension of area's BBox.
      */
@@ -178,7 +178,7 @@ declare module SVGTypewriter.Measurers {
 }
 
 
-declare module SVGTypewriter.Measurers {
+declare namespace SVGTypewriter.Measurers {
     class Measurer extends AbstractMeasurer {
         constructor(area: d3.Selection<void>, className?: string, useGuards?: boolean);
         _addGuards(text: string): string;
@@ -191,7 +191,7 @@ declare module SVGTypewriter.Measurers {
 }
 
 
-declare module SVGTypewriter.Measurers {
+declare namespace SVGTypewriter.Measurers {
     class CharacterMeasurer extends Measurer {
         _measureCharacter(c: string): Dimensions;
         _measureLine(line: string): {
@@ -202,7 +202,7 @@ declare module SVGTypewriter.Measurers {
 }
 
 
-declare module SVGTypewriter.Measurers {
+declare namespace SVGTypewriter.Measurers {
     class CacheCharacterMeasurer extends CharacterMeasurer {
         constructor(area: d3.Selection<void>, className?: string);
         _measureCharacterNotFromCache(c: string): Dimensions;
