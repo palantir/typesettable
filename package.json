@@ -7,6 +7,8 @@
     "url": "https://github.com/palantir/svg-textwriter.git"
   },
   "author": "Andrzej Skrodzki @ Palantir Technologies",
+  "main": "svgtypewriter.js",
+  "typings": "svgtypewriter.d.ts",
   "scripts": {
     "test": "grunt test-travis"
   },
@@ -34,5 +36,8 @@
     "load-grunt-tasks": "~3.4.0",
     "tslint": "~3.7.4",
     "typescript": "~1.8.9"
+  },
+  "dependencies": {
+    "d3": "^3.5.16"
   }
 }
