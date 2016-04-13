@@ -103,6 +103,9 @@ module.exports = function(grunt) {
         dest: "test/tests.js",
       },
       definitions: {
+        options: {
+            footer: '\ndeclare module "SVGTypewriter" { export = SVGTypewriter; }\n',
+        },
         src: tsFiles.map(function(s) {
           return "build/src/" + s.replace(".ts", ".d.ts");
         }),

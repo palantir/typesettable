@@ -210,3 +210,5 @@ declare namespace SVGTypewriter.Measurers {
         reset(): void;
     }
 }
+
+declare module "SVGTypewriter" { export = SVGTypewriter; }
