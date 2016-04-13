@@ -211,4 +211,4 @@ declare namespace SVGTypewriter.Measurers {
     }
 }
 
-declare module "SVGTypewriter" { export = SVGTypewriter; }
+declare module "svg-typewriter" { export = SVGTypewriter; }
