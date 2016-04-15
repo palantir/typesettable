@@ -214,17 +214,18 @@ var SVGTypewriter;
                 return str.replace(/\s+/g, " ");
             }
             StringMethods.combineWhitespace = combineWhitespace;
-            function isNotEmptyString(str) {
-                return str && str.trim() !== "";
+            function isEmptyString(str) {
+                return str == null || str.trim() === "";
             }
-            StringMethods.isNotEmptyString = isNotEmptyString;
+            StringMethods.isEmptyString = isEmptyString;
             function trimStart(str, c) {
+                if (c === void 0) { c = " "; }
                 if (!str) {
                     return str;
                 }
                 var chars = str.split("");
-                var reduceFunction = c ? function (s) { return s.split(c).some(isNotEmptyString); } : isNotEmptyString;
-                return chars.reduce(function (s, c) { return reduceFunction(s + c) ? s + c : s; }, "");
+                var reduceFunction = function (s) { return !isEmptyString(s.split(c)[0]); };
+                return chars.reduce(function (s, char) { return reduceFunction(s + char) ? s + char : s; }, "");
             }
             StringMethods.trimStart = trimStart;
             function trimEnd(str, c) {
