@@ -5,7 +5,7 @@ import * as Measurers from "../measurers";
 import * as Utils from "../utils";
 import * as Wrappers from "../wrappers";
 
-export interface WriteOptions {
+export interface IWriteOptions {
   selection: d3.Selection<any>;
   xAlign: string;
   yAlign: string;
@@ -14,32 +14,32 @@ export interface WriteOptions {
 }
 
 export class Writer {
-  private _measurer: Measurers.AbstractMeasurer;
-  private _wrapper: Wrappers.Wrapper;
-  private _addTitleElement: boolean;
   private static nextID = 0;
-  public _writerID = Writer.nextID++;
-  public _elementID = 0;
-
   private static SupportedRotation = [-90, 0, 180, 90];
 
   private static AnchorConverter: {[s: string]: string} = {
-    left: "start",
     center: "middle",
+    left: "start",
     right: "end",
   };
 
   private static XOffsetFactor: {[s: string]: number} = {
-    left: 0,
     center: 0.5,
+    left: 0,
     right: 1,
   };
 
   private static YOffsetFactor: {[s: string]: number} = {
-    top: 0,
-    center: 0.5,
     bottom: 1,
+    center: 0.5,
+    top: 0,
   };
+
+  public _writerID = Writer.nextID++;
+  public _elementID = 0;
+  private _measurer: Measurers.AbstractMeasurer;
+  private _wrapper: Wrappers.Wrapper;
+  private _addTitleElement: boolean;
 
   constructor(measurer: Measurers.AbstractMeasurer,
               wrapper?: Wrappers.Wrapper) {
@@ -66,52 +66,36 @@ export class Writer {
     return this;
   }
 
-  private writeLine(line: string, g: d3.Selection<any>, width: number, xAlign: string, yOffset: number) {
-    var textEl = g.append("text");
-    textEl.text(line);
-    var xOffset = width * Writer.XOffsetFactor[xAlign];
-    var anchor: string = Writer.AnchorConverter[xAlign];
-    textEl.attr("text-anchor", anchor).classed("text-line", true);
-    Utils.DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");;
-  }
-
-  private writeText(text: string, writingArea: d3.Selection<any>, width: number, height: number, xAlign: string, yAlign: string) {
-    var lines = text.split("\n");
-    var lineHeight = this._measurer.measure().height;
-    var yOffset = Writer.YOffsetFactor[yAlign] * (height - lines.length * lineHeight);
-    lines.forEach((line: string, i: number) => {
-      this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
-    });
-  }
-
-  public write(text: string, width: number, height: number, options: WriteOptions) {
+  public write(text: string, width: number, height: number, options: IWriteOptions) {
     if (Writer.SupportedRotation.indexOf(options.textRotation) === -1) {
       throw new Error("unsupported rotation - " + options.textRotation);
     }
 
-    var orientHorizontally = Math.abs(Math.abs(options.textRotation) - 90) > 45;
-    var primaryDimension = orientHorizontally ? width : height;
-    var secondaryDimension = orientHorizontally ? height : width;
+    const orientHorizontally = Math.abs(Math.abs(options.textRotation) - 90) > 45;
+    const primaryDimension = orientHorizontally ? width : height;
+    const secondaryDimension = orientHorizontally ? height : width;
 
-    var textContainer = options.selection.append("g").classed("text-container", true);
+    const textContainer = options.selection.append("g").classed("text-container", true);
     if (this._addTitleElement) {
       textContainer.append("title").text(text);
     }
 
-    var textArea = textContainer.append("g").classed("text-area", true);
-    var wrappedText = this._wrapper ?
+    const textArea = textContainer.append("g").classed("text-area", true);
+    const wrappedText = this._wrapper ?
                         this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText :
                         text;
 
-    this.writeText(wrappedText,
-                    textArea,
-                    primaryDimension,
-                    secondaryDimension,
-                    options.xAlign,
-                    options.yAlign
-                    );
-    var xForm = d3.transform("");
-    var xForm2 = d3.transform("");
+    this.writeText(
+      wrappedText,
+      textArea,
+      primaryDimension,
+      secondaryDimension,
+      options.xAlign,
+      options.yAlign,
+    );
+
+    const xForm = d3.transform("");
+    const xForm2 = d3.transform("");
     xForm.rotate = options.textRotation;
 
     switch (options.textRotation) {
@@ -130,6 +114,8 @@ export class Writer {
         xForm2.translate = [width, height];
         xForm2.rotate = 180;
         break;
+      default:
+        break;
     }
 
     textArea.attr("transform", xForm.toString());
@@ -139,20 +125,45 @@ export class Writer {
     }
   }
 
+  private writeLine(line: string, g: d3.Selection<any>, width: number, xAlign: string, yOffset: number) {
+    const textEl = g.append("text");
+    textEl.text(line);
+    const xOffset = width * Writer.XOffsetFactor[xAlign];
+    const anchor: string = Writer.AnchorConverter[xAlign];
+    textEl.attr("text-anchor", anchor).classed("text-line", true);
+    Utils.DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
+  }
+
+  private writeText(
+      text: string,
+      writingArea: d3.Selection<any>,
+      width: number,
+      height: number,
+      xAlign: string,
+      yAlign: string) {
+
+    const lines = text.split("\n");
+    const lineHeight = this._measurer.measure().height;
+    const yOffset = Writer.YOffsetFactor[yAlign] * (height - lines.length * lineHeight);
+    lines.forEach((line: string, i: number) => {
+      this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
+    });
+  }
+
   private addClipPath(selection: d3.Selection<any>, _transform: any) {
-    var elementID = this._elementID++;
-    var prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
+    const elementID = this._elementID++;
+    let prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
     prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
-    var clipPathID = "clipPath" + this._writerID + "_" + elementID;
-    selection.select(".text-area").attr("clip-path", "url(\"" + prefix + "#" + clipPathID +"\")");
-    var clipPathParent = selection.append("clipPath").attr("id", clipPathID);
-    var bboxAttrs = Utils.DOM.getBBox(selection.select(".text-area"));
-    var box = clipPathParent.append("rect");
+    const clipPathID = "clipPath" + this._writerID + "_" + elementID;
+    selection.select(".text-area").attr("clip-path", "url(\"" + prefix + "#" + clipPathID + "\")");
+    const clipPathParent = selection.append("clipPath").attr("id", clipPathID);
+    const bboxAttrs = Utils.DOM.getBBox(selection.select(".text-area"));
+    const box = clipPathParent.append("rect");
     box.classed("clip-rect", true).attr({
+      height: bboxAttrs.height,
+      width: bboxAttrs.width,
       x: bboxAttrs.x,
       y: bboxAttrs.y,
-      width: bboxAttrs.width,
-      height: bboxAttrs.height,
     });
   }
 }

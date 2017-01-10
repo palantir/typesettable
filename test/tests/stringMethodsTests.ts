@@ -3,14 +3,16 @@ import { assert } from "chai";
 import * as SVGTypewriter from "../../src";
 
 describe("String Methods Test Suite", () => {
-  var utils = SVGTypewriter.Utils.StringMethods;
+  const utils = SVGTypewriter.Utils.StringMethods;
   it("combine whitespaces works as expected", () => {
-    assert.equal(utils.combineWhitespace("a"), "a","combine whitespaces returns same single letter");
+    assert.equal(utils.combineWhitespace("a"), "a", "combine whitespaces returns same single letter");
     assert.equal(utils.combineWhitespace("a "), "a ", "combine whitespaces returns same single letter with space");
     assert.equal(utils.combineWhitespace(" "), " ", "combine whitespaces returns same single space");
     assert.equal(utils.combineWhitespace("    "), " ", "combine whitespaces returns same single letter with sapce");
-    assert.equal(utils.combineWhitespace("a    aa"), "a aa", "combine whitespaces returns words with single space between");
-    assert.equal(utils.combineWhitespace("aa   \t   aa"), "aa aa", "combine whitespaces returns words with single space between");
+    assert.equal(utils.combineWhitespace("a    aa"), "a aa",
+      "combine whitespaces returns words with single space between");
+    assert.equal(utils.combineWhitespace("aa   \t   aa"), "aa aa",
+      "combine whitespaces returns words with single space between");
   });
 
   it("trimStart works as expected", () => {

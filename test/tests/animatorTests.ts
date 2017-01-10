@@ -6,24 +6,24 @@ import { generateSVG } from "../utils";
 
 describe("Animator Test Suite", () => {
 
-  var writer: SVGTypewriter.Writers.Writer;
-  var svg: d3.Selection<any>;
-  var writeOptions: SVGTypewriter.Writers.WriteOptions;
+  let writer: SVGTypewriter.Writers.Writer;
+  let svg: d3.Selection<any>;
+  let writeOptions: SVGTypewriter.Writers.IWriteOptions;
 
-  var runAnimation = () => {
+  const runAnimation = () => {
     writer.write("hello\nworld", 200, 200, writeOptions);
   };
 
   beforeEach(() => {
     svg = generateSVG(200, 200);
-    var measurer = new SVGTypewriter.Measurers.Measurer(svg);
-    var wrapper = new SVGTypewriter.Wrappers.Wrapper();
+    const measurer = new SVGTypewriter.Measurers.Measurer(svg);
+    const wrapper = new SVGTypewriter.Wrappers.Wrapper();
     writer = new SVGTypewriter.Writers.Writer(measurer, wrapper);
     writeOptions = {
       selection: svg,
+      textRotation: 0,
       xAlign: "right",
       yAlign: "center",
-      textRotation: 0,
     };
   });
 
@@ -58,9 +58,9 @@ describe("Animator Test Suite", () => {
     });
 
     it("defaults", () => {
-      assert.equal((<any>writeOptions.animator).direction(), "bottom", "direction is set to default");
-      assert.throws(() => (<any>writeOptions.animator).direction("aaa"), Error);
-      assert.equal((<any>writeOptions.animator).direction(), "bottom", "direction is set to default");
+      assert.equal((writeOptions.animator as any).direction(), "bottom", "direction is set to default");
+      assert.throws(() => (writeOptions.animator as any).direction("aaa"), Error);
+      assert.equal((writeOptions.animator as any).direction(), "bottom", "direction is set to default");
     });
 
     it("direction - bottom", () => {
@@ -68,17 +68,17 @@ describe("Animator Test Suite", () => {
     });
 
     it("direction - top", () => {
-      (<any>writeOptions.animator).direction("top");
+      (writeOptions.animator as any).direction("top");
       runAnimation();
     });
 
     it("direction - left", () => {
-      (<any>writeOptions.animator).direction("left");
+      (writeOptions.animator as any).direction("left");
       runAnimation();
     });
 
     it("direction - right", () => {
-      (<any>writeOptions.animator).direction("right");
+      (writeOptions.animator as any).direction("right");
       runAnimation();
     });
   });

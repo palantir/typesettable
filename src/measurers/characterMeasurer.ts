@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-import { Dimensions } from "./abstractMeasurer";
+import { IDimensions } from "./abstractMeasurer";
 import { Measurer } from "./measurer";
 
 export class CharacterMeasurer extends Measurer {
@@ -9,11 +9,11 @@ export class CharacterMeasurer extends Measurer {
     return super._measureLine(c);
   }
 
-  public _measureLine(line: string): Dimensions {
-    var charactersDimensions = line.split("").map(c => this._measureCharacter(c));
+  public _measureLine(line: string): IDimensions {
+    const charactersDimensions = line.split("").map((c) => this._measureCharacter(c));
     return {
-      width: d3.sum(charactersDimensions, dim => dim.width),
-      height: d3.max(charactersDimensions, dim => dim.height),
+      height: d3.max(charactersDimensions, (dim) => dim.height),
+      width: d3.sum(charactersDimensions, (dim) => dim.width),
     };
   }
 }

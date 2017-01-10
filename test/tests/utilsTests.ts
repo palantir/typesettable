@@ -3,7 +3,7 @@ import { assert } from "chai";
 import * as SVGTypewriter from "../../src";
 
 describe("Utils.Methods Test Suite", () => {
-  var utils = SVGTypewriter.Utils.Methods;
+  const utils = SVGTypewriter.Utils.Methods;
 
   it("objEq works as expected", () => {
     assert.isTrue(utils.objEq({}, {}));

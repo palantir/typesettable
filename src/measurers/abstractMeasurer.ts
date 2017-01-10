@@ -5,53 +5,56 @@ import * as Utils from "../utils";
 /**
  * Dimension of area's BBox.
  */
-export interface Dimensions {
+export interface IDimensions {
   width: number;
   height: number;
 };
 
-interface TextMeasurer {
-  (text: string): Dimensions;
-}
+type ITextMeasurer = (text: string) => IDimensions;
 
 export class AbstractMeasurer {
-  private textMeasurer: TextMeasurer;
 
   public static HEIGHT_TEXT = "bqpdl";
+
+  private textMeasurer: ITextMeasurer;
 
   constructor(area: d3.Selection<void>, className?: string) {
     this.textMeasurer = this.getTextMeasurer(area, className);
   }
 
+  public measure(text: string = AbstractMeasurer.HEIGHT_TEXT) {
+    return this.textMeasurer(text);
+  }
+
   private checkSelectionIsText(d: d3.Selection<any>) {
-    return (<Element> d[0][0]).tagName === "text" || !d.select("text").empty();
+    return (d[0][0] as Element).tagName === "text" || !d.select("text").empty();
   }
 
   private getTextMeasurer(area: d3.Selection<void>, className: string) {
     if (!this.checkSelectionIsText(area)) {
-      var textElement = area.append("text");
+      const textElement = area.append("text");
       if (className) {
         textElement.classed(className, true);
       }
       textElement.remove();
       return (text: string)  => {
-        (<Element> area.node()).appendChild(<Element> textElement.node());
-        var areaDimension = this.measureBBox(textElement, text);
+        (area.node() as Element).appendChild(textElement.node() as Element);
+        const areaDimension = this.measureBBox(textElement, text);
         textElement.remove();
         return areaDimension;
       };
     } else {
-      var parentNode = (<Element> area.node()).parentNode;
-      var textSelection: d3.Selection<void>;
-      if ((<Element> area[0][0]).tagName === "text") {
+      const parentNode = (area.node() as Element).parentNode;
+      let textSelection: d3.Selection<void>;
+      if ((area[0][0] as Element).tagName === "text") {
         textSelection = area;
       } else {
         textSelection = area.select("text");
       }
       area.remove();
       return (text: string) => {
-        parentNode.appendChild(<Element> area.node());
-        var areaDimension = this.measureBBox(textSelection, text);
+        parentNode.appendChild(area.node() as Element);
+        const areaDimension = this.measureBBox(textSelection, text);
         area.remove();
         return areaDimension;
       };
@@ -60,12 +63,7 @@ export class AbstractMeasurer {
 
   private measureBBox(d: d3.Selection<void>, text: string) {
     d.text(text);
-    var bb = Utils.DOM.getBBox(d);
+    const bb = Utils.DOM.getBBox(d);
     return { width: bb.width, height: bb.height };
   }
-
-  public measure(text: string = AbstractMeasurer.HEIGHT_TEXT) {
-    return this.textMeasurer(text);
-  }
 }
-

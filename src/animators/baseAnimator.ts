@@ -27,7 +27,7 @@ export class BaseAnimator {
   }
 
   public animate(selection: d3.Selection<any>): any {
-    var xForm = d3.transform("");
+    const xForm = d3.transform("");
     xForm.translate = [this.moveX(), this.moveY()];
     selection.attr("transform", xForm.toString());
     xForm.translate = [0, 0];
@@ -44,7 +44,7 @@ export class BaseAnimator {
 
   public duration(): number;
   public duration(duration: number): BaseAnimator;
-  public duration(duration?: number): any{
+  public duration(duration?: number): any {
     if (duration == null) {
       return this._duration;
     } else {
@@ -55,7 +55,7 @@ export class BaseAnimator {
 
   public moveX(): number;
   public moveX(shift: number): BaseAnimator;
-  public moveX(shift?: number): any{
+  public moveX(shift?: number): any {
     if (shift == null) {
       return this._moveX;
     } else {
@@ -66,7 +66,7 @@ export class BaseAnimator {
 
   public moveY(): number;
   public moveY(shift: number): BaseAnimator;
-  public moveY(shift?: number): any{
+  public moveY(shift?: number): any {
     if (shift == null) {
       return this._moveY;
     } else {
@@ -77,7 +77,7 @@ export class BaseAnimator {
 
   public delay(): number;
   public delay(delay: number): BaseAnimator;
-  public delay(delay?: number): any{
+  public delay(delay?: number): any {
     if (delay == null) {
       return this._delay;
     } else {
@@ -88,7 +88,7 @@ export class BaseAnimator {
 
   public easing(): string;
   public easing(easing: string): BaseAnimator;
-  public easing(easing?: string): any{
+  public easing(easing?: string): any {
     if (easing == null) {
       return this._easing;
     } else {

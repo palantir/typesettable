@@ -4,23 +4,30 @@ import * as SVGTypewriter from "../../src";
 import { assertBBoxInclusion, generateSVG } from "../utils";
 
 describe("Writer Test Suite", () => {
-  var wrapper: SVGTypewriter.Wrappers.Wrapper;
-  var measurer: SVGTypewriter.Measurers.AbstractMeasurer;
-  var writer: SVGTypewriter.Writers.Writer;
-  var svg: d3.Selection<any>;
-  var writeOptions: SVGTypewriter.Writers.WriteOptions;
-  var isHorizontal: boolean;
+  let wrapper: SVGTypewriter.Wrappers.Wrapper;
+  let measurer: SVGTypewriter.Measurers.AbstractMeasurer;
+  let writer: SVGTypewriter.Writers.Writer;
+  let svg: d3.Selection<any>;
+  let writeOptions: SVGTypewriter.Writers.IWriteOptions;
+  let isHorizontal: boolean;
 
-  var checkWriting = (text: string, width: number, height: number, shouldHaveTitle = false) => {
+  const checkWriting = (text: string, width: number, height: number, shouldHaveTitle = false) => {
     svg.attr("width", width);
     svg.attr("height", height);
     writer.write(text, width, height, writeOptions);
-    var bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".text-area"));
-    var dimensions = measurer.measure(
-                      wrapper.wrap(text, measurer, isHorizontal ? width : height, isHorizontal ? height : width).wrappedText);
+    const bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".text-area"));
+    const dimensions = measurer.measure(
+                      wrapper.wrap(
+                        text,
+                        measurer,
+                        isHorizontal ? width : height,
+                        isHorizontal ? height : width,
+                      ).wrappedText);
 
-    assert.closeTo(bbox.width, dimensions.width, 1, "width of the text should be almost the same as measurer width");
-    assert.closeTo(bbox.height, dimensions.height, 1, "height of the text should be almost the same as measurer height");
+    assert.closeTo(bbox.width, dimensions.width, 1,
+      "width of the text should be almost the same as measurer width");
+    assert.closeTo(bbox.height, dimensions.height, 1,
+      "height of the text should be almost the same as measurer height");
 
     assertBBoxInclusion(svg, svg.select(".text-area"));
     assert.equal(svg.select(".text-container").select("title").empty(),
@@ -37,9 +44,9 @@ describe("Writer Test Suite", () => {
     writer = new SVGTypewriter.Writers.Writer(measurer, wrapper);
     writeOptions = {
       selection: svg,
+      textRotation: 0,
       xAlign: "right",
       yAlign: "center",
-      textRotation: 0,
     };
   });
 
@@ -51,7 +58,7 @@ describe("Writer Test Suite", () => {
     });
 
     it("unique writer id", () => {
-      var writer2 = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+      const writer2 = new SVGTypewriter.Writers.Writer(measurer, wrapper);
       assert.operator(writer._writerID, "<" , writer2._writerID, "each writer has unique id");
       svg.remove();
     });

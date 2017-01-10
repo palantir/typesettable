@@ -11,8 +11,9 @@
     "build:compile": "tsc --project .",
     "build:namespace": "echo \"\\nexport as namespace SVGTypewriter;\" >> ${npm_package_types}",
     "docs": "typedoc -out docs src",
-    "test": "npm-run-all build test:mocha",
-    "test:mocha": "mochify --reporter spec build/test/**/*Tests.js"
+    "lint:ts": "tslint src/**/*.ts test/**/*.ts",
+    "test": "npm-run-all build lint:ts test:mocha",
+    "test:mocha": "mochify --reporter spec ${npm_package_buildPath}/test/**/*Tests.js"
   },
   "keywords": [
     "svg",
@@ -24,7 +25,8 @@
   "dependencies": {
     "@types/d3": "3.5.36",
     "@types/es6-shim": "^0.31.32",
-    "d3": "3.5.16"
+    "d3": "3.5.16",
+    "tslint": "^4.3.1"
   },
   "devDependencies": {
     "@types/chai": "3.4.34",

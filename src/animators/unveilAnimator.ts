@@ -14,7 +14,7 @@ export class UnveilAnimator extends BaseAnimator {
 
   public direction(): string;
   public direction(direction: string): UnveilAnimator;
-  public direction(direction?: string): any{
+  public direction(direction?: string): any {
     if (direction == null) {
       return this._direction;
     } else {
@@ -28,8 +28,8 @@ export class UnveilAnimator extends BaseAnimator {
   }
 
   public animate(selection: any): any {
-    var attr = Utils.DOM.getBBox(selection);
-    var mask = selection.select(".clip-rect");
+    const attr = Utils.DOM.getBBox(selection);
+    const mask = selection.select(".clip-rect");
     mask.attr("width", 0);
     mask.attr("height", 0);
     switch (this._direction) {
@@ -37,7 +37,6 @@ export class UnveilAnimator extends BaseAnimator {
         mask.attr("y" , attr.y + attr.height);
         mask.attr("x" , attr.x);
         mask.attr("width" , attr.width);
-
         break;
       case "bottom":
         mask.attr("y" , attr.y);
@@ -53,6 +52,8 @@ export class UnveilAnimator extends BaseAnimator {
         mask.attr("y" , attr.y);
         mask.attr("x" , attr.x + attr.width);
         mask.attr("height" , attr.height);
+        break;
+      default:
         break;
     }
 

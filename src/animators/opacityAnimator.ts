@@ -4,9 +4,9 @@ import { BaseAnimator } from "./baseAnimator";
 
 export class OpacityAnimator extends BaseAnimator {
   public animate(selection: d3.Selection<any>): any {
-    var area = selection.select(".text-area");
+    const area = selection.select(".text-area");
     area.attr("opacity", 0);
-    var attr = {
+    const attr = {
       opacity: 1,
     };
 

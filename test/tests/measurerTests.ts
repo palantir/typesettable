@@ -1,15 +1,17 @@
 /// <reference types="mocha"/>
 import * as d3 from "d3";
-import { assert } from "chai";
 import * as SVGTypewriter from "../../src";
+
+import { assert } from "chai";
+
 import { generateSVG } from "../utils";
 
 describe("Measurer Test Suite", () => {
-  var svg: d3.Selection<any>;
-  var measurer: SVGTypewriter.Measurers.AbstractMeasurer;
+  let svg: d3.Selection<any>;
+  let measurer: SVGTypewriter.Measurers.AbstractMeasurer;
   describe("Text element", () => {
-    var defaultText: string;
-    var textSelection: d3.Selection<void>;
+    let defaultText: string;
+    let textSelection: d3.Selection<void>;
     beforeEach(() => {
       svg = generateSVG(200, 200);
       defaultText = "a\na";
@@ -19,26 +21,26 @@ describe("Measurer Test Suite", () => {
     });
 
     it("works on empty string", () => {
-      var result = measurer.measure("");
+      const result = measurer.measure("");
       assert.deepEqual(result, {width: 0, height: 0}, "empty string has 0 width and height");
     });
 
     it("works on whitespaces", () => {
-      var result = measurer.measure(" \t  ");
+      const result = measurer.measure(" \t  ");
       assert.equal(result.width, 0, "whitespace has width 0");
       assert.equal(result.height, 0, "whitespace has height 0");
     });
 
     it.skip("works on whitespaces in middle", () => {
-      var baseResult = measurer.measure("a a");
-      var result = measurer.measure("a   a");
+      const baseResult = measurer.measure("a a");
+      const result = measurer.measure("a   a");
       assert.equal(result.width, baseResult.width, "multiple whitespaces occupy same space");
       assert.equal(result.height, baseResult.height, "height is the same");
     });
 
     it("works on multiple lines", () => {
-      var baseResult = measurer.measure("a");
-      var result = measurer.measure("a\na");
+      const baseResult = measurer.measure("a");
+      const result = measurer.measure("a\na");
       assert.equal(result.width, baseResult.width, "width has not changed");
       assert.equal(result.height, baseResult.height * 2, "height has changed");
     });
@@ -55,12 +57,12 @@ describe("Measurer Test Suite", () => {
     });
 
     it("line", () => {
-      var text = "helloworld";
-      var dimesnsions = measurer.measure(text);
-      var characterDimensions: SVGTypewriter.Measurers.Dimensions[] = text.split("").map(c => measurer.measure(c));
-      var dimensionsByCharacter = {
-        width: d3.sum(characterDimensions.map(c => c.width)),
-        height: d3.max(characterDimensions.map(c => c.height)),
+      const text = "helloworld";
+      const dimesnsions = measurer.measure(text);
+      const characterDimensions: SVGTypewriter.Measurers.IDimensions[] = text.split("").map((c) => measurer.measure(c));
+      const dimensionsByCharacter = {
+        height: d3.max(characterDimensions.map((c) => c.height)),
+        width: d3.sum(characterDimensions.map((c) => c.width)),
       };
 
       assert.deepEqual(dimesnsions, dimensionsByCharacter, "text has been measured by characters.");
@@ -78,10 +80,10 @@ describe("Measurer Test Suite", () => {
     });
 
     it("class is applied", () => {
-      var className = "testClass";
-      var measurerWithClass = new SVGTypewriter.Measurers.Measurer(svg, className);
-      var originalMeasureBBox = (<any>measurerWithClass).measureBBox;
-      (<any>measurerWithClass).measureBBox = (d: d3.Selection<void>, text: string) => {
+      const className = "testClass";
+      const measurerWithClass = new SVGTypewriter.Measurers.Measurer(svg, className);
+      const originalMeasureBBox = (measurerWithClass as any).measureBBox;
+      (measurerWithClass as any).measureBBox = (d: d3.Selection<void>, text: string) => {
           assert.isTrue(d.classed(className), "class has been applied to text element");
           return originalMeasureBBox(d, text);
       };
@@ -89,19 +91,19 @@ describe("Measurer Test Suite", () => {
     });
 
     it("works on empty string", () => {
-      var result = measurer.measure("");
+      const result = measurer.measure("");
       assert.deepEqual(result, {width: 0, height: 0}, "empty string has 0 width and height");
     });
 
     it("works on whitespaces", () => {
-      var result = measurer.measure(" \t  ");
+      const result = measurer.measure(" \t  ");
       assert.equal(result.width, 0, "whitespace has width 0");
       assert.equal(result.height, 0, "whitespace has height 0");
     });
 
     it("works on multiple lines", () => {
-      var baseResult = measurer.measure("a");
-      var result = measurer.measure("a\na");
+      const baseResult = measurer.measure("a");
+      const result = measurer.measure("a\na");
       assert.equal(result.width, baseResult.width, "width has not changed");
       assert.equal(result.height, baseResult.height * 2, "height has changed");
     });

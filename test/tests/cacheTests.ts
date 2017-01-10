@@ -3,9 +3,9 @@ import { assert } from "chai";
 import * as SVGTypewriter from "../../src";
 
 describe("Cache", () => {
-  var callbackCalled = false;
+  let callbackCalled = false;
 
-  var cache: SVGTypewriter.Utils.Cache<string>;
+  let cache: SVGTypewriter.Utils.Cache<string>;
 
   beforeEach(() => {
     callbackCalled = false;

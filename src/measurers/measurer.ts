@@ -1,7 +1,7 @@
 
 import * as d3 from "d3";
 
-import { AbstractMeasurer, Dimensions } from "./abstractMeasurer";
+import { AbstractMeasurer, IDimensions } from "./abstractMeasurer";
 
 export class Measurer extends AbstractMeasurer {
   private guardWidth: number;
@@ -17,28 +17,28 @@ export class Measurer extends AbstractMeasurer {
     return AbstractMeasurer.HEIGHT_TEXT + text + AbstractMeasurer.HEIGHT_TEXT;
   }
 
+  public _measureLine(line: string): IDimensions {
+    const measuredLine = this.useGuards ? this._addGuards(line) : line;
+    const measuredLineDimensions = super.measure(measuredLine);
+    measuredLineDimensions.width -= this.useGuards ? (2 * this.getGuardWidth()) : 0;
+    return measuredLineDimensions;
+  }
+
+  public measure(text: string = AbstractMeasurer.HEIGHT_TEXT): IDimensions {
+    if (text.trim() === "") {
+      return {width: 0, height: 0};
+    }
+    const linesDimensions = text.trim().split("\n").map((line) => this._measureLine(line));
+    return {
+        height: d3.sum(linesDimensions, (dim) => dim.height),
+        width: d3.max(linesDimensions, (dim) => dim.width),
+      };
+  }
+
   private getGuardWidth() {
     if (this.guardWidth == null) {
       this.guardWidth = super.measure().width;
     }
     return this.guardWidth;
-  }
-
-  public _measureLine(line: string): Dimensions {
-    var measuredLine = this.useGuards ? this._addGuards(line) : line;
-    var measuredLineDimensions = super.measure(measuredLine);
-    measuredLineDimensions.width -= this.useGuards ? (2 * this.getGuardWidth()) : 0;
-    return measuredLineDimensions;
-  }
-
-  public measure(text: string = AbstractMeasurer.HEIGHT_TEXT): Dimensions {
-    if (text.trim() === "") {
-      return {width: 0, height: 0};
-    }
-    var linesDimensions = text.trim().split("\n").map(line => this._measureLine(line));
-    return {
-        width: d3.max(linesDimensions, dim => dim.width),
-        height: d3.sum(linesDimensions, dim => dim.height),
-      };
   }
 }
