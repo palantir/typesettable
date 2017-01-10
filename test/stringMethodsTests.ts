@@ -1,6 +1,6 @@
 /// <reference types="mocha"/>
 import { assert } from "chai";
-import * as SVGTypewriter from "../../src";
+import * as SVGTypewriter from "../src";
 
 describe("String Methods Test Suite", () => {
   const utils = SVGTypewriter.Utils.StringMethods;

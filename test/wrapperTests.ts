@@ -1,7 +1,7 @@
 /// <reference types="mocha"/>
 import { assert } from "chai";
-import * as SVGTypewriter from "../../src";
-import { generateSVG } from "../utils";
+import * as SVGTypewriter from "../src";
+import { generateSVG } from "./utils";
 
 describe("Wrapper Test Suite", () => {
   let wrapper: SVGTypewriter.Wrappers.Wrapper;

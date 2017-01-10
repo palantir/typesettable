@@ -1,6 +1,6 @@
 /// <reference types="mocha"/>
 import { assert } from "chai";
-import * as SVGTypewriter from "../../src";
+import * as SVGTypewriter from "../src";
 
 describe("Cache", () => {
   let callbackCalled = false;

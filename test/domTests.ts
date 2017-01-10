@@ -1,7 +1,7 @@
 /// <reference types="mocha"/>
 import { assert } from "chai";
-import * as SVGTypewriter from "../../src";
-import { generateSVG } from "../utils";
+import * as SVGTypewriter from "../src";
+import { generateSVG } from "./utils";
 
 describe("Utils.DOM Test Suite", () => {
   const domUtils = SVGTypewriter.Utils.DOM;

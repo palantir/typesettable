@@ -1,15 +1,8 @@
 build/
-bower_components/
 docs/
 src/
 test/
-typings/
-bower.json
+coverage/
 circle.yml
-Gruntfile.js
-index.html
-index.js
-license_header.txt
-tsd.json
 tslint.json
 

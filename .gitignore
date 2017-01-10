@@ -2,15 +2,11 @@
 *.tmp.txt
 node_modules
 build
-local/
-.tscache/
-.idea/
-# Emacs
-.#*
+coverage
 
-# vim
+# IDEs
+.idea/
+.#*
 *.swp
 *~
-
-# Eclipse
 *.project

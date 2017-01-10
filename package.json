@@ -5,7 +5,7 @@
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "buildPath": "build",
-  "testsGlob": "build/test/**/*Tests.js",
+  "testsGlob": "build/test/*Tests.js",
   "scripts": {
     "build": "npm-run-all build:clean build:compile build:namespace",
     "build:clean": "rimraf ${npm_package_buildPath}",

@@ -1,10 +1,10 @@
 /// <reference types="mocha"/>
 import * as d3 from "d3";
-import * as SVGTypewriter from "../../src";
+import * as SVGTypewriter from "../src";
 
 import { assert } from "chai";
 
-import { generateSVG } from "../utils";
+import { generateSVG } from "./utils";
 
 describe("Measurer Test Suite", () => {
   let svg: d3.Selection<any>;
@@ -50,7 +50,7 @@ describe("Measurer Test Suite", () => {
     });
   });
 
-  describe("Cache measurer", () => {
+  describe("Cache Character measurer", () => {
     beforeEach(() => {
       svg = generateSVG(200, 200);
       measurer = new SVGTypewriter.Measurers.CacheCharacterMeasurer(svg);
@@ -58,14 +58,37 @@ describe("Measurer Test Suite", () => {
 
     it("line", () => {
       const text = "helloworld";
-      const dimesnsions = measurer.measure(text);
+      const dimensions = measurer.measure(text);
       const characterDimensions: SVGTypewriter.Measurers.IDimensions[] = text.split("").map((c) => measurer.measure(c));
       const dimensionsByCharacter = {
         height: d3.max(characterDimensions.map((c) => c.height)),
         width: d3.sum(characterDimensions.map((c) => c.width)),
       };
 
-      assert.deepEqual(dimesnsions, dimensionsByCharacter, "text has been measured by characters.");
+      assert.deepEqual(dimensions, dimensionsByCharacter, "text has been measured by characters.");
+    });
+
+    afterEach(() => {
+      svg.remove();
+    });
+  });
+
+  describe("Cache measurer", () => {
+    beforeEach(() => {
+      svg = generateSVG(200, 200);
+      measurer = new SVGTypewriter.Measurers.CacheMeasurer(svg);
+    });
+
+    it("line", () => {
+      const text = "helloworld";
+      const dimensions = measurer.measure(text);
+      const characterDimensions: SVGTypewriter.Measurers.IDimensions[] = text.split("").map((c) => measurer.measure(c));
+      const dimensionsByCharacter = {
+        height: d3.max(characterDimensions.map((c) => c.height)),
+        width: d3.sum(characterDimensions.map((c) => c.width)),
+      };
+
+      assert.deepEqual(dimensions, dimensionsByCharacter, "text has been measured by characters.");
     });
 
     afterEach(() => {
