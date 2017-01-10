@@ -1,7 +1,5 @@
-///<reference path="../reference.ts" />
 
-namespace SVGTypewriter.Utils.Methods {
-
+export namespace Methods {
   /**
    * Check if two arrays are equal by strict equality.
    */

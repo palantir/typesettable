@@ -1,5 +1,0 @@
-/*!
-SVG Typewriter @VERSION (https://github.com/palantir/svg-typewriter)
-Copyright 2016 Palantir Technologies
-Licensed under MIT (https://github.com/palantir/svg-typewriter/blob/develop/LICENSE)
-*/

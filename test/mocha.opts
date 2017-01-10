@@ -1,0 +1,2 @@
+--reporter spec
+build/test/**/*Tests.js

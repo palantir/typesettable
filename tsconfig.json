@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "inlineSourceMap": false,
+    "inlineSources": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "build",
+    "removeComments": false,
+    "sourceMap": true,
+    "stripInternal": true,
+    "target": "es5"
+  },
+  "exclude": [
+    "build",
+    "node_modules",
+    "test/old"
+  ]
+}

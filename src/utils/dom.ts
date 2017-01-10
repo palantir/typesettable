@@ -1,4 +1,6 @@
-namespace SVGTypewriter.Utils.DOM {
+import * as d3 from "d3";
+
+export namespace DOM {
   export function transform(s: d3.Selection<any>): d3.Transform;
   export function transform(s: d3.Selection<any>, x: number, y: number): d3.Selection<any>;
   export function transform(s: d3.Selection<any>, x?: number, y?: number): any {
