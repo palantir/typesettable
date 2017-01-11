@@ -43,20 +43,22 @@ Example Usage
 ---
 
 ```ts
+import { Measurer, Wrapper, Writer } from "svg-typewriter";
+
 // Create a Measurer based on the element we want to write into.
-// Passing in the intended element allows accurate measurement based
-// on the CSS styles that will actually be applied to that element.
-const measurer = new SVGTypewriter.Measurers.Measurer(svg);
+// Passing in the intended element allows accurate measurement based on the CSS
+// styles that will actually be applied to that element.
+const measurer = new Measurer(svg);
 
 // Create a Wrapper with default options.
 // A wrapper calculates how to break text to fit in a given space and returns
 // the wrapped text as strings. Wrappers do not directly write the wrapped text.
-const wrapper = new SVGTypewriter.Wrappers.Wrapper();
+const wrapper = new Wrapper();
 
 // Create a Writer.
 // A Writer uses the supplied Measurer and Wrapper to best decide how to fit
 // text in a given space, then writes the wrapped text to a given element.
-const writer = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+const writer = new Writer(measurer, wrapper);
 
 // Set write options.
 const writeOptions = {

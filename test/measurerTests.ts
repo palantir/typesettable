@@ -4,9 +4,15 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-/// <reference types="mocha"/>
 import * as d3 from "d3";
-import * as SVGTypewriter from "../src";
+
+import {
+  AbstractMeasurer,
+  CacheCharacterMeasurer,
+  CacheMeasurer,
+  IDimensions,
+  Measurer,
+} from "../src";
 
 import { assert } from "chai";
 
@@ -14,7 +20,7 @@ import { generateSVG } from "./utils";
 
 describe("Measurer Test Suite", () => {
   let svg: d3.Selection<any>;
-  let measurer: SVGTypewriter.Measurers.AbstractMeasurer;
+  let measurer: AbstractMeasurer;
   describe("Text element", () => {
     let defaultText: string;
     let textSelection: d3.Selection<void>;
@@ -23,7 +29,7 @@ describe("Measurer Test Suite", () => {
       defaultText = "a\na";
       textSelection = svg.append("text");
       textSelection.text(defaultText);
-      measurer = new SVGTypewriter.Measurers.Measurer(textSelection, null, true);
+      measurer = new Measurer(textSelection, null, true);
     });
 
     it("works on empty string", () => {
@@ -59,13 +65,13 @@ describe("Measurer Test Suite", () => {
   describe("Cache Character measurer", () => {
     beforeEach(() => {
       svg = generateSVG(200, 200);
-      measurer = new SVGTypewriter.Measurers.CacheCharacterMeasurer(svg);
+      measurer = new CacheCharacterMeasurer(svg);
     });
 
     it("line", () => {
       const text = "helloworld";
       const dimensions = measurer.measure(text);
-      const characterDimensions: SVGTypewriter.Measurers.IDimensions[] = text.split("").map((c) => measurer.measure(c));
+      const characterDimensions: IDimensions[] = text.split("").map((c) => measurer.measure(c));
       const dimensionsByCharacter = {
         height: d3.max(characterDimensions.map((c) => c.height)),
         width: d3.sum(characterDimensions.map((c) => c.width)),
@@ -82,13 +88,13 @@ describe("Measurer Test Suite", () => {
   describe("Cache measurer", () => {
     beforeEach(() => {
       svg = generateSVG(200, 200);
-      measurer = new SVGTypewriter.Measurers.CacheMeasurer(svg);
+      measurer = new CacheMeasurer(svg);
     });
 
     it("line", () => {
       const text = "helloworld";
       const dimensions = measurer.measure(text);
-      const characterDimensions: SVGTypewriter.Measurers.IDimensions[] = text.split("").map((c) => measurer.measure(c));
+      const characterDimensions: IDimensions[] = text.split("").map((c) => measurer.measure(c));
       const dimensionsByCharacter = {
         height: d3.max(characterDimensions.map((c) => c.height)),
         width: d3.sum(characterDimensions.map((c) => c.width)),
@@ -105,12 +111,12 @@ describe("Measurer Test Suite", () => {
   describe("DOM element", () => {
     before(() => {
       svg = generateSVG(200, 200);
-      measurer = new SVGTypewriter.Measurers.Measurer(svg);
+      measurer = new Measurer(svg);
     });
 
     it("class is applied", () => {
       const className = "testClass";
-      const measurerWithClass = new SVGTypewriter.Measurers.Measurer(svg, className);
+      const measurerWithClass = new Measurer(svg, className);
       const originalMeasureBBox = (measurerWithClass as any).measureBBox;
       (measurerWithClass as any).measureBBox = (d: d3.Selection<void>, text: string) => {
           assert.isTrue(d.classed(className), "class has been applied to text element");

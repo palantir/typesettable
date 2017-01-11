@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>svg-typewriter</title>
+	<title>SVGTypewriter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">svg-typewriter</a>
+					<a href="index.html" class="title">SVGTypewriter</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> svg-typewriter</h1>
+			<h1> SVGTypewriter</h1>
 		</div>
 	</div>
 </header>
@@ -68,36 +68,45 @@
 				<p><a href="https://circleci.com/gh/palantir/svg-typewriter"><img src="https://circleci.com/gh/palantir/svg-typewriter.svg?style=svg" alt="Circle CI"></a></p>
 				<p><a href="https://saucelabs.com/u/andrzejskrodzki"><img src="https://saucelabs.com/browser-matrix/andrzejskrodzki.svg" alt="Sauce Test Status"></a></p>
 				<h2 id="overview">Overview</h2>
-				<p><strong>SVG Typewriter</strong> is a library for measuring, manipulating, and writing text on SVG.
-					The <a href="http://www.w3.org/TR/SVG/text.html#Introduction">svg text spec</a> indicates that
-					&quot;SVG performs no automatic line breaking or word wrapping&quot;, meaning that developers
-					normally need to write their own code to accomplish this; <strong>SVG Typewriter</strong> aims
-				to make this entire process easier.</p>
+				<p><strong>SVG Typewriter</strong> is a library for measuring, manipulating, and writing text on
+					SVG. The <a href="http://www.w3.org/TR/SVG/text.html#Introduction">svg text spec</a>
+					indicates that &quot;SVG performs no automatic line breaking or word wrapping&quot;,
+					meaning that developers normally need to write their own code to accomplish
+				this; <strong>SVG Typewriter</strong> aims to make this entire process easier.</p>
 				<p><strong>SVG Typewriter</strong> is based on <a href="http://d3js.org/">D3.js</a>.</p>
 				<h2 id="features">Features</h2>
 				<ul>
-					<li><em>Measurers</em> efficiently measure the size of a piece of text when written to a particular SVG element, taking into account the CSS styles affecting that text.</li>
-					<li><em>Wrappers</em> calculate how best to fit text into a given space, based on results from the Measurer.</li>
-					<li><em>Writers</em> write text to a given SVG element based on specified options such as alignment, rotation, and animation.</li>
+					<li><em>Measurers</em> efficiently measure the size of a piece of text when written to a
+						particular SVG element, taking into account the CSS styles affecting that
+					text.</li>
+					<li><em>Wrappers</em> calculate how best to fit text into a given space, based on results
+					from the Measurer.</li>
+					<li><em>Writers</em> write text to a given SVG element based on specified options such as
+					alignment, rotation, and animation.</li>
 				</ul>
-				<p>In general, users will primarily interact with <em>Writers</em>, although they will need to instantiate <em>Measurers</em> based on specific SVG elements so that the library can perform accurate measurement and wrapping. Users can set options on <em>Wrappers</em> to control the wrapping behavior.</p>
+				<p>In general, users will primarily interact with <em>Writers</em>, although they will
+					need to instantiate <em>Measurers</em> based on specific SVG elements so that the
+					library can perform accurate measurement and wrapping. Users can set options on
+				<em>Wrappers</em> to control the wrapping behavior.</p>
 				<h2 id="installation">Installation</h2>
 				<pre><code>npm <span class="hljs-keyword">install</span> <span class="hljs-comment">--save svg-typewriter</span>
 </code></pre><h2 id="example-usage">Example Usage</h2>
-				<pre><code class="lang-ts"><span class="hljs-comment">// Create a Measurer based on the element we want to write into.</span>
-<span class="hljs-comment">// Passing in the intended element allows accurate measurement based</span>
-<span class="hljs-comment">// on the CSS styles that will actually be applied to that element.</span>
-<span class="hljs-keyword">const</span> measurer = <span class="hljs-keyword">new</span> SVGTypewriter.Measurers.Measurer(svg);
+				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { Measurer, Wrapper, Writer } from <span class="hljs-string">"svg-typewriter"</span>;
+
+<span class="hljs-comment">// Create a Measurer based on the element we want to write into.</span>
+<span class="hljs-comment">// Passing in the intended element allows accurate measurement based on the CSS</span>
+<span class="hljs-comment">// styles that will actually be applied to that element.</span>
+<span class="hljs-keyword">const</span> measurer = <span class="hljs-keyword">new</span> Measurer(svg);
 
 <span class="hljs-comment">// Create a Wrapper with default options.</span>
 <span class="hljs-comment">// A wrapper calculates how to break text to fit in a given space and returns</span>
 <span class="hljs-comment">// the wrapped text as strings. Wrappers do not directly write the wrapped text.</span>
-<span class="hljs-keyword">const</span> wrapper = <span class="hljs-keyword">new</span> SVGTypewriter.Wrappers.Wrapper();
+<span class="hljs-keyword">const</span> wrapper = <span class="hljs-keyword">new</span> Wrapper();
 
 <span class="hljs-comment">// Create a Writer.</span>
 <span class="hljs-comment">// A Writer uses the supplied Measurer and Wrapper to best decide how to fit</span>
 <span class="hljs-comment">// text in a given space, then writes the wrapped text to a given element.</span>
-<span class="hljs-keyword">const</span> writer = <span class="hljs-keyword">new</span> SVGTypewriter.Writers.Writer(measurer, wrapper);
+<span class="hljs-keyword">const</span> writer = <span class="hljs-keyword">new</span> Writer(measurer, wrapper);
 
 <span class="hljs-comment">// Set write options.</span>
 <span class="hljs-keyword">const</span> writeOptions = {
@@ -110,7 +119,8 @@
 <span class="hljs-comment">// write the text to the element.</span>
 writer.write(<span class="hljs-string">"Hello World!"</span>, width, height, writeOptions);
 </code></pre>
-				<p>See <a href="http://palantir.github.io/svg-typewriter/docs/">the docs</a> for more detailed examples.</p>
+				<p>See <a href="http://palantir.github.io/svg-typewriter/docs/">the docs</a> for more detailed
+				examples.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -119,106 +129,79 @@ writer.write(<span class="hljs-string">"Hello World!"</span>, width, height, wri
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_animators_baseanimator_.html">"src/animators/base<wbr>Animator"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_animators_index_.html">"src/animators/index"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_animators_opacityanimator_.html">"src/animators/opacity<wbr>Animator"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_animators_unveilanimator_.html">"src/animators/unveil<wbr>Animator"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_index_.html">"src/index"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_measurers_abstractmeasurer_.html">"src/measurers/abstract<wbr>Measurer"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_measurers_cachecharactermeasurer_.html">"src/measurers/cache<wbr>Character<wbr>Measurer"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_measurers_cachemeasurer_.html">"src/measurers/cache<wbr>Measurer"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_measurers_charactermeasurer_.html">"src/measurers/character<wbr>Measurer"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_measurers_index_.html">"src/measurers/index"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_measurers_measurer_.html">"src/measurers/measurer"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_utils_cache_.html">"src/utils/cache"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_utils_dom_.html">"src/utils/dom"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_utils_index_.html">"src/utils/index"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_utils_methods_.html">"src/utils/methods"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_utils_stringmethods_.html">"src/utils/string<wbr>Methods"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_utils_tokenizer_.html">"src/utils/tokenizer"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_wrappers_index_.html">"src/wrappers/index"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_wrappers_singlelinewrapper_.html">"src/wrappers/single<wbr>Line<wbr>Wrapper"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_wrappers_wrapper_.html">"src/wrappers/wrapper"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_writers_index_.html">"src/writers/index"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_src_writers_writer_.html">"src/writers/writer"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_test_tests_animatortests_.html">"test/tests/animator<wbr>Tests"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_test_tests_cachetests_.html">"test/tests/cache<wbr>Tests"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_test_tests_domtests_.html">"test/tests/dom<wbr>Tests"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_test_tests_measurertests_.html">"test/tests/measurer<wbr>Tests"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_test_tests_stringmethodstests_.html">"test/tests/string<wbr>Methods<wbr>Tests"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_test_tests_tokenizertests_.html">"test/tests/tokenizer<wbr>Tests"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_test_tests_utilstests_.html">"test/tests/utils<wbr>Tests"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_test_tests_wrappertests_.html">"test/tests/wrapper<wbr>Tests"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_test_tests_writertests_.html">"test/tests/writer<wbr>Tests"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_test_utils_.html">"test/utils"</a>
-					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/abstractmeasurer.html" class="tsd-kind-icon">Abstract<wbr>Measurer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/baseanimator.html" class="tsd-kind-icon">Base<wbr>Animator</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/cache.html" class="tsd-kind-icon">Cache</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/cachecharactermeasurer.html" class="tsd-kind-icon">Cache<wbr>Character<wbr>Measurer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/cachemeasurer.html" class="tsd-kind-icon">Cache<wbr>Measurer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/dom.html" class="tsd-kind-icon">DOM</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/measurer.html" class="tsd-kind-icon">Measurer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/methods.html" class="tsd-kind-icon">Methods</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/opacityanimator.html" class="tsd-kind-icon">Opacity<wbr>Animator</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/singlelinewrapper.html" class="tsd-kind-icon">Single<wbr>Line<wbr>Wrapper</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/stringmethods.html" class="tsd-kind-icon">String<wbr>Methods</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/tokenizer.html" class="tsd-kind-icon">Tokenizer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/unveilanimator.html" class="tsd-kind-icon">Unveil<wbr>Animator</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/wrapper.html" class="tsd-kind-icon">Wrapper</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/writer.html" class="tsd-kind-icon">Writer</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/ibreakingtokenresult.html" class="tsd-kind-icon">IBreaking<wbr>Token<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/idimensions.html" class="tsd-kind-icon">IDimensions</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/iellipsisresult.html" class="tsd-kind-icon">IEllipsis<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/iiterativewrappingstate.html" class="tsd-kind-icon">IIterative<wbr>Wrapping<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iwrappingresult.html" class="tsd-kind-icon">IWrapping<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iwriteoptions.html" class="tsd-kind-icon">IWrite<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-not-exported">
+						<a href="globals.html#itextmeasurer" class="tsd-kind-icon">IText<wbr>Measurer</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

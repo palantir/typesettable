@@ -4,16 +4,8 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as Animators from "./animators";
-import * as Measurers from "./measurers";
-import * as Utils from "./utils";
-import * as Wrappers from "./wrappers";
-import * as Writers from "./writers";
-
-export {
-    Animators,
-    Measurers,
-    Utils,
-    Wrappers,
-    Writers,
-};
+export * from "./animators";
+export * from "./measurers";
+export * from "./utils";
+export * from "./wrappers";
+export * from "./writers";

@@ -4,13 +4,12 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-/// <reference types="mocha"/>
 import { assert } from "chai";
-import * as SVGTypewriter from "../src";
+import { DOM } from "../src";
 import { generateSVG } from "./utils";
 
 describe("Utils.DOM Test Suite", () => {
-  const domUtils = SVGTypewriter.Utils.DOM;
+
   it("getBBox works properly", () => {
     const svg = generateSVG();
     const expectedBox: { [key: string]: number } = {
@@ -20,7 +19,7 @@ describe("Utils.DOM Test Suite", () => {
       y: 0,
     };
     const rect = svg.append("rect").attr(expectedBox);
-    const measuredBox = domUtils.getBBox(rect);
+    const measuredBox = DOM.getBBox(rect);
     assert.deepEqual(measuredBox, expectedBox, "getBBox measures correctly");
     svg.remove();
   });
@@ -35,11 +34,11 @@ describe("Utils.DOM Test Suite", () => {
 
     const removedSVG = generateSVG().remove();
     let rect = removedSVG.append("rect").attr(expectedBox);
-    domUtils.getBBox(rect); // could throw NS_ERROR on FF
+    DOM.getBBox(rect); // could throw NS_ERROR on FF
 
     const noneSVG = generateSVG().style("display", "none");
     rect = noneSVG.append("rect").attr(expectedBox);
-    domUtils.getBBox(rect); // could throw NS_ERROR on FF
+    DOM.getBBox(rect); // could throw NS_ERROR on FF
 
     noneSVG.remove();
   });

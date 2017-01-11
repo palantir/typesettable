@@ -6,12 +6,15 @@
   "types": "build/src/index.d.ts",
   "buildPath": "build",
   "testsGlob": "build/test/*Tests.js",
+  "docsPath": "docs",
   "scripts": {
     "build": "npm-run-all build:clean build:compile build:namespace",
     "build:clean": "rimraf ${npm_package_buildPath}",
     "build:compile": "tsc --project .",
     "build:namespace": "echo \"\\nexport as namespace SVGTypewriter;\" >> ${npm_package_types}",
-    "docs": "typedoc -out docs src",
+    "docs": "npm-run-all docs:clean docs:typedoc",
+    "docs:clean": "rimraf ${npm_package_docsPath}",
+    "docs:typedoc": "typedoc --mode file --name SVGTypewriter --out ${npm_package_docsPath} --tsconfig tsconfig.typedoc.json src/**/*",
     "lint:ts": "tslint src/**/*.ts test/**/*.ts",
     "test": "npm-run-all build lint:ts test:mocha test:coverage",
     "test:mocha": "mochify --reporter spec --plugin [ mochify-istanbul --report text --report json --dir coverage --exclude '**/test/**/*' ] ${npm_package_testsGlob}",
@@ -26,13 +29,13 @@
   "license": "MIT",
   "dependencies": {
     "@types/d3": "3.5.36",
-    "@types/es6-shim": "^0.31.32",
-    "d3": "3.5.16"
+    "@types/es6-shim": "0.31.32",
+    "d3": "^3.5.0"
   },
   "devDependencies": {
     "@types/chai": "3.4.34",
     "@types/mocha": "2.2.33",
-    "@types/node": "^6.0.52",
+    "@types/node": "6.0.52",
     "chai": "3.5.0",
     "istanbul": "^0.4.5",
     "mocha": "3.2.0",

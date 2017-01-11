@@ -1,8 +1,7 @@
-build/
 docs/
-src/
 test/
 coverage/
 circle.yml
 tslint.json
+tsconfig.json
 

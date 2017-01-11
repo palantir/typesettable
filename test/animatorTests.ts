@@ -4,17 +4,24 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-/// <reference types="mocha"/>
-
 import { assert } from "chai";
-import * as SVGTypewriter from "../src";
 import { generateSVG } from "./utils";
+
+import {
+  BaseAnimator,
+  IWriteOptions,
+  Measurer,
+  OpacityAnimator,
+  UnveilAnimator,
+  Wrapper,
+  Writer,
+} from "../src";
 
 describe("Animator Test Suite", () => {
 
-  let writer: SVGTypewriter.Writers.Writer;
+  let writer: Writer;
   let svg: d3.Selection<any>;
-  let writeOptions: SVGTypewriter.Writers.IWriteOptions;
+  let writeOptions: IWriteOptions;
 
   const runAnimation = () => {
     writer.write("hello\nworld", 200, 200, writeOptions);
@@ -22,9 +29,9 @@ describe("Animator Test Suite", () => {
 
   beforeEach(() => {
     svg = generateSVG(200, 200);
-    const measurer = new SVGTypewriter.Measurers.Measurer(svg);
-    const wrapper = new SVGTypewriter.Wrappers.Wrapper();
-    writer = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+    const measurer = new Measurer(svg);
+    const wrapper = new Wrapper();
+    writer = new Writer(measurer, wrapper);
     writeOptions = {
       selection: svg,
       textRotation: 0,
@@ -39,7 +46,7 @@ describe("Animator Test Suite", () => {
 
   describe("Base", () => {
     beforeEach(() => {
-      writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator();
+      writeOptions.animator = new BaseAnimator();
     });
 
     it("defaults", () => {
@@ -60,7 +67,7 @@ describe("Animator Test Suite", () => {
 
   describe("Unveil", () => {
     beforeEach(() => {
-      writeOptions.animator = new SVGTypewriter.Animators.UnveilAnimator().duration(6000);
+      writeOptions.animator = new UnveilAnimator().duration(6000);
     });
 
     it("defaults", () => {
@@ -91,7 +98,7 @@ describe("Animator Test Suite", () => {
 
   describe("Opacity", () => {
     beforeEach(() => {
-      writeOptions.animator = new SVGTypewriter.Animators.OpacityAnimator().duration(6000);
+      writeOptions.animator = new OpacityAnimator().duration(6000);
     });
 
     it("simple", () => {
@@ -101,34 +108,34 @@ describe("Animator Test Suite", () => {
 
   describe("Moving X", () => {
     it("simple", () => {
-      writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator().duration(6000).moveX(100);
+      writeOptions.animator = new BaseAnimator().duration(6000).moveX(100);
       runAnimation();
     });
 
     it("opacity", () => {
-      writeOptions.animator = new SVGTypewriter.Animators.OpacityAnimator().duration(6000).moveX(100);
+      writeOptions.animator = new OpacityAnimator().duration(6000).moveX(100);
       runAnimation();
     });
 
     it("unveil", () => {
-      writeOptions.animator = new SVGTypewriter.Animators.UnveilAnimator().duration(6000).moveX(100);
+      writeOptions.animator = new UnveilAnimator().duration(6000).moveX(100);
       runAnimation();
     });
   });
 
   describe("Moving Y", () => {
     it("simple", () => {
-      writeOptions.animator = new SVGTypewriter.Animators.BaseAnimator().duration(6000).moveY(100);
+      writeOptions.animator = new BaseAnimator().duration(6000).moveY(100);
       runAnimation();
     });
 
     it("opacity", () => {
-      writeOptions.animator = new SVGTypewriter.Animators.OpacityAnimator().duration(6000).moveY(100);
+      writeOptions.animator = new OpacityAnimator().duration(6000).moveY(100);
       runAnimation();
     });
 
     it("unveil", () => {
-      writeOptions.animator = new SVGTypewriter.Animators.UnveilAnimator().duration(6000).moveY(100);
+      writeOptions.animator = new UnveilAnimator().duration(6000).moveY(100);
       runAnimation();
     });
   });

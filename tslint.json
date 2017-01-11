@@ -1,6 +1,7 @@
 {
   "extends": ["tslint:latest"],
   "rules": {
+    "file-header": [true, "Copyright \\d{4}-present Palantir Technologies, Inc. All rights reserved."],
     "linebreak-style": [true, "LF"],
     "no-invalid-this": [true, "check-function-in-method"],
     "variable-name": [

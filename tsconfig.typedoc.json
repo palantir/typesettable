@@ -4,17 +4,14 @@
     "inlineSourceMap": false,
     "module": "commonjs",
     "moduleResolution": "node",
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "outDir": "build",
-    "removeComments": false,
-    "sourceMap": true,
+    "removeComments": true,
+    "sourceMap": false,
     "stripInternal": true,
     "target": "es5"
   },
   "exclude": [
     "build",
-    "node_modules"
+    "node_modules",
+    "test"
   ]
 }

@@ -4,24 +4,32 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-/// <reference types="mocha"/>
 import { assert } from "chai";
-import * as SVGTypewriter from "../src";
+
+import {
+  AbstractMeasurer,
+  DOM,
+  IWriteOptions,
+  Measurer,
+  Wrapper,
+  Writer,
+} from "../src";
+
 import { assertBBoxInclusion, generateSVG } from "./utils";
 
 describe("Writer Test Suite", () => {
-  let wrapper: SVGTypewriter.Wrappers.Wrapper;
-  let measurer: SVGTypewriter.Measurers.AbstractMeasurer;
-  let writer: SVGTypewriter.Writers.Writer;
+  let wrapper: Wrapper;
+  let measurer: AbstractMeasurer;
+  let writer: Writer;
   let svg: d3.Selection<any>;
-  let writeOptions: SVGTypewriter.Writers.IWriteOptions;
+  let writeOptions: IWriteOptions;
   let isHorizontal: boolean;
 
   const checkWriting = (text: string, width: number, height: number, shouldHaveTitle = false) => {
     svg.attr("width", width);
     svg.attr("height", height);
     writer.write(text, width, height, writeOptions);
-    const bbox = SVGTypewriter.Utils.DOM.getBBox(svg.select(".text-area"));
+    const bbox = DOM.getBBox(svg.select(".text-area"));
     const dimensions = measurer.measure(
                       wrapper.wrap(
                         text,
@@ -45,9 +53,9 @@ describe("Writer Test Suite", () => {
 
   beforeEach(() => {
     svg = generateSVG(200, 200);
-    measurer = new SVGTypewriter.Measurers.Measurer(svg);
-    wrapper = new SVGTypewriter.Wrappers.Wrapper();
-    writer = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+    measurer = new Measurer(svg);
+    wrapper = new Wrapper();
+    writer = new Writer(measurer, wrapper);
     writeOptions = {
       selection: svg,
       textRotation: 0,
@@ -64,7 +72,7 @@ describe("Writer Test Suite", () => {
     });
 
     it("unique writer id", () => {
-      const writer2 = new SVGTypewriter.Writers.Writer(measurer, wrapper);
+      const writer2 = new Writer(measurer, wrapper);
       assert.operator(writer._writerID, "<" , writer2._writerID, "each writer has unique id");
       svg.remove();
     });

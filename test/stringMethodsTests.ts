@@ -4,12 +4,10 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-/// <reference types="mocha"/>
 import { assert } from "chai";
-import * as SVGTypewriter from "../src";
+import { StringMethods as utils } from "../src";
 
 describe("String Methods Test Suite", () => {
-  const utils = SVGTypewriter.Utils.StringMethods;
   it("combine whitespaces works as expected", () => {
     assert.equal(utils.combineWhitespace("a"), "a", "combine whitespaces returns same single letter");
     assert.equal(utils.combineWhitespace("a "), "a ", "combine whitespaces returns same single letter with space");

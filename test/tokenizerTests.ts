@@ -4,15 +4,14 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-/// <reference types="mocha"/>
 import { assert } from "chai";
-import * as SVGTypewriter from "../src";
+import { Tokenizer } from "../src";
 
 describe("Tokenizer Test Suite", () => {
-  let tokenizer: SVGTypewriter.Utils.Tokenizer;
+  let tokenizer: Tokenizer;
 
   before(() => {
-    tokenizer = new SVGTypewriter.Utils.Tokenizer();
+    tokenizer = new Tokenizer();
   });
 
   it("single word", () => {

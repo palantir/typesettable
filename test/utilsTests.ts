@@ -4,13 +4,10 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-/// <reference types="mocha"/>
 import { assert } from "chai";
-import * as SVGTypewriter from "../src";
+import { Methods as utils } from "../src";
 
 describe("Utils.Methods Test Suite", () => {
-  const utils = SVGTypewriter.Utils.Methods;
-
   it("objEq works as expected", () => {
     assert.isTrue(utils.objEq({}, {}));
     assert.isTrue(utils.objEq(null, null));

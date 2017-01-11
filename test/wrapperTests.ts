@@ -4,20 +4,26 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-/// <reference types="mocha"/>
 import { assert } from "chai";
-import * as SVGTypewriter from "../src";
+
+import {
+  AbstractMeasurer,
+  Measurer,
+  SingleLineWrapper,
+  Wrapper,
+} from "../src";
+
 import { generateSVG } from "./utils";
 
 describe("Wrapper Test Suite", () => {
-  let wrapper: SVGTypewriter.Wrappers.Wrapper;
-  let measurer: SVGTypewriter.Measurers.AbstractMeasurer;
+  let wrapper: Wrapper;
+  let measurer: AbstractMeasurer;
   let svg: d3.Selection<any>;
   beforeEach(() => {
     svg = generateSVG(200, 200);
     svg.append("text");
-    measurer = new SVGTypewriter.Measurers.Measurer(svg, null, true);
-    wrapper = new SVGTypewriter.Wrappers.Wrapper();
+    measurer = new Measurer(svg, null, true);
+    wrapper = new Wrapper();
   });
 
   describe("Core", () => {
@@ -50,7 +56,7 @@ describe("Wrapper Test Suite", () => {
     let token: string;
     beforeEach(() => {
       token = "hello";
-      wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
+      wrapper = new Wrapper().textTrimming("none");
     });
 
     it("does not wrap", () => {
@@ -131,7 +137,7 @@ describe("Wrapper Test Suite", () => {
     let line: string;
     beforeEach(() => {
       line = "hello  world!.";
-      wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
+      wrapper = new Wrapper().textTrimming("none");
     });
 
     it("does not wrap", () => {
@@ -226,7 +232,7 @@ describe("Wrapper Test Suite", () => {
     let lines: string;
     beforeEach(() => {
       lines = "hello  world!.\nhello  world!.";
-      wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
+      wrapper = new Wrapper().textTrimming("none");
     });
 
     it("does not wrap", () => {
@@ -266,7 +272,7 @@ describe("Wrapper Test Suite", () => {
     let text: string;
     beforeEach(() => {
       text = "hello  world!.\nhello  world!.";
-      wrapper = new SVGTypewriter.Wrappers.Wrapper().textTrimming("none");
+      wrapper = new Wrapper().textTrimming("none");
     });
 
     it("no lines fits", () => {
@@ -322,7 +328,7 @@ describe("Wrapper Test Suite", () => {
     let text: string;
     beforeEach(() => {
       text = "hello";
-      wrapper = new SVGTypewriter.Wrappers.Wrapper().maxLines(1);
+      wrapper = new Wrapper().maxLines(1);
     });
 
     it("single word", () => {
@@ -406,13 +412,13 @@ describe("Wrapper Test Suite", () => {
 
   describe("Single Line wrapper", () => {
     beforeEach(() => {
-      wrapper = new SVGTypewriter.Wrappers.SingleLineWrapper().maxLines(2);
+      wrapper = new SingleLineWrapper().maxLines(2);
     });
 
     it("simple", () => {
       const text = "hello.";
       const availableWidth = measurer.measure(text).width;
-      const baseWrapper = new SVGTypewriter.Wrappers.Wrapper().maxLines(2);
+      const baseWrapper = new Wrapper().maxLines(2);
       const result = wrapper.wrap(text, measurer, availableWidth);
       const baseResult = baseWrapper.wrap(text, measurer, availableWidth);
       const baseDimensions = measurer.measure(baseResult.wrappedText);
@@ -428,7 +434,7 @@ describe("Wrapper Test Suite", () => {
     it("two lines", () => {
       const text = "hello  world!.";
       const availableWidth = measurer.measure(text).width - 2;
-      const baseWrapper = new SVGTypewriter.Wrappers.Wrapper().maxLines(2);
+      const baseWrapper = new Wrapper().maxLines(2);
       const result = wrapper.wrap(text, measurer, availableWidth);
       const baseResult = baseWrapper.wrap(text, measurer, availableWidth);
       const baseDimensions = measurer.measure(baseResult.wrappedText);

@@ -4,18 +4,18 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-/// <reference types="mocha"/>
 import { assert } from "chai";
-import * as SVGTypewriter from "../src";
+
+import { Cache } from "../src";
 
 describe("Cache", () => {
   let callbackCalled = false;
 
-  let cache: SVGTypewriter.Utils.Cache<string>;
+  let cache: Cache<string>;
 
   beforeEach(() => {
     callbackCalled = false;
-    cache = new SVGTypewriter.Utils.Cache((s: string) => {
+    cache = new Cache((s: string) => {
       callbackCalled = true;
       return s;
     });
