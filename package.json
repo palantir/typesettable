@@ -25,7 +25,8 @@
     "start": "npm-run-all -p preview:watch preview:serve",
     "test": "npm-run-all build lint:ts test:mocha test:coverage",
     "test:mocha": "PATH=$PATH:$(npm bin) mochify --reporter spec --plugin [ mochify-istanbul --report text --report json --dir coverage --exclude '**/test/**/*' ] ${npm_package_testsGlob}",
-    "test:coverage": "istanbul check-coverage"
+    "test:coverage": "istanbul check-coverage",
+    "echo": "echo"
   },
   "keywords": [
     "svg",

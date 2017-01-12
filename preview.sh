@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
+# Echos the specified package.json variable
+function npmvar {
+    npm run -s echo -- '$npm_package_'$1
+}
+
 # Compute all the fancy artifact variables for preview scripts
-BUILD_PATH="/home/ubuntu/blueprint"
+BUILD_PATH="/home/ubuntu/$(npmvar 'name')"
 ARTIFACTS_URL="https://circleci.com/api/v1/project/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/artifacts/0/$BUILD_PATH"
 GH_API_URL="x-oauth-basic@api.github.com"
 PROJECT_API_BASE_URL="https://$GH_AUTH_TOKEN:$GH_API_URL/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
