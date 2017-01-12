@@ -42,4 +42,8 @@ export class Methods {
     const valuesB = keysB.map((k) => b[k]);
     return Methods.arrayEq(keysA, keysB) && Methods.arrayEq(valuesA, valuesB);
   }
+
+  public static strictEq(a: any, b: any): boolean {
+    return a === b;
+  }
 }

@@ -22,10 +22,11 @@ export class Measurer extends AbstractMeasurer {
     return AbstractMeasurer.HEIGHT_TEXT + text + AbstractMeasurer.HEIGHT_TEXT;
   }
 
-  public _measureLine(line: string): IDimensions {
-    const measuredLine = this.useGuards ? this._addGuards(line) : line;
+  public _measureLine(line: string, forceGuards: boolean = false): IDimensions {
+    const useGuards = this.useGuards || forceGuards || /^[\t ]$/.test(line);
+    const measuredLine = useGuards ? this._addGuards(line) : line;
     const measuredLineDimensions = super.measure(measuredLine);
-    measuredLineDimensions.width -= this.useGuards ? (2 * this.getGuardWidth()) : 0;
+    measuredLineDimensions.width -= useGuards ? (2 * this.getGuardWidth()) : 0;
     return measuredLineDimensions;
   }
 
@@ -33,6 +34,7 @@ export class Measurer extends AbstractMeasurer {
     if (text.trim() === "") {
       return {width: 0, height: 0};
     }
+
     const linesDimensions = text.trim().split("\n").map((line) => this._measureLine(line));
     return {
         height: d3.sum(linesDimensions, (dim) => dim.height),

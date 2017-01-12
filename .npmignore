@@ -1,5 +1,6 @@
 docs/
 test/
+preview/
 coverage/
 circle.yml
 tslint.json

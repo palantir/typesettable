@@ -1,0 +1,44 @@
+body {
+    padding: 40px 20px 20px 20px;
+    background:#EEE;
+    font-family: sans-serif;
+}
+
+textarea {
+    display: block;
+    width: 80%;
+    height: 400px;
+}
+
+svg {
+    display: inline-block;
+    background: #FFF;
+    width: 120px;
+    height: 100px;
+}
+
+svg.big {
+    width: 400px;
+    height: 200px;
+}
+
+.panel {
+    position: relative;
+    height: 600px;
+}
+
+.fill-half-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+}
+
+.fill-half-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+}

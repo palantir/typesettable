@@ -86,10 +86,16 @@ export class Writer {
       textContainer.append("title").text(text);
     }
 
+    const normalizedText = Utils.StringMethods.combineWhitespace(text);
+
     const textArea = textContainer.append("g").classed("text-area", true);
     const wrappedText = this._wrapper ?
-                        this._wrapper.wrap(text, this._measurer, primaryDimension, secondaryDimension).wrappedText :
-                        text;
+                        this._wrapper.wrap(
+                          normalizedText,
+                          this._measurer,
+                          primaryDimension,
+                          secondaryDimension,
+                        ).wrappedText : normalizedText;
 
     this.writeText(
       wrappedText,

@@ -17,7 +17,7 @@ export class CacheMeasurer extends CacheCharacterMeasurer {
     super(area, className);
     this.dimCache = new Utils.Cache<IDimensions>((s: string) => {
       return this._measureNotFromCache(s);
-    }, Utils.Methods.objEq);
+    });
   }
 
   public _measureNotFromCache(s: string) {

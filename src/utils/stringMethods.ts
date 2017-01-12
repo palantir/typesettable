@@ -6,10 +6,10 @@
 
 export class StringMethods {
   /**
-   * Treat all sequences of consecutive whitespace as a single " ".
+   * Treat all sequences of consecutive spaces as a single " ".
    */
   public static combineWhitespace(str: string) {
-    return str.replace(/\s+/g, " ");
+    return str.replace(/[ \t]+/g, " ");
   }
 
   public static isNotEmptyString(str: string) {
