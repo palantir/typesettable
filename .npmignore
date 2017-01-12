@@ -2,7 +2,8 @@ docs/
 test/
 preview/
 coverage/
-circle.yml
-tslint.json
-tsconfig.json
 
+*.json
+*.yml
+*.sh
+*.lock
