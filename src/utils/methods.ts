@@ -1,11 +1,14 @@
-///<reference path="../reference.ts" />
+/**
+ * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
+ * Licensed under the MIT License (the "License"); you may obtain a copy of the
+ * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
+ */
 
-namespace SVGTypewriter.Utils.Methods {
-
+export class Methods {
   /**
    * Check if two arrays are equal by strict equality.
    */
-  export function arrayEq<T>(a: T[], b: T[]): boolean {
+  public static arrayEq<T>(a: T[], b: T[]): boolean {
     // Technically, null and undefined are arrays too
     if (a == null || b == null) {
       return a === b;
@@ -13,7 +16,7 @@ namespace SVGTypewriter.Utils.Methods {
     if (a.length !== b.length) {
       return false;
     }
-    for (var i = 0; i < a.length; i++) {
+    for (let i = 0; i < a.length; i++) {
       if (a[i] !== b[i]) {
         return false;
       }
@@ -29,14 +32,18 @@ namespace SVGTypewriter.Utils.Methods {
    *          values associated with those keys. Values will be compared
    *          with ===.
    */
-  export function objEq(a: any, b: any): boolean {
+  public static objEq(a: any, b: any): boolean {
     if (a == null || b == null) {
       return a === b;
     }
-    var keysA = Object.keys(a).sort();
-    var keysB = Object.keys(b).sort();
-    var valuesA = keysA.map((k) => a[k]);
-    var valuesB = keysB.map((k) => b[k]);
-    return arrayEq(keysA, keysB) && arrayEq(valuesA, valuesB);
+    const keysA = Object.keys(a).sort();
+    const keysB = Object.keys(b).sort();
+    const valuesA = keysA.map((k) => a[k]);
+    const valuesB = keysB.map((k) => b[k]);
+    return Methods.arrayEq(keysA, keysB) && Methods.arrayEq(valuesA, valuesB);
+  }
+
+  public static strictEq(a: any, b: any): boolean {
+    return a === b;
   }
 }

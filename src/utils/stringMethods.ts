@@ -1,36 +1,40 @@
-///<reference path="../reference.ts" />
+/**
+ * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
+ * Licensed under the MIT License (the "License"); you may obtain a copy of the
+ * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
+ */
 
-namespace SVGTypewriter.Utils.StringMethods {
-
+export class StringMethods {
   /**
-   * Treat all sequences of consecutive whitespace as a single " ".
+   * Treat all sequences of consecutive spaces as a single " ".
    */
-  export function combineWhitespace(str: string) {
-    return str.replace(/\s+/g, " ");
+  public static combineWhitespace(str: string) {
+    return str.replace(/[ \t]+/g, " ");
   }
 
-  export function isNotEmptyString(str: string) {
+  public static isNotEmptyString(str: string) {
     return str && str.trim() !== "";
   }
 
-  export function trimStart(str: string, c?: string) {
+  public static trimStart(str: string, splitter?: string) {
     if (!str) {
       return str;
     }
 
-    var chars = str.split("");
-    var reduceFunction = c ? (s: string) => s.split(c).some(isNotEmptyString) : isNotEmptyString;
-    return chars.reduce((s: string, c : string) => reduceFunction(s + c) ? s + c : s, "");
+    const chars = str.split("");
+    const reduceFunction = splitter ? (s: string) => s.split(splitter).some(StringMethods.isNotEmptyString)
+      : StringMethods.isNotEmptyString;
+    return chars.reduce((s: string, c: string) => reduceFunction(s + c) ? s + c : s, "");
   }
 
-  export function trimEnd(str: string, c?: string) {
+  public static trimEnd(str: string, c?: string) {
     if (!str) {
       return str;
     }
 
-    var reversedChars = str.split("");
+    let reversedChars = str.split("");
     reversedChars.reverse();
-    reversedChars = trimStart(reversedChars.join(""), c).split("");
+    reversedChars = StringMethods.trimStart(reversedChars.join(""), c).split("");
     reversedChars.reverse();
     return reversedChars.join("");
   }

@@ -1,24 +1,34 @@
-///<reference path="../reference.ts" />
+/**
+ * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
+ * Licensed under the MIT License (the "License"); you may obtain a copy of the
+ * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
+ */
 
-namespace SVGTypewriter.Measurers {
+import * as d3 from "d3";
+import * as Utils from "../utils";
 
-  export class CacheCharacterMeasurer extends CharacterMeasurer {
-    private cache: Utils.Cache<Dimensions>;
-    constructor(area: d3.Selection<void>, className?: string) {
-      super(area, className);
-      this.cache = new Utils.Cache<Dimensions>((c: string) => this._measureCharacterNotFromCache(c), Utils.Methods.objEq);
-    }
+import { IDimensions } from "./abstractMeasurer";
+import { CharacterMeasurer } from "./characterMeasurer";
 
-    public _measureCharacterNotFromCache(c: string) {
-      return super._measureCharacter(c);
-    }
+export class CacheCharacterMeasurer extends CharacterMeasurer {
+  private cache: Utils.Cache<IDimensions>;
 
-    public _measureCharacter(c: string) {
-      return this.cache.get(c);
-    }
+  constructor(area: d3.Selection<void>, className?: string, useGuards?: boolean) {
+    super(area, className, useGuards);
+    this.cache = new Utils.Cache<IDimensions>((c: string) => {
+      return this._measureCharacterNotFromCache(c);
+    });
+  }
 
-    public reset() {
-      this.cache.clear();
-    }
+  public _measureCharacterNotFromCache(c: string) {
+    return super._measureCharacter(c);
+  }
+
+  public _measureCharacter(c: string) {
+    return this.cache.get(c);
+  }
+
+  public reset() {
+    this.cache.clear();
   }
 }
