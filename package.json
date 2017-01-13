@@ -17,9 +17,8 @@
     "docs:typedoc": "typedoc --options typedoc.json --tsconfig tsconfig.typedoc.json --out ${npm_package_docsPath}",
     "docs:serve": "http-server ${npm_package_docsPath}",
     "lint:ts": "tslint src/**/*.ts test/**/*.ts",
-    "prepublish": "npm run build",
     "preview": "npm-run-all build preview:bundle",
-    "preview:bundle": "browserify -r d3 -r ./build/src/index.js:svg-typewriter > preview/bundle.js && echo 'Preview ready'",
+    "preview:bundle": "browserify -r d3 -r ./${npm_package_main}:svg-typewriter > preview/bundle.js && echo 'Preview ready'",
     "preview:serve": "http-server preview",
     "preview:watch": "onchange 'src/**' -i -- npm run preview",
     "start": "npm-run-all -p preview:watch preview:serve",
@@ -37,9 +36,8 @@
   "author": "Palantir",
   "license": "MIT",
   "dependencies": {
-    "@types/d3": "3.5.36",
-    "@types/es6-shim": "0.31.32",
-    "d3": "^3.5.0"
+    "@types/d3": "^3.5",
+    "d3": "^3.5"
   },
   "devDependencies": {
     "@types/chai": "3.4.34",
