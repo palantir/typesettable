@@ -3,7 +3,7 @@ SVG Typewriter
 
 [![Circle CI](https://circleci.com/gh/palantir/svg-typewriter.svg?style=svg)](https://circleci.com/gh/palantir/svg-typewriter)
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/andrzejskrodzki.svg)](https://saucelabs.com/u/andrzejskrodzki)
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/svg-typewriter.svg)](https://saucelabs.com/u/svg-typewriter)
 
 Overview
 ---
@@ -72,6 +72,6 @@ const writeOptions = {
 writer.write("Hello World!", width, height, writeOptions);
 ```
 
-See [the docs](http://palantir.github.io/svg-typewriter/docs/) for more detailed
+See [the docs](http://palantir.github.io/svg-typewriter) for more detailed
 examples.
 
