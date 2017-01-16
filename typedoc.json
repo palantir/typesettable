@@ -1,0 +1,6 @@
+{
+    "mode": "file",
+    "module": "commonjs",
+    "name": "SVGTypewriter",
+    "target": "es5"
+}

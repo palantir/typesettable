@@ -1,0 +1,4 @@
+check:
+    each:
+        statements: 90
+        lines: 90

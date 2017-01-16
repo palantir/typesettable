@@ -1,0 +1,11 @@
+**/*
+!README.md
+!LICENSE
+!package.json
+
+# include source typescript
+!src/**/*
+
+# include compiled javascript, sourcemaps, and declarations
+!build/src/**/*
+
