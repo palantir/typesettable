@@ -1,6 +1,6 @@
 {
   "name": "svg-typewriter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "SVG Text Measurement Line Wrapper",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
