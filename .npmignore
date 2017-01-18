@@ -9,3 +9,5 @@
 # include compiled javascript, sourcemaps, and declarations
 !build/src/**/*
 
+# include bundled library
+!./*.js

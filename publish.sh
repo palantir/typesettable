@@ -13,8 +13,8 @@ else
   echo "New version detected. Preparing $NEW_VERSION"
 fi
 
-# Prepare artifacts, one last check on tests
-npm test
+# Prepare artifacts
+npm run build
 
 # Publish to npm
 # https://circleci.com/docs/npm-login/
