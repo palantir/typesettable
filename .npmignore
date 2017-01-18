@@ -10,4 +10,4 @@
 !build/src/**/*
 
 # include bundled library
-!./*.js
+!svg-typewriter.js
