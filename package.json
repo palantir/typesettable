@@ -8,10 +8,11 @@
   "testsGlob": "build/test/*Tests.js",
   "docsPath": "docs",
   "scripts": {
-    "build": "npm-run-all build:clean build:compile build:namespace",
+    "build": "npm-run-all build:clean build:compile build:namespace build:bundle",
     "build:clean": "rimraf ${npm_package_buildPath}",
     "build:compile": "tsc --project .",
     "build:namespace": "echo \"\\nexport as namespace SVGTypewriter;\" >> ${npm_package_types}",
+    "build:bundle": "browserify -t browserify-shim --standalone SVGTypewriter build/src/index.js > ./svg-typewriter.js",
     "docs": "npm-run-all docs:clean docs:typedoc",
     "docs:clean": "rimraf ${npm_package_docsPath}",
     "docs:typedoc": "typedoc --options typedoc.json --tsconfig tsconfig.typedoc.json --out ${npm_package_docsPath}",
@@ -27,6 +28,9 @@
     "test:mocha": "PATH=$PATH:$(npm bin) mochify --reporter spec --plugin [ mochify-istanbul --report text --report json --dir coverage --exclude '**/test/**/*' ] ${npm_package_testsGlob}",
     "test:sauce": "mochify  --reporter spec --wd ${npm_package_testsGlob}",
     "echo": "echo"
+  },
+  "browserify-shim": {
+    "d3": "global:d3"
   },
   "keywords": [
     "svg",
@@ -44,6 +48,7 @@
     "@types/mocha": "2.2.33",
     "@types/node": "6.0.52",
     "browserify": "^13.3.0",
+    "browserify-shim": "^3.8.12",
     "chai": "3.5.0",
     "http-server": "^0.9.0",
     "istanbul": "^0.4.5",

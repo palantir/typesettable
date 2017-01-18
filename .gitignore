@@ -4,6 +4,7 @@ node_modules
 build
 coverage
 preview/bundle.js
+svg-typewriter.js
 
 # IDEs
 .idea/
