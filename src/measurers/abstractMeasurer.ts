@@ -4,8 +4,6 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
-
 import * as Utils from "../utils";
 
 /**
@@ -24,7 +22,7 @@ export class AbstractMeasurer {
 
   private textMeasurer: ITextMeasurer;
 
-  constructor(area: d3.Selection<void>, className?: string) {
+  constructor(area: Utils.AnySelection, className?: string) {
     this.textMeasurer = this.getTextMeasurer(area, className);
   }
 
@@ -32,11 +30,11 @@ export class AbstractMeasurer {
     return this.textMeasurer(text);
   }
 
-  private checkSelectionIsText(d: d3.Selection<any>) {
-    return (d[0][0] as Element).tagName === "text" || !d.select("text").empty();
+  private checkSelectionIsText(d: any) {
+    return (d.node() as Element).tagName === "text" || !d.select("text").empty();
   }
 
-  private getTextMeasurer(area: d3.Selection<void>, className: string) {
+  private getTextMeasurer(area: any, className: string) {
     if (!this.checkSelectionIsText(area)) {
       const textElement = area.append("text");
       if (className) {
@@ -51,8 +49,8 @@ export class AbstractMeasurer {
       };
     } else {
       const parentNode = (area.node() as Element).parentNode;
-      let textSelection: d3.Selection<void>;
-      if ((area[0][0] as Element).tagName === "text") {
+      let textSelection: Utils.AnySelection;
+      if ((area.node() as Element).tagName === "text") {
         textSelection = area;
       } else {
         textSelection = area.select("text");
@@ -67,7 +65,7 @@ export class AbstractMeasurer {
     }
   }
 
-  private measureBBox(d: d3.Selection<void>, text: string) {
+  private measureBBox(d: Utils.AnySelection, text: string) {
     d.text(text);
     const bb = Utils.DOM.getBBox(d);
     return { width: bb.width, height: bb.height };

@@ -5,6 +5,7 @@ build
 coverage
 preview/bundle.js
 svg-typewriter.js
+npm-debug.log
 
 # IDEs
 .idea/

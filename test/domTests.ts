@@ -18,7 +18,8 @@ describe("Utils.DOM Test Suite", () => {
       x: 0,
       y: 0,
     };
-    const rect = svg.append("rect").attr(expectedBox);
+    const rect = svg.append("rect");
+    DOM.applyAttrs(rect, expectedBox);
     const measuredBox = DOM.getBBox(rect);
     assert.deepEqual(measuredBox, expectedBox, "getBBox measures correctly");
     svg.remove();
@@ -33,11 +34,13 @@ describe("Utils.DOM Test Suite", () => {
     };
 
     const removedSVG = generateSVG().remove();
-    let rect = removedSVG.append("rect").attr(expectedBox);
+    let rect = removedSVG.append("rect");
+    DOM.applyAttrs(rect, expectedBox);
     DOM.getBBox(rect); // could throw NS_ERROR on FF
 
     const noneSVG = generateSVG().style("display", "none");
-    rect = noneSVG.append("rect").attr(expectedBox);
+    rect = noneSVG.append("rect");
+    DOM.applyAttrs(rect, expectedBox);
     DOM.getBBox(rect); // could throw NS_ERROR on FF
 
     noneSVG.remove();

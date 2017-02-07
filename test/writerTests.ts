@@ -15,13 +15,13 @@ import {
   Writer,
 } from "../src";
 
-import { assertBBoxInclusion, generateSVG } from "./utils";
+import { AnySelection, assertBBoxInclusion, generateSVG } from "./utils";
 
 describe("Writer Test Suite", () => {
   let wrapper: Wrapper;
   let measurer: AbstractMeasurer;
   let writer: Writer;
-  let svg: d3.Selection<any>;
+  let svg: AnySelection;
   let writeOptions: IWriteOptions;
   let isHorizontal: boolean;
 

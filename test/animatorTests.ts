@@ -5,7 +5,9 @@
  */
 
 import { assert } from "chai";
-import { generateSVG } from "./utils";
+import * as d3 from "d3";
+
+import { AnySelection, generateSVG } from "./utils";
 
 import {
   BaseAnimator,
@@ -20,7 +22,7 @@ import {
 describe("Animator Test Suite", () => {
 
   let writer: Writer;
-  let svg: d3.Selection<any>;
+  let svg: AnySelection;
   let writeOptions: IWriteOptions;
 
   const runAnimation = () => {
@@ -52,7 +54,7 @@ describe("Animator Test Suite", () => {
     it("defaults", () => {
       assert.equal(writeOptions.animator.duration(), 300, "duration is set to default");
       assert.equal(writeOptions.animator.delay(), 0, "delay is set to default");
-      assert.equal(writeOptions.animator.easing(), "exp-out", "easing is set to default");
+      assert.equal(writeOptions.animator.easing().toString(), d3.easeExpOut.toString(), "easing is set to default");
     });
 
     it("simple", () => {

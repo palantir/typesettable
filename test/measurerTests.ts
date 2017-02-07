@@ -16,14 +16,14 @@ import {
 
 import { assert } from "chai";
 
-import { generateSVG } from "./utils";
+import { AnySelection, generateSVG } from "./utils";
 
 describe("Measurer Test Suite", () => {
-  let svg: d3.Selection<any>;
+  let svg: AnySelection;
   let measurer: AbstractMeasurer;
   describe("Text element", () => {
     let defaultText: string;
-    let textSelection: d3.Selection<void>;
+    let textSelection: AnySelection;
     beforeEach(() => {
       svg = generateSVG(200, 200);
       defaultText = "a\na";
@@ -118,7 +118,7 @@ describe("Measurer Test Suite", () => {
       const className = "testClass";
       const measurerWithClass = new Measurer(svg, className);
       const originalMeasureBBox = (measurerWithClass as any).measureBBox;
-      (measurerWithClass as any).measureBBox = (d: d3.Selection<void>, text: string) => {
+      (measurerWithClass as any).measureBBox = (d: AnySelection, text: string) => {
           assert.isTrue(d.classed(className), "class has been applied to text element");
           return originalMeasureBBox(d, text);
       };

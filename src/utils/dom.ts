@@ -6,23 +6,17 @@
 
 import * as d3 from "d3";
 
+export type AnySelection = d3.Selection<any, any, any, any>;
+
 export class DOM {
-  public static transform(s: d3.Selection<any>): d3.Transform;
-  public static transform(s: d3.Selection<any>, x: number, y: number): d3.Selection<any>;
-  public static transform(s: d3.Selection<any>, x?: number, y?: number): any {
-    const xform = d3.transform(s.attr("transform"));
-    if (x == null) {
-      return xform.translate;
-    } else {
+  public static transform(s: AnySelection, x: number, y: number): AnySelection {
       y = (y == null) ? 0 : y;
-      xform.translate[0] = x;
-      xform.translate[1] = y;
-      s.attr("transform", xform.toString());
+      const translate = `translate(${x}, ${y})`;
+      s.attr("transform", translate);
       return s;
-    }
   }
 
-  public static getBBox(element: d3.Selection<any>): SVGRect {
+  public static getBBox(element: AnySelection): SVGRect {
     let bbox: SVGRect;
     try {
       bbox = (element.node() as any).getBBox();
@@ -35,5 +29,9 @@ export class DOM {
       };
     }
     return bbox;
+  }
+
+  public static applyAttrs(element: any, attrs: any) {
+    Object.keys(attrs).forEach((key) => element.attr(key, attrs[key]));
   }
 }

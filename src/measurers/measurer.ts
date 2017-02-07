@@ -6,13 +6,15 @@
 
 import * as d3 from "d3";
 
+import { AnySelection } from "../utils";
+
 import { AbstractMeasurer, IDimensions } from "./abstractMeasurer";
 
 export class Measurer extends AbstractMeasurer {
   private guardWidth: number;
   private useGuards: boolean;
 
-  constructor(area: d3.Selection<void>, className: string = null, useGuards: boolean = false) {
+  constructor(area: AnySelection, className: string = null, useGuards: boolean = false) {
     super(area, className);
     this.useGuards = useGuards;
   }

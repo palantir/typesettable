@@ -13,12 +13,12 @@ import {
   Wrapper,
 } from "../src";
 
-import { generateSVG } from "./utils";
+import { AnySelection, generateSVG } from "./utils";
 
 describe("Wrapper Test Suite", () => {
   let wrapper: Wrapper;
   let measurer: AbstractMeasurer;
-  let svg: d3.Selection<any>;
+  let svg: AnySelection;
   beforeEach(() => {
     svg = generateSVG(200, 200);
     svg.append("text");

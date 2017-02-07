@@ -4,12 +4,12 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
+import { AnySelection } from "../utils";
 
 import { BaseAnimator } from "./baseAnimator";
 
 export class OpacityAnimator extends BaseAnimator {
-  public animate(selection: d3.Selection<any>): any {
+  public animate(selection: AnySelection): any {
     const area = selection.select(".text-area");
     area.attr("opacity", 0);
     const attr = {

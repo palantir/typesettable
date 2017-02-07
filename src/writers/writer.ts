@@ -4,15 +4,13 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
-
 import * as Animators from "../animators";
 import * as Measurers from "../measurers";
 import * as Utils from "../utils";
 import * as Wrappers from "../wrappers";
 
 export interface IWriteOptions {
-  selection: d3.Selection<any>;
+  selection: Utils.AnySelection;
   xAlign: string;
   yAlign: string;
   textRotation: number;
@@ -23,19 +21,19 @@ export class Writer {
   private static nextID = 0;
   private static SupportedRotation = [-90, 0, 180, 90];
 
-  private static AnchorConverter: {[s: string]: string} = {
+  private static AnchorConverter: { [s: string]: string } = {
     center: "middle",
     left: "start",
     right: "end",
   };
 
-  private static XOffsetFactor: {[s: string]: number} = {
+  private static XOffsetFactor: { [s: string]: number } = {
     center: 0.5,
     left: 0,
     right: 1,
   };
 
-  private static YOffsetFactor: {[s: string]: number} = {
+  private static YOffsetFactor: { [s: string]: number } = {
     bottom: 1,
     center: 0.5,
     top: 0,
@@ -47,8 +45,9 @@ export class Writer {
   private _wrapper: Wrappers.Wrapper;
   private _addTitleElement: boolean;
 
-  constructor(measurer: Measurers.AbstractMeasurer,
-              wrapper?: Wrappers.Wrapper) {
+  constructor(
+    measurer: Measurers.AbstractMeasurer,
+    wrapper?: Wrappers.Wrapper) {
     this.measurer(measurer);
     if (wrapper) {
       this.wrapper(wrapper);
@@ -90,12 +89,12 @@ export class Writer {
 
     const textArea = textContainer.append("g").classed("text-area", true);
     const wrappedText = this._wrapper ?
-                        this._wrapper.wrap(
-                          normalizedText,
-                          this._measurer,
-                          primaryDimension,
-                          secondaryDimension,
-                        ).wrappedText : normalizedText;
+      this._wrapper.wrap(
+        normalizedText,
+        this._measurer,
+        primaryDimension,
+        secondaryDimension,
+      ).wrappedText : normalizedText;
 
     this.writeText(
       wrappedText,
@@ -106,38 +105,29 @@ export class Writer {
       options.yAlign,
     );
 
-    const xForm = d3.transform("");
-    const xForm2 = d3.transform("");
-    xForm.rotate = options.textRotation;
-
+    let translate = [0, 0];
     switch (options.textRotation) {
       case 90:
-        xForm.translate = [width, 0];
-        xForm2.rotate = -90;
-        xForm2.translate = [0, 200];
+        translate = [width, 0];
         break;
       case -90:
-        xForm.translate = [0, height];
-        xForm2.rotate = 90;
-        xForm2.translate = [width, 0];
+        translate = [0, height];
         break;
       case 180:
-        xForm.translate = [width, height];
-        xForm2.translate = [width, height];
-        xForm2.rotate = 180;
+        translate = [width, height];
         break;
       default:
         break;
     }
 
-    textArea.attr("transform", xForm.toString());
-    this.addClipPath(textContainer, xForm2);
+    textArea.attr("transform", `translate(${translate[0]}, ${translate[1]}) rotate(${options.textRotation})`);
+    this.addClipPath(textContainer);
     if (options.animator) {
       options.animator.animate(textContainer);
     }
   }
 
-  private writeLine(line: string, g: d3.Selection<any>, width: number, xAlign: string, yOffset: number) {
+  private writeLine(line: string, g: Utils.AnySelection, width: number, xAlign: string, yOffset: number) {
     const textEl = g.append("text");
     textEl.text(line);
     const xOffset = width * Writer.XOffsetFactor[xAlign];
@@ -147,12 +137,12 @@ export class Writer {
   }
 
   private writeText(
-      text: string,
-      writingArea: d3.Selection<any>,
-      width: number,
-      height: number,
-      xAlign: string,
-      yAlign: string) {
+    text: string,
+    writingArea: Utils.AnySelection,
+    width: number,
+    height: number,
+    xAlign: string,
+    yAlign: string) {
 
     const lines = text.split("\n");
     const lineHeight = this._measurer.measure().height;
@@ -162,7 +152,7 @@ export class Writer {
     });
   }
 
-  private addClipPath(selection: d3.Selection<any>, _transform: any) {
+  private addClipPath(selection: Utils.AnySelection) {
     const elementID = this._elementID++;
     let prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
     prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
@@ -171,7 +161,7 @@ export class Writer {
     const clipPathParent = selection.append("clipPath").attr("id", clipPathID);
     const bboxAttrs = Utils.DOM.getBBox(selection.select(".text-area"));
     const box = clipPathParent.append("rect");
-    box.classed("clip-rect", true).attr({
+    Utils.DOM.applyAttrs(box.classed("clip-rect", true), {
       height: bboxAttrs.height,
       width: bboxAttrs.width,
       x: bboxAttrs.x,
