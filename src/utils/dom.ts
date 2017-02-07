@@ -9,11 +9,17 @@ import * as d3 from "d3";
 export type AnySelection = d3.Selection<any, any, any, any>;
 
 export class DOM {
-  public static transform(s: AnySelection, x: number, y: number): AnySelection {
+  public static transform(s: AnySelection): string;
+  public static transform(s: AnySelection, x: number, y: number): AnySelection;
+  public static transform(s: AnySelection, x?: number, y?: number): any {
+    if (x == null) {
+      return s.attr("transform");
+    } else {
       y = (y == null) ? 0 : y;
       const translate = `translate(${x}, ${y})`;
       s.attr("transform", translate);
       return s;
+    }
   }
 
   public static getBBox(element: AnySelection): SVGRect {
