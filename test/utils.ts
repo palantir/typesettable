@@ -28,9 +28,9 @@ export function getSVGParent(): d3Selection<any> {
 
 const PIXEL_CLOSETO_REQUIREMENT = 2;
 
-export function assertBBoxInclusion(outerEl: d3Selection<any>, innerEl: d3Selection<any>) {
-  const outerBox = (outerEl.node() as Element).getBoundingClientRect();
-  const innerBox = (innerEl.node() as Element).getBoundingClientRect();
+export function assertBBoxInclusion(outerEl: d3Selection<Element>, innerEl: d3Selection<any>) {
+  const outerBox = outerEl.node().getBoundingClientRect();
+  const innerBox = innerEl.node().getBoundingClientRect();
   assert.operator(Math.floor(outerBox.left), "<=", Math.ceil(innerBox.left) + PIXEL_CLOSETO_REQUIREMENT,
           "bounding rect left included");
   assert.operator(Math.floor(outerBox.top), "<=", Math.ceil(innerBox.top) + PIXEL_CLOSETO_REQUIREMENT,

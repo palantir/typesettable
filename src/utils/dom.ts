@@ -6,7 +6,7 @@
 
 import * as d3 from "d3";
 
-export type d3Selection<D> = d3.Selection<any, D, any, any>;
+export type d3Selection<D extends d3.BaseType> = d3.Selection<D, any, any, any>;
 
 export class DOM {
   public static transform(s: d3Selection<any>): string;
@@ -25,6 +25,7 @@ export class DOM {
   public static getBBox(element: d3Selection<any>): SVGRect {
     let bbox: SVGRect;
     try {
+      // getBBox will only be avaiable on SVGLocatable. Otherwise return default.
       bbox = element.node().getBBox();
     } catch (err) {
       bbox = {
