@@ -4,7 +4,7 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as Utils from "../utils";
+import { d3Selection, DOM } from "../utils";
 
 /**
  * Dimension of area's BBox.
@@ -22,7 +22,7 @@ export class AbstractMeasurer {
 
   private textMeasurer: ITextMeasurer;
 
-  constructor(area: Utils.AnySelection, className?: string) {
+  constructor(area: d3Selection<any>, className?: string) {
     this.textMeasurer = this.getTextMeasurer(area, className);
   }
 
@@ -49,7 +49,7 @@ export class AbstractMeasurer {
       };
     } else {
       const parentNode = (area.node() as Element).parentNode;
-      let textSelection: Utils.AnySelection;
+      let textSelection: d3Selection<any>;
       if ((area.node() as Element).tagName === "text") {
         textSelection = area;
       } else {
@@ -65,9 +65,9 @@ export class AbstractMeasurer {
     }
   }
 
-  private measureBBox(d: Utils.AnySelection, text: string) {
+  private measureBBox(d: d3Selection<any>, text: string) {
     d.text(text);
-    const bb = Utils.DOM.getBBox(d);
+    const bb = DOM.getBBox(d);
     return { width: bb.width, height: bb.height };
   }
 }

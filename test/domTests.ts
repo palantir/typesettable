@@ -45,4 +45,14 @@ describe("Utils.DOM Test Suite", () => {
 
     noneSVG.remove();
   });
+
+  it("transform works properly", () => {
+    const svg = generateSVG();
+    const translate = "translate(0, 0)";
+    const rect = svg.append("rect");
+    assert.equal(DOM.transform(rect), null);
+    DOM.transform(rect, 0, 0);
+    assert.equal(DOM.transform(rect), translate);
+    svg.remove();
+  });
 });

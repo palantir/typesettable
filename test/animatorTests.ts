@@ -7,7 +7,9 @@
 import { assert } from "chai";
 import * as d3 from "d3";
 
-import { AnySelection, generateSVG } from "./utils";
+import { d3Selection } from "../src";
+
+import { generateSVG } from "./utils";
 
 import {
   BaseAnimator,
@@ -22,7 +24,7 @@ import {
 describe("Animator Test Suite", () => {
 
   let writer: Writer;
-  let svg: AnySelection;
+  let svg: d3Selection<any>;
   let writeOptions: IWriteOptions;
 
   const runAnimation = () => {

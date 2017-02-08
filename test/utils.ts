@@ -8,14 +8,14 @@ import * as d3 from "d3";
 
 import { assert } from "chai";
 
-export type AnySelection = d3.Selection<any, any, any, any>;
+import { d3Selection } from "../src";
 
-export function generateSVG(width = 400, height = 400): AnySelection {
+export function generateSVG(width = 400, height = 400): d3Selection<any> {
   const parent = getSVGParent();
   return parent.append("svg").attr("width", width).attr("height", height).attr("class", "svg");
 }
 
-export function getSVGParent(): AnySelection {
+export function getSVGParent(): d3Selection<any> {
   const mocha = d3.select("#mocha-report");
   if (mocha.node() != null) {
     const suites: any = mocha.selectAll(".suite");
@@ -28,7 +28,7 @@ export function getSVGParent(): AnySelection {
 
 const PIXEL_CLOSETO_REQUIREMENT = 2;
 
-export function assertBBoxInclusion(outerEl: AnySelection, innerEl: AnySelection) {
+export function assertBBoxInclusion(outerEl: d3Selection<any>, innerEl: d3Selection<any>) {
   const outerBox = (outerEl.node() as Element).getBoundingClientRect();
   const innerBox = (innerEl.node() as Element).getBoundingClientRect();
   assert.operator(Math.floor(outerBox.left), "<=", Math.ceil(innerBox.left) + PIXEL_CLOSETO_REQUIREMENT,

@@ -8,17 +8,18 @@ import { assert } from "chai";
 
 import {
   AbstractMeasurer,
+  d3Selection,
   Measurer,
   SingleLineWrapper,
   Wrapper,
 } from "../src";
 
-import { AnySelection, generateSVG } from "./utils";
+import { generateSVG } from "./utils";
 
 describe("Wrapper Test Suite", () => {
   let wrapper: Wrapper;
   let measurer: AbstractMeasurer;
-  let svg: AnySelection;
+  let svg: d3Selection<any>;
   beforeEach(() => {
     svg = generateSVG(200, 200);
     svg.append("text");

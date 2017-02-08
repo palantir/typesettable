@@ -10,20 +10,21 @@ import {
   AbstractMeasurer,
   CacheCharacterMeasurer,
   CacheMeasurer,
+  d3Selection,
   IDimensions,
   Measurer,
 } from "../src";
 
 import { assert } from "chai";
 
-import { AnySelection, generateSVG } from "./utils";
+import {generateSVG } from "./utils";
 
 describe("Measurer Test Suite", () => {
-  let svg: AnySelection;
+  let svg: d3Selection<any>;
   let measurer: AbstractMeasurer;
   describe("Text element", () => {
     let defaultText: string;
-    let textSelection: AnySelection;
+    let textSelection: d3Selection<any>;
     beforeEach(() => {
       svg = generateSVG(200, 200);
       defaultText = "a\na";
@@ -118,7 +119,7 @@ describe("Measurer Test Suite", () => {
       const className = "testClass";
       const measurerWithClass = new Measurer(svg, className);
       const originalMeasureBBox = (measurerWithClass as any).measureBBox;
-      (measurerWithClass as any).measureBBox = (d: AnySelection, text: string) => {
+      (measurerWithClass as any).measureBBox = (d: d3Selection<any>, text: string) => {
           assert.isTrue(d.classed(className), "class has been applied to text element");
           return originalMeasureBBox(d, text);
       };

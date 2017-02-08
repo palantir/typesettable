@@ -8,6 +8,7 @@ import { assert } from "chai";
 
 import {
   AbstractMeasurer,
+  d3Selection,
   DOM,
   IWriteOptions,
   Measurer,
@@ -15,13 +16,13 @@ import {
   Writer,
 } from "../src";
 
-import { AnySelection, assertBBoxInclusion, generateSVG } from "./utils";
+import { assertBBoxInclusion, generateSVG } from "./utils";
 
 describe("Writer Test Suite", () => {
   let wrapper: Wrapper;
   let measurer: AbstractMeasurer;
   let writer: Writer;
-  let svg: AnySelection;
+  let svg: d3Selection<any>;
   let writeOptions: IWriteOptions;
   let isHorizontal: boolean;
 

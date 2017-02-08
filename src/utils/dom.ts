@@ -6,12 +6,12 @@
 
 import * as d3 from "d3";
 
-export type AnySelection = d3.Selection<any, any, any, any>;
+export type d3Selection<D> = d3.Selection<any, D, any, any>;
 
 export class DOM {
-  public static transform(s: AnySelection): string;
-  public static transform(s: AnySelection, x: number, y: number): AnySelection;
-  public static transform(s: AnySelection, x?: number, y?: number): any {
+  public static transform(s: d3Selection<any>): string;
+  public static transform(s: d3Selection<any>, x: number, y: number): d3Selection<any>;
+  public static transform(s: d3Selection<any>, x?: number, y?: number): any {
     if (x == null) {
       return s.attr("transform");
     } else {
@@ -22,10 +22,10 @@ export class DOM {
     }
   }
 
-  public static getBBox(element: AnySelection): SVGRect {
+  public static getBBox(element: d3Selection<any>): SVGRect {
     let bbox: SVGRect;
     try {
-      bbox = (element.node() as any).getBBox();
+      bbox = element.node().getBBox();
     } catch (err) {
       bbox = {
         height: 0,
@@ -37,7 +37,7 @@ export class DOM {
     return bbox;
   }
 
-  public static applyAttrs(element: any, attrs: any) {
+  public static applyAttrs(element: any, attrs: { [key: string]: any }) {
     Object.keys(attrs).forEach((key) => element.attr(key, attrs[key]));
   }
 }

@@ -6,11 +6,11 @@
 
 import * as Animators from "../animators";
 import * as Measurers from "../measurers";
-import * as Utils from "../utils";
+import { d3Selection, DOM, StringMethods } from "../utils";
 import * as Wrappers from "../wrappers";
 
 export interface IWriteOptions {
-  selection: Utils.AnySelection;
+  selection: d3Selection<any>;
   xAlign: string;
   yAlign: string;
   textRotation: number;
@@ -85,7 +85,7 @@ export class Writer {
       textContainer.append("title").text(text);
     }
 
-    const normalizedText = Utils.StringMethods.combineWhitespace(text);
+    const normalizedText = StringMethods.combineWhitespace(text);
 
     const textArea = textContainer.append("g").classed("text-area", true);
     const wrappedText = this._wrapper ?
@@ -127,18 +127,18 @@ export class Writer {
     }
   }
 
-  private writeLine(line: string, g: Utils.AnySelection, width: number, xAlign: string, yOffset: number) {
+  private writeLine(line: string, g: d3Selection<any>, width: number, xAlign: string, yOffset: number) {
     const textEl = g.append("text");
     textEl.text(line);
     const xOffset = width * Writer.XOffsetFactor[xAlign];
     const anchor: string = Writer.AnchorConverter[xAlign];
     textEl.attr("text-anchor", anchor).classed("text-line", true);
-    Utils.DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
+    DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
   }
 
   private writeText(
     text: string,
-    writingArea: Utils.AnySelection,
+    writingArea: d3Selection<any>,
     width: number,
     height: number,
     xAlign: string,
@@ -152,16 +152,16 @@ export class Writer {
     });
   }
 
-  private addClipPath(selection: Utils.AnySelection) {
+  private addClipPath(selection: d3Selection<any>) {
     const elementID = this._elementID++;
     let prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
     prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
     const clipPathID = "clipPath" + this._writerID + "_" + elementID;
     selection.select(".text-area").attr("clip-path", "url(\"" + prefix + "#" + clipPathID + "\")");
     const clipPathParent = selection.append("clipPath").attr("id", clipPathID);
-    const bboxAttrs = Utils.DOM.getBBox(selection.select(".text-area"));
+    const bboxAttrs = DOM.getBBox(selection.select(".text-area"));
     const box = clipPathParent.append("rect");
-    Utils.DOM.applyAttrs(box.classed("clip-rect", true), {
+    DOM.applyAttrs(box.classed("clip-rect", true), {
       height: bboxAttrs.height,
       width: bboxAttrs.width,
       x: bboxAttrs.x,

@@ -6,9 +6,9 @@
 
 import * as d3 from "d3";
 
-import { AnySelection, DOM } from "../utils";
+import { d3Selection, DOM } from "../utils";
 
-export type EasyType = (normalizedTime: number) => number;
+export type EasingFn = (normalizedTime: number) => number;
 
 export class BaseAnimator {
 
@@ -20,11 +20,11 @@ export class BaseAnimator {
   /**
    * The default easing of the animation
    */
-  public static DEFAULT_EASING: EasyType = d3.easeExpOut;
+  public static DEFAULT_EASING: EasingFn = d3.easeExpOut;
 
   private _duration: number;
   private _delay: number;
-  private _easing: EasyType;
+  private _easing: EasingFn;
   private _moveX: number;
   private _moveY: number;
 
@@ -36,18 +36,20 @@ export class BaseAnimator {
     this.moveY(0);
   }
 
-  public animate(selection: AnySelection): any {
+  public animate(selection: d3Selection<any>): any {
     DOM.transform(selection, this.moveX(), this.moveY());
     const initialTranslate = `translate(0, 0)`;
     return this._animate(selection, { transform: initialTranslate });
   }
 
-  public _animate(selection: AnySelection, attr: any): d3.Transition<any, any, any, any> {
+  public _animate(selection: d3Selection<any>, attr: any): d3.Transition<any, any, any, any> {
     const transition = selection.transition()
       .ease(this.easing())
       .duration(this.duration())
       .delay(this.delay());
+
     DOM.applyAttrs(transition, attr);
+
     return transition;
   }
 
@@ -95,9 +97,9 @@ export class BaseAnimator {
     }
   }
 
-  public easing(): EasyType;
-  public easing(easing: EasyType): BaseAnimator;
-  public easing(easing?: EasyType): any {
+  public easing(): EasingFn;
+  public easing(easing: EasingFn): BaseAnimator;
+  public easing(easing?: EasingFn): any {
     if (easing == null) {
       return this._easing;
     } else {
