@@ -26,6 +26,7 @@
     "test": "npm-run-all build lint:ts test:mocha test:coverage",
     "test:coverage": "istanbul check-coverage",
     "test:mocha": "PATH=$PATH:$(npm bin) mochify --reporter spec --plugin [ mochify-istanbul --report text --report json --dir coverage --exclude '**/test/**/*' ] ${npm_package_testsGlob}",
+    "test:local": "PATH=$PATH:$(npm bin) mochify --reporter spec ${npm_package_testsGlob}",
     "test:sauce": "mochify  --reporter spec --wd ${npm_package_testsGlob}",
     "echo": "echo"
   },
@@ -41,6 +42,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/d3": "^3.5",
+    "circle-github-bot": "^0.4.0",
     "d3": "^3.5"
   },
   "devDependencies": {
