@@ -16,6 +16,7 @@ export interface IWriteOptions {
   xAlign: string;
   yAlign: string;
   textRotation: number;
+  textShear?: number;
   animator?: Animators.BaseAnimator;
 }
 
@@ -74,12 +75,32 @@ export class Writer {
 
   public write(text: string, width: number, height: number, options: IWriteOptions) {
     if (Writer.SupportedRotation.indexOf(options.textRotation) === -1) {
-      throw new Error("unsupported rotation - " + options.textRotation);
+      throw new Error("unsupported rotation - " + options.textRotation +
+        ". Supported rotations are " + Writer.SupportedRotation.join(", "));
+    }
+    if (options.textShear != null && options.textShear < -80 || options.textShear > 80) {
+      throw new Error("unsupported shear angle - " + options.textShear + ". Must be between -80 and 80");
     }
 
     const orientHorizontally = Math.abs(Math.abs(options.textRotation) - 90) > 45;
     const primaryDimension = orientHorizontally ? width : height;
     const secondaryDimension = orientHorizontally ? height : width;
+
+    // compute shear parameters
+    const shearDegrees = (options.textShear || 0);
+    const shearRadians = shearDegrees * Math.PI / 180;
+    const lineHeight = this._measurer.measure().height;
+    const shearShift = lineHeight * Math.tan(shearRadians);
+
+    // When we apply text shear, the primary axis grows and the secondary axis
+    // shrinks, due to trigonometry. The text shear feature uses the normal
+    // wrapping logic with a subsituted bounding box of the corrected size
+    // (computed below). When rendering the wrapped lines, we rotate the text
+    // container by the text rotation angle AND the shear angle then carefully
+    // offset each one so that they are still aligned to the primary alignment
+    // option.
+    const shearCorrectedPrimaryDimension = primaryDimension / Math.cos(shearRadians) - Math.abs(shearShift);
+    const shearCorrectedSecondaryDimension = secondaryDimension * Math.cos(shearRadians);
 
     const textContainer = options.selection.append("g").classed("text-container", true);
     if (this._addTitleElement) {
@@ -93,40 +114,53 @@ export class Writer {
                         this._wrapper.wrap(
                           normalizedText,
                           this._measurer,
-                          primaryDimension,
-                          secondaryDimension,
+                          shearCorrectedPrimaryDimension,
+                          shearCorrectedSecondaryDimension,
                         ).wrappedText : normalizedText;
+
 
     this.writeText(
       wrappedText,
       textArea,
-      primaryDimension,
-      secondaryDimension,
+      shearCorrectedPrimaryDimension,
+      shearCorrectedSecondaryDimension,
+      shearShift,
       options.xAlign,
       options.yAlign,
     );
 
     const xForm = d3.transform("");
     const xForm2 = d3.transform("");
-    xForm.rotate = options.textRotation;
+
+    // apply text rotation and shear angles
+    xForm.rotate = options.textRotation + shearDegrees;
+
+    // correct the intial X offset of the text container accounting for shear
+    // angle and alignment option.
+    const shearCorrectedOffset = Writer.XOffsetFactor[options.xAlign] *
+      shearCorrectedPrimaryDimension * Math.sin(shearRadians);
+
+    // console.log(options.textRotation, shearDegrees, "->", {
+    //   shearShift, primaryDimension, shearCorrectedPrimaryDimension, shearCorrectedOffset});
 
     switch (options.textRotation) {
       case 90:
-        xForm.translate = [width, 0];
-        xForm2.rotate = -90;
+        xForm.translate = [width + shearCorrectedOffset, 0];
+        xForm2.rotate = -90 - shearDegrees;
         xForm2.translate = [0, 200];
         break;
       case -90:
-        xForm.translate = [0, height];
-        xForm2.rotate = 90;
+        xForm.translate = [-shearCorrectedOffset, height];
+        xForm2.rotate = 90 + shearDegrees;
         xForm2.translate = [width, 0];
         break;
       case 180:
-        xForm.translate = [width, height];
-        xForm2.translate = [width, height];
-        xForm2.rotate = 180;
+        xForm.translate = [width, height + shearCorrectedOffset];
+        xForm2.translate = [width, height + shearCorrectedOffset];
+        xForm2.rotate = 180 - shearDegrees;
         break;
       default:
+        xForm.translate = [0, -shearCorrectedOffset];
         break;
     }
 
@@ -137,10 +171,10 @@ export class Writer {
     }
   }
 
-  private writeLine(line: string, g: d3.Selection<any>, width: number, xAlign: string, yOffset: number) {
+  private writeLine(line: string, g: d3.Selection<any>, width: number, xAlign: string, xOffset: number, yOffset: number) {
     const textEl = g.append("text");
     textEl.text(line);
-    const xOffset = width * Writer.XOffsetFactor[xAlign];
+    xOffset += width * Writer.XOffsetFactor[xAlign];
     const anchor: string = Writer.AnchorConverter[xAlign];
     textEl.attr("text-anchor", anchor).classed("text-line", true);
     Utils.DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
@@ -151,14 +185,15 @@ export class Writer {
       writingArea: d3.Selection<any>,
       width: number,
       height: number,
+      shearShift: number,
       xAlign: string,
       yAlign: string) {
-
     const lines = text.split("\n");
     const lineHeight = this._measurer.measure().height;
     const yOffset = Writer.YOffsetFactor[yAlign] * (height - lines.length * lineHeight);
     lines.forEach((line: string, i: number) => {
-      this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
+      const xOffset = (shearShift > 0) ? (i + 1) * shearShift : (i) * shearShift;
+      this.writeLine(line, writingArea, width, xAlign, xOffset, (i + 1) * lineHeight + yOffset);
     });
   }
 

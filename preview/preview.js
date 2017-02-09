@@ -15,11 +15,17 @@ function createUpdater(selector, options) {
     const wrapper = new SVGTypewriter.Wrapper();
     const writer = new SVGTypewriter.Writer(measurer, wrapper);
 
-    return function(text) {
+    const update = function() {
         const rect = element.getBoundingClientRect();
         selection.selectAll("*").remove()
-        writer.write(text, rect.width, rect.height, writeOptions);
-    }
+        writer.write(this.text, rect.width, rect.height, this.options);
+    };
+
+    return {
+        update,
+        text: "",
+        options: writeOptions,
+    };
 }
 
 const updatables = [
@@ -28,17 +34,44 @@ const updatables = [
     createUpdater("#svg3", {textRotation: 90}),
     createUpdater("#svg4", {textRotation: -90}),
     createUpdater("#svg5", {xAlign: "right"}),
+    createUpdater("#svg6", {
+        textRotation: -90,
+        textShear: 0,
+        xAlign: "right"
+    }),
 ];
 
+// bind text area
 const textArea = document.querySelector("textarea");
-
-function update() {
+function updateText() {
     const text = textArea.value;
-    updatables.forEach(function (updatable) {
-        updatable(text);
+    updatables.forEach((u) => {
+        u.text = text;
+        u.update.apply(u);
     });
 };
+textArea.addEventListener("change", updateText);
+textArea.addEventListener("keyup", updateText);
+updateText();
 
-textArea.addEventListener("change", update);
-textArea.addEventListener("keyup", update);
-update();
+// bind shear slider
+const slider = document.querySelector("input#shear");
+function updateShear() {
+    const value = parseInt(slider.value);
+    updatables.forEach((u) => {
+        if (u.options.textShear != null) {
+            u.options.textShear = value;
+            u.update.apply(u);
+        }
+    });
+};
+slider.addEventListener("change", updateShear);
+updateShear();
+
+const textSetters = document.querySelectorAll("input[data-text]");
+textSetters.forEach((textSetter) => {
+    textSetter.addEventListener("click", () => {
+        textArea.value = textSetter.getAttribute("data-text");
+        updateText();
+    });
+});
