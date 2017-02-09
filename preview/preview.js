@@ -16,7 +16,7 @@ function createUpdater(selector, options) {
     const writer = new SVGTypewriter.Writer(measurer, wrapper);
 
     const update = function() {
-        const rect = element.getBoundingClientRect();
+        const rect = writeOptions.rect == null ? element.getBoundingClientRect() : writeOptions.rect;
         selection.selectAll("*").remove()
         writer.write(this.text, rect.width, rect.height, this.options);
     };
@@ -34,12 +34,17 @@ const updatables = [
     createUpdater("#svg3", {textRotation: 90}),
     createUpdater("#svg4", {textRotation: -90}),
     createUpdater("#svg5", {xAlign: "right"}),
-    createUpdater("#svg6", {
-        textRotation: -90,
-        textShear: 0,
-        xAlign: "right"
-    }),
 ];
+const configurable = createUpdater("#shearPreview", {
+    textRotation: -90,
+    textShear: 0,
+    xAlign: "right",
+    rect: {
+        width: 100,
+        height: 100
+    }
+});
+updatables.push(configurable);
 
 // bind text area
 const textArea = document.querySelector("textarea");
@@ -54,24 +59,39 @@ textArea.addEventListener("change", updateText);
 textArea.addEventListener("keyup", updateText);
 updateText();
 
+// bind text setters
+const textSetters = document.querySelectorAll("input[data-text]");
+Array.prototype.forEach.call(textSetters, (textSetter) => {
+    textSetter.addEventListener("click", () => {
+        textArea.value = textSetter.getAttribute("data-text");
+        updateText();
+    });
+});
+
 // bind shear slider
 const slider = document.querySelector("input#shear");
 function updateShear() {
     const value = parseInt(slider.value);
-    updatables.forEach((u) => {
-        if (u.options.textShear != null) {
-            u.options.textShear = value;
-            u.update.apply(u);
-        }
-    });
+    configurable.options.textShear = value;
+    configurable.update.apply(configurable);
 };
-slider.addEventListener("change", updateShear);
+slider.addEventListener("input", updateShear);
 updateShear();
 
-const textSetters = document.querySelectorAll("input[data-text]");
-textSetters.forEach((textSetter) => {
-    textSetter.addEventListener("click", () => {
-        textArea.value = textSetter.getAttribute("data-text");
-        updateText();
+// bind angles
+const rotationSetters = document.querySelectorAll("input[data-rotation]");
+Array.prototype.forEach.call(rotationSetters, (button) => {
+    button.addEventListener("click", () => {
+        configurable.options.textRotation = parseInt(button.getAttribute("data-rotation"));
+        configurable.update.apply(configurable);
+    });
+});
+
+// bind alignment
+const alignmentSetters = document.querySelectorAll("input[data-alignment]");
+Array.prototype.forEach.call(alignmentSetters, (button) => {
+    button.addEventListener("click", () => {
+        configurable.options.xAlign = button.getAttribute("data-alignment");
+        configurable.update.apply(configurable);
     });
 });

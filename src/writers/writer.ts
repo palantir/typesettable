@@ -128,10 +128,8 @@ export class Writer {
       options.yAlign,
     );
 
-    const xForm = d3.transform("");
-    const xForm2 = d3.transform("");
-
     // apply text rotation and shear angles
+    const xForm = d3.transform("");
     xForm.rotate = options.textRotation + shearDegrees;
 
     // correct the intial X offset of the text container accounting for shear
@@ -142,18 +140,12 @@ export class Writer {
     switch (options.textRotation) {
       case 90:
         xForm.translate = [width + shearCorrectedOffset, 0];
-        xForm2.rotate = -90 - shearDegrees;
-        xForm2.translate = [0, 200];
         break;
       case -90:
         xForm.translate = [-shearCorrectedOffset, height];
-        xForm2.rotate = 90 + shearDegrees;
-        xForm2.translate = [width, 0];
         break;
       case 180:
         xForm.translate = [width, height + shearCorrectedOffset];
-        xForm2.translate = [width, height + shearCorrectedOffset];
-        xForm2.rotate = 180 - shearDegrees;
         break;
       default:
         xForm.translate = [0, -shearCorrectedOffset];
@@ -161,7 +153,10 @@ export class Writer {
     }
 
     textArea.attr("transform", xForm.toString());
-    this.addClipPath(textContainer, xForm2);
+
+    // TODO This has never taken into account the transform at all, so it's
+    // certainly in the wrong place. Why do we need it?
+    this.addClipPath(textContainer);
     if (options.animator) {
       options.animator.animate(textContainer);
     }
@@ -195,7 +190,7 @@ export class Writer {
     });
   }
 
-  private addClipPath(selection: d3.Selection<any>, _transform: any) {
+  private addClipPath(selection: d3.Selection<any>) {
     const elementID = this._elementID++;
     let prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
     prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used

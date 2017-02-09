@@ -8,8 +8,6 @@
 </head>
 <body>
     <div>
-        <h1>SVGTypewriter</h1>
-
         <div class="panel">
             <div class="fill-half-left">
                 <h5>Input text here</h5>
@@ -21,8 +19,6 @@ Lorem ipsum dolor sit amet, convenire iracundia ex ius, his at ipsum invidunt. E
 
                 <input type="button" value="Ellipseees" data-text="................................................................................................................................................................................................................................................................................................................................................................................................................................................................" />
 
-                <h5>Shear Angle</h5>
-                <input type="range" id="shear" min="-80" max="80" value="60" />
             </div>
             <div class="fill-half-right">
                 <h5>SVG output here</h5>
@@ -31,7 +27,31 @@ Lorem ipsum dolor sit amet, convenire iracundia ex ius, his at ipsum invidunt. E
                 <svg id="svg3" style="fill: indigo"></svg>
                 <svg id="svg4" style="fill: maroon; font-size: 2em;"></svg>
                 <svg id="svg5" style="fill: rebeccapurple;"></svg>
-                <svg id="svg6" style="fill: deeppink;"></svg>
+
+                <h5>Configurable</h5>
+                <svg id="svg6" class="big">
+                    <rect fill="none" stroke="lime" x=150 y=50 width=100 height=100></rect>
+                    <g id="shearPreview" transform="translate(150, 50)" fill="deeppink"></g>
+                </svg>
+                <br/>
+
+                <label>Shear Angle</label>
+                <input type="range" id="shear" min="-80" max="80" value="60" />
+                <br/>
+
+                <label>Text Rotation</label>
+                <input type="button" data-rotation="0" value="0" />
+                <input type="button" data-rotation="90" value="90" />
+                <input type="button" data-rotation="-90" value="-90" />
+                <input type="button" data-rotation="180" value="180" />
+                <br/>
+
+                <label>Alignment</label>
+                <input type="button" data-alignment="left" value="left" />
+                <input type="button" data-alignment="center" value="center" />
+                <input type="button" data-alignment="right" value="right" />
+                <br/>
+
             </div>
     </div>
 </body>
