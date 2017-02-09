@@ -118,7 +118,6 @@ export class Writer {
                           shearCorrectedSecondaryDimension,
                         ).wrappedText : normalizedText;
 
-
     this.writeText(
       wrappedText,
       textArea,
@@ -139,9 +138,6 @@ export class Writer {
     // angle and alignment option.
     const shearCorrectedOffset = Writer.XOffsetFactor[options.xAlign] *
       shearCorrectedPrimaryDimension * Math.sin(shearRadians);
-
-    // console.log(options.textRotation, shearDegrees, "->", {
-    //   shearShift, primaryDimension, shearCorrectedPrimaryDimension, shearCorrectedOffset});
 
     switch (options.textRotation) {
       case 90:
@@ -171,7 +167,9 @@ export class Writer {
     }
   }
 
-  private writeLine(line: string, g: d3.Selection<any>, width: number, xAlign: string, xOffset: number, yOffset: number) {
+  private writeLine(
+      line: string, g: d3.Selection<any>, width: number,
+      xAlign: string, xOffset: number, yOffset: number) {
     const textEl = g.append("text");
     textEl.text(line);
     xOffset += width * Writer.XOffsetFactor[xAlign];
