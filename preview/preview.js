@@ -87,11 +87,18 @@ Array.prototype.forEach.call(rotationSetters, (button) => {
     });
 });
 
-// bind alignment
-const alignmentSetters = document.querySelectorAll("input[data-alignment]");
-Array.prototype.forEach.call(alignmentSetters, (button) => {
+// bind x alignment
+Array.prototype.forEach.call(document.querySelectorAll("input[data-x-alignment]"), (button) => {
     button.addEventListener("click", () => {
-        configurable.options.xAlign = button.getAttribute("data-alignment");
+        configurable.options.xAlign = button.getAttribute("data-x-alignment");
+        configurable.update.apply(configurable);
+    });
+});
+
+// bind y alignment
+Array.prototype.forEach.call(document.querySelectorAll("input[data-y-alignment]"), (button) => {
+    button.addEventListener("click", () => {
+        configurable.options.yAlign = button.getAttribute("data-y-alignment");
         configurable.update.apply(configurable);
     });
 });
