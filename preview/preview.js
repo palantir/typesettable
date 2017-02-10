@@ -30,10 +30,8 @@ function createUpdater(selector, options) {
 
 const updatables = [
     createUpdater("#svg1"),
-    createUpdater("#svg2"),
-    createUpdater("#svg3", {textRotation: 90}),
-    createUpdater("#svg4", {textRotation: -90}),
-    createUpdater("#svg5", {xAlign: "right"}),
+    createUpdater("#svg2", {textRotation: -90}),
+    createUpdater("#svg3", {xAlign: "right"}),
 ];
 const configurable = createUpdater("#shearPreview", {
     textRotation: -90,

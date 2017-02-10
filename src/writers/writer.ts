@@ -102,14 +102,8 @@ export class Writer {
     const shearCorrectedPrimaryDimension = primaryDimension / Math.cos(shearRadians) - Math.abs(shearShift);
     const shearCorrectedSecondaryDimension = secondaryDimension * Math.cos(shearRadians);
 
-    const textContainer = options.selection.append("g").classed("text-container", true);
-    if (this._addTitleElement) {
-      textContainer.append("title").text(text);
-    }
-
+    // normalize and wrap text
     const normalizedText = Utils.StringMethods.combineWhitespace(text);
-
-    const textArea = textContainer.append("g").classed("text-area", true);
     const wrappedText = this._wrapper ?
                         this._wrapper.wrap(
                           normalizedText,
@@ -117,42 +111,57 @@ export class Writer {
                           shearCorrectedPrimaryDimension,
                           shearCorrectedSecondaryDimension,
                         ).wrappedText : normalizedText;
+    const lines = wrappedText.split("\n");
 
-    this.writeText(
-      wrappedText,
+    // prepare svg components
+    const textContainer = options.selection.append("g").classed("text-container", true);
+    if (this._addTitleElement) {
+      textContainer.append("title").text(text);
+    }
+    const textArea = textContainer.append("g").classed("text-area", true);
+    this.writeLines(
+      lines,
       textArea,
       shearCorrectedPrimaryDimension,
-      shearCorrectedSecondaryDimension,
       shearShift,
       options.xAlign,
-      options.yAlign,
     );
 
-    // apply text rotation and shear angles
+    // correct the intial x/y offset of the text container accounting shear and alignment
+    const shearCorrectedXOffset = Writer.XOffsetFactor[options.xAlign] *
+      shearCorrectedPrimaryDimension * Math.sin(shearRadians);
+    const shearCorrectedYOffset = Writer.YOffsetFactor[options.yAlign] *
+      (shearCorrectedSecondaryDimension - (lines.length) * lineHeight);
+    const shearCorrection = shearCorrectedXOffset - shearCorrectedYOffset;
+
+    // build and apply transform
     const xForm = d3.transform("");
     xForm.rotate = options.textRotation + shearDegrees;
-
-    // correct the intial X offset of the text container accounting for shear
-    // angle and alignment option.
-    const shearCorrectedOffset = Writer.XOffsetFactor[options.xAlign] *
-      shearCorrectedPrimaryDimension * Math.sin(shearRadians);
-
     switch (options.textRotation) {
       case 90:
-        xForm.translate = [width + shearCorrectedOffset, 0];
+        xForm.translate = [width + shearCorrection, 0];
         break;
       case -90:
-        xForm.translate = [-shearCorrectedOffset, height];
+        xForm.translate = [-shearCorrection, height];
         break;
       case 180:
-        xForm.translate = [width, height + shearCorrectedOffset];
+        xForm.translate = [width, height + shearCorrection];
         break;
       default:
-        xForm.translate = [0, -shearCorrectedOffset];
+        xForm.translate = [0, -shearCorrection];
         break;
     }
-
     textArea.attr("transform", xForm.toString());
+
+    // // DEBUG
+    // textArea.append("rect").attr({
+    //   x: Math.max(0, shearShift),
+    //   y: 0,
+    //   width: shearCorrectedPrimaryDimension,
+    //   height: shearCorrectedSecondaryDimension,
+    //   fill: "none",
+    //   stroke: "blue"
+    // });
 
     // TODO This has never taken into account the transform at all, so it's
     // certainly in the wrong place. Why do we need it?
@@ -173,20 +182,16 @@ export class Writer {
     Utils.DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
   }
 
-  private writeText(
-      text: string,
+  private writeLines(
+      lines: string[],
       writingArea: d3.Selection<any>,
       width: number,
-      height: number,
       shearShift: number,
-      xAlign: string,
-      yAlign: string) {
-    const lines = text.split("\n");
+      xAlign: string) {
     const lineHeight = this._measurer.measure().height;
-    const yOffset = Writer.YOffsetFactor[yAlign] * (height - lines.length * lineHeight);
     lines.forEach((line: string, i: number) => {
       const xOffset = (shearShift > 0) ? (i + 1) * shearShift : (i) * shearShift;
-      this.writeLine(line, writingArea, width, xAlign, xOffset, (i + 1) * lineHeight + yOffset);
+      this.writeLine(line, writingArea, width, xAlign, xOffset, (i + 1) * lineHeight);
     });
   }
 
