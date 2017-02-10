@@ -542,6 +542,10 @@ cipher-base@^1.0.0, cipher-base@^1.0.1:
   dependencies:
     inherits "^2.0.1"
 
+circle-github-bot@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/circle-github-bot/-/circle-github-bot-0.4.0.tgz#d1702cea19277db4333936647828cd433fbcafd9"
+
 cli-boxes@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/cli-boxes/-/cli-boxes-1.0.0.tgz#4fa917c3e59c94a004cd61f8ee509da651687143"

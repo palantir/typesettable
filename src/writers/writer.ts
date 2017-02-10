@@ -16,6 +16,7 @@ export interface IWriteOptions {
   xAlign: string;
   yAlign: string;
   textRotation: number;
+  textShear?: number;
   animator?: Animators.BaseAnimator;
 }
 
@@ -74,95 +75,127 @@ export class Writer {
 
   public write(text: string, width: number, height: number, options: IWriteOptions) {
     if (Writer.SupportedRotation.indexOf(options.textRotation) === -1) {
-      throw new Error("unsupported rotation - " + options.textRotation);
+      throw new Error("unsupported rotation - " + options.textRotation +
+        ". Supported rotations are " + Writer.SupportedRotation.join(", "));
+    }
+    if (options.textShear != null && options.textShear < -80 || options.textShear > 80) {
+      throw new Error("unsupported shear angle - " + options.textShear + ". Must be between -80 and 80");
     }
 
     const orientHorizontally = Math.abs(Math.abs(options.textRotation) - 90) > 45;
     const primaryDimension = orientHorizontally ? width : height;
     const secondaryDimension = orientHorizontally ? height : width;
 
-    const textContainer = options.selection.append("g").classed("text-container", true);
-    if (this._addTitleElement) {
-      textContainer.append("title").text(text);
-    }
+    // compute shear parameters
+    const shearDegrees = (options.textShear || 0);
+    const shearRadians = shearDegrees * Math.PI / 180;
+    const lineHeight = this._measurer.measure().height;
+    const shearShift = lineHeight * Math.tan(shearRadians);
 
+    // When we apply text shear, the primary axis grows and the secondary axis
+    // shrinks, due to trigonometry. The text shear feature uses the normal
+    // wrapping logic with a subsituted bounding box of the corrected size
+    // (computed below). When rendering the wrapped lines, we rotate the text
+    // container by the text rotation angle AND the shear angle then carefully
+    // offset each one so that they are still aligned to the primary alignment
+    // option.
+    const shearCorrectedPrimaryDimension = primaryDimension / Math.cos(shearRadians) - Math.abs(shearShift);
+    const shearCorrectedSecondaryDimension = secondaryDimension * Math.cos(shearRadians);
+
+    // normalize and wrap text
     const normalizedText = Utils.StringMethods.combineWhitespace(text);
-
-    const textArea = textContainer.append("g").classed("text-area", true);
     const wrappedText = this._wrapper ?
                         this._wrapper.wrap(
                           normalizedText,
                           this._measurer,
-                          primaryDimension,
-                          secondaryDimension,
+                          shearCorrectedPrimaryDimension,
+                          shearCorrectedSecondaryDimension,
                         ).wrappedText : normalizedText;
+    const lines = wrappedText.split("\n");
 
-    this.writeText(
-      wrappedText,
+    // prepare svg components
+    const textContainer = options.selection.append("g").classed("text-container", true);
+    if (this._addTitleElement) {
+      textContainer.append("title").text(text);
+    }
+    const textArea = textContainer.append("g").classed("text-area", true);
+    this.writeLines(
+      lines,
       textArea,
-      primaryDimension,
-      secondaryDimension,
+      shearCorrectedPrimaryDimension,
+      shearShift,
       options.xAlign,
-      options.yAlign,
     );
 
-    const xForm = d3.transform("");
-    const xForm2 = d3.transform("");
-    xForm.rotate = options.textRotation;
+    // correct the intial x/y offset of the text container accounting shear and alignment
+    const shearCorrectedXOffset = Writer.XOffsetFactor[options.xAlign] *
+      shearCorrectedPrimaryDimension * Math.sin(shearRadians);
+    const shearCorrectedYOffset = Writer.YOffsetFactor[options.yAlign] *
+      (shearCorrectedSecondaryDimension - (lines.length) * lineHeight);
+    const shearCorrection = shearCorrectedXOffset - shearCorrectedYOffset;
 
+    // build and apply transform
+    const xForm = d3.transform("");
+    xForm.rotate = options.textRotation + shearDegrees;
     switch (options.textRotation) {
       case 90:
-        xForm.translate = [width, 0];
-        xForm2.rotate = -90;
-        xForm2.translate = [0, 200];
+        xForm.translate = [width + shearCorrection, 0];
         break;
       case -90:
-        xForm.translate = [0, height];
-        xForm2.rotate = 90;
-        xForm2.translate = [width, 0];
+        xForm.translate = [-shearCorrection, height];
         break;
       case 180:
-        xForm.translate = [width, height];
-        xForm2.translate = [width, height];
-        xForm2.rotate = 180;
+        xForm.translate = [width, height + shearCorrection];
         break;
       default:
+        xForm.translate = [0, -shearCorrection];
         break;
     }
-
     textArea.attr("transform", xForm.toString());
-    this.addClipPath(textContainer, xForm2);
+
+    // // DEBUG
+    // textArea.append("rect").attr({
+    //   x: Math.max(0, shearShift),
+    //   y: 0,
+    //   width: shearCorrectedPrimaryDimension,
+    //   height: shearCorrectedSecondaryDimension,
+    //   fill: "none",
+    //   stroke: "blue"
+    // });
+
+    // TODO This has never taken into account the transform at all, so it's
+    // certainly in the wrong place. Why do we need it?
+    this.addClipPath(textContainer);
     if (options.animator) {
       options.animator.animate(textContainer);
     }
   }
 
-  private writeLine(line: string, g: d3.Selection<any>, width: number, xAlign: string, yOffset: number) {
+  private writeLine(
+      line: string, g: d3.Selection<any>, width: number,
+      xAlign: string, xOffset: number, yOffset: number) {
     const textEl = g.append("text");
     textEl.text(line);
-    const xOffset = width * Writer.XOffsetFactor[xAlign];
+    xOffset += width * Writer.XOffsetFactor[xAlign];
     const anchor: string = Writer.AnchorConverter[xAlign];
     textEl.attr("text-anchor", anchor).classed("text-line", true);
     Utils.DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
   }
 
-  private writeText(
-      text: string,
+  private writeLines(
+      lines: string[],
       writingArea: d3.Selection<any>,
       width: number,
-      height: number,
-      xAlign: string,
-      yAlign: string) {
-
-    const lines = text.split("\n");
+      shearShift: number,
+      xAlign: string) {
     const lineHeight = this._measurer.measure().height;
-    const yOffset = Writer.YOffsetFactor[yAlign] * (height - lines.length * lineHeight);
     lines.forEach((line: string, i: number) => {
-      this.writeLine(line, writingArea, width, xAlign, (i + 1) * lineHeight + yOffset);
+      const xOffset = (shearShift > 0) ? (i + 1) * shearShift : (i) * shearShift;
+      this.writeLine(line, writingArea, width, xAlign, xOffset, (i + 1) * lineHeight);
     });
   }
 
-  private addClipPath(selection: d3.Selection<any>, _transform: any) {
+  private addClipPath(selection: d3.Selection<any>) {
     const elementID = this._elementID++;
     let prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
     prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
