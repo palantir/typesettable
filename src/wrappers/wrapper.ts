@@ -133,9 +133,7 @@ export class Wrapper {
     state.wrapping.noLines += +(wrappedText !== "");
 
     if (state.wrapping.noLines === state.availableLines && this._textTrimming !== "none" && hasNextLine) {
-      const ellipsisResult = this.addEllipsis(wrappedText, state.availableWidth, measurer);
-      state.wrapping.wrappedText += ellipsisResult.wrappedToken;
-      state.wrapping.truncatedText += ellipsisResult.remainingToken;
+      // Note: no need to add more ellipses, they were added in `wrapNextToken`
       state.canFitText = false;
     } else {
       state.wrapping.wrappedText += wrappedText;
@@ -162,6 +160,7 @@ export class Wrapper {
     }
     let truncatedLine = line.substring(0).trim();
     let lineWidth = measurer.measure(truncatedLine).width;
+
     const ellipsesWidth = measurer.measure("...").width;
     const prefix = (line.length > 0 && line[0] === "\n") ? "\n" : "";
 

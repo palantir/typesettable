@@ -1,5 +1,5 @@
 body {
-    padding: 40px 20px 20px 20px;
+    padding: 20px 20px 20px 20px;
     background:#EEE;
     font-family: sans-serif;
 }
@@ -13,13 +13,18 @@ textarea {
 svg {
     display: inline-block;
     background: #FFF;
-    width: 120px;
+    width: 100px;
     height: 100px;
 }
 
 svg.big {
     width: 400px;
     height: 200px;
+}
+
+label {
+    display: inline-block;
+    width: 120px;
 }
 
 .panel {

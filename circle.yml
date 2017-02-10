@@ -13,7 +13,8 @@ deployment:
   preview:
     branch: /.*/
     commands:
-      - ./preview.sh
+      - npm run preview # build the preview bundle
+      - ./preview/demo.js # comment back on github
   npm:
     tag: /release-.*/
     owner: palantir
