@@ -6,7 +6,6 @@
 
 import * as d3 from "d3";
 
-import * as Animators from "../animators";
 import * as Measurers from "../measurers";
 import * as Utils from "../utils";
 import * as Wrappers from "../wrappers";
@@ -15,13 +14,11 @@ export interface IWriteOptions {
   selection: d3.Selection<any>;
   xAlign: string;
   yAlign: string;
-  textRotation: number;
+  textRotation?: number;
   textShear?: number;
-  animator?: Animators.BaseAnimator;
 }
 
 export class Writer {
-  private static nextID = 0;
   private static SupportedRotation = [-90, 0, 180, 90];
 
   private static AnchorConverter: {[s: string]: string} = {
@@ -42,8 +39,6 @@ export class Writer {
     top: 0,
   };
 
-  public _writerID = Writer.nextID++;
-  public _elementID = 0;
   private _measurer: Measurers.AbstractMeasurer;
   private _wrapper: Wrappers.Wrapper;
   private _addTitleElement: boolean;
@@ -74,6 +69,11 @@ export class Writer {
   }
 
   public write(text: string, width: number, height: number, options: IWriteOptions) {
+    // apply default options
+    options.textRotation = options.textRotation == null ? 0 : options.textRotation;
+    options.textShear = options.textShear == null ? 0 : options.textShear;
+
+    // validate input
     if (Writer.SupportedRotation.indexOf(options.textRotation) === -1) {
       throw new Error("unsupported rotation - " + options.textRotation +
         ". Supported rotations are " + Writer.SupportedRotation.join(", "));
@@ -87,7 +87,7 @@ export class Writer {
     const secondaryDimension = orientHorizontally ? height : width;
 
     // compute shear parameters
-    const shearDegrees = (options.textShear || 0);
+    const shearDegrees = options.textShear;
     const shearRadians = shearDegrees * Math.PI / 180;
     const lineHeight = this._measurer.measure().height;
     const shearShift = lineHeight * Math.tan(shearRadians);
@@ -131,7 +131,7 @@ export class Writer {
     const shearCorrectedXOffset = Writer.XOffsetFactor[options.xAlign] *
       shearCorrectedPrimaryDimension * Math.sin(shearRadians);
     const shearCorrectedYOffset = Writer.YOffsetFactor[options.yAlign] *
-      (shearCorrectedSecondaryDimension - (lines.length) * lineHeight);
+      (shearCorrectedSecondaryDimension - lines.length * lineHeight);
     const shearCorrection = shearCorrectedXOffset - shearCorrectedYOffset;
 
     // build and apply transform
@@ -162,24 +162,6 @@ export class Writer {
     //   fill: "none",
     //   stroke: "blue"
     // });
-
-    // TODO This has never taken into account the transform at all, so it's
-    // certainly in the wrong place. Why do we need it?
-    this.addClipPath(textContainer);
-    if (options.animator) {
-      options.animator.animate(textContainer);
-    }
-  }
-
-  private writeLine(
-      line: string, g: d3.Selection<any>, width: number,
-      xAlign: string, xOffset: number, yOffset: number) {
-    const textEl = g.append("text");
-    textEl.text(line);
-    xOffset += width * Writer.XOffsetFactor[xAlign];
-    const anchor: string = Writer.AnchorConverter[xAlign];
-    textEl.attr("text-anchor", anchor).classed("text-line", true);
-    Utils.DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
   }
 
   private writeLines(
@@ -195,20 +177,14 @@ export class Writer {
     });
   }
 
-  private addClipPath(selection: d3.Selection<any>) {
-    const elementID = this._elementID++;
-    let prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
-    prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
-    const clipPathID = "clipPath" + this._writerID + "_" + elementID;
-    selection.select(".text-area").attr("clip-path", "url(\"" + prefix + "#" + clipPathID + "\")");
-    const clipPathParent = selection.append("clipPath").attr("id", clipPathID);
-    const bboxAttrs = Utils.DOM.getBBox(selection.select(".text-area"));
-    const box = clipPathParent.append("rect");
-    box.classed("clip-rect", true).attr({
-      height: bboxAttrs.height,
-      width: bboxAttrs.width,
-      x: bboxAttrs.x,
-      y: bboxAttrs.y,
-    });
+  private writeLine(
+      line: string, g: d3.Selection<any>, width: number,
+      xAlign: string, xOffset: number, yOffset: number) {
+    const textEl = g.append("text");
+    textEl.text(line);
+    xOffset += width * Writer.XOffsetFactor[xAlign];
+    const anchor: string = Writer.AnchorConverter[xAlign];
+    textEl.attr("text-anchor", anchor).classed("text-line", true);
+    Utils.DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
   }
 }

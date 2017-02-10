@@ -66,14 +66,8 @@ describe("Writer Test Suite", () => {
 
   describe("Core", () => {
     it("unsupported text rotation", () => {
-      writeOptions.textRotation = 45;
+      (writeOptions as any).textRotation = 45;
       assert.throws(() => checkWriting("test", 200, 200), Error);
-      svg.remove();
-    });
-
-    it("unique writer id", () => {
-      const writer2 = new Writer(measurer, wrapper);
-      assert.operator(writer._writerID, "<" , writer2._writerID, "each writer has unique id");
       svg.remove();
     });
   });
