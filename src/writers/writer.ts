@@ -135,7 +135,7 @@ export class Writer {
 
     // build and apply transform
     let translate = [0, 0];
-    let rotate = options.textRotation + shearDegree;
+    const rotate = options.textRotation + shearDegrees;
     switch (options.textRotation) {
       case 90:
         translate = [width + shearCorrection, 0];
@@ -152,16 +152,6 @@ export class Writer {
     }
     textArea.attr("transform", `translate(${translate[0]}, ${translate[1]}) rotate(${rotate})`);
 
-    // // DEBUG
-    // textArea.append("rect").attr({
-    //   x: Math.max(0, shearShift),
-    //   y: 0,
-    //   width: shearCorrectedPrimaryDimension,
-    //   height: shearCorrectedSecondaryDimension,
-    //   fill: "none",
-    //   stroke: "blue"
-    // });
-
     // TODO This has never taken into account the transform at all, so it's
     // certainly in the wrong place. Why do we need it?
     this.addClipPath(textContainer);
@@ -173,7 +163,7 @@ export class Writer {
   private writeLine(
       line: string, g: d3Selection<any>, width: number,
       xAlign: string, xOffset: number, yOffset: number) {
-    
+
     const textEl = g.append("text");
     textEl.text(line);
     xOffset += width * Writer.XOffsetFactor[xAlign];
