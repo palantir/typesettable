@@ -1,6 +1,6 @@
 {
   "name": "svg-typewriter",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "SVG Text Measurement Line Wrapper",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -40,18 +40,16 @@
   ],
   "author": "Palantir",
   "license": "MIT",
-  "dependencies": {
-    "@types/d3": "^3.5",
-    "circle-github-bot": "^0.4.0",
-    "d3": "^3.5"
-  },
   "devDependencies": {
     "@types/chai": "3.4.34",
+    "@types/d3": "^4.4.1",
     "@types/mocha": "2.2.33",
     "@types/node": "6.0.52",
     "browserify": "^13.3.0",
     "browserify-shim": "^3.8.12",
+    "circle-github-bot": "^0.4.0",
     "chai": "3.5.0",
+    "circle-github-bot": "^0.4.0",
     "http-server": "^0.9.0",
     "istanbul": "^0.4.5",
     "mocha": "3.2.0",
@@ -64,5 +62,8 @@
     "tslint": "^4.3.1",
     "typedoc": "^0.5.3",
     "typescript": "2.1.4"
+  },
+  "dependencies": {
+    "d3": "^4.5.0"
   }
 }

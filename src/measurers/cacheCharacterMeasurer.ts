@@ -4,18 +4,17 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
-import * as Utils from "../utils";
+import { Cache, d3Selection } from "../utils";
 
 import { IDimensions } from "./abstractMeasurer";
 import { CharacterMeasurer } from "./characterMeasurer";
 
 export class CacheCharacterMeasurer extends CharacterMeasurer {
-  private cache: Utils.Cache<IDimensions>;
+  private cache: Cache<IDimensions>;
 
-  constructor(area: d3.Selection<void>, className?: string, useGuards?: boolean) {
+  constructor(area: d3Selection<any>, className?: string, useGuards?: boolean) {
     super(area, className, useGuards);
-    this.cache = new Utils.Cache<IDimensions>((c: string) => {
+    this.cache = new Cache<IDimensions>((c: string) => {
       return this._measureCharacterNotFromCache(c);
     });
   }
