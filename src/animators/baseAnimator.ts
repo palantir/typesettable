@@ -6,6 +6,10 @@
 
 import * as d3 from "d3";
 
+import { d3Selection, DOM } from "../utils";
+
+export type EasingFn = (normalizedTime: number) => number;
+
 export class BaseAnimator {
 
   /**
@@ -16,11 +20,11 @@ export class BaseAnimator {
   /**
    * The default easing of the animation
    */
-  public static DEFAULT_EASING = "exp-out";
+  public static DEFAULT_EASING: EasingFn = d3.easeExpOut;
 
   private _duration: number;
   private _delay: number;
-  private _easing: string;
+  private _easing: EasingFn;
   private _moveX: number;
   private _moveY: number;
 
@@ -32,20 +36,21 @@ export class BaseAnimator {
     this.moveY(0);
   }
 
-  public animate(selection: d3.Selection<any>): any {
-    const xForm = d3.transform("");
-    xForm.translate = [this.moveX(), this.moveY()];
-    selection.attr("transform", xForm.toString());
-    xForm.translate = [0, 0];
-    return this._animate(selection, { transform: xForm.toString() });
+  public animate(selection: d3Selection<any>): any {
+    DOM.transform(selection, this.moveX(), this.moveY());
+    const initialTranslate = `translate(0, 0)`;
+    return this._animate(selection, { transform: initialTranslate });
   }
 
-  public _animate(selection: d3.Selection<any>, attr: any) {
-    return selection.transition()
+  public _animate(selection: d3Selection<any>, attr: any): d3.Transition<any, any, any, any> {
+    const transition = selection.transition()
       .ease(this.easing())
       .duration(this.duration())
-      .delay(this.delay())
-      .attr(attr);
+      .delay(this.delay());
+
+    DOM.applyAttrs(transition, attr);
+
+    return transition;
   }
 
   public duration(): number;
@@ -92,9 +97,9 @@ export class BaseAnimator {
     }
   }
 
-  public easing(): string;
-  public easing(easing: string): BaseAnimator;
-  public easing(easing?: string): any {
+  public easing(): EasingFn;
+  public easing(easing: EasingFn): BaseAnimator;
+  public easing(easing?: EasingFn): any {
     if (easing == null) {
       return this._easing;
     } else {

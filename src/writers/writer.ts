@@ -4,15 +4,13 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
-
 import * as Animators from "../animators";
 import * as Measurers from "../measurers";
-import * as Utils from "../utils";
+import { d3Selection, DOM, StringMethods } from "../utils";
 import * as Wrappers from "../wrappers";
 
 export interface IWriteOptions {
-  selection: d3.Selection<any>;
+  selection: d3Selection<any>;
   xAlign: string;
   yAlign: string;
   textRotation: number;
@@ -24,19 +22,19 @@ export class Writer {
   private static nextID = 0;
   private static SupportedRotation = [-90, 0, 180, 90];
 
-  private static AnchorConverter: {[s: string]: string} = {
+  private static AnchorConverter: { [s: string]: string } = {
     center: "middle",
     left: "start",
     right: "end",
   };
 
-  private static XOffsetFactor: {[s: string]: number} = {
+  private static XOffsetFactor: { [s: string]: number } = {
     center: 0.5,
     left: 0,
     right: 1,
   };
 
-  private static YOffsetFactor: {[s: string]: number} = {
+  private static YOffsetFactor: { [s: string]: number } = {
     bottom: 1,
     center: 0.5,
     top: 0,
@@ -48,8 +46,9 @@ export class Writer {
   private _wrapper: Wrappers.Wrapper;
   private _addTitleElement: boolean;
 
-  constructor(measurer: Measurers.AbstractMeasurer,
-              wrapper?: Wrappers.Wrapper) {
+  constructor(
+    measurer: Measurers.AbstractMeasurer,
+    wrapper?: Wrappers.Wrapper) {
     this.measurer(measurer);
     if (wrapper) {
       this.wrapper(wrapper);
@@ -103,14 +102,14 @@ export class Writer {
     const shearCorrectedSecondaryDimension = secondaryDimension * Math.cos(shearRadians);
 
     // normalize and wrap text
-    const normalizedText = Utils.StringMethods.combineWhitespace(text);
+    const normalizedText = StringMethods.combineWhitespace(text);
     const wrappedText = this._wrapper ?
-                        this._wrapper.wrap(
-                          normalizedText,
-                          this._measurer,
-                          shearCorrectedPrimaryDimension,
-                          shearCorrectedSecondaryDimension,
-                        ).wrappedText : normalizedText;
+      this._wrapper.wrap(
+        normalizedText,
+        this._measurer,
+        shearCorrectedPrimaryDimension,
+        shearCorrectedSecondaryDimension,
+      ).wrappedText : normalizedText;
     const lines = wrappedText.split("\n");
 
     // prepare svg components
@@ -135,33 +134,23 @@ export class Writer {
     const shearCorrection = shearCorrectedXOffset - shearCorrectedYOffset;
 
     // build and apply transform
-    const xForm = d3.transform("");
-    xForm.rotate = options.textRotation + shearDegrees;
+    let translate = [0, 0];
+    const rotate = options.textRotation + shearDegrees;
     switch (options.textRotation) {
       case 90:
-        xForm.translate = [width + shearCorrection, 0];
+        translate = [width + shearCorrection, 0];
         break;
       case -90:
-        xForm.translate = [-shearCorrection, height];
+        translate = [-shearCorrection, height];
         break;
       case 180:
-        xForm.translate = [width, height + shearCorrection];
+        translate = [width, height + shearCorrection];
         break;
       default:
-        xForm.translate = [0, -shearCorrection];
+        translate = [0, -shearCorrection];
         break;
     }
-    textArea.attr("transform", xForm.toString());
-
-    // // DEBUG
-    // textArea.append("rect").attr({
-    //   x: Math.max(0, shearShift),
-    //   y: 0,
-    //   width: shearCorrectedPrimaryDimension,
-    //   height: shearCorrectedSecondaryDimension,
-    //   fill: "none",
-    //   stroke: "blue"
-    // });
+    textArea.attr("transform", `translate(${translate[0]}, ${translate[1]}) rotate(${rotate})`);
 
     // TODO This has never taken into account the transform at all, so it's
     // certainly in the wrong place. Why do we need it?
@@ -172,19 +161,20 @@ export class Writer {
   }
 
   private writeLine(
-      line: string, g: d3.Selection<any>, width: number,
+      line: string, g: d3Selection<any>, width: number,
       xAlign: string, xOffset: number, yOffset: number) {
+
     const textEl = g.append("text");
     textEl.text(line);
     xOffset += width * Writer.XOffsetFactor[xAlign];
     const anchor: string = Writer.AnchorConverter[xAlign];
     textEl.attr("text-anchor", anchor).classed("text-line", true);
-    Utils.DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
+    DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
   }
 
   private writeLines(
       lines: string[],
-      writingArea: d3.Selection<any>,
+      writingArea: d3Selection<any>,
       width: number,
       shearShift: number,
       xAlign: string) {
@@ -195,16 +185,16 @@ export class Writer {
     });
   }
 
-  private addClipPath(selection: d3.Selection<any>) {
+  private addClipPath(selection: d3Selection<any>) {
     const elementID = this._elementID++;
     let prefix = /MSIE [5-9]/.test(navigator.userAgent) ? "" : document.location.href;
     prefix = prefix.split("#")[0]; // To fix cases where an anchor tag was used
     const clipPathID = "clipPath" + this._writerID + "_" + elementID;
     selection.select(".text-area").attr("clip-path", "url(\"" + prefix + "#" + clipPathID + "\")");
     const clipPathParent = selection.append("clipPath").attr("id", clipPathID);
-    const bboxAttrs = Utils.DOM.getBBox(selection.select(".text-area"));
+    const bboxAttrs = DOM.getBBox(selection.select(".text-area"));
     const box = clipPathParent.append("rect");
-    box.classed("clip-rect", true).attr({
+    DOM.applyAttrs(box.classed("clip-rect", true), {
       height: bboxAttrs.height,
       width: bboxAttrs.width,
       x: bboxAttrs.x,

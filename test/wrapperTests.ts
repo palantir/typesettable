@@ -8,6 +8,7 @@ import { assert } from "chai";
 
 import {
   AbstractMeasurer,
+  d3Selection,
   Measurer,
   SingleLineWrapper,
   Wrapper,
@@ -18,7 +19,7 @@ import { generateSVG } from "./utils";
 describe("Wrapper Test Suite", () => {
   let wrapper: Wrapper;
   let measurer: AbstractMeasurer;
-  let svg: d3.Selection<any>;
+  let svg: d3Selection<any>;
   beforeEach(() => {
     svg = generateSVG(200, 200);
     svg.append("text");

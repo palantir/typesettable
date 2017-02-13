@@ -6,26 +6,27 @@
 
 import * as d3 from "d3";
 
+export type d3Selection<D extends d3.BaseType> = d3.Selection<D, any, any, any>;
+
 export class DOM {
-  public static transform(s: d3.Selection<any>): d3.Transform;
-  public static transform(s: d3.Selection<any>, x: number, y: number): d3.Selection<any>;
-  public static transform(s: d3.Selection<any>, x?: number, y?: number): any {
-    const xform = d3.transform(s.attr("transform"));
+  public static transform(s: d3Selection<any>): string;
+  public static transform(s: d3Selection<any>, x: number, y: number): d3Selection<any>;
+  public static transform(s: d3Selection<any>, x?: number, y?: number): any {
     if (x == null) {
-      return xform.translate;
+      return s.attr("transform");
     } else {
       y = (y == null) ? 0 : y;
-      xform.translate[0] = x;
-      xform.translate[1] = y;
-      s.attr("transform", xform.toString());
+      const translate = `translate(${x}, ${y})`;
+      s.attr("transform", translate);
       return s;
     }
   }
 
-  public static getBBox(element: d3.Selection<any>): SVGRect {
+  public static getBBox(element: d3Selection<any>): SVGRect {
     let bbox: SVGRect;
     try {
-      bbox = (element.node() as any).getBBox();
+      // getBBox will only be avaiable on SVGLocatable. Otherwise return default.
+      bbox = element.node().getBBox();
     } catch (err) {
       bbox = {
         height: 0,
@@ -35,5 +36,9 @@ export class DOM {
       };
     }
     return bbox;
+  }
+
+  public static applyAttrs(element: any, attrs: { [key: string]: any }) {
+    Object.keys(attrs).forEach((key) => element.attr(key, attrs[key]));
   }
 }
