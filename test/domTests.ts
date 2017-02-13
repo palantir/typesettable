@@ -48,10 +48,10 @@ describe("Utils.DOM Test Suite", () => {
 
   it("transform works properly", () => {
     const svg = generateSVG();
-    const translate = "translate(0, 0)";
+    const translate = "translate(10, 10)";
     const rect = svg.append("rect");
     assert.equal(DOM.transform(rect), null);
-    DOM.transform(rect, 0, 0);
+    DOM.transform(rect, 10, 10);
     assert.equal(DOM.transform(rect), translate);
     svg.remove();
   });
