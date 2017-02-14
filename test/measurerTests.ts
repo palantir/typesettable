@@ -104,6 +104,12 @@ describe("Measurer Test Suite", () => {
       assert.deepEqual(dimensions, dimensionsByCharacter, "text has been measured by characters.");
     });
 
+    it("accepts empty measure argument", () => {
+      const expected = measurer.measure(AbstractMeasurer.HEIGHT_TEXT);
+      const actual = (measurer as CacheMeasurer).measure();
+      assert.deepEqual(actual, expected, ".measure() gets passed HEIGHT_TEXT by default");
+    });
+
     afterEach(() => {
       svg.remove();
     });
