@@ -4,9 +4,8 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
-
 import { assert } from "chai";
+import { select } from "d3-selection";
 
 import { d3Selection } from "../src";
 
@@ -16,13 +15,13 @@ export function generateSVG(width = 400, height = 400): d3Selection<any> {
 }
 
 export function getSVGParent(): d3Selection<any> {
-  const mocha = d3.select("#mocha-report");
+  const mocha = select("#mocha-report");
   if (mocha.node() != null) {
     const suites: any = mocha.selectAll(".suite");
-    const lastSuite = d3.select(suites[0][suites[0].length - 1]);
+    const lastSuite = select(suites[0][suites[0].length - 1]);
     return lastSuite.selectAll("ul");
   } else {
-    return d3.select("body");
+    return select("body");
   }
 }
 

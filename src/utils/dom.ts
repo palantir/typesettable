@@ -4,9 +4,9 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
+import { BaseType, Selection } from "d3-selection";
 
-export type d3Selection<D extends d3.BaseType> = d3.Selection<D, any, any, any>;
+export type d3Selection<D extends BaseType> = Selection<D, any, any, any>;
 
 export class DOM {
   public static transform(s: d3Selection<any>): string;

@@ -4,7 +4,7 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
+import { max, sum } from "d3-array";
 
 import {
   AbstractMeasurer,
@@ -74,8 +74,8 @@ describe("Measurer Test Suite", () => {
       const dimensions = measurer.measure(text);
       const characterDimensions: IDimensions[] = text.split("").map((c) => measurer.measure(c));
       const dimensionsByCharacter = {
-        height: d3.max(characterDimensions.map((c) => c.height)),
-        width: d3.sum(characterDimensions.map((c) => c.width)),
+        height: max(characterDimensions.map((c) => c.height)),
+        width: sum(characterDimensions.map((c) => c.width)),
       };
 
       assert.deepEqual(dimensions, dimensionsByCharacter, "text has been measured by characters.");
@@ -97,8 +97,8 @@ describe("Measurer Test Suite", () => {
       const dimensions = measurer.measure(text);
       const characterDimensions: IDimensions[] = text.split("").map((c) => measurer.measure(c));
       const dimensionsByCharacter = {
-        height: d3.max(characterDimensions.map((c) => c.height)),
-        width: d3.sum(characterDimensions.map((c) => c.width)),
+        height: max(characterDimensions.map((c) => c.height)),
+        width: sum(characterDimensions.map((c) => c.width)),
       };
 
       assert.deepEqual(dimensions, dimensionsByCharacter, "text has been measured by characters.");

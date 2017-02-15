@@ -4,10 +4,10 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
+import { map, Map } from "d3-collection";
 
 export class Cache<T> {
-  private cache: d3.Map<T> = d3.map<T>();
+  private cache: Map<T> = map<T>();
   private compute: (k: string) => T;
 
   /**
@@ -39,7 +39,7 @@ export class Cache<T> {
    * @return {Cache<T>} The calling Cache.
    */
   public clear(): Cache<T> {
-    this.cache = d3.map<T>();
+    this.cache = map<T>();
     return this;
   }
 }
