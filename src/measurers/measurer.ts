@@ -4,7 +4,7 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
+import { max, sum } from "d3-array";
 
 import { d3Selection } from "../utils";
 
@@ -39,8 +39,8 @@ export class Measurer extends AbstractMeasurer {
 
     const linesDimensions = text.trim().split("\n").map((line) => this._measureLine(line));
     return {
-        height: d3.sum(linesDimensions, (dim) => dim.height),
-        width: d3.max(linesDimensions, (dim) => dim.width),
+        height: sum(linesDimensions, (dim) => dim.height),
+        width: max(linesDimensions, (dim) => dim.width),
       };
   }
 
