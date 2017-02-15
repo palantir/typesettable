@@ -6,7 +6,7 @@
 
 import { Cache, d3Selection } from "../utils";
 
-import { IDimensions } from "./abstractMeasurer";
+import { AbstractMeasurer, IDimensions } from "./abstractMeasurer";
 import { CacheCharacterMeasurer } from "./cacheCharacterMeasurer";
 
 export class CacheMeasurer extends CacheCharacterMeasurer {
@@ -23,7 +23,7 @@ export class CacheMeasurer extends CacheCharacterMeasurer {
     return super.measure(s);
   }
 
-  public measure(s: string) {
+  public measure(s: string = AbstractMeasurer.HEIGHT_TEXT) {
     return this.dimCache.get(s);
   }
 
