@@ -4,18 +4,14 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
-
-import { d3Selection } from "../utils";
-
-import { AbstractMeasurer, IDimensions } from "./abstractMeasurer";
+import { AbstractMeasurer, IDimensions, IRuler } from "./abstractMeasurer";
 
 export class Measurer extends AbstractMeasurer {
   private guardWidth: number;
   private useGuards: boolean;
 
-  constructor(area: d3Selection<any>, className: string = null, useGuards: boolean = false) {
-    super(area, className);
+  constructor(ruler: IRuler, useGuards: boolean = false) {
+    super(ruler);
     this.useGuards = useGuards;
   }
 
@@ -39,8 +35,8 @@ export class Measurer extends AbstractMeasurer {
 
     const linesDimensions = text.trim().split("\n").map((line) => this._measureLine(line));
     return {
-        height: d3.sum(linesDimensions, (dim) => dim.height),
-        width: d3.max(linesDimensions, (dim) => dim.width),
+        height: linesDimensions.reduce((acc, dim) => acc + dim.height, 0),
+        width: linesDimensions.reduce((acc, dim) => Math.max(acc, dim.width), 0),
       };
   }
 

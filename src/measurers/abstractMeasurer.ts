@@ -4,72 +4,39 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
-
-import { d3Selection, DOM } from "../utils";
-
 /**
- * Dimension of area's BBox.
+ * Width and height of a span of text.
  */
 export interface IDimensions {
   width: number;
   height: number;
 };
 
-type ITextMeasurer = (text: string) => IDimensions;
+
+/**
+ * A method that returns the screen-space dimensions of a string of text. The
+ * text is assumed to be a single span without line breaks.
+ */
+export type IRuler = (text: string) => IDimensions;
+export type IRulerFactory = () => IRuler;
 
 export class AbstractMeasurer {
+  /**
+   * A string representing the full ascender/descender range of your text.
+   *
+   * Note that this is really only applicable to western alphabets. If you are
+   * using a different locale language such as arabic or chinese, you may want
+   * to override this.
+   */
+  public static HEIGHT_TEXT = "bdpql";
 
-  public static HEIGHT_TEXT = "bqpdl";
+  private ruler: IRuler;
 
-  private textMeasurer: ITextMeasurer;
-
-  constructor(area: d3Selection<any>, className?: string) {
-    this.textMeasurer = this.getTextMeasurer(area, className);
+  constructor(ruler: IRuler) {
+    this.ruler = ruler;
   }
 
   public measure(text: string = AbstractMeasurer.HEIGHT_TEXT) {
-    return this.textMeasurer(text);
-  }
-
-  private checkSelectionIsText(d: d3Selection<Element>) {
-    return d.node().tagName === "text" || !d.select("text").empty();
-  }
-
-  private getTextMeasurer(area: d3Selection<Element>, className: string) {
-    if (!this.checkSelectionIsText(area)) {
-      const textElement = area.append<Element>("text");
-      if (className) {
-        textElement.classed(className, true);
-      }
-      textElement.remove();
-      return (text: string)  => {
-        area.node().appendChild(textElement.node());
-        const areaDimension = this.measureBBox(textElement, text);
-        textElement.remove();
-        return areaDimension;
-      };
-    } else {
-      const parentNode = area.node().parentNode;
-      let textSelection: d3Selection<d3.BaseType>;
-      if (area.node().tagName === "text") {
-        textSelection = area;
-      } else {
-        textSelection = area.select("text");
-      }
-      area.remove();
-      return (text: string) => {
-        parentNode.appendChild(area.node());
-        const areaDimension = this.measureBBox(textSelection, text);
-        area.remove();
-        return areaDimension;
-      };
-    }
-  }
-
-  private measureBBox(d: d3Selection<any>, text: string) {
-    d.text(text);
-    const bb = DOM.getBBox(d);
-    return { width: bb.width, height: bb.height };
+    return this.ruler(text);
   }
 }

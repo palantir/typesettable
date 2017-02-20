@@ -4,8 +4,6 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import * as d3 from "d3";
-
 import { IDimensions } from "./abstractMeasurer";
 import { Measurer } from "./measurer";
 
@@ -18,8 +16,8 @@ export class CharacterMeasurer extends Measurer {
   public _measureLine(line: string): IDimensions {
     const charactersDimensions = line.split("").map((c) => this._measureCharacter(c));
     return {
-      height: d3.max(charactersDimensions, (dim) => dim.height),
-      width: d3.sum(charactersDimensions, (dim) => dim.width),
+      height: charactersDimensions.reduce((acc, dim) => Math.max(acc, dim.height), 0),
+      width: charactersDimensions.reduce((acc, dim) => acc + dim.width, 0),
     };
   }
 }

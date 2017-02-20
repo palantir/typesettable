@@ -5,21 +5,93 @@
  */
 
 import * as Measurers from "../measurers";
-import { d3Selection, DOM, StringMethods } from "../utils";
+import { StringMethods } from "../utils";
 import * as Wrappers from "../wrappers";
+import { IPenFactoryContext } from "../context";
+
+export type IXAlign = "left" | "center" | "right";
+export type IYAlign = "top" | "center" | "bottom";
+export type IAnchor = "start" | "middle" | "end";
+
+/**
+ * A euclidean transformation, which preserves the size of text and only affects
+ * location and orientation.
+ */
+export interface ITransform {
+  /**
+   * Translation in pixels.
+   */
+  translate: [number, number];
+
+  /**
+   * Rotation in degrees.
+   */
+  rotate: number;
+}
+
+/**
+ * This method is invoked on each line within a block of wrapped text.
+ *
+ * `xOffset` and `yOffset` are assumed to be in an independent text-aligned
+ * coordinate space.
+ */
+export type IPen = (line: string, anchor: IAnchor, xOffset: number, yOffset: number) => void;
+
+/**
+ * A factory method that sets up a line pen for a new block of text. This method
+ * will receive a transform that needs to be applied to the whole text block.
+ *
+ * The returned `IPen` method will be used render each line in the block.
+ */
+export type IPenFactory = (text: string, transform: ITransform) => IPen;
 
 export interface IWriteOptions {
-  selection: d3Selection<any>;
-  xAlign: string;
-  yAlign: string;
+  /**
+   * A `IPenFactoryContext` used to create `IPen` objects for each block of
+   * wrapped text.
+   *
+   * @see IPenFactoryContext
+   */
+  context: IPenFactoryContext;
+
+  /**
+   * The x-alignment of text.
+   *
+   * @default "left"
+   */
+  xAlign?: IXAlign;
+
+  /**
+   * The y-alignment of text.
+   *
+   * @default "top"
+   */
+  yAlign?: IYAlign;
+
+  /**
+   * An optional cardinal-direction rotation for the whole text block.
+   *
+   * Supported rotations are -90, 0, 180, and 90.
+   *
+   * @default 0
+   */
   textRotation?: number;
+
+  /**
+   * An optional shear angle. Shearing allows the rotation and re-alignment of
+   * individual lines as opposed to the whole text block.
+   *
+   * Supported shears are between -80 and 80 degrees.
+   *
+   * @default 0
+   */
   textShear?: number;
 }
 
 export class Writer {
   private static SupportedRotation = [-90, 0, 180, 90];
 
-  private static AnchorConverter: { [s: string]: string } = {
+  private static AnchorConverter: { [s: string]: IAnchor } = {
     center: "middle",
     left: "start",
     right: "end",
@@ -39,7 +111,6 @@ export class Writer {
 
   private _measurer: Measurers.AbstractMeasurer;
   private _wrapper: Wrappers.Wrapper;
-  private _addTitleElement: boolean;
 
   constructor(
     measurer: Measurers.AbstractMeasurer,
@@ -48,8 +119,6 @@ export class Writer {
     if (wrapper) {
       this.wrapper(wrapper);
     }
-
-    this.addTitleElement(false);
   }
 
   public measurer(newMeasurer: Measurers.AbstractMeasurer): Writer {
@@ -62,15 +131,12 @@ export class Writer {
     return this;
   }
 
-  public addTitleElement(add: boolean): Writer {
-    this._addTitleElement = add;
-    return this;
-  }
-
   public write(text: string, width: number, height: number, options: IWriteOptions) {
     // apply default options
     options.textRotation = options.textRotation == null ? 0 : options.textRotation;
     options.textShear = options.textShear == null ? 0 : options.textShear;
+    options.xAlign = options.xAlign == null ? "left" : options.xAlign;
+    options.yAlign = options.yAlign == null ? "top" : options.yAlign;
 
     // validate input
     if (Writer.SupportedRotation.indexOf(options.textRotation) === -1) {
@@ -112,20 +178,6 @@ export class Writer {
       ).wrappedText : normalizedText;
     const lines = wrappedText.split("\n");
 
-    // prepare svg components
-    const textContainer = options.selection.append("g").classed("text-container", true);
-    if (this._addTitleElement) {
-      textContainer.append("title").text(text);
-    }
-    const textArea = textContainer.append("g").classed("text-area", true);
-    this.writeLines(
-      lines,
-      textArea,
-      shearCorrectedPrimaryDimension,
-      shearShift,
-      options.xAlign,
-    );
-
     // correct the intial x/y offset of the text container accounting shear and alignment
     const shearCorrectedXOffset = Writer.XOffsetFactor[options.xAlign] *
       shearCorrectedPrimaryDimension * Math.sin(shearRadians);
@@ -133,8 +185,8 @@ export class Writer {
       (shearCorrectedSecondaryDimension - lines.length * lineHeight);
     const shearCorrection = shearCorrectedXOffset - shearCorrectedYOffset;
 
-    // build and apply transform
-    let translate = [0, 0];
+    // compute transform
+    let translate: [number, number] = [0, 0];
     const rotate = options.textRotation + shearDegrees;
     switch (options.textRotation) {
       case 90:
@@ -150,31 +202,35 @@ export class Writer {
         translate = [0, -shearCorrection];
         break;
     }
-    textArea.attr("transform", `translate(${translate[0]}, ${translate[1]}) rotate(${rotate})`);
-  }
 
-  private writeLine(
-      line: string, g: d3Selection<any>, width: number,
-      xAlign: string, xOffset: number, yOffset: number) {
-
-    const textEl = g.append("text");
-    textEl.text(line);
-    xOffset += width * Writer.XOffsetFactor[xAlign];
-    const anchor: string = Writer.AnchorConverter[xAlign];
-    textEl.attr("text-anchor", anchor).classed("text-line", true);
-    DOM.transform(textEl, xOffset, yOffset).attr("y", "-0.25em");
+    // create a new pen and write the lines
+    const { context } = options;
+    const linePen = context.createPen(text, { translate, rotate });
+    this.writeLines(
+      lines,
+      linePen,
+      shearCorrectedPrimaryDimension,
+      lineHeight,
+      shearShift,
+      options.xAlign,
+    );
+    if (context.destroyPen != null) {
+      context.destroyPen(linePen);
+    }
   }
 
   private writeLines(
       lines: string[],
-      writingArea: d3Selection<any>,
+      linePen: IPen,
       width: number,
+      lineHeight: number,
       shearShift: number,
-      xAlign: string) {
-    const lineHeight = this._measurer.measure().height;
+      xAlign: IXAlign) {
     lines.forEach((line: string, i: number) => {
-      const xOffset = (shearShift > 0) ? (i + 1) * shearShift : (i) * shearShift;
-      this.writeLine(line, writingArea, width, xAlign, xOffset, (i + 1) * lineHeight);
+      const shearOffset = (shearShift > 0) ? (i + 1) * shearShift : (i) * shearShift;
+      const xOffset = shearOffset + width * Writer.XOffsetFactor[xAlign];
+      const anchor = Writer.AnchorConverter[xAlign];
+      linePen(line, anchor, xOffset, (i + 1) * lineHeight);
     });
   }
 }

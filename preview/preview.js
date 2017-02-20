@@ -1,23 +1,17 @@
-const d3 = require("d3");
 const SVGTypewriter = require("svg-typewriter");
 
-function createUpdater(selector, options) {
+function createSvgUpdater(selector, options) {
     const element = document.querySelector(selector);
-    const selection = d3.select(element);
-    const writeOptions = Object.assign({}, {
-        selection: selection,
-        xAlign: "left",
-        yAlign: "top",
-        textRotation: 0
-    }, options);
+    const context = new SVGTypewriter.SvgContext(element);
+    const writeOptions = Object.assign({}, { context }, options);
 
-    const measurer = new SVGTypewriter.CacheMeasurer(selection);
+    const measurer = new SVGTypewriter.CacheMeasurer(context.createRuler());
     const wrapper = new SVGTypewriter.Wrapper();
     const writer = new SVGTypewriter.Writer(measurer, wrapper);
 
     const update = function() {
         const rect = writeOptions.rect == null ? element.getBoundingClientRect() : writeOptions.rect;
-        selection.selectAll("*").remove()
+        element.innerHTML = "";
         writer.write(this.text, rect.width, rect.height, this.options);
     };
 
@@ -28,21 +22,59 @@ function createUpdater(selector, options) {
     };
 }
 
-const updatables = [
-    createUpdater("#svg1"),
-    createUpdater("#svg2", {textRotation: -90}),
-    createUpdater("#svg3", {xAlign: "right"}),
+function retinaFix(ctx) {
+    const { canvas } = ctx;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * 2;
+    canvas.height = rect.height * 2;
+    canvas.style.width = rect.width + "px";
+    canvas.style.height = rect.height + "px";
+    ctx.scale(2, 2);
+    return ctx;
+}
+
+function createCanvasUpdater(selector, options) {
+    const element = document.querySelector(selector);
+    const ctx = retinaFix(element.getContext("2d"));
+    const fontStack = "‘Segoe UI’, Candara, ‘Bitstream Vera Sans’, ‘DejaVu Sans’, ‘Bitsream Vera Sans’, ‘Trebuchet MS’, Verdana, ‘Verdana Ref’, sans-serif";
+    const context = new SVGTypewriter.CanvasContext(ctx, 18, {
+        font: "18px " + fontStack,
+        fill: "rebeccapurple",
+    });
+    const writeOptions = Object.assign({}, { context }, options);
+
+    const measurer = new SVGTypewriter.CacheMeasurer(context.createRuler());
+    const wrapper = new SVGTypewriter.Wrapper();
+    const writer = new SVGTypewriter.Writer(measurer, wrapper);
+
+    const update = function() {
+        const rect = writeOptions.rect == null ? element.getBoundingClientRect() : writeOptions.rect;
+        ctx.clearRect(0, 0, element.width, element.height);
+        writer.write(this.text, rect.width, rect.height, this.options);
+    };
+
+    return {
+        update,
+        text: "",
+        options: writeOptions,
+    };
+}
+
+const configurables = [
+    createSvgUpdater("#shearPreview", {
+        textRotation: -90,
+        textShear: 0,
+        xAlign: "right",
+        rect: {
+            width: 100,
+            height: 100
+        }
+    }),
+    createCanvasUpdater("#canvas1"),
 ];
-const configurable = createUpdater("#shearPreview", {
-    textRotation: -90,
-    textShear: 0,
-    xAlign: "right",
-    rect: {
-        width: 100,
-        height: 100
-    }
-});
-updatables.push(configurable);
+const updatables = configurables.concat([
+    createSvgUpdater("#svg1"),
+]);
 
 // bind text area
 const textArea = document.querySelector("textarea");
@@ -70,8 +102,10 @@ Array.prototype.forEach.call(textSetters, (textSetter) => {
 const slider = document.querySelector("input#shear");
 function updateShear() {
     const value = parseInt(slider.value);
-    configurable.options.textShear = value;
-    configurable.update.apply(configurable);
+    configurables.forEach((configurable) => {
+        configurable.options.textShear = value;
+        configurable.update.apply(configurable);
+    });
 };
 slider.addEventListener("input", updateShear);
 updateShear();
@@ -80,23 +114,29 @@ updateShear();
 const rotationSetters = document.querySelectorAll("input[data-rotation]");
 Array.prototype.forEach.call(rotationSetters, (button) => {
     button.addEventListener("click", () => {
-        configurable.options.textRotation = parseInt(button.getAttribute("data-rotation"));
-        configurable.update.apply(configurable);
+        configurables.forEach((configurable) => {
+            configurable.options.textRotation = parseInt(button.getAttribute("data-rotation"));
+            configurable.update.apply(configurable);
+    });
     });
 });
 
 // bind x alignment
 Array.prototype.forEach.call(document.querySelectorAll("input[data-x-alignment]"), (button) => {
     button.addEventListener("click", () => {
-        configurable.options.xAlign = button.getAttribute("data-x-alignment");
-        configurable.update.apply(configurable);
+        configurables.forEach((configurable) => {
+            configurable.options.xAlign = button.getAttribute("data-x-alignment");
+            configurable.update.apply(configurable);
+    });
     });
 });
 
 // bind y alignment
 Array.prototype.forEach.call(document.querySelectorAll("input[data-y-alignment]"), (button) => {
     button.addEventListener("click", () => {
-        configurable.options.yAlign = button.getAttribute("data-y-alignment");
-        configurable.update.apply(configurable);
+        configurables.forEach((configurable) => {
+            configurable.options.yAlign = button.getAttribute("data-y-alignment");
+            configurable.update.apply(configurable);
+    });
     });
 });

@@ -12,7 +12,9 @@ import {
   CacheMeasurer,
   d3Selection,
   IDimensions,
+  ITextMeasurer,
   Measurer,
+  SvgTextMeasurerFactory,
 } from "../src";
 
 import { assert } from "chai";
@@ -25,12 +27,14 @@ describe("Measurer Test Suite", () => {
   describe("Text element", () => {
     let defaultText: string;
     let textSelection: d3Selection<any>;
+    let textMeasurer: ITextMeasurer;
     beforeEach(() => {
       svg = generateSVG(200, 200);
       defaultText = "a\na";
       textSelection = svg.append("text");
       textSelection.text(defaultText);
-      measurer = new Measurer(textSelection, null, true);
+      textMeasurer = SvgTextMeasurerFactory.create(textSelection);
+      measurer = new Measurer(textMeasurer, true);
     });
 
     it("works on empty string", () => {
@@ -66,7 +70,7 @@ describe("Measurer Test Suite", () => {
   describe("Cache Character measurer", () => {
     beforeEach(() => {
       svg = generateSVG(200, 200);
-      measurer = new CacheCharacterMeasurer(svg);
+      measurer = new CacheCharacterMeasurer(SvgTextMeasurerFactory.create(svg));
     });
 
     it("line", () => {
