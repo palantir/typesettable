@@ -86,11 +86,15 @@ describe("Contexts", () => {
 
         before(() => {
             const canvas = document.createElement("canvas");
-            test.context = new CanvasContext(canvas.getContext("2d"), 21.1875, {
-                fill: "red",
-                font: "18px sans-serif",
-                stroke: "red",
-            });
+            test.context = new CanvasContext(
+                canvas.getContext("2d"),
+                18 * CanvasContext.LINE_HEIGHT_FACTOR,
+                {
+                    fill: "red",
+                    font: "18px sans-serif",
+                    stroke: "red",
+                },
+            );
             test.write = createWriteCallback(test);
         });
 
