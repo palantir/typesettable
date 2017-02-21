@@ -5,7 +5,6 @@
  */
 
 import { assert } from "chai";
-
 import { Cache } from "../src";
 
 describe("Cache", () => {

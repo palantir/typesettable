@@ -45,11 +45,12 @@
     "@types/d3": "^4.4.1",
     "@types/mocha": "2.2.33",
     "@types/node": "6.0.52",
+    "@types/sinon": "^1.16.35",
     "browserify": "^13.3.0",
     "browserify-shim": "^3.8.12",
-    "circle-github-bot": "^0.4.0",
     "chai": "3.5.0",
     "circle-github-bot": "^0.4.0",
+    "d3": "^4.5.0",
     "http-server": "^0.9.0",
     "istanbul": "^0.4.5",
     "mocha": "3.2.0",
@@ -59,11 +60,9 @@
     "onchange": "^3.2.1",
     "phantomjs-prebuilt": "2.1.14",
     "rimraf": "2.5.4",
+    "sinon": "^1.17.7",
     "tslint": "^4.3.1",
     "typedoc": "^0.5.3",
     "typescript": "2.1.4"
-  },
-  "dependencies": {
-    "d3": "^4.5.0"
   }
 }

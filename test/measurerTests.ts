@@ -4,22 +4,19 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
+import { assert } from "chai";
 import * as d3 from "d3";
 
 import {
   AbstractMeasurer,
   CacheCharacterMeasurer,
   CacheMeasurer,
-  d3Selection,
   IDimensions,
-  ITextMeasurer,
   Measurer,
-  SvgTextMeasurerFactory,
+  SvgContext,
 } from "../src";
 
-import { assert } from "chai";
-
-import {generateSVG } from "./utils";
+import { d3Selection, generateSVG } from "./utils";
 
 describe("Measurer Test Suite", () => {
   let svg: d3Selection<any>;
@@ -27,14 +24,13 @@ describe("Measurer Test Suite", () => {
   describe("Text element", () => {
     let defaultText: string;
     let textSelection: d3Selection<any>;
-    let textMeasurer: ITextMeasurer;
     beforeEach(() => {
       svg = generateSVG(200, 200);
       defaultText = "a\na";
       textSelection = svg.append("text");
       textSelection.text(defaultText);
-      textMeasurer = SvgTextMeasurerFactory.create(textSelection);
-      measurer = new Measurer(textMeasurer, true);
+      const context = new SvgContext(textSelection.node());
+      measurer = new Measurer(context.createRuler(), true);
     });
 
     it("works on empty string", () => {
@@ -70,7 +66,8 @@ describe("Measurer Test Suite", () => {
   describe("Cache Character measurer", () => {
     beforeEach(() => {
       svg = generateSVG(200, 200);
-      measurer = new CacheCharacterMeasurer(SvgTextMeasurerFactory.create(svg));
+      const context = new SvgContext(svg.node());
+      measurer = new CacheCharacterMeasurer(context.createRuler());
     });
 
     it("line", () => {
@@ -93,7 +90,8 @@ describe("Measurer Test Suite", () => {
   describe("Cache measurer", () => {
     beforeEach(() => {
       svg = generateSVG(200, 200);
-      measurer = new CacheMeasurer(svg);
+      const context = new SvgContext(svg.node());
+      measurer = new CacheMeasurer(context.createRuler());
     });
 
     it("line", () => {
@@ -116,12 +114,14 @@ describe("Measurer Test Suite", () => {
   describe("DOM element", () => {
     before(() => {
       svg = generateSVG(200, 200);
-      measurer = new Measurer(svg);
+      const context = new SvgContext(svg.node());
+      measurer = new Measurer(context.createRuler());
     });
 
     it("class is applied", () => {
       const className = "testClass";
-      const measurerWithClass = new Measurer(svg, className);
+      const context = new SvgContext(svg.node(), className);
+      const measurerWithClass = new Measurer(context.createRuler());
       const originalMeasureBBox = (measurerWithClass as any).measureBBox;
       (measurerWithClass as any).measureBBox = (d: d3Selection<any>, text: string) => {
           assert.isTrue(d.classed(className), "class has been applied to text element");

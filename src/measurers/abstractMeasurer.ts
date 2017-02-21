@@ -12,7 +12,6 @@ export interface IDimensions {
   height: number;
 };
 
-
 /**
  * A method that returns the screen-space dimensions of a string of text. The
  * text is assumed to be a single span without line breaks.

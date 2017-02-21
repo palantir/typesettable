@@ -4,10 +4,10 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
+import { IPenFactoryContext } from "../context";
 import * as Measurers from "../measurers";
 import { StringMethods } from "../utils";
 import * as Wrappers from "../wrappers";
-import { IPenFactoryContext } from "../context";
 
 export type IXAlign = "left" | "center" | "right";
 export type IYAlign = "top" | "center" | "bottom";

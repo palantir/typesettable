@@ -3,6 +3,7 @@
   "rules": {
     "file-header": [true, "Copyright \\d{4}-present Palantir Technologies, Inc. All rights reserved."],
     "linebreak-style": [true, "LF"],
+    "max-classes-per-file": false,
     "no-invalid-this": [true, "check-function-in-method"],
     "variable-name": [
         "ban-keywords",

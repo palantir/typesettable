@@ -4,9 +4,9 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
+import { Cache } from "../utils";
 import { IDimensions, IRuler } from "./abstractMeasurer";
 import { CharacterMeasurer } from "./characterMeasurer";
-import { Cache } from "../utils";
 
 export class CacheCharacterMeasurer extends CharacterMeasurer {
   private cache: Cache<IDimensions>;

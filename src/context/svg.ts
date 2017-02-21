@@ -1,7 +1,12 @@
+/**
+ * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
+ * Licensed under the MIT License (the "License"); you may obtain a copy of the
+ * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
+ */
 
-import { ITypesetterContext } from "./index";
 import { IDimensions } from "../measurers";
 import { IAnchor, ITransform } from "../writers";
+import { ITypesetterContext } from "./index";
 
 export class SvgUtils {
   public static SVG_NS = "http://www.w3.org/2000/svg";
@@ -50,6 +55,10 @@ export class SvgContext implements ITypesetterContext {
       private addTitleElement = false) {
   }
 
+  public setAddTitleElement(addTitleElement: boolean) {
+    this.addTitleElement = addTitleElement;
+  }
+
   public createRuler = () => {
     const { parent, element } = this.getTextElement(this.element);
     return (text: string) => {
@@ -59,27 +68,6 @@ export class SvgContext implements ITypesetterContext {
       element.remove();
       return dimensions;
     };
-  }
-
-  private getTextElement(element: Element): ITemporaryTextElementHarness {
-    // if element is already a text element, return it
-    if (element.tagName === "text") {
-      const parent = element.parentNode;
-      element.remove(); // TODO Not sure if necessary or even a good idea
-      return { parent, element: element as SVGTextElement };
-    }
-
-    // if element has a text element descendent, select it and return it
-    const selected = element.querySelector("text");
-    if (selected != null) {
-      const parent = selected.parentNode;
-      selected.remove(); // TODO Not sure if necessary or even a good idea
-      return { parent, element: selected };
-    }
-
-    // otherwise create a new text element
-    const created = SvgUtils.create("text", this.className) as SVGTextElement;
-    return { parent: element, element: created };
   }
 
   public createPen = (text: string, transform: ITransform) => {
@@ -105,7 +93,7 @@ export class SvgContext implements ITypesetterContext {
         line: string,
         anchor: IAnchor,
         xOffset: number,
-        yOffset: number
+        yOffset: number,
       ) => {
         const element = SvgUtils.append(textBlockGroup, "text", "text-line");
         element.textContent = line;
@@ -113,5 +101,26 @@ export class SvgContext implements ITypesetterContext {
         element.setAttribute("transform", `translate(${xOffset}, ${yOffset})`);
         element.setAttribute("y", "-0.25em");
       };
+  }
+
+  private getTextElement(element: Element): ITemporaryTextElementHarness {
+    // if element is already a text element, return it
+    if (element.tagName === "text") {
+      const parent = element.parentNode;
+      element.remove(); // TODO Not sure if necessary or even a good idea
+      return { parent, element: element as SVGTextElement };
+    }
+
+    // if element has a text element descendent, select it and return it
+    const selected = element.querySelector("text");
+    if (selected != null) {
+      const parent = selected.parentNode;
+      selected.remove(); // TODO Not sure if necessary or even a good idea
+      return { parent, element: selected };
+    }
+
+    // otherwise create a new text element
+    const created = SvgUtils.create("text", this.className) as SVGTextElement;
+    return { parent: element, element: created };
   }
 }

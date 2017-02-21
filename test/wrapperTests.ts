@@ -8,13 +8,13 @@ import { assert } from "chai";
 
 import {
   AbstractMeasurer,
-  d3Selection,
   Measurer,
   SingleLineWrapper,
+  SvgContext,
   Wrapper,
 } from "../src";
 
-import { generateSVG } from "./utils";
+import { d3Selection, generateSVG } from "./utils";
 
 describe("Wrapper Test Suite", () => {
   let wrapper: Wrapper;
@@ -23,7 +23,8 @@ describe("Wrapper Test Suite", () => {
   beforeEach(() => {
     svg = generateSVG(200, 200);
     svg.append("text");
-    measurer = new Measurer(svg, null, true);
+    const context = new SvgContext(svg.node());
+    measurer = new Measurer(context.createRuler(), true);
     wrapper = new Wrapper();
   });
 

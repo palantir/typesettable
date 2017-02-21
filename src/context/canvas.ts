@@ -1,6 +1,11 @@
+/**
+ * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
+ * Licensed under the MIT License (the "License"); you may obtain a copy of the
+ * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
+ */
 
+import { IAnchor, IPen, ITransform } from "../writers";
 import { ITypesetterContext } from "./index";
-import { IAnchor, ITransform } from "../writers";
 
 /**
  * Options for styling text
@@ -65,7 +70,7 @@ export class CanvasContext implements ITypesetterContext {
     return this.createCanvasPen();
   }
 
-  public destroyPen = () => {
+  public destroyPen = (_pen: IPen) => {
     this.ctx.restore();
   }
 
@@ -74,7 +79,7 @@ export class CanvasContext implements ITypesetterContext {
         line: string,
         anchor: IAnchor,
         xOffset: number,
-        yOffset: number
+        yOffset: number,
       ) => {
         this.ctx.textAlign = anchor;
         if (this.style.font != null) {
