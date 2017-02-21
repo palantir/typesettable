@@ -40,12 +40,7 @@ function createWriteCallback(test: ITest) {
     };
 }
 
-function contextBehaviorTests(test: ITest) {
-    beforeEach(() => {
-        test.pen.write.reset();
-        test.pen.destroy.reset();
-    });
-
+function commonTests(test: ITest) {
     it("can create a pen", () => {
         const pen = test.context.createPen("", { translate: [0, 0], rotate: 0 });
         assert.isFunction(pen.write);
@@ -60,74 +55,76 @@ function contextBehaviorTests(test: ITest) {
         test.write("test");
         assert.equal(test.pen.write.callCount, 1);
     });
+}
+
+describe("Contexts", () => {
+    const canvasTest: ITest = {
+        pen: {
+            destroy: sinon.spy(),
+            write: sinon.spy(),
+        },
+    };
+    const svgTest: ITest = {
+        pen: {
+            destroy: sinon.spy(),
+            write: sinon.spy(),
+        },
+    };
+    let svg: Element;
+
+    before(() => {
+        svg = SvgUtils.append(document.body, "svg");
+        svg.setAttribute("style", "fill:blue;font:18px sans-serif;");
+        svgTest.context = new SvgContext(svg);
+        svgTest.write = createWriteCallback(svgTest);
+
+        const canvas = document.createElement("canvas");
+        canvasTest.context = new CanvasContext(
+            canvas.getContext("2d"),
+            18 * CanvasContext.LINE_HEIGHT_FACTOR,
+            {
+                fill: "red",
+                font: "18px sans-serif",
+                stroke: "red",
+            },
+        );
+        canvasTest.write = createWriteCallback(canvasTest);
+    });
+
+    after(() => {
+        svg.remove();
+    });
+
+    beforeEach(() => {
+        canvasTest.pen.write.reset();
+        canvasTest.pen.destroy.reset();
+        svgTest.pen.write.reset();
+        svgTest.pen.destroy.reset();
+    });
+
+    commonTests(canvasTest);
+    commonTests(svgTest);
 
     it("wraps long text", () => {
-        test.write("--- i am the very model of a modern major general");
-        assert.equal(test.pen.write.callCount, 4);
-        assert.equal(test.pen.write.getCall(3).args[0], "modern...");
+        canvasTest.write("--- i am the very model of a modern major general");
+        svgTest.write("--- i am the very model of a modern major general");
+        assert.equal(canvasTest.pen.write.callCount, svgTest.pen.write.callCount);
+        assert.equal(canvasTest.pen.write.getCall(0).args[0], svgTest.pen.write.getCall(0).args[0]);
     });
 
     it("rotates text", () => {
         const options = { textRotation: 90 };
-        test.write("i am the very model of a modern major general", options, 100, 50);
-        assert.equal(test.pen.write.callCount, 4);
-        assert.equal(test.pen.write.getCall(3).args[0], "mo...");
+        canvasTest.write("i am the very model of a modern major general", options, 100, 50);
+        svgTest.write("i am the very model of a modern major general", options, 100, 50);
+        assert.equal(canvasTest.pen.write.callCount, svgTest.pen.write.callCount);
+        assert.equal(canvasTest.pen.write.getCall(0).args[0], svgTest.pen.write.getCall(0).args[0]);
     });
 
     it("shears text", () => {
         const options = { textShear: 45 };
-        test.write("i am the very model of a modern major general", options);
-        assert.equal(test.pen.write.callCount, 3);
-        assert.equal(test.pen.write.getCall(1).args[0], "model of a");
-    });
-}
-
-describe("Contexts", () => {
-    describe("Canvas", () => {
-        const test: ITest = {
-            pen: {
-                destroy: sinon.spy(),
-                write: sinon.spy(),
-            },
-        };
-
-        before(() => {
-            const canvas = document.createElement("canvas");
-            test.context = new CanvasContext(
-                canvas.getContext("2d"),
-                18 * CanvasContext.LINE_HEIGHT_FACTOR,
-                {
-                    fill: "red",
-                    font: "18px sans-serif",
-                    stroke: "red",
-                },
-            );
-            test.write = createWriteCallback(test);
-        });
-
-        contextBehaviorTests(test);
-    });
-
-    describe("Svg", () => {
-        const test: ITest = {
-            pen: {
-                destroy: sinon.spy(),
-                write: sinon.spy(),
-            },
-        };
-        let svg: Element;
-
-        before(() => {
-            svg = SvgUtils.append(document.body, "svg");
-            svg.setAttribute("style", "fill:blue;font:18px sans-serif;");
-            test.context = new SvgContext(svg);
-            test.write = createWriteCallback(test);
-        });
-
-        after(() => {
-            svg.remove();
-        });
-
-        contextBehaviorTests(test);
+        canvasTest.write("i am the very model of a modern major general", options);
+        svgTest.write("i am the very model of a modern major general", options);
+        assert.equal(canvasTest.pen.write.callCount, svgTest.pen.write.callCount);
+        assert.equal(canvasTest.pen.write.getCall(0).args[0], svgTest.pen.write.getCall(0).args[0]);
     });
 });

@@ -298,6 +298,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var utils_1 = require("../utils");
+var abstractMeasurer_1 = require("./abstractMeasurer");
 var cacheCharacterMeasurer_1 = require("./cacheCharacterMeasurer");
 var CacheMeasurer = (function (_super) {
     __extends(CacheMeasurer, _super);
@@ -312,6 +313,7 @@ var CacheMeasurer = (function (_super) {
         return _super.prototype.measure.call(this, s);
     };
     CacheMeasurer.prototype.measure = function (s) {
+        if (s === void 0) { s = abstractMeasurer_1.AbstractMeasurer.HEIGHT_TEXT; }
         return this.dimCache.get(s);
     };
     CacheMeasurer.prototype.reset = function () {
@@ -322,7 +324,7 @@ var CacheMeasurer = (function (_super) {
 }(cacheCharacterMeasurer_1.CacheCharacterMeasurer));
 exports.CacheMeasurer = CacheMeasurer;
 
-},{"../utils":13,"./cacheCharacterMeasurer":6}],8:[function(require,module,exports){
+},{"../utils":13,"./abstractMeasurer":5,"./cacheCharacterMeasurer":6}],8:[function(require,module,exports){
 /**
  * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
  * Licensed under the MIT License (the "License"); you may obtain a copy of the
