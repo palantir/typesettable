@@ -4,6 +4,7 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
+import { assert } from "chai";
 import {
     SvgUtils,
     Typesetter,
@@ -33,6 +34,8 @@ describe("Typesetter", () => {
 
         before(() => {
             svg = SvgUtils.append(document.body, "svg");
+            SvgUtils.append(svg, "g", "section-one");
+            SvgUtils.append(svg, "g", "section-two");
             typesetter = Typesetter.svg(svg);
         });
 
@@ -41,7 +44,15 @@ describe("Typesetter", () => {
         });
 
         it("can write", () => {
-            typesetter.write("test string goes here", 200, 100);
+            typesetter.write("test string goes here", 100, 100);
+            assert.equal(svg.querySelector("text").textContent, "test string goes");
+        });
+
+        it("can write into separate containers", () => {
+            typesetter.write("This string goes here", 100, 100, {}, svg.querySelector("g.section-one"));
+            typesetter.write("Other string goes there", 100, 100, {}, svg.querySelector("g.section-two"));
+            assert.equal(svg.querySelector("g.section-one text").textContent, "This string go-");
+            assert.equal(svg.querySelector("g.section-two text").textContent, "Other string g-");
         });
 
         it("can clear cache", () => {

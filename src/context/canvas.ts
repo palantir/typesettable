@@ -4,7 +4,7 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import { IAnchor, IPen, ITransform } from "../writers";
+import { IAnchor, ITransform } from "../writers";
 import { ITypesetterContext } from "./index";
 
 /**
@@ -43,63 +43,67 @@ export interface ICanvasFontStyle {
  * styling for the font must also be explicitly defined in the optional
  * `ICanvasFontStyle` object.
  */
-export class CanvasContext implements ITypesetterContext {
+export class CanvasContext implements ITypesetterContext<CanvasRenderingContext2D> {
 
-  /**
-   * The typical factor between pixel font size and actual line height as
-   * measuered in SVG. This helps match typesetter layout between SVG and Canvas
-   * contexts.
-   */
-  public static LINE_HEIGHT_FACTOR = 1.1774;
+    /**
+     * The typical factor between pixel font size and actual line height as
+     * measured in SVG. This helps match typesetter layouts between SVG and
+     * Canvas contexts.
+     */
+    public static LINE_HEIGHT_FACTOR = 1.1774;
 
-  public constructor(
-      private ctx: CanvasRenderingContext2D,
-      private lineHeight = 10,
-      private style: ICanvasFontStyle = {},
+    public constructor(
+        private ctx: CanvasRenderingContext2D,
+        private lineHeight = 10,
+        private style: ICanvasFontStyle = {},
     ) {
         if (this.style.fill === undefined) {
             this.style.fill = "#444";
         }
-  }
+    }
 
-  public createRuler = () => {
-    return (text: string) => {
-        this.ctx.font = this.style.font;
-        const { width } = this.ctx.measureText(text);
-        return { width, height: this.lineHeight };
-    };
-  }
-
-  public createPen = (_text: string, transform: ITransform) => {
-    this.ctx.save();
-    this.ctx.translate(transform.translate[0], transform.translate[1]);
-    this.ctx.rotate(transform.rotate * Math.PI / 180.0);
-    return this.createCanvasPen();
-  }
-
-  public destroyPen = (_pen: IPen) => {
-    this.ctx.restore();
-  }
-
-  private createCanvasPen() {
-    return (
-        line: string,
-        anchor: IAnchor,
-        xOffset: number,
-        yOffset: number,
-      ) => {
-        this.ctx.textAlign = anchor;
-        if (this.style.font != null) {
+    public createRuler = () => {
+        return (text: string) => {
             this.ctx.font = this.style.font;
+            const { width } = this.ctx.measureText(text);
+            return { width, height: this.lineHeight };
+        };
+    }
+
+    public createPen = (_text: string, transform: ITransform, ctx?: CanvasRenderingContext2D) => {
+        if (ctx == null) {
+            ctx = this.ctx;
         }
-        if (this.style.fill != null) {
-            this.ctx.fillStyle = this.style.fill;
-            this.ctx.fillText(line, xOffset, yOffset);
-        }
-        if (this.style.stroke != null) {
-            this.ctx.strokeStyle = this.style.fill;
-            this.ctx.strokeText(line, xOffset, yOffset);
-        }
-      };
-  }
+        ctx.save();
+        ctx.translate(transform.translate[0], transform.translate[1]);
+        ctx.rotate(transform.rotate * Math.PI / 180.0);
+        return this.createCanvasPen(ctx);
+    }
+
+    private createCanvasPen(ctx: CanvasRenderingContext2D) {
+        return {
+            destroy: () => {
+                ctx.restore();
+            },
+            write: (
+                line: string,
+                anchor: IAnchor,
+                xOffset: number,
+                yOffset: number,
+            ) => {
+                ctx.textAlign = anchor;
+                if (this.style.font != null) {
+                    ctx.font = this.style.font;
+                }
+                if (this.style.fill != null) {
+                    ctx.fillStyle = this.style.fill;
+                    ctx.fillText(line, xOffset, yOffset);
+                }
+                if (this.style.stroke != null) {
+                    ctx.strokeStyle = this.style.fill;
+                    ctx.strokeText(line, xOffset, yOffset);
+                }
+            },
+        };
+    }
 }

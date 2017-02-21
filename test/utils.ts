@@ -39,21 +39,3 @@ export function assertBBoxInclusion(outerEl: d3Selection<Element>, innerEl: d3Se
   assert.operator(Math.ceil(outerBox.bottom) + PIXEL_CLOSETO_REQUIREMENT, ">=", Math.floor(innerBox.bottom),
           "bounding rect bottom included");
 }
-
-export function defaults(target: any, ...objects: any[]) {
-    if (target == null) {
-      throw new TypeError("Cannot convert undefined or null to object");
-    }
-
-    const result = Object(target);
-    objects.forEach((obj) => {
-      if (obj != null) {
-        for (const key in obj) {
-          if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            result[key] = obj[key];
-          }
-        }
-      }
-    });
-    return result;
-}

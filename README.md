@@ -1,77 +1,108 @@
-SVG Typewriter
-=========
+# Typesetter
 
 [![Circle CI](https://circleci.com/gh/palantir/svg-typewriter.svg?style=svg)](https://circleci.com/gh/palantir/svg-typewriter)
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/svg-typewriter.svg)](https://saucelabs.com/u/svg-typewriter)
+### Overview
 
-Overview
----
+**Typesetter** is a library for measuring, wrapping, and writing text on Canvas
+and SVG. Canvas supports some rudimentary wrapping, but SVG does not support
+any. Furthermore, developers often want wrapped text to auto-hyphenate and
+truncate with ellipses when overflowing the bounding box. **Typesetter** aims to
+make this entire process easier.
 
-**SVG Typewriter** is a library for measuring, manipulating, and writing text on
-SVG. The [svg text spec](http://www.w3.org/TR/SVG/text.html#Introduction)
-indicates that "SVG performs no automatic line breaking or word wrapping",
-meaning that developers normally need to write their own code to accomplish
-this; **SVG Typewriter** aims to make this entire process easier.
+**Typesetter** works with native browser APIs and has no external dependencies.
 
-**SVG Typewriter** is based on [D3.js](http://d3js.org/).
+### Features
 
-Features
----
-
-- *Measurers* efficiently measure the size of a piece of text when written to a
-  particular SVG element, taking into account the CSS styles affecting that
-  text.
+- *Measurers* efficiently measure the size of a piece of text, taking into
+  account the font styles affecting that text.
 - *Wrappers* calculate how best to fit text into a given space, based on results
   from the Measurer.
-- *Writers* write text to a given SVG element based on specified options such as
-  alignment, rotation, and animation.
+- *Writers* layout and write text based on specified options such as wrapping,
+  alignment, rotation, and shearing.
+- *SvgContext* and *CanvasContext* implement factories for the *IRuler* and
+  *IPen* objects, which encapsulate the functionality for measuring and writing
+  text in SVG and Canvas elements.
 
-In general, users will primarily interact with *Writers*, although they will
-need to instantiate *Measurers* based on specific SVG elements so that the
-library can perform accurate measurement and wrapping. Users can set options on
-*Wrappers* to control the wrapping behavior.
-
-Installation
----
+### Installation
 
 ```
-npm install --save svg-typewriter
+npm install --save @palantir/typesetter
 ```
 
-Example Usage
----
+# Usage
+
+### Example Two Liner
 
 ```ts
-import { Measurer, Wrapper, Writer } from "svg-typewriter";
+import { Typesetter } from "@palantir/typesetter";
 
-// Create a Measurer based on the element we want to write into.
-// Passing in the intended element allows accurate measurement based on the CSS
-// styles that will actually be applied to that element.
-const measurer = new Measurer(svg);
-
-// Create a Wrapper with default options.
-// A wrapper calculates how to break text to fit in a given space and returns
-// the wrapped text as strings. Wrappers do not directly write the wrapped text.
-const wrapper = new Wrapper();
-
-// Create a Writer.
-// A Writer uses the supplied Measurer and Wrapper to best decide how to fit
-// text in a given space, then writes the wrapped text to a given element.
-const writer = new Writer(measurer, wrapper);
-
-// Set write options.
-const writeOptions = {
-  selection: svg,
-  xAlign: "left",
-  yAlign: "top",
-  textRotation: 0
-};
-
-// write the text to the element.
-writer.write("Hello World!", width, height, writeOptions);
+const typesetter = Typesetter.svg(document.querySelector("svg"));
+typesetter.write("Hello World!", 200, 200);
 ```
 
-See [the docs](http://palantir.github.io/svg-typewriter) for more detailed
-examples.
+### Example SVG & Canvas
 
+Use typesetters with both SVG and Canvas elements:
+
+```ts
+import { Typesetter } from "@palantir/typesetter";
+
+// A typesetter for SVG elements
+const svgTypesetter = Typesetter.svg(document.querySelector("svg"));
+
+// A typesetter for Canvas elements
+const canvasTypesetter = Typesetter.canvas(document.querySelector("canvas").getContext("2d"));
+
+// The dimensions into which the text will be wrapped and truncated
+const width = 300;
+const height = 50;
+
+// Options for alignment, etc.
+const writeOptions = {
+  xAlign: "left",
+  yAlign: "top",
+  textRotation: 0,
+  textShear: 0,
+};
+
+// Write the text to the elements
+svgTypesetter.write("Hello SVG!", width, height, writeOptions);
+canvasTypesetter.write("Hello Canvas!", width, height, writeOptions);
+```
+
+### Example Shared Cache
+
+If you are typesetting multiple strings of text with the same font style,
+maintain a cache of Measurer results to improve performance.
+
+```html
+<svg>
+  <g class="section-one"></g>
+  <g class="section-two" transform="translate(120 0)"></g>
+</svg>
+```
+
+```ts
+import { Typesetter } from "@palantir/typesetter";
+
+const svg = document.querySelector("svg");
+const typesetter = Typesetter.svg(svg);
+const writeOptions = { xAlign: "center" };
+
+typesetter.write(
+  "This text is in the first section",
+  100, 400, writeOptions,
+  svg.querySelector("g.section-one")
+);
+
+typesetter.write(
+  "This text is in the second section",
+  100, 200, writeOptions,
+  svg.querySelector("g.section-two")
+);
+```
+
+# API Docs
+
+See [the docs](http://palantir.github.io/typesetter) for more detailed examples.

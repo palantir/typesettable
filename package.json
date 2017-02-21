@@ -1,7 +1,7 @@
 {
-  "name": "svg-typewriter",
-  "version": "2.0.0",
-  "description": "SVG Text Measurement Line Wrapper",
+  "name": "@palantir/typesetter",
+  "version": "1.0.0",
+  "description": "A typesetting library for SVG and Canvas",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "buildPath": "build",
@@ -11,15 +11,16 @@
     "build": "npm-run-all build:clean build:compile build:namespace build:bundle",
     "build:clean": "rimraf ${npm_package_buildPath}",
     "build:compile": "tsc --project .",
-    "build:namespace": "echo \"\\nexport as namespace SVGTypewriter;\" >> ${npm_package_types}",
-    "build:bundle": "browserify -t browserify-shim --standalone SVGTypewriter build/src/index.js > ./svg-typewriter.js",
+    "build:namespace": "echo \"\\nexport as namespace Typesetter;\" >> ${npm_package_types}",
+    "build:bundle": "browserify --standalone Typesetter build/src/index.js > ./typesetter.js",
+    "check_version": "echo ${npm_package_version} $(npm view ${npm_package_name} version) | awk '{ if ($1 == $2) { exit 1 }}'",
     "docs": "npm-run-all docs:clean docs:typedoc",
     "docs:clean": "rimraf ${npm_package_docsPath}",
     "docs:typedoc": "typedoc --options typedoc.json --tsconfig tsconfig.typedoc.json --out ${npm_package_docsPath}",
     "docs:serve": "http-server ${npm_package_docsPath}",
     "lint:ts": "tslint src/**/*.ts test/**/*.ts",
     "preview": "npm-run-all build preview:bundle",
-    "preview:bundle": "browserify -r d3 -r ./${npm_package_main}:svg-typewriter > preview/bundle.js && echo 'Preview ready'",
+    "preview:bundle": "browserify -r ./${npm_package_main}:${npm_package_name} > preview/bundle.js && echo 'Preview ready'",
     "preview:serve": "http-server preview",
     "preview:watch": "onchange 'src/**' -i -- npm run preview",
     "start": "npm-run-all -p preview:watch preview:serve",
@@ -27,13 +28,10 @@
     "test:coverage": "istanbul check-coverage",
     "test:mocha": "PATH=$PATH:$(npm bin) mochify --reporter spec --plugin [ mochify-istanbul --report text --report json --dir coverage --exclude '**/test/**/*' ] ${npm_package_testsGlob}",
     "test:local": "PATH=$PATH:$(npm bin) mochify --reporter spec ${npm_package_testsGlob}",
-    "test:sauce": "mochify  --reporter spec --wd ${npm_package_testsGlob}",
-    "echo": "echo"
-  },
-  "browserify-shim": {
-    "d3": "global:d3"
+    "test:sauce": "mochify  --reporter spec --wd ${npm_package_testsGlob}"
   },
   "keywords": [
+    "canvas",
     "svg",
     "text",
     "wrap"
@@ -47,7 +45,6 @@
     "@types/node": "6.0.52",
     "@types/sinon": "^1.16.35",
     "browserify": "^13.3.0",
-    "browserify-shim": "^3.8.12",
     "chai": "3.5.0",
     "circle-github-bot": "^0.4.0",
     "d3": "^4.5.0",

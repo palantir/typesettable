@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IEllipsisResult | Typesetter</title>
+	<title>ITransform | Typesetter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,21 +56,29 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="iellipsisresult.html">IEllipsisResult</a>
+					<a href="itransform.html">ITransform</a>
 				</li>
 			</ul>
-			<h1>Interface IEllipsisResult</h1>
+			<h1>Interface ITransform</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A euclidean transformation, which preserves the size of text and only affects
+						location and orientation.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IEllipsisResult</span>
+						<span class="target">ITransform</span>
 					</li>
 				</ul>
 			</section>
@@ -78,37 +86,47 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iellipsisresult.html#remainingtoken" class="tsd-kind-icon">remaining<wbr>Token</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iellipsisresult.html#wrappedtoken" class="tsd-kind-icon">wrapped<wbr>Token</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="itransform.html#rotate" class="tsd-kind-icon">rotate</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="itransform.html#translate" class="tsd-kind-icon">translate</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="remainingtoken" class="tsd-anchor"></a>
-					<h3>remaining<wbr>Token</h3>
-					<div class="tsd-signature tsd-kind-icon">remaining<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="rotate" class="tsd-anchor"></a>
+					<h3>rotate</h3>
+					<div class="tsd-signature tsd-kind-icon">rotate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/wrappers/wrapper.ts#L34">wrappers/wrapper.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/writers/writer.ts#L29">writers/writer.ts:29</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Rotation in degrees.</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="wrappedtoken" class="tsd-anchor"></a>
-					<h3>wrapped<wbr>Token</h3>
-					<div class="tsd-signature tsd-kind-icon">wrapped<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="translate" class="tsd-anchor"></a>
+					<h3>translate</h3>
+					<div class="tsd-signature tsd-kind-icon">translate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/wrappers/wrapper.ts#L33">wrappers/wrapper.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/writers/writer.ts#L24">writers/writer.ts:24</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Translation in pixels.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -179,21 +197,9 @@
 					<li class=" tsd-kind-interface">
 						<a href="idimensions.html" class="tsd-kind-icon">IDimensions</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-is-not-exported">
+					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="iellipsisresult.html" class="tsd-kind-icon">IEllipsis<wbr>Result</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="iellipsisresult.html#remainingtoken" class="tsd-kind-icon">remaining<wbr>Token</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="iellipsisresult.html#wrappedtoken" class="tsd-kind-icon">wrapped<wbr>Token</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="iiterativewrappingstate.html" class="tsd-kind-icon">IIterative<wbr>Wrapping<wbr>State</a>
 					</li>
@@ -209,9 +215,21 @@
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="itemporarytextelementharness.html" class="tsd-kind-icon">ITemporary<wbr>Text<wbr>Element<wbr>Harness</a>
 					</li>
-					<li class=" tsd-kind-interface">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
 						<a href="itransform.html" class="tsd-kind-icon">ITransform</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="itransform.html#rotate" class="tsd-kind-icon">rotate</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="itransform.html#translate" class="tsd-kind-icon">translate</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="itypesettercontext.html" class="tsd-kind-icon">ITypesetter<wbr>Context</a>
 					</li>

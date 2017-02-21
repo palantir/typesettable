@@ -1,18 +1,14 @@
-const SVGTypewriter = require("svg-typewriter");
+const { Typesetter } = require("@palantir/typesetter");
 
 function createSvgUpdater(selector, options) {
     const element = document.querySelector(selector);
-    const context = new SVGTypewriter.SvgContext(element);
-    const writeOptions = Object.assign({}, { context }, options);
-
-    const measurer = new SVGTypewriter.CacheMeasurer(context.createRuler());
-    const wrapper = new SVGTypewriter.Wrapper();
-    const writer = new SVGTypewriter.Writer(measurer, wrapper);
+    const typesetter = Typesetter.svg(element);
+    const writeOptions = Object(options);
 
     const update = function() {
         const rect = writeOptions.rect == null ? element.getBoundingClientRect() : writeOptions.rect;
         element.innerHTML = "";
-        writer.write(this.text, rect.width, rect.height, this.options);
+        typesetter.write(this.text, rect.width, rect.height, this.options);
     };
 
     return {
@@ -37,20 +33,16 @@ function createCanvasUpdater(selector, options) {
     const element = document.querySelector(selector);
     const ctx = retinaFix(element.getContext("2d"));
     const fontStack = "‘Segoe UI’, Candara, ‘Bitstream Vera Sans’, ‘DejaVu Sans’, ‘Bitsream Vera Sans’, ‘Trebuchet MS’, Verdana, ‘Verdana Ref’, sans-serif";
-    const context = new SVGTypewriter.CanvasContext(ctx, 18, {
+    const typesetter = Typesetter.canvas(ctx, 18, {
         font: "18px " + fontStack,
         fill: "rebeccapurple",
     });
-    const writeOptions = Object.assign({}, { context }, options);
-
-    const measurer = new SVGTypewriter.CacheMeasurer(context.createRuler());
-    const wrapper = new SVGTypewriter.Wrapper();
-    const writer = new SVGTypewriter.Writer(measurer, wrapper);
+    const writeOptions = Object(options);
 
     const update = function() {
         const rect = writeOptions.rect == null ? element.getBoundingClientRect() : writeOptions.rect;
         ctx.clearRect(0, 0, element.width, element.height);
-        writer.write(this.text, rect.width, rect.height, this.options);
+        typesetter.write(this.text, rect.width, rect.height, this.options);
     };
 
     return {

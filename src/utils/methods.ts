@@ -46,4 +46,25 @@ export class Methods {
   public static strictEq(a: any, b: any): boolean {
     return a === b;
   }
+
+  /**
+   * Shim for _.defaults
+   */
+  public static defaults(target: any, ...objects: any[]) {
+    if (target == null) {
+      throw new TypeError("Cannot convert undefined or null to object");
+    }
+
+    const result = Object(target);
+    objects.forEach((obj) => {
+      if (obj != null) {
+        for (const key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            result[key] = obj[key];
+          }
+        }
+      }
+    });
+    return result;
+  }
 }

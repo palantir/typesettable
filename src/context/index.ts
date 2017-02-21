@@ -4,20 +4,18 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import { IRuler, IRulerFactory } from "../measurers";
-import { IPen, IPenFactory } from "../writers";
+import { IRulerFactory } from "../measurers";
+import { IPenFactory } from "../writers";
 
-export interface IPenFactoryContext {
-    createPen: IPenFactory;
-    destroyPen?: (pen: IPen) => void;
+export interface IPenFactoryContext<T> {
+    createPen: IPenFactory<T>;
 }
 
 export interface IRulerFactoryContext {
     createRuler: IRulerFactory;
-    destroyRuler?: (ruler: IRuler) => void;
 }
 
-export interface ITypesetterContext extends IPenFactoryContext, IRulerFactoryContext {
+export interface ITypesetterContext<T> extends IPenFactoryContext<T>, IRulerFactoryContext {
 }
 
 export * from "./svg";

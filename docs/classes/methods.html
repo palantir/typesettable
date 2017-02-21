@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Methods | SVGTypewriter</title>
+	<title>Methods | Typesetter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">SVGTypewriter</a>
+					<a href="../index.html" class="title">Typesetter</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -91,6 +91,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="methods.html#arrayeq" class="tsd-kind-icon">array<wbr>Eq</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="methods.html#defaults" class="tsd-kind-icon">defaults</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="methods.html#objeq" class="tsd-kind-icon">obj<wbr>Eq</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="methods.html#stricteq" class="tsd-kind-icon">strict<wbr>Eq</a></li>
 							</ul>
@@ -110,7 +111,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/utils/methods.ts#L11">utils/methods.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/utils/methods.ts#L11">utils/methods.ts:11</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -138,6 +139,37 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="defaults" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> defaults</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">defaults<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, <span class="tsd-signature-symbol">...</span>objects<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/utils/methods.ts#L53">utils/methods.ts:53</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Shim for _.defaults</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>target: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>objects: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="objeq" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> obj<wbr>Eq</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
@@ -147,7 +179,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/utils/methods.ts#L35">utils/methods.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/utils/methods.ts#L35">utils/methods.ts:35</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -184,7 +216,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/utils/methods.ts#L46">utils/methods.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/utils/methods.ts#L46">utils/methods.ts:46</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -215,9 +247,6 @@
 					<li class=" tsd-kind-class">
 						<a href="abstractmeasurer.html" class="tsd-kind-icon">Abstract<wbr>Measurer</a>
 					</li>
-					<li class=" tsd-kind-class">
-						<a href="baseanimator.html" class="tsd-kind-icon">Base<wbr>Animator</a>
-					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="cache.html" class="tsd-kind-icon">Cache</a>
 					</li>
@@ -228,10 +257,10 @@
 						<a href="cachemeasurer.html" class="tsd-kind-icon">Cache<wbr>Measurer</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
+						<a href="canvascontext.html" class="tsd-kind-icon">Canvas<wbr>Context</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="dom.html" class="tsd-kind-icon">DOM</a>
+						<a href="charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="measurer.html" class="tsd-kind-icon">Measurer</a>
@@ -245,6 +274,9 @@
 								<a href="methods.html#arrayeq" class="tsd-kind-icon">array<wbr>Eq</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="methods.html#defaults" class="tsd-kind-icon">defaults</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="methods.html#objeq" class="tsd-kind-icon">obj<wbr>Eq</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
@@ -255,19 +287,22 @@
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-class">
-						<a href="opacityanimator.html" class="tsd-kind-icon">Opacity<wbr>Animator</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="singlelinewrapper.html" class="tsd-kind-icon">Single<wbr>Line<wbr>Wrapper</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="stringmethods.html" class="tsd-kind-icon">String<wbr>Methods</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="svgcontext.html" class="tsd-kind-icon">Svg<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="svgutils.html" class="tsd-kind-icon">Svg<wbr>Utils</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="tokenizer.html" class="tsd-kind-icon">Tokenizer</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="unveilanimator.html" class="tsd-kind-icon">Unveil<wbr>Animator</a>
+						<a href="typesetter.html" class="tsd-kind-icon">Typesetter</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="wrapper.html" class="tsd-kind-icon">Wrapper</a>
@@ -279,6 +314,9 @@
 						<a href="../interfaces/ibreakingtokenresult.html" class="tsd-kind-icon">IBreaking<wbr>Token<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/icanvasfontstyle.html" class="tsd-kind-icon">ICanvas<wbr>Font<wbr>Style</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/idimensions.html" class="tsd-kind-icon">IDimensions</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
@@ -288,13 +326,49 @@
 						<a href="../interfaces/iiterativewrappingstate.html" class="tsd-kind-icon">IIterative<wbr>Wrapping<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/ipen.html" class="tsd-kind-icon">IPen</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="../interfaces/ipenfactorycontext.html" class="tsd-kind-icon">IPen<wbr>Factory<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/irulerfactorycontext.html" class="tsd-kind-icon">IRuler<wbr>Factory<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="../interfaces/itemporarytextelementharness.html" class="tsd-kind-icon">ITemporary<wbr>Text<wbr>Element<wbr>Harness</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/itransform.html" class="tsd-kind-icon">ITransform</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="../interfaces/itypesettercontext.html" class="tsd-kind-icon">ITypesetter<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/iwrappingresult.html" class="tsd-kind-icon">IWrapping<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/iwriteoptions.html" class="tsd-kind-icon">IWrite<wbr>Options</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="../globals.html#itextmeasurer" class="tsd-kind-icon">IText<wbr>Measurer</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ianchor" class="tsd-kind-icon">IAnchor</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ipenfactory" class="tsd-kind-icon">IPen<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#iruler" class="tsd-kind-icon">IRuler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#irulerfactory" class="tsd-kind-icon">IRuler<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ixalign" class="tsd-kind-icon">IXAlign</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#iyalign" class="tsd-kind-icon">IYAlign</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="../globals.html#default_write_options" class="tsd-kind-icon">DEFAULT_<wbr>WRITE_<wbr>OPTIONS</a>
 					</li>
 				</ul>
 			</nav>

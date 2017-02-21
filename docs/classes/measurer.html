@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Measurer | SVGTypewriter</title>
+	<title>Measurer | Typesetter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">SVGTypewriter</a>
+					<a href="../index.html" class="title">Typesetter</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -120,23 +120,20 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Measurer<span class="tsd-signature-symbol">(</span>area<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>, className<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, useGuards<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="measurer.html" class="tsd-signature-type">Measurer</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Measurer<span class="tsd-signature-symbol">(</span>ruler<span class="tsd-signature-symbol">: </span><a href="../globals.html#iruler" class="tsd-signature-type">IRuler</a>, useGuards<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="measurer.html" class="tsd-signature-type">Measurer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstractmeasurer.html">AbstractMeasurer</a>.<a href="abstractmeasurer.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/measurers/measurer.ts#L13">measurers/measurer.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/measurers/measurer.ts#L11">measurers/measurer.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>area: <span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> className: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
+									<h5>ruler: <a href="../globals.html#iruler" class="tsd-signature-type">IRuler</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> useGuards: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
@@ -155,7 +152,7 @@
 					<div class="tsd-signature tsd-kind-icon">guard<wbr>Width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/measurers/measurer.ts#L12">measurers/measurer.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/measurers/measurer.ts#L10">measurers/measurer.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -165,20 +162,28 @@
 					<div class="tsd-signature tsd-kind-icon">use<wbr>Guards<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/measurers/measurer.ts#L13">measurers/measurer.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/measurers/measurer.ts#L11">measurers/measurer.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="height_text" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> HEIGHT_<wbr>TEXT</h3>
-					<div class="tsd-signature tsd-kind-icon">HEIGHT_<wbr>TEXT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;bqpdl&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">HEIGHT_<wbr>TEXT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;bdpql&quot;</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractmeasurer.html">AbstractMeasurer</a>.<a href="abstractmeasurer.html#height_text">HEIGHT_TEXT</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/measurers/abstractMeasurer.ts#L23">measurers/abstractMeasurer.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/measurers/abstractMeasurer.ts#L30">measurers/abstractMeasurer.ts:30</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A string representing the full ascender/descender range of your text.</p>
+						</div>
+						<p>Note that this is really only applicable to western alphabets. If you are
+							using a different locale language such as arabic or chinese, you may want
+						to override this.</p>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -193,7 +198,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/measurers/measurer.ts#L21">measurers/measurer.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/measurers/measurer.ts#L19">measurers/measurer.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -216,7 +221,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/measurers/measurer.ts#L25">measurers/measurer.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/measurers/measurer.ts#L23">measurers/measurer.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -242,7 +247,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/measurers/measurer.ts#L45">measurers/measurer.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/measurers/measurer.ts#L43">measurers/measurer.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -260,7 +265,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstractmeasurer.html">AbstractMeasurer</a>.<a href="abstractmeasurer.html#measure">measure</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/measurers/measurer.ts#L33">measurers/measurer.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/measurers/measurer.ts#L31">measurers/measurer.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -288,9 +293,6 @@
 					<li class=" tsd-kind-class">
 						<a href="abstractmeasurer.html" class="tsd-kind-icon">Abstract<wbr>Measurer</a>
 					</li>
-					<li class=" tsd-kind-class">
-						<a href="baseanimator.html" class="tsd-kind-icon">Base<wbr>Animator</a>
-					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="cache.html" class="tsd-kind-icon">Cache</a>
 					</li>
@@ -301,10 +303,10 @@
 						<a href="cachemeasurer.html" class="tsd-kind-icon">Cache<wbr>Measurer</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
+						<a href="canvascontext.html" class="tsd-kind-icon">Canvas<wbr>Context</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="dom.html" class="tsd-kind-icon">DOM</a>
+						<a href="charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
 					</li>
 				</ul>
 				<ul class="current">
@@ -343,19 +345,22 @@
 						<a href="methods.html" class="tsd-kind-icon">Methods</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="opacityanimator.html" class="tsd-kind-icon">Opacity<wbr>Animator</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="singlelinewrapper.html" class="tsd-kind-icon">Single<wbr>Line<wbr>Wrapper</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="stringmethods.html" class="tsd-kind-icon">String<wbr>Methods</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="svgcontext.html" class="tsd-kind-icon">Svg<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="svgutils.html" class="tsd-kind-icon">Svg<wbr>Utils</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="tokenizer.html" class="tsd-kind-icon">Tokenizer</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="unveilanimator.html" class="tsd-kind-icon">Unveil<wbr>Animator</a>
+						<a href="typesetter.html" class="tsd-kind-icon">Typesetter</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="wrapper.html" class="tsd-kind-icon">Wrapper</a>
@@ -367,6 +372,9 @@
 						<a href="../interfaces/ibreakingtokenresult.html" class="tsd-kind-icon">IBreaking<wbr>Token<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/icanvasfontstyle.html" class="tsd-kind-icon">ICanvas<wbr>Font<wbr>Style</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/idimensions.html" class="tsd-kind-icon">IDimensions</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
@@ -376,13 +384,49 @@
 						<a href="../interfaces/iiterativewrappingstate.html" class="tsd-kind-icon">IIterative<wbr>Wrapping<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/ipen.html" class="tsd-kind-icon">IPen</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="../interfaces/ipenfactorycontext.html" class="tsd-kind-icon">IPen<wbr>Factory<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/irulerfactorycontext.html" class="tsd-kind-icon">IRuler<wbr>Factory<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="../interfaces/itemporarytextelementharness.html" class="tsd-kind-icon">ITemporary<wbr>Text<wbr>Element<wbr>Harness</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/itransform.html" class="tsd-kind-icon">ITransform</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="../interfaces/itypesettercontext.html" class="tsd-kind-icon">ITypesetter<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/iwrappingresult.html" class="tsd-kind-icon">IWrapping<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/iwriteoptions.html" class="tsd-kind-icon">IWrite<wbr>Options</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="../globals.html#itextmeasurer" class="tsd-kind-icon">IText<wbr>Measurer</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ianchor" class="tsd-kind-icon">IAnchor</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ipenfactory" class="tsd-kind-icon">IPen<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#iruler" class="tsd-kind-icon">IRuler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#irulerfactory" class="tsd-kind-icon">IRuler<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ixalign" class="tsd-kind-icon">IXAlign</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#iyalign" class="tsd-kind-icon">IYAlign</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="../globals.html#default_write_options" class="tsd-kind-icon">DEFAULT_<wbr>WRITE_<wbr>OPTIONS</a>
 					</li>
 				</ul>
 			</nav>

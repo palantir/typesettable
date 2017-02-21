@@ -16,72 +16,79 @@ import {
     Wrapper,
     Writer,
 } from "../src";
-import { defaults } from "./utils";
 
 type WriteCallback = (text: string, options?: any, width?: number, height?: number) => void;
 
 interface ITest {
-    context?: ITypesetterContext;
-    pen: IPen & sinon.SinonSpy;
+    context?: ITypesetterContext<any>;
+    pen: IMockPen;
     write?: WriteCallback;
+}
+
+interface IMockPen extends IPen {
+    destroy: sinon.SinonSpy;
+    write: sinon.SinonSpy;
 }
 
 function createWriteCallback(test: ITest) {
     const measurer = new Measurer(test.context.createRuler());
     const wrapper = new Wrapper();
-    const writer = new Writer(measurer, wrapper);
-    const mockContext = { context: { createPen: () => test.pen } };
+    const mockPenFactory = { createPen: () => test.pen };
+    const writer = new Writer(measurer, mockPenFactory, wrapper);
     return (text: string, options = {}, width = 100, height = 100) => {
-        writer.write(text, width, height, defaults({}, options, mockContext));
+        writer.write(text, width, height, options);
     };
 }
 
 function contextBehaviorTests(test: ITest) {
     beforeEach(() => {
-        test.pen.reset();
+        test.pen.write.reset();
+        test.pen.destroy.reset();
     });
 
     it("can create a pen", () => {
         const pen = test.context.createPen("", { translate: [0, 0], rotate: 0 });
-        assert.isFunction(pen);
-        assert.doesNotThrow(pen);
-        if (test.context.destroyPen != null) {
-            assert.doesNotThrow(() => {
-                test.context.destroyPen(pen);
-            });
+        assert.isFunction(pen.write);
+        assert.doesNotThrow(pen.write);
+        if (pen.destroy != null) {
+            assert.isFunction(pen.destroy);
+            assert.doesNotThrow(pen.destroy);
         }
     });
 
     it("writes text", () => {
         test.write("test");
-        assert.equal(test.pen.callCount, 1);
+        assert.equal(test.pen.write.callCount, 1);
     });
 
     it("wraps long text", () => {
         test.write("--- i am the very model of a modern major general");
-        assert.equal(test.pen.callCount, 4);
-        assert.equal(test.pen.getCall(3).args[0], "modern...");
+        assert.equal(test.pen.write.callCount, 4);
+        assert.equal(test.pen.write.getCall(3).args[0], "modern...");
     });
 
     it("rotates text", () => {
         const options = { textRotation: 90 };
         test.write("i am the very model of a modern major general", options, 100, 50);
-        assert.equal(test.pen.callCount, 4);
-        assert.equal(test.pen.getCall(3).args[0], "mo...");
+        assert.equal(test.pen.write.callCount, 4);
+        assert.equal(test.pen.write.getCall(3).args[0], "mo...");
     });
 
     it("shears text", () => {
         const options = { textShear: 45 };
         test.write("i am the very model of a modern major general", options);
-        assert.equal(test.pen.callCount, 3);
-        assert.equal(test.pen.getCall(1).args[0], "model of a");
+        assert.equal(test.pen.write.callCount, 3);
+        assert.equal(test.pen.write.getCall(1).args[0], "model of a");
     });
 }
 
 describe("Contexts", () => {
     describe("Canvas", () => {
         const test: ITest = {
-            pen: sinon.spy(),
+            pen: {
+                destroy: sinon.spy(),
+                write: sinon.spy(),
+            },
         };
 
         before(() => {
@@ -103,7 +110,10 @@ describe("Contexts", () => {
 
     describe("Svg", () => {
         const test: ITest = {
-            pen: sinon.spy(),
+            pen: {
+                destroy: sinon.spy(),
+                write: sinon.spy(),
+            },
         };
         let svg: Element;
 

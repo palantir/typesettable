@@ -47,7 +47,7 @@ interface ITemporaryTextElementHarness {
  * This class can be constructed with an optional class name and a boolean to
  * enable title tags to be added to new text blocks.
  */
-export class SvgContext implements ITypesetterContext {
+export class SvgContext implements ITypesetterContext<Element> {
 
   public constructor(
       private element: Element,
@@ -70,8 +70,11 @@ export class SvgContext implements ITypesetterContext {
     };
   }
 
-  public createPen = (text: string, transform: ITransform) => {
-    const textContainer = SvgUtils.append(this.element, "g", "text-container", this.className);
+  public createPen = (text: string, transform: ITransform, element?: Element) => {
+    if (element == null) {
+      element = this.element;
+    }
+    const textContainer = SvgUtils.append(element, "g", "text-container", this.className);
 
     // attach optional title
     if (this.addTitleElement) {
@@ -89,18 +92,20 @@ export class SvgContext implements ITypesetterContext {
   }
 
   private createSvgLinePen(textBlockGroup: SVGGElement) {
-    return (
-        line: string,
-        anchor: IAnchor,
-        xOffset: number,
-        yOffset: number,
-      ) => {
-        const element = SvgUtils.append(textBlockGroup, "text", "text-line");
-        element.textContent = line;
-        element.setAttribute("text-anchor", anchor);
-        element.setAttribute("transform", `translate(${xOffset}, ${yOffset})`);
-        element.setAttribute("y", "-0.25em");
-      };
+    return {
+      write: (
+          line: string,
+          anchor: IAnchor,
+          xOffset: number,
+          yOffset: number,
+        ) => {
+          const element = SvgUtils.append(textBlockGroup, "text", "text-line");
+          element.textContent = line;
+          element.setAttribute("text-anchor", anchor);
+          element.setAttribute("transform", `translate(${xOffset}, ${yOffset})`);
+          element.setAttribute("y", "-0.25em");
+        },
+    };
   }
 
   private getTextElement(element: Element): ITemporaryTextElementHarness {

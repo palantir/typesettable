@@ -58,9 +58,8 @@ describe("Writer Test Suite", () => {
     context = new SvgContext(svg.node());
     measurer = new Measurer(context.createRuler());
     wrapper = new Wrapper();
-    writer = new Writer(measurer, wrapper);
+    writer = new Writer(measurer, context, wrapper);
     writeOptions = {
-      context,
       textRotation: 0,
       xAlign: "right",
       yAlign: "center",
@@ -68,6 +67,14 @@ describe("Writer Test Suite", () => {
   });
 
   describe("Core", () => {
+    it("has setters", () => {
+      const newContext = new SvgContext(svg.node());
+      const newMeasurer = new Measurer(newContext.createRuler());
+      writer.penFactory(newContext);
+      writer.measurer(newMeasurer);
+      writer.wrapper(null);
+    });
+
     it("unsupported text rotation", () => {
       (writeOptions as any).textRotation = 45;
       assert.throws(() => checkWriting("test", 200, 200), Error);

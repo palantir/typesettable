@@ -5,9 +5,9 @@
  */
 
 import { IPenFactoryContext } from "../context";
-import * as Measurers from "../measurers";
-import { StringMethods } from "../utils";
-import * as Wrappers from "../wrappers";
+import { AbstractMeasurer } from "../measurers";
+import { Methods, StringMethods } from "../utils";
+import { Wrapper } from "../wrappers";
 
 export type IXAlign = "left" | "center" | "right";
 export type IYAlign = "top" | "center" | "bottom";
@@ -29,37 +29,36 @@ export interface ITransform {
   rotate: number;
 }
 
-/**
- * This method is invoked on each line within a block of wrapped text.
- *
- * `xOffset` and `yOffset` are assumed to be in an independent text-aligned
- * coordinate space.
- */
-export type IPen = (line: string, anchor: IAnchor, xOffset: number, yOffset: number) => void;
+export interface IPen {
+  /**
+   * Called once all the lines have been written
+   */
+  destroy?: () => void;
+
+  /**
+   * Called once for each line of text in the block.
+   *
+   * `xOffset` and `yOffset` are assumed to be in an independent text-aligned
+   * coordinate space.
+   */
+  write: (line: string, anchor: IAnchor, xOffset: number, yOffset: number) => void;
+}
 
 /**
  * A factory method that sets up a line pen for a new block of text. This method
  * will receive a transform that needs to be applied to the whole text block.
  *
- * The returned `IPen` method will be used render each line in the block.
+ * You may optionally pass the final `container` argument to specify the parent
+ * into which the text is written. This allows you to easily share cached
+ * measurer results while writing text into multiple SVG elements or Canvas
+ * contexts. Use this ONLY if you are certain the font styles will match those
+ * used by the `Measurer`'s `IRuler`.
+ *
+ * The returned `IPen` will be used render each line in the block.
  */
-export type IPenFactory = (text: string, transform: ITransform) => IPen;
+export type IPenFactory<T> = (text: string, transform: ITransform, container?: T) => IPen;
 
-export interface IBaseWriteOptions {
-  /**
-   * The x-alignment of text.
-   *
-   * @default "left"
-   */
-  xAlign?: IXAlign;
-
-  /**
-   * The y-alignment of text.
-   *
-   * @default "top"
-   */
-  yAlign?: IYAlign;
-
+export interface IWriteOptions {
   /**
    * An optional cardinal-direction rotation for the whole text block.
    *
@@ -78,17 +77,28 @@ export interface IBaseWriteOptions {
    * @default 0
    */
   textShear?: number;
+
+  /**
+   * The x-alignment of text.
+   *
+   * @default "left"
+   */
+  xAlign?: IXAlign;
+
+  /**
+   * The y-alignment of text.
+   *
+   * @default "top"
+   */
+  yAlign?: IYAlign;
 }
 
-export interface IWriteOptions extends IBaseWriteOptions {
-  /**
-   * A `IPenFactoryContext` used to create `IPen` objects for each block of
-   * wrapped text.
-   *
-   * @see IPenFactoryContext
-   */
-  context: IPenFactoryContext;
-}
+const DEFAULT_WRITE_OPTIONS: IWriteOptions = {
+  textRotation: 0,
+  textShear: 0,
+  xAlign: "left",
+  yAlign: "top",
+};
 
 export class Writer {
   private static SupportedRotation = [-90, 0, 180, 90];
@@ -111,34 +121,30 @@ export class Writer {
     top: 0,
   };
 
-  private _measurer: Measurers.AbstractMeasurer;
-  private _wrapper: Wrappers.Wrapper;
-
   constructor(
-    measurer: Measurers.AbstractMeasurer,
-    wrapper?: Wrappers.Wrapper) {
-    this.measurer(measurer);
-    if (wrapper) {
-      this.wrapper(wrapper);
-    }
+    private _measurer: AbstractMeasurer,
+    private _penFactory: IPenFactoryContext<any>,
+    private _wrapper?: Wrapper) {
   }
 
-  public measurer(newMeasurer: Measurers.AbstractMeasurer): Writer {
+  public measurer(newMeasurer: AbstractMeasurer): Writer {
     this._measurer = newMeasurer;
     return this;
   }
 
-  public wrapper(newWrapper: Wrappers.Wrapper): Writer {
+  public wrapper(newWrapper: Wrapper): Writer {
     this._wrapper = newWrapper;
     return this;
   }
 
-  public write(text: string, width: number, height: number, options: IWriteOptions) {
+  public penFactory(newPenFactory: IPenFactoryContext<any>): Writer {
+    this._penFactory = newPenFactory;
+    return this;
+  }
+
+  public write(text: string, width: number, height: number, options: IWriteOptions = {}, container?: any) {
     // apply default options
-    options.textRotation = options.textRotation == null ? 0 : options.textRotation;
-    options.textShear = options.textShear == null ? 0 : options.textShear;
-    options.xAlign = options.xAlign == null ? "left" : options.xAlign;
-    options.yAlign = options.yAlign == null ? "top" : options.yAlign;
+    options = Methods.defaults({}, DEFAULT_WRITE_OPTIONS, options);
 
     // validate input
     if (Writer.SupportedRotation.indexOf(options.textRotation) === -1) {
@@ -206,8 +212,7 @@ export class Writer {
     }
 
     // create a new pen and write the lines
-    const { context } = options;
-    const linePen = context.createPen(text, { translate, rotate });
+    const linePen = this._penFactory.createPen(text, { translate, rotate }, container);
     this.writeLines(
       lines,
       linePen,
@@ -216,8 +221,8 @@ export class Writer {
       shearShift,
       options.xAlign,
     );
-    if (context.destroyPen != null) {
-      context.destroyPen(linePen);
+    if (linePen.destroy != null) {
+      linePen.destroy();
     }
   }
 
@@ -232,7 +237,7 @@ export class Writer {
       const shearOffset = (shearShift > 0) ? (i + 1) * shearShift : (i) * shearShift;
       const xOffset = shearOffset + width * Writer.XOffsetFactor[xAlign];
       const anchor = Writer.AnchorConverter[xAlign];
-      linePen(line, anchor, xOffset, (i + 1) * lineHeight);
+      linePen.write(line, anchor, xOffset, (i + 1) * lineHeight);
     });
   }
 }

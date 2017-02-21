@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>StringMethods | Typesetter</title>
+	<title>Typesetter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="stringmethods.html">StringMethods</a>
+					<a href="typesetter.html">Typesetter</a>
 				</li>
 			</ul>
-			<h1>Class StringMethods</h1>
+			<h1>Class Typesetter</h1>
 		</div>
 	</div>
 </header>
@@ -69,9 +69,8 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
-							Licensed under the MIT License (the &quot;License&quot;); you may obtain a copy of the
-						license at <a href="https://github.com/palantir/svg-typewriter/blob/develop/LICENSE">https://github.com/palantir/svg-typewriter/blob/develop/LICENSE</a></p>
+						<p>This is a convenience interface for typesetting strings using the default
+						measurer/wrapper/writer setup.</p>
 					</div>
 				</div>
 			</section>
@@ -79,7 +78,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">StringMethods</span>
+						<span class="target">Typesetter</span>
 					</li>
 				</ul>
 			</section>
@@ -88,119 +87,223 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="typesetter.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="typesetter.html#context" class="tsd-kind-icon">context</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="typesetter.html#measurer" class="tsd-kind-icon">measurer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="typesetter.html#wrapper" class="tsd-kind-icon">wrapper</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="typesetter.html#writer" class="tsd-kind-icon">writer</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="stringmethods.html#combinewhitespace" class="tsd-kind-icon">combine<wbr>Whitespace</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="stringmethods.html#isnotemptystring" class="tsd-kind-icon">is<wbr>Not<wbr>Empty<wbr>String</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="stringmethods.html#trimend" class="tsd-kind-icon">trim<wbr>End</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="stringmethods.html#trimstart" class="tsd-kind-icon">trim<wbr>Start</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="typesetter.html#clearmeasurercache" class="tsd-kind-icon">clear<wbr>Measurer<wbr>Cache</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="typesetter.html#write" class="tsd-kind-icon">write</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="typesetter.html#canvas" class="tsd-kind-icon">canvas</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="typesetter.html#svg" class="tsd-kind-icon">svg</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="combinewhitespace" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> combine<wbr>Whitespace</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">combine<wbr>Whitespace<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Typesetter<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/itypesettercontext.html" class="tsd-signature-type">ITypesetterContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="typesetter.html" class="tsd-signature-type">Typesetter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/utils/stringMethods.ts#L11">utils/stringMethods.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/typesetter.ts#L27">typesetter.ts:27</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>context: <a href="../interfaces/itypesettercontext.html" class="tsd-signature-type">ITypesetterContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="typesetter.html" class="tsd-signature-type">Typesetter</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="context" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> context</h3>
+					<div class="tsd-signature tsd-kind-icon">context<span class="tsd-signature-symbol">:</span> <a href="../interfaces/itypesettercontext.html" class="tsd-signature-type">ITypesetterContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/typesetter.ts#L29">typesetter.ts:29</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="measurer" class="tsd-anchor"></a>
+					<h3>measurer</h3>
+					<div class="tsd-signature tsd-kind-icon">measurer<span class="tsd-signature-symbol">:</span> <a href="cachemeasurer.html" class="tsd-signature-type">CacheMeasurer</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/typesetter.ts#L25">typesetter.ts:25</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="wrapper" class="tsd-anchor"></a>
+					<h3>wrapper</h3>
+					<div class="tsd-signature tsd-kind-icon">wrapper<span class="tsd-signature-symbol">:</span> <a href="wrapper.html" class="tsd-signature-type">Wrapper</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/typesetter.ts#L26">typesetter.ts:26</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="writer" class="tsd-anchor"></a>
+					<h3>writer</h3>
+					<div class="tsd-signature tsd-kind-icon">writer<span class="tsd-signature-symbol">:</span> <a href="writer.html" class="tsd-signature-type">Writer</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/typesetter.ts#L27">typesetter.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="clearmeasurercache" class="tsd-anchor"></a>
+					<h3>clear<wbr>Measurer<wbr>Cache</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">clear<wbr>Measurer<wbr>Cache<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/typesetter.ts#L50">typesetter.ts:50</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Treat all sequences of consecutive spaces as a single &quot; &quot;.</p>
+									<p>Clears the <code>Measurer</code>&#39;s CacheMeasurer.</p>
 								</div>
+								<p>Call this if your font style changee in SVG.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="write" class="tsd-anchor"></a>
+					<h3>write</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/iwriteoptions.html" class="tsd-signature-type">IWriteOptions</a>, into<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/typesetter.ts#L41">typesetter.ts:41</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wraps the given string into the width/height and writes it into the
+									canvas or SVG (depending on context).</p>
+								</div>
+								<p>Delegates to <code>Writer.write</code> using the internal <code>ITypesetterContext</code>.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>str: <span class="tsd-signature-type">string</span></h5>
+									<h5>text: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>width: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>height: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/iwriteoptions.html" class="tsd-signature-type">IWriteOptions</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> into: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="isnotemptystring" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> is<wbr>Not<wbr>Empty<wbr>String</h3>
+					<a name="canvas" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> canvas</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Not<wbr>Empty<wbr>String<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">canvas<span class="tsd-signature-symbol">(</span>ctx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CanvasRenderingContext2D</span>, lineHeight<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, style<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icanvasfontstyle.html" class="tsd-signature-type">ICanvasFontStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="typesetter.html" class="tsd-signature-type">Typesetter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/utils/stringMethods.ts#L15">utils/stringMethods.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/typesetter.ts#L21">typesetter.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>str: <span class="tsd-signature-type">string</span></h5>
+									<h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> lineHeight: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> style: <a href="../interfaces/icanvasfontstyle.html" class="tsd-signature-type">ICanvasFontStyle</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="typesetter.html" class="tsd-signature-type">Typesetter</a></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="trimend" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> trim<wbr>End</h3>
+					<a name="svg" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> svg</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">trim<wbr>End<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, c<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">svg<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span>, className<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, addTitleElement<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="typesetter.html" class="tsd-signature-type">Typesetter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/utils/stringMethods.ts#L30">utils/stringMethods.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/typesetter.ts#L17">typesetter.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>str: <span class="tsd-signature-type">string</span></h5>
+									<h5>element: <span class="tsd-signature-type">Element</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> c: <span class="tsd-signature-type">string</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> className: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> addTitleElement: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="trimstart" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> trim<wbr>Start</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">trim<wbr>Start<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, splitter<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/utils/stringMethods.ts#L19">utils/stringMethods.ts:19</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>str: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> splitter: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="typesetter.html" class="tsd-signature-type">Typesetter</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -243,27 +346,9 @@
 					<li class=" tsd-kind-class">
 						<a href="singlelinewrapper.html" class="tsd-kind-icon">Single<wbr>Line<wbr>Wrapper</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-class">
+					<li class=" tsd-kind-class">
 						<a href="stringmethods.html" class="tsd-kind-icon">String<wbr>Methods</a>
-						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="stringmethods.html#combinewhitespace" class="tsd-kind-icon">combine<wbr>Whitespace</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="stringmethods.html#isnotemptystring" class="tsd-kind-icon">is<wbr>Not<wbr>Empty<wbr>String</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="stringmethods.html#trimend" class="tsd-kind-icon">trim<wbr>End</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="stringmethods.html#trimstart" class="tsd-kind-icon">trim<wbr>Start</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="svgcontext.html" class="tsd-kind-icon">Svg<wbr>Context</a>
 					</li>
@@ -273,9 +358,42 @@
 					<li class=" tsd-kind-class">
 						<a href="tokenizer.html" class="tsd-kind-icon">Tokenizer</a>
 					</li>
-					<li class=" tsd-kind-class">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
 						<a href="typesetter.html" class="tsd-kind-icon">Typesetter</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="typesetter.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="typesetter.html#context" class="tsd-kind-icon">context</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="typesetter.html#measurer" class="tsd-kind-icon">measurer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="typesetter.html#wrapper" class="tsd-kind-icon">wrapper</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="typesetter.html#writer" class="tsd-kind-icon">writer</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="typesetter.html#clearmeasurercache" class="tsd-kind-icon">clear<wbr>Measurer<wbr>Cache</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="typesetter.html#write" class="tsd-kind-icon">write</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="typesetter.html#canvas" class="tsd-kind-icon">canvas</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="typesetter.html#svg" class="tsd-kind-icon">svg</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="wrapper.html" class="tsd-kind-icon">Wrapper</a>
 					</li>

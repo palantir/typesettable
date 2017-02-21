@@ -7,7 +7,7 @@
 import { CanvasContext, ICanvasFontStyle, ITypesetterContext, SvgContext } from "./context";
 import { CacheMeasurer } from "./measurers";
 import { Wrapper } from "./wrappers";
-import { IBaseWriteOptions, Writer } from "./writers";
+import { IWriteOptions, Writer } from "./writers";
 
 /**
  * This is a convenience interface for typesetting strings using the default
@@ -26,10 +26,10 @@ export class Typesetter {
     public wrapper: Wrapper;
     public writer: Writer;
 
-    constructor(private context: ITypesetterContext) {
+    constructor(private context: ITypesetterContext<any>) {
         this.measurer = new CacheMeasurer(this.context.createRuler());
         this.wrapper = new Wrapper();
-        this.writer = new Writer(this.measurer, this.wrapper);
+        this.writer = new Writer(this.measurer, this.context, this.wrapper);
     }
 
     /**
@@ -38,10 +38,8 @@ export class Typesetter {
      *
      * Delegates to `Writer.write` using the internal `ITypesetterContext`.
      */
-    public write(text: string, width: number, height: number, options: IBaseWriteOptions = {}) {
-        const fullWriteOptions = Object(options);
-        fullWriteOptions.context = this.context;
-        this.writer.write(text, width, height, fullWriteOptions);
+    public write(text: string, width: number, height: number, options?: IWriteOptions, into?: any) {
+        this.writer.write(text, width, height, options, into);
     }
 
     /**
