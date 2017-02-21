@@ -45,15 +45,15 @@ export function defaults(target: any, ...objects: any[]) {
       throw new TypeError("Cannot convert undefined or null to object");
     }
 
-    const to = Object(target);
+    const result = Object(target);
     objects.forEach((obj) => {
       if (obj != null) {
-        for (const nextKey in obj) {
-          if (Object.prototype.hasOwnProperty.call(obj, nextKey)) {
-            to[nextKey] = obj[nextKey];
+        for (const key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            result[key] = obj[key];
           }
         }
       }
     });
-    return to;
+    return result;
 }

@@ -6,6 +6,7 @@
 
 export * from "./context";
 export * from "./measurers";
+export * from "./typesetter";
 export * from "./utils";
 export * from "./wrappers";
 export * from "./writers";

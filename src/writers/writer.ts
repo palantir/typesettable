@@ -45,15 +45,7 @@ export type IPen = (line: string, anchor: IAnchor, xOffset: number, yOffset: num
  */
 export type IPenFactory = (text: string, transform: ITransform) => IPen;
 
-export interface IWriteOptions {
-  /**
-   * A `IPenFactoryContext` used to create `IPen` objects for each block of
-   * wrapped text.
-   *
-   * @see IPenFactoryContext
-   */
-  context: IPenFactoryContext;
-
+export interface IBaseWriteOptions {
   /**
    * The x-alignment of text.
    *
@@ -86,6 +78,16 @@ export interface IWriteOptions {
    * @default 0
    */
   textShear?: number;
+}
+
+export interface IWriteOptions extends IBaseWriteOptions {
+  /**
+   * A `IPenFactoryContext` used to create `IPen` objects for each block of
+   * wrapped text.
+   *
+   * @see IPenFactoryContext
+   */
+  context: IPenFactoryContext;
 }
 
 export class Writer {

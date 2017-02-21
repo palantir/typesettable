@@ -57,20 +57,20 @@ function contextBehaviorTests(test: ITest) {
         assert.equal(test.pen.callCount, 1);
     });
 
-    it("long text is wrapped", () => {
+    it("wraps long text", () => {
         test.write("--- i am the very model of a modern major general");
         assert.equal(test.pen.callCount, 4);
         assert.equal(test.pen.getCall(3).args[0], "modern...");
     });
 
-    it("text rotation", () => {
+    it("rotates text", () => {
         const options = { textRotation: 90 };
         test.write("i am the very model of a modern major general", options, 100, 50);
         assert.equal(test.pen.callCount, 4);
         assert.equal(test.pen.getCall(3).args[0], "mo...");
     });
 
-    it("text shearing", () => {
+    it("shears text", () => {
         const options = { textShear: 45 };
         test.write("i am the very model of a modern major general", options);
         assert.equal(test.pen.callCount, 3);
