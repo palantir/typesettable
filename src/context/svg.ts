@@ -19,9 +19,16 @@ export class SvgUtils {
 
   public static create(tagName: string, ...classNames: string[]) {
     const element = document.createElementNS(SvgUtils.SVG_NS, tagName);
-    classNames.forEach((className) => {
-      element.classList.add(className);
-    });
+
+    if (element.classList != null) {
+      classNames.forEach((className) => {
+        element.classList.add(className);
+      });
+    } else {
+      // IE 11 does not support classList
+      element.setAttribute("class", classNames.join(" "));
+    }
+
     return element;
   }
 
