@@ -20,6 +20,12 @@ import { defaults } from "./utils";
 
 type WriteCallback = (text: string, options?: any, width?: number, height?: number) => void;
 
+interface ITest {
+    context?: ITypesetterContext;
+    pen: IPen & sinon.SinonSpy;
+    write?: WriteCallback;
+}
+
 function createWriteCallback(test: ITest) {
     const measurer = new Measurer(test.context.createRuler());
     const wrapper = new Wrapper();
@@ -70,12 +76,6 @@ function contextBehaviorTests(test: ITest) {
         assert.equal(test.pen.callCount, 3);
         assert.equal(test.pen.getCall(1).args[0], "model of a");
     });
-}
-
-interface ITest {
-    pen: IPen & sinon.SinonSpy;
-    context?: ITypesetterContext;
-    write?: WriteCallback;
 }
 
 describe("Contexts", () => {
