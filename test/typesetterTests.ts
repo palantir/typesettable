@@ -20,7 +20,7 @@ describe("Typesetter", () => {
         });
 
         it("can write", () => {
-            typesetter.write("test string goes here", 200, 100);
+            typesetter.write("test string", 200, 100);
         });
 
         it("can clear cache", () => {
@@ -44,8 +44,8 @@ describe("Typesetter", () => {
         });
 
         it("can write", () => {
-            typesetter.write("test string goes here", 100, 100);
-            assert.equal(svg.querySelector("text").textContent, "test string goes");
+            typesetter.write("test string", 200, 100);
+            assert.equal(svg.querySelector("text").textContent, "test string");
         });
 
         it("can write into separate containers", () => {
