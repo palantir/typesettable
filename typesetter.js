@@ -64,12 +64,6 @@ var CanvasContext = (function () {
     };
     return CanvasContext;
 }());
-/**
- * The typical factor between pixel font size and actual line height as
- * measured in SVG. This helps match typesetter layouts between SVG and
- * Canvas contexts.
- */
-CanvasContext.LINE_HEIGHT_FACTOR = 1.1774;
 exports.CanvasContext = CanvasContext;
 
 },{}],2:[function(require,module,exports){
@@ -110,16 +104,24 @@ var SvgUtils = (function () {
             classNames[_i - 1] = arguments[_i];
         }
         var element = document.createElementNS(SvgUtils.SVG_NS, tagName);
-        classNames.forEach(function (className) {
-            element.classList.add(className);
-        });
+        if (element.classList != null) {
+            classNames.forEach(function (className) {
+                element.classList.add(className);
+            });
+        }
+        else {
+            // IE 11 does not support classList
+            element.setAttribute("class", classNames.join(" "));
+        }
         return element;
     };
     SvgUtils.getDimensions = function (element) {
         // using feature detection, safely return the bounding box dimensions of the
         // provided svg element
         if (element.getBBox) {
-            return element.getBBox();
+            var _a = element.getBBox(), width = _a.width, height = _a.height;
+            // prevent NoModificationAllowedError
+            return { width: width, height: height };
         }
         else {
             return { height: 0, width: 0 };
@@ -148,7 +150,7 @@ var SvgContext = (function () {
                 parent.appendChild(element);
                 element.textContent = text;
                 var dimensions = SvgUtils.getDimensions(element);
-                element.remove();
+                parent.removeChild(element); // element.remove() doesn't work in IE11
                 return dimensions;
             };
         };
@@ -186,14 +188,14 @@ var SvgContext = (function () {
         // if element is already a text element, return it
         if (element.tagName === "text") {
             var parent_1 = element.parentNode;
-            element.remove(); // TODO Not sure if necessary or even a good idea
+            parent_1.removeChild(element); // TODO Not sure if necessary or even a good idea
             return { parent: parent_1, element: element };
         }
         // if element has a text element descendent, select it and return it
         var selected = element.querySelector("text");
         if (selected != null) {
             var parent_2 = selected.parentNode;
-            selected.remove(); // TODO Not sure if necessary or even a good idea
+            parent_2.removeChild(selected); // TODO Not sure if necessary or even a good idea
             return { parent: parent_2, element: selected };
         }
         // otherwise create a new text element

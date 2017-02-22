@@ -36,7 +36,9 @@ export class SvgUtils {
     // using feature detection, safely return the bounding box dimensions of the
     // provided svg element
     if (element.getBBox) {
-      return element.getBBox();
+      const { width, height } = element.getBBox();
+      // prevent NoModificationAllowedError
+      return { width, height };
     } else {
       return { height: 0, width: 0 };
     }
@@ -55,7 +57,6 @@ interface ITemporaryTextElementHarness {
  * enable title tags to be added to new text blocks.
  */
 export class SvgContext implements ITypesetterContext<Element> {
-
   public constructor(
       private element: Element,
       private className?: string,
@@ -72,7 +73,7 @@ export class SvgContext implements ITypesetterContext<Element> {
       parent.appendChild(element);
       element.textContent = text;
       const dimensions = SvgUtils.getDimensions(element);
-      element.remove();
+      parent.removeChild(element); // element.remove() doesn't work in IE11
       return dimensions;
     };
   }
@@ -119,7 +120,7 @@ export class SvgContext implements ITypesetterContext<Element> {
     // if element is already a text element, return it
     if (element.tagName === "text") {
       const parent = element.parentNode;
-      element.remove(); // TODO Not sure if necessary or even a good idea
+      parent.removeChild(element); // TODO Not sure if necessary or even a good idea
       return { parent, element: element as SVGTextElement };
     }
 
@@ -127,7 +128,7 @@ export class SvgContext implements ITypesetterContext<Element> {
     const selected = element.querySelector("text");
     if (selected != null) {
       const parent = selected.parentNode;
-      selected.remove(); // TODO Not sure if necessary or even a good idea
+      parent.removeChild(selected); // TODO Not sure if necessary or even a good idea
       return { parent, element: selected };
     }
 

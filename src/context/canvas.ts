@@ -44,14 +44,6 @@ export interface ICanvasFontStyle {
  * `ICanvasFontStyle` object.
  */
 export class CanvasContext implements ITypesetterContext<CanvasRenderingContext2D> {
-
-    /**
-     * The typical factor between pixel font size and actual line height as
-     * measured in SVG. This helps match typesetter layouts between SVG and
-     * Canvas contexts.
-     */
-    public static LINE_HEIGHT_FACTOR = 1.1774;
-
     public constructor(
         private ctx: CanvasRenderingContext2D,
         private lineHeight = 10,

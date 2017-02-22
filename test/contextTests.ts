@@ -35,7 +35,7 @@ function createWriteCallback(test: ITest) {
     const wrapper = new Wrapper();
     const mockPenFactory = { createPen: () => test.pen };
     const writer = new Writer(measurer, mockPenFactory, wrapper);
-    return (text: string, options = {}, width = 100, height = 100) => {
+    return (text: string, options = {}, width = 101, height = 100) => {
         writer.write(text, width, height, options);
     };
 }
@@ -56,6 +56,8 @@ function commonTests(test: ITest) {
         assert.equal(test.pen.write.callCount, 1);
     });
 }
+
+const TEXT = "i am the very model of a modern major general";
 
 describe("Contexts", () => {
     const canvasTest: ITest = {
@@ -78,10 +80,13 @@ describe("Contexts", () => {
         svgTest.context = new SvgContext(svg);
         svgTest.write = createWriteCallback(svgTest);
 
+        // hack to match line heights
+        const lineHeight = new Measurer(svgTest.context.createRuler()).measure().height;
+
         const canvas = document.createElement("canvas");
         canvasTest.context = new CanvasContext(
             canvas.getContext("2d"),
-            18 * CanvasContext.LINE_HEIGHT_FACTOR,
+            lineHeight,
             {
                 fill: "red",
                 font: "18px sans-serif",
@@ -92,7 +97,7 @@ describe("Contexts", () => {
     });
 
     after(() => {
-        svg.remove();
+        document.body.removeChild(svg);
     });
 
     beforeEach(() => {
@@ -106,24 +111,25 @@ describe("Contexts", () => {
     commonTests(svgTest);
 
     it("wraps long text", () => {
-        canvasTest.write("--- i am the very model of a modern major general");
-        svgTest.write("--- i am the very model of a modern major general");
+        canvasTest.write(TEXT);
+        svgTest.write(TEXT);
         assert.equal(canvasTest.pen.write.callCount, svgTest.pen.write.callCount);
         assert.equal(canvasTest.pen.write.getCall(0).args[0], svgTest.pen.write.getCall(0).args[0]);
     });
 
     it("rotates text", () => {
         const options = { textRotation: 90 };
-        canvasTest.write("i am the very model of a modern major general", options, 100, 50);
-        svgTest.write("i am the very model of a modern major general", options, 100, 50);
+        // we use an additional pixel to handle multibrowser subpixel precision issues
+        canvasTest.write(TEXT, options, 101, 51);
+        svgTest.write(TEXT, options, 101, 51);
         assert.equal(canvasTest.pen.write.callCount, svgTest.pen.write.callCount);
         assert.equal(canvasTest.pen.write.getCall(0).args[0], svgTest.pen.write.getCall(0).args[0]);
     });
 
     it("shears text", () => {
         const options = { textShear: 45 };
-        canvasTest.write("i am the very model of a modern major general", options);
-        svgTest.write("i am the very model of a modern major general", options);
+        canvasTest.write(TEXT, options);
+        svgTest.write(TEXT, options);
         assert.equal(canvasTest.pen.write.callCount, svgTest.pen.write.callCount);
         assert.equal(canvasTest.pen.write.getCall(0).args[0], svgTest.pen.write.getCall(0).args[0]);
     });
