@@ -76,6 +76,8 @@ canvasTypesetter.write("Hello Canvas!", width, height, writeOptions);
 If you are typesetting multiple strings of text with the same font style,
 maintain a cache of Measurer results to improve performance.
 
+Your HTML might look like:
+
 ```html
 <svg>
   <g class="section-one"></g>
@@ -83,20 +85,27 @@ maintain a cache of Measurer results to improve performance.
 </svg>
 ```
 
+To share text measurements between writer, you can use the simple `Typesetter`
+interface, which already uses a shared `CacheMeasurer`. Or, you can compose the
+components manually like so:
+
 ```ts
-import { Typesetter } from "@palantir/typesetter";
+import { CacheMeasurer, SvgContext, Wrapper, Writer } from "@palantir/typesetter";
 
 const svg = document.querySelector("svg");
-const typesetter = Typesetter.svg(svg);
+const context = new SvgContext(svg);
+const measurer = new CacheMeasurer(context);
+const wrapper = new Wrapper();
+const writer = new Writer(measurer, context, wrapper);
 const writeOptions = { xAlign: "center" };
 
-typesetter.write(
+writer.write(
   "This text is in the first section",
   100, 400, writeOptions,
   svg.querySelector("g.section-one")
 );
 
-typesetter.write(
+writer.write(
   "This text is in the second section",
   100, 200, writeOptions,
   svg.querySelector("g.section-two")

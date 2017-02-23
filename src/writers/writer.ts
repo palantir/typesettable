@@ -4,7 +4,7 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import { IPenFactoryContext } from "../context";
+import { IPenFactoryContext } from "../contexts";
 import { AbstractMeasurer } from "../measurers";
 import { Methods, StringMethods } from "../utils";
 import { Wrapper } from "../wrappers";
@@ -142,7 +142,11 @@ export class Writer {
     return this;
   }
 
-  public write(text: string, width: number, height: number, options: IWriteOptions = {}, container?: any) {
+  /**
+   * Writes the text into the container. If no container is specified, the pen's
+   * default container will be used.
+   */
+  public write<T>(text: string, width: number, height: number, options: IWriteOptions = {}, container?: T) {
     // apply default options
     options = Methods.defaults({}, DEFAULT_WRITE_OPTIONS, options);
 

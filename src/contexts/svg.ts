@@ -19,7 +19,12 @@ export class SvgUtils {
 
   public static create(tagName: string, ...classNames: string[]) {
     const element = document.createElementNS(SvgUtils.SVG_NS, tagName);
+    SvgUtils.addClasses(element, ...classNames);
+    return element;
+  }
 
+  public static addClasses(element: Element, ...classNames: string[]) {
+    classNames = classNames.filter((c) => c != null);
     if (element.classList != null) {
       classNames.forEach((className) => {
         element.classList.add(className);
@@ -28,8 +33,6 @@ export class SvgUtils {
       // IE 11 does not support classList
       element.setAttribute("class", classNames.join(" "));
     }
-
-    return element;
   }
 
   public static getDimensions(element: SVGLocatable): IDimensions {
@@ -45,13 +48,29 @@ export class SvgUtils {
   }
 }
 
+/**
+ * Paramters for `IRuler` implementation.
+ *
+ * First, it appends the `containerElement` to the `parentElement`. Then, it
+ * sets the text content on `textElement` and measures the bounding box.
+ * Finally, it removes the `containerElement`.
+ *
+ * The root element of the context may be any `SVGElement` including `<text>`
+ * elements, so we choose the best elements for this operation. We prioritize
+ * exact `<text>` elements, then the first existing `<text>` element descendent,
+ * then finally it will just create a new `<text>` element.
+ */
 interface ITemporaryTextElementHarness {
-  parent: Node;
-  element: SVGTextElement;
+  parentElement: Element;
+  containerElement: Element & SVGLocatable;
+  textElement: SVGTextElement;
 }
 
 /**
  * A typesetter context for SVG.
+ *
+ * The `element` parameter must be an `SVGElement`. Note that the CSS font
+ * styles applied to this element will determine the size of text measurements.
  *
  * This class can be constructed with an optional class name and a boolean to
  * enable title tags to be added to new text blocks.
@@ -68,12 +87,12 @@ export class SvgContext implements ITypesetterContext<Element> {
   }
 
   public createRuler = () => {
-    const { parent, element } = this.getTextElement(this.element);
+    const { parentElement, containerElement, textElement } = this.getTextElements(this.element);
     return (text: string) => {
-      parent.appendChild(element);
-      element.textContent = text;
-      const dimensions = SvgUtils.getDimensions(element);
-      parent.removeChild(element); // element.remove() doesn't work in IE11
+      parentElement.appendChild(containerElement);
+      textElement.textContent = text;
+      const dimensions = SvgUtils.getDimensions(textElement);
+      parentElement.removeChild(containerElement); // element.remove() doesn't work in IE11
       return dimensions;
     };
   }
@@ -92,10 +111,10 @@ export class SvgContext implements ITypesetterContext<Element> {
 
     // create and transform text block group
     const textBlockGroup = SvgUtils.append(textContainer, "g", "text-area") as SVGGElement;
-    textBlockGroup.setAttribute("transform", `
-      translate(${transform.translate[0]}, ${transform.translate[1]})
-      rotate(${transform.rotate})
-    `);
+    textBlockGroup.setAttribute("transform",
+      `translate(${transform.translate[0]},${transform.translate[1]})` +
+      `rotate(${transform.rotate})`,
+    );
     return this.createSvgLinePen(textBlockGroup);
   }
 
@@ -110,30 +129,45 @@ export class SvgContext implements ITypesetterContext<Element> {
           const element = SvgUtils.append(textBlockGroup, "text", "text-line");
           element.textContent = line;
           element.setAttribute("text-anchor", anchor);
-          element.setAttribute("transform", `translate(${xOffset}, ${yOffset})`);
+          element.setAttribute("transform", `translate(${xOffset},${yOffset})`);
           element.setAttribute("y", "-0.25em");
         },
     };
   }
 
-  private getTextElement(element: Element): ITemporaryTextElementHarness {
+  private getTextElements(element: Element): ITemporaryTextElementHarness {
     // if element is already a text element, return it
     if (element.tagName === "text") {
-      const parent = element.parentNode;
-      parent.removeChild(element); // TODO Not sure if necessary or even a good idea
-      return { parent, element: element as SVGTextElement };
+      const parentElement = element.parentElement;
+      // must be removed from parent since we re-add it on every measurement
+      parentElement.removeChild(element);
+
+      return {
+        containerElement: element as Element & SVGLocatable,
+        parentElement,
+        textElement: element as SVGTextElement,
+      };
     }
 
     // if element has a text element descendent, select it and return it
     const selected = element.querySelector("text");
     if (selected != null) {
-      const parent = selected.parentNode;
-      parent.removeChild(selected); // TODO Not sure if necessary or even a good idea
-      return { parent, element: selected };
+      const parentElement = element.parentElement;
+      // must be removed from parent since we re-add it on every measurement
+      parentElement.removeChild(element);
+      return {
+        containerElement: element as Element & SVGLocatable,
+        parentElement,
+        textElement: selected as SVGTextElement,
+      };
     }
 
     // otherwise create a new text element
     const created = SvgUtils.create("text", this.className) as SVGTextElement;
-    return { parent: element, element: created };
+    return {
+      containerElement: created,
+      parentElement: element,
+      textElement: created,
+    };
   }
 }

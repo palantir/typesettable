@@ -36,6 +36,8 @@ export interface ICanvasFontStyle {
     stroke?: string;
 }
 
+const DEFAULT_FILL_COLOR = "#444";
+
 /**
  * A typesetter context for HTML5 Canvas.
  *
@@ -50,7 +52,7 @@ export class CanvasContext implements ITypesetterContext<CanvasRenderingContext2
         private style: ICanvasFontStyle = {},
     ) {
         if (this.style.fill === undefined) {
-            this.style.fill = "#444";
+            this.style.fill = DEFAULT_FILL_COLOR;
         }
     }
 

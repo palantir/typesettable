@@ -4,13 +4,14 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
+import { IRulerFactoryContext } from "../contexts";
 import { AbstractMeasurer, IDimensions, IRuler } from "./abstractMeasurer";
 
 export class Measurer extends AbstractMeasurer {
   private guardWidth: number;
   private useGuards: boolean;
 
-  constructor(ruler: IRuler, useGuards: boolean = false) {
+  constructor(ruler: IRuler | IRulerFactoryContext, useGuards: boolean = false) {
     super(ruler);
     this.useGuards = useGuards;
   }

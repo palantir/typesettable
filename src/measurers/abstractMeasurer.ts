@@ -4,6 +4,8 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
+import { IRulerFactoryContext } from "../contexts";
+
 /**
  * Width and height of a span of text.
  */
@@ -31,8 +33,12 @@ export class AbstractMeasurer {
 
   private ruler: IRuler;
 
-  constructor(ruler: IRuler) {
-    this.ruler = ruler;
+  constructor(ruler: IRuler | IRulerFactoryContext) {
+    if ((ruler as IRulerFactoryContext).createRuler != null) {
+      this.ruler = (ruler as IRulerFactoryContext).createRuler();
+    } else {
+      this.ruler = ruler as IRuler;
+    }
   }
 
   public measure(text: string = AbstractMeasurer.HEIGHT_TEXT) {

@@ -4,6 +4,7 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
+import { IRulerFactoryContext } from "../contexts";
 import { Cache } from "../utils";
 import { AbstractMeasurer, IDimensions, IRuler } from "./abstractMeasurer";
 import { CacheCharacterMeasurer } from "./cacheCharacterMeasurer";
@@ -11,7 +12,7 @@ import { CacheCharacterMeasurer } from "./cacheCharacterMeasurer";
 export class CacheMeasurer extends CacheCharacterMeasurer {
   private dimCache: Cache<IDimensions>;
 
-  constructor(ruler: IRuler) {
+  constructor(ruler: IRuler | IRulerFactoryContext) {
     super(ruler);
     this.dimCache = new Cache<IDimensions>((s: string) => {
       return this._measureNotFromCache(s);

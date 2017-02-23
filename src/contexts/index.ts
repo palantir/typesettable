@@ -7,14 +7,24 @@
 import { IRulerFactory } from "../measurers";
 import { IPenFactory } from "../writers";
 
+/**
+ * An object that can create an `IPen`.
+ */
 export interface IPenFactoryContext<T> {
     createPen: IPenFactory<T>;
 }
 
+/**
+ * An object that can create an `IRuler`.
+ */
 export interface IRulerFactoryContext {
     createRuler: IRulerFactory;
 }
 
+/**
+ * Both SVG and Canvas contexts use common elements for both their `IRuler` and
+ * `IPen` implementations, so they extend this composite interface.
+ */
 export interface ITypesetterContext<T> extends IPenFactoryContext<T>, IRulerFactoryContext {
 }
 

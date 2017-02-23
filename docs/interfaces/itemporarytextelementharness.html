@@ -66,6 +66,20 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Paramters for <code>IRuler</code> implementation.</p>
+					</div>
+					<p>First, it appends the <code>containerElement</code> to the <code>parentElement</code>. Then, it
+						sets the text content on <code>textElement</code> and measures the bounding box.
+					Finally, it removes the <code>containerElement</code>.</p>
+					<p>The root element of the context may be any <code>SVGElement</code> including <code>&lt;text&gt;</code>
+						elements, so we choose the best elements for this operation. We prioritize
+						exact <code>&lt;text&gt;</code> elements, then the first existing <code>&lt;text&gt;</code> element descendent,
+					then finally it will just create a new <code>&lt;text&gt;</code> element.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -81,8 +95,9 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="itemporarytextelementharness.html#element" class="tsd-kind-icon">element</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="itemporarytextelementharness.html#parent" class="tsd-kind-icon">parent</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="itemporarytextelementharness.html#containerelement" class="tsd-kind-icon">container<wbr>Element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="itemporarytextelementharness.html#parentelement" class="tsd-kind-icon">parent<wbr>Element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="itemporarytextelementharness.html#textelement" class="tsd-kind-icon">text<wbr>Element</a></li>
 							</ul>
 						</section>
 					</div>
@@ -91,22 +106,32 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="element" class="tsd-anchor"></a>
-					<h3>element</h3>
-					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SVGTextElement</span></div>
+					<a name="containerelement" class="tsd-anchor"></a>
+					<h3>container<wbr>Element</h3>
+					<div class="tsd-signature tsd-kind-icon">container<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element &amp; SVGLocatable</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/context/svg.ts#L41">context/svg.ts:41</a></li>
+							<li>Defined in contexts/svg.ts:65</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="parent" class="tsd-anchor"></a>
-					<h3>parent</h3>
-					<div class="tsd-signature tsd-kind-icon">parent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Node</span></div>
+					<a name="parentelement" class="tsd-anchor"></a>
+					<h3>parent<wbr>Element</h3>
+					<div class="tsd-signature tsd-kind-icon">parent<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/5204a2a/src/context/svg.ts#L40">context/svg.ts:40</a></li>
+							<li>Defined in contexts/svg.ts:64</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="textelement" class="tsd-anchor"></a>
+					<h3>text<wbr>Element</h3>
+					<div class="tsd-signature tsd-kind-icon">text<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SVGTextElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in contexts/svg.ts:66</li>
 						</ul>
 					</aside>
 				</section>
@@ -200,10 +225,13 @@
 						<a href="itemporarytextelementharness.html" class="tsd-kind-icon">ITemporary<wbr>Text<wbr>Element<wbr>Harness</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="itemporarytextelementharness.html#element" class="tsd-kind-icon">element</a>
+								<a href="itemporarytextelementharness.html#containerelement" class="tsd-kind-icon">container<wbr>Element</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="itemporarytextelementharness.html#parent" class="tsd-kind-icon">parent</a>
+								<a href="itemporarytextelementharness.html#parentelement" class="tsd-kind-icon">parent<wbr>Element</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="itemporarytextelementharness.html#textelement" class="tsd-kind-icon">text<wbr>Element</a>
 							</li>
 						</ul>
 					</li>
@@ -238,6 +266,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="../globals.html#iyalign" class="tsd-kind-icon">IYAlign</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#default_fill_color" class="tsd-kind-icon">DEFAULT_<wbr>FILL_<wbr>COLOR</a>
 					</li>
 					<li class=" tsd-kind-object-literal tsd-is-not-exported">
 						<a href="../globals.html#default_write_options" class="tsd-kind-icon">DEFAULT_<wbr>WRITE_<wbr>OPTIONS</a>

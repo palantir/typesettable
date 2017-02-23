@@ -123,24 +123,31 @@ canvasTypesetter.write(<span class="hljs-string">"Hello Canvas!"</span>, width, 
 				<h3 id="example-shared-cache">Example Shared Cache</h3>
 				<p>If you are typesetting multiple strings of text with the same font style,
 				maintain a cache of Measurer results to improve performance.</p>
+				<p>Your HTML might look like:</p>
 				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"section-one"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"section-two"</span> <span class="hljs-attr">transform</span>=<span class="hljs-string">"translate(120 0)"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
 </code></pre>
-				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { Typesetter } from <span class="hljs-string">"@palantir/typesetter"</span>;
+				<p>To share text measurements between writer, you can use the simple <code>Typesetter</code>
+					interface, which already uses a shared <code>CacheMeasurer</code>. Or, you can compose the
+				components manually like so:</p>
+				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { CacheMeasurer, SvgContext, Wrapper, Writer } from <span class="hljs-string">"@palantir/typesetter"</span>;
 
 <span class="hljs-keyword">const</span> svg = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"svg"</span>);
-<span class="hljs-keyword">const</span> typesetter = Typesetter.svg(svg);
+<span class="hljs-keyword">const</span> context = <span class="hljs-keyword">new</span> SvgContext(svg);
+<span class="hljs-keyword">const</span> measurer = <span class="hljs-keyword">new</span> CacheMeasurer(context);
+<span class="hljs-keyword">const</span> wrapper = <span class="hljs-keyword">new</span> Wrapper();
+<span class="hljs-keyword">const</span> writer = <span class="hljs-keyword">new</span> Writer(measurer, context, wrapper);
 <span class="hljs-keyword">const</span> writeOptions = { xAlign: <span class="hljs-string">"center"</span> };
 
-typesetter.write(
+writer.write(
   <span class="hljs-string">"This text is in the first section"</span>,
   <span class="hljs-number">100</span>, <span class="hljs-number">400</span>, writeOptions,
   svg.querySelector(<span class="hljs-string">"g.section-one"</span>)
 );
 
-typesetter.write(
+writer.write(
   <span class="hljs-string">"This text is in the second section"</span>,
   <span class="hljs-number">100</span>, <span class="hljs-number">200</span>, writeOptions,
   svg.querySelector(<span class="hljs-string">"g.section-two"</span>)
@@ -264,6 +271,9 @@ typesetter.write(
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#iyalign" class="tsd-kind-icon">IYAlign</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#default_fill_color" class="tsd-kind-icon">DEFAULT_<wbr>FILL_<wbr>COLOR</a>
 					</li>
 					<li class=" tsd-kind-object-literal tsd-is-not-exported">
 						<a href="globals.html#default_write_options" class="tsd-kind-icon">DEFAULT_<wbr>WRITE_<wbr>OPTIONS</a>

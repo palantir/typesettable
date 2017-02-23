@@ -41,6 +41,12 @@ function createWriteCallback(test: ITest) {
 }
 
 function commonTests(test: ITest) {
+    it("can create measurers with ruler or ruler factory", () => {
+        const m0 = new Measurer(test.context);
+        const m1 = new Measurer(test.context.createRuler());
+        assert.deepEqual(m0.measure(TEXT), m1.measure(TEXT));
+    });
+
     it("can create a pen", () => {
         const pen = test.context.createPen("", { translate: [0, 0], rotate: 0 });
         assert.isFunction(pen.write);

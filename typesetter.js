@@ -5,6 +5,7 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 "use strict";
+var DEFAULT_FILL_COLOR = "#444";
 /**
  * A typesetter context for HTML5 Canvas.
  *
@@ -37,7 +38,7 @@ var CanvasContext = (function () {
             return _this.createCanvasPen(ctx);
         };
         if (this.style.fill === undefined) {
-            this.style.fill = "#444";
+            this.style.fill = DEFAULT_FILL_COLOR;
         }
     }
     CanvasContext.prototype.createCanvasPen = function (ctx) {
@@ -104,6 +105,15 @@ var SvgUtils = (function () {
             classNames[_i - 1] = arguments[_i];
         }
         var element = document.createElementNS(SvgUtils.SVG_NS, tagName);
+        SvgUtils.addClasses.apply(SvgUtils, [element].concat(classNames));
+        return element;
+    };
+    SvgUtils.addClasses = function (element) {
+        var classNames = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            classNames[_i - 1] = arguments[_i];
+        }
+        classNames = classNames.filter(function (c) { return c != null; });
         if (element.classList != null) {
             classNames.forEach(function (className) {
                 element.classList.add(className);
@@ -113,7 +123,6 @@ var SvgUtils = (function () {
             // IE 11 does not support classList
             element.setAttribute("class", classNames.join(" "));
         }
-        return element;
     };
     SvgUtils.getDimensions = function (element) {
         // using feature detection, safely return the bounding box dimensions of the
@@ -134,6 +143,9 @@ exports.SvgUtils = SvgUtils;
 /**
  * A typesetter context for SVG.
  *
+ * The `element` parameter must be an `SVGElement`. Note that the CSS font
+ * styles applied to this element will determine the size of text measurements.
+ *
  * This class can be constructed with an optional class name and a boolean to
  * enable title tags to be added to new text blocks.
  */
@@ -145,12 +157,12 @@ var SvgContext = (function () {
         this.className = className;
         this.addTitleElement = addTitleElement;
         this.createRuler = function () {
-            var _a = _this.getTextElement(_this.element), parent = _a.parent, element = _a.element;
+            var _a = _this.getTextElements(_this.element), parentElement = _a.parentElement, containerElement = _a.containerElement, textElement = _a.textElement;
             return function (text) {
-                parent.appendChild(element);
-                element.textContent = text;
-                var dimensions = SvgUtils.getDimensions(element);
-                parent.removeChild(element); // element.remove() doesn't work in IE11
+                parentElement.appendChild(containerElement);
+                textElement.textContent = text;
+                var dimensions = SvgUtils.getDimensions(textElement);
+                parentElement.removeChild(containerElement); // element.remove() doesn't work in IE11
                 return dimensions;
             };
         };
@@ -166,7 +178,8 @@ var SvgContext = (function () {
             }
             // create and transform text block group
             var textBlockGroup = SvgUtils.append(textContainer, "g", "text-area");
-            textBlockGroup.setAttribute("transform", "\n      translate(" + transform.translate[0] + ", " + transform.translate[1] + ")\n      rotate(" + transform.rotate + ")\n    ");
+            textBlockGroup.setAttribute("transform", "translate(" + transform.translate[0] + "," + transform.translate[1] + ")" +
+                ("rotate(" + transform.rotate + ")"));
             return _this.createSvgLinePen(textBlockGroup);
         };
     }
@@ -179,28 +192,42 @@ var SvgContext = (function () {
                 var element = SvgUtils.append(textBlockGroup, "text", "text-line");
                 element.textContent = line;
                 element.setAttribute("text-anchor", anchor);
-                element.setAttribute("transform", "translate(" + xOffset + ", " + yOffset + ")");
+                element.setAttribute("transform", "translate(" + xOffset + "," + yOffset + ")");
                 element.setAttribute("y", "-0.25em");
             },
         };
     };
-    SvgContext.prototype.getTextElement = function (element) {
+    SvgContext.prototype.getTextElements = function (element) {
         // if element is already a text element, return it
         if (element.tagName === "text") {
-            var parent_1 = element.parentNode;
-            parent_1.removeChild(element); // TODO Not sure if necessary or even a good idea
-            return { parent: parent_1, element: element };
+            var parentElement = element.parentElement;
+            // must be removed from parent since we re-add it on every measurement
+            parentElement.removeChild(element);
+            return {
+                containerElement: element,
+                parentElement: parentElement,
+                textElement: element,
+            };
         }
         // if element has a text element descendent, select it and return it
         var selected = element.querySelector("text");
         if (selected != null) {
-            var parent_2 = selected.parentNode;
-            parent_2.removeChild(selected); // TODO Not sure if necessary or even a good idea
-            return { parent: parent_2, element: selected };
+            var parentElement = element.parentElement;
+            // must be removed from parent since we re-add it on every measurement
+            parentElement.removeChild(element);
+            return {
+                containerElement: element,
+                parentElement: parentElement,
+                textElement: selected,
+            };
         }
         // otherwise create a new text element
         var created = SvgUtils.create("text", this.className);
-        return { parent: element, element: created };
+        return {
+            containerElement: created,
+            parentElement: element,
+            textElement: created,
+        };
     };
     return SvgContext;
 }());
@@ -216,14 +243,14 @@ exports.SvgContext = SvgContext;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-__export(require("./context"));
+__export(require("./contexts"));
 __export(require("./measurers"));
 __export(require("./typesetter"));
 __export(require("./utils"));
 __export(require("./wrappers"));
 __export(require("./writers"));
 
-},{"./context":2,"./measurers":9,"./typesetter":11,"./utils":13,"./wrappers":17,"./writers":20}],5:[function(require,module,exports){
+},{"./contexts":2,"./measurers":9,"./typesetter":11,"./utils":13,"./wrappers":17,"./writers":20}],5:[function(require,module,exports){
 /**
  * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
  * Licensed under the MIT License (the "License"); you may obtain a copy of the
@@ -233,7 +260,12 @@ __export(require("./writers"));
 ;
 var AbstractMeasurer = (function () {
     function AbstractMeasurer(ruler) {
-        this.ruler = ruler;
+        if (ruler.createRuler != null) {
+            this.ruler = ruler.createRuler();
+        }
+        else {
+            this.ruler = ruler;
+        }
     }
     AbstractMeasurer.prototype.measure = function (text) {
         if (text === void 0) { text = AbstractMeasurer.HEIGHT_TEXT; }
@@ -437,7 +469,7 @@ exports.Measurer = Measurer;
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 "use strict";
-var context_1 = require("./context");
+var contexts_1 = require("./contexts");
 var measurers_1 = require("./measurers");
 var wrappers_1 = require("./wrappers");
 var writers_1 = require("./writers");
@@ -448,15 +480,15 @@ var writers_1 = require("./writers");
 var Typesetter = (function () {
     function Typesetter(context) {
         this.context = context;
-        this.measurer = new measurers_1.CacheMeasurer(this.context.createRuler());
+        this.measurer = new measurers_1.CacheMeasurer(this.context);
         this.wrapper = new wrappers_1.Wrapper();
         this.writer = new writers_1.Writer(this.measurer, this.context, this.wrapper);
     }
     Typesetter.svg = function (element, className, addTitleElement) {
-        return new Typesetter(new context_1.SvgContext(element, className, addTitleElement));
+        return new Typesetter(new contexts_1.SvgContext(element, className, addTitleElement));
     };
     Typesetter.canvas = function (ctx, lineHeight, style) {
-        return new Typesetter(new context_1.CanvasContext(ctx, lineHeight, style));
+        return new Typesetter(new contexts_1.CanvasContext(ctx, lineHeight, style));
     };
     /**
      * Wraps the given string into the width/height and writes it into the
@@ -479,7 +511,7 @@ var Typesetter = (function () {
 }());
 exports.Typesetter = Typesetter;
 
-},{"./context":2,"./measurers":9,"./wrappers":17,"./writers":20}],12:[function(require,module,exports){
+},{"./contexts":2,"./measurers":9,"./wrappers":17,"./writers":20}],12:[function(require,module,exports){
 /**
  * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
  * Licensed under the MIT License (the "License"); you may obtain a copy of the
@@ -1031,6 +1063,10 @@ var Writer = (function () {
         this._penFactory = newPenFactory;
         return this;
     };
+    /**
+     * Writes the text into the container. If no container is specified, the pen's
+     * default container will be used.
+     */
     Writer.prototype.write = function (text, width, height, options, container) {
         if (options === void 0) { options = {}; }
         // apply default options

@@ -4,7 +4,7 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
-import { CanvasContext, ICanvasFontStyle, ITypesetterContext, SvgContext } from "./context";
+import { CanvasContext, ICanvasFontStyle, ITypesetterContext, SvgContext } from "./contexts";
 import { CacheMeasurer } from "./measurers";
 import { Wrapper } from "./wrappers";
 import { IWriteOptions, Writer } from "./writers";
@@ -27,7 +27,7 @@ export class Typesetter {
     public writer: Writer;
 
     constructor(private context: ITypesetterContext<any>) {
-        this.measurer = new CacheMeasurer(this.context.createRuler());
+        this.measurer = new CacheMeasurer(this.context);
         this.wrapper = new Wrapper();
         this.writer = new Writer(this.measurer, this.context, this.wrapper);
     }
