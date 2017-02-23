@@ -31,7 +31,7 @@ interface IMockPen extends IPen {
 }
 
 function createWriteCallback(test: ITest) {
-    const measurer = new Measurer(test.context.createRuler());
+    const measurer = new Measurer(test.context);
     const wrapper = new Wrapper();
     const mockPenFactory = { createPen: () => test.pen };
     const writer = new Writer(measurer, mockPenFactory, wrapper);
@@ -43,7 +43,7 @@ function createWriteCallback(test: ITest) {
 function commonTests(test: ITest) {
     it("can create measurers with ruler or ruler factory", () => {
         const m0 = new Measurer(test.context);
-        const m1 = new Measurer(test.context.createRuler());
+        const m1 = new Measurer(test.context);
         assert.deepEqual(m0.measure(TEXT), m1.measure(TEXT));
     });
 
@@ -78,7 +78,7 @@ describe("Contexts", () => {
             write: sinon.spy(),
         },
     };
-    let svg: Element;
+    let svg: SVGElement;
 
     before(() => {
         svg = SvgUtils.append(document.body, "svg");

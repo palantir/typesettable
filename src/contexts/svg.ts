@@ -11,18 +11,30 @@ import { ITypesetterContext } from "./index";
 export class SvgUtils {
   public static SVG_NS = "http://www.w3.org/2000/svg";
 
+  /**
+   * Appends an SVG element with the specified tag name to the provided element.
+   * The variadic classnames are added to the new element.
+   *
+   * Returns the new element.
+   */
   public static append(element: Element, tagName: string, ...classNames: string[]) {
     const child = SvgUtils.create(tagName, ...classNames);
     element.appendChild(child);
     return child;
   }
 
+  /**
+   * Creates and returns a new SVGElement with the attached classnames.
+   */
   public static create(tagName: string, ...classNames: string[]) {
-    const element = document.createElementNS(SvgUtils.SVG_NS, tagName);
+    const element = document.createElementNS(SvgUtils.SVG_NS, tagName) as SVGElement;
     SvgUtils.addClasses(element, ...classNames);
     return element;
   }
 
+  /**
+   * Adds the variadic classnames to the element
+   */
   public static addClasses(element: Element, ...classNames: string[]) {
     classNames = classNames.filter((c) => c != null);
     if (element.classList != null) {
@@ -35,12 +47,15 @@ export class SvgUtils {
     }
   }
 
+  /**
+   * Returns the width/height of svg element's bounding box
+   */
   public static getDimensions(element: SVGLocatable): IDimensions {
     // using feature detection, safely return the bounding box dimensions of the
     // provided svg element
     if (element.getBBox) {
       const { width, height } = element.getBBox();
-      // prevent NoModificationAllowedError
+      // copy to prevent NoModificationAllowedError
       return { width, height };
     } else {
       return { height: 0, width: 0 };
@@ -49,16 +64,16 @@ export class SvgUtils {
 }
 
 /**
- * Paramters for `IRuler` implementation.
+ * Parameters for `IRuler` implementation.
  *
- * First, it appends the `containerElement` to the `parentElement`. Then, it
- * sets the text content on `textElement` and measures the bounding box.
- * Finally, it removes the `containerElement`.
+ * To measure text in SVG, first we append the `containerElement` to the
+ * `parentElement`. Then, we set the text content on `textElement` and measure
+ * the bounding box. Finally, we remove the `containerElement` from the parent.
  *
  * The root element of the context may be any `SVGElement` including `<text>`
- * elements, so we choose the best elements for this operation. We prioritize
+ * elements, so find the best `<text>` element for measuring. We prioritize
  * exact `<text>` elements, then the first existing `<text>` element descendent,
- * then finally it will just create a new `<text>` element.
+ * then finally we will just create a new `<text>` element.
  */
 interface ITemporaryTextElementHarness {
   parentElement: Element;
@@ -69,15 +84,14 @@ interface ITemporaryTextElementHarness {
 /**
  * A typesetter context for SVG.
  *
- * The `element` parameter must be an `SVGElement`. Note that the CSS font
- * styles applied to this element will determine the size of text measurements.
- *
- * This class can be constructed with an optional class name and a boolean to
- * enable title tags to be added to new text blocks.
+ * @param element - The CSS font styles applied to `element` will determine the
+ * size of text measurements. Also the default text block container.
+ * @param className - added to new text blocks
+ * @param addTitleElement - enable title tags to be added to new text blocks.
  */
-export class SvgContext implements ITypesetterContext<Element> {
+export class SvgContext implements ITypesetterContext<SVGElement> {
   public constructor(
-      private element: Element,
+      private element: SVGElement,
       private className?: string,
       private addTitleElement = false) {
   }

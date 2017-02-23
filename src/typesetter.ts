@@ -14,7 +14,7 @@ import { IWriteOptions, Writer } from "./writers";
  * measurer/wrapper/writer setup.
  */
 export class Typesetter {
-    public static svg(element: Element, className?: string, addTitleElement?: boolean) {
+    public static svg(element: SVGElement, className?: string, addTitleElement?: boolean) {
         return new Typesetter(new SvgContext(element, className, addTitleElement));
     }
 

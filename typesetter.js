@@ -90,6 +90,12 @@ __export(require("./canvas"));
 var SvgUtils = (function () {
     function SvgUtils() {
     }
+    /**
+     * Appends an SVG element with the specified tag name to the provided element.
+     * The variadic classnames are added to the new element.
+     *
+     * Returns the new element.
+     */
     SvgUtils.append = function (element, tagName) {
         var classNames = [];
         for (var _i = 2; _i < arguments.length; _i++) {
@@ -99,6 +105,9 @@ var SvgUtils = (function () {
         element.appendChild(child);
         return child;
     };
+    /**
+     * Creates and returns a new SVGElement with the attached classnames.
+     */
     SvgUtils.create = function (tagName) {
         var classNames = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -108,6 +117,9 @@ var SvgUtils = (function () {
         SvgUtils.addClasses.apply(SvgUtils, [element].concat(classNames));
         return element;
     };
+    /**
+     * Adds the variadic classnames to the element
+     */
     SvgUtils.addClasses = function (element) {
         var classNames = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -124,12 +136,15 @@ var SvgUtils = (function () {
             element.setAttribute("class", classNames.join(" "));
         }
     };
+    /**
+     * Returns the width/height of svg element's bounding box
+     */
     SvgUtils.getDimensions = function (element) {
         // using feature detection, safely return the bounding box dimensions of the
         // provided svg element
         if (element.getBBox) {
             var _a = element.getBBox(), width = _a.width, height = _a.height;
-            // prevent NoModificationAllowedError
+            // copy to prevent NoModificationAllowedError
             return { width: width, height: height };
         }
         else {
@@ -143,11 +158,10 @@ exports.SvgUtils = SvgUtils;
 /**
  * A typesetter context for SVG.
  *
- * The `element` parameter must be an `SVGElement`. Note that the CSS font
- * styles applied to this element will determine the size of text measurements.
- *
- * This class can be constructed with an optional class name and a boolean to
- * enable title tags to be added to new text blocks.
+ * @param element - The CSS font styles applied to `element` will determine the
+ * size of text measurements. Also the default text block container.
+ * @param className - added to new text blocks
+ * @param addTitleElement - enable title tags to be added to new text blocks.
  */
 var SvgContext = (function () {
     function SvgContext(element, className, addTitleElement) {

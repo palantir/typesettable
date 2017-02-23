@@ -29,7 +29,7 @@ describe("Typesetter", () => {
     });
 
     describe("SVG", () => {
-        let svg: Element;
+        let svg: SVGElement;
         let typesetter: Typesetter;
 
         before(() => {
