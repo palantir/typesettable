@@ -69,15 +69,15 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Paramters for <code>IRuler</code> implementation.</p>
+						<p>Parameters for <code>IRuler</code> implementation.</p>
 					</div>
-					<p>First, it appends the <code>containerElement</code> to the <code>parentElement</code>. Then, it
-						sets the text content on <code>textElement</code> and measures the bounding box.
-					Finally, it removes the <code>containerElement</code>.</p>
+					<p>To measure text in SVG, first we append the <code>containerElement</code> to the
+						<code>parentElement</code>. Then, we set the text content on <code>textElement</code> and measure
+					the bounding box. Finally, we remove the <code>containerElement</code> from the parent.</p>
 					<p>The root element of the context may be any <code>SVGElement</code> including <code>&lt;text&gt;</code>
-						elements, so we choose the best elements for this operation. We prioritize
+						elements, so find the best <code>&lt;text&gt;</code> element for measuring. We prioritize
 						exact <code>&lt;text&gt;</code> elements, then the first existing <code>&lt;text&gt;</code> element descendent,
-					then finally it will just create a new <code>&lt;text&gt;</code> element.</p>
+					then finally we will just create a new <code>&lt;text&gt;</code> element.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -111,7 +111,7 @@
 					<div class="tsd-signature tsd-kind-icon">container<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element &amp; SVGLocatable</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in contexts/svg.ts:65</li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L80">contexts/svg.ts:80</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -121,7 +121,7 @@
 					<div class="tsd-signature tsd-kind-icon">parent<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in contexts/svg.ts:64</li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L79">contexts/svg.ts:79</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -131,7 +131,7 @@
 					<div class="tsd-signature tsd-kind-icon">text<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SVGTextElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in contexts/svg.ts:66</li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L81">contexts/svg.ts:81</a></li>
 						</ul>
 					</aside>
 				</section>

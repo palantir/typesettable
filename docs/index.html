@@ -64,15 +64,16 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="typesetter">Typesetter</h1>
-				<p><a href="https://circleci.com/gh/palantir/svg-typewriter"><img src="https://circleci.com/gh/palantir/svg-typewriter.svg?style=svg" alt="Circle CI"></a></p>
+				<h1 id="typesettable">Typesettable</h1>
+				<p><a href="https://circleci.com/gh/palantir/typesettable"><img src="https://circleci.com/gh/palantir/typesettable.svg?style=svg" alt="Circle CI"></a></p>
 				<h3 id="overview">Overview</h3>
-				<p><strong>Typesetter</strong> is a library for measuring, wrapping, and writing text on Canvas
-					and SVG. Canvas supports some rudimentary wrapping, but SVG does not support
-					any. Furthermore, developers often want wrapped text to auto-hyphenate and
-					truncate with ellipses when overflowing the bounding box. <strong>Typesetter</strong> aims to
-				make this entire process easier.</p>
-				<p><strong>Typesetter</strong> works with native browser APIs and has no external dependencies.</p>
+				<p><strong>Typesettable</strong> is a library for measuring, wrapping, and writing text on
+					Canvas and SVG. Canvas supports some rudimentary wrapping, but SVG does not
+					support any. Furthermore, developers often want wrapped text to auto-hyphenate
+					and truncate with ellipses when overflowing the bounding box. <strong>Typesettable</strong>
+				aims to make this entire process easier.</p>
+				<p><strong>Typesettable</strong> works with native browser APIs and has no external
+				dependencies.</p>
 				<h3 id="features">Features</h3>
 				<ul>
 					<li><em>Measurers</em> efficiently measure the size of a piece of text, taking into
@@ -86,17 +87,17 @@
 					text in SVG and Canvas elements.</li>
 				</ul>
 				<h3 id="installation">Installation</h3>
-				<pre><code><span class="hljs-built_in">npm</span> install --save @palantir/typesetter
+				<pre><code>npm <span class="hljs-keyword">install</span> <span class="hljs-comment">--save typesettable</span>
 </code></pre><h1 id="usage">Usage</h1>
 				<h3 id="example-two-liner">Example Two Liner</h3>
-				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { Typesetter } from <span class="hljs-string">"@palantir/typesetter"</span>;
+				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { Typesetter } from <span class="hljs-string">"typesettable"</span>;
 
 <span class="hljs-keyword">const</span> typesetter = Typesetter.svg(<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"svg"</span>));
 typesetter.write(<span class="hljs-string">"Hello World!"</span>, <span class="hljs-number">200</span>, <span class="hljs-number">200</span>);
 </code></pre>
 				<h3 id="example-svg-canvas">Example SVG &amp; Canvas</h3>
 				<p>Use typesetters with both SVG and Canvas elements:</p>
-				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { Typesetter } from <span class="hljs-string">"@palantir/typesetter"</span>;
+				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { Typesetter } from <span class="hljs-string">"typesettable"</span>;
 
 <span class="hljs-comment">// A typesetter for SVG elements</span>
 <span class="hljs-keyword">const</span> svgTypesetter = Typesetter.svg(<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"svg"</span>));
@@ -132,7 +133,7 @@ canvasTypesetter.write(<span class="hljs-string">"Hello Canvas!"</span>, width, 
 				<p>To share text measurements between writer, you can use the simple <code>Typesetter</code>
 					interface, which already uses a shared <code>CacheMeasurer</code>. Or, you can compose the
 				components manually like so:</p>
-				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { CacheMeasurer, SvgContext, Wrapper, Writer } from <span class="hljs-string">"@palantir/typesetter"</span>;
+				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { CacheMeasurer, SvgContext, Wrapper, Writer } from <span class="hljs-string">"typesettable"</span>;
 
 <span class="hljs-keyword">const</span> svg = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"svg"</span>);
 <span class="hljs-keyword">const</span> context = <span class="hljs-keyword">new</span> SvgContext(svg);
@@ -154,7 +155,7 @@ writer.write(
 );
 </code></pre>
 				<h1 id="api-docs">API Docs</h1>
-				<p>See <a href="http://palantir.github.io/typesetter">the docs</a> for more detailed examples.</p>
+				<p>See <a href="http://palantir.github.io/typesettable">the docs</a> for more detailed examples.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

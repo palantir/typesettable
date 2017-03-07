@@ -71,10 +71,18 @@
 					<div class="lead">
 						<p>A typesetter context for SVG.</p>
 					</div>
-					<p>The <code>element</code> parameter must be an <code>SVGElement</code>. Note that the CSS font
-					styles applied to this element will determine the size of text measurements.</p>
-					<p>This class can be constructed with an optional class name and a boolean to
-					enable title tags to be added to new text blocks.</p>
+					<dl class="tsd-comment-tags">
+						<dt>param</dt>
+						<dd><p>The CSS font styles applied to <code>element</code> will determine the
+							size of text measurements. Also the default text block container.</p>
+						</dd>
+						<dt>param</dt>
+						<dd><p>added to new text blocks</p>
+						</dd>
+						<dt>param</dt>
+						<dd><p>enable title tags to be added to new text blocks.</p>
+						</dd>
+					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -88,7 +96,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/itypesettercontext.html" class="tsd-signature-type">ITypesetterContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/itypesettercontext.html" class="tsd-signature-type">ITypesetterContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -128,19 +136,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Svg<wbr>Context<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span>, className<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, addTitleElement<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgcontext.html" class="tsd-signature-type">SvgContext</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Svg<wbr>Context<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGElement</span>, className<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, addTitleElement<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgcontext.html" class="tsd-signature-type">SvgContext</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in contexts/svg.ts:78</li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L92">contexts/svg.ts:92</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>element: <span class="tsd-signature-type">Element</span></h5>
+									<h5>element: <span class="tsd-signature-type">SVGElement</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> className: <span class="tsd-signature-type">string</span></h5>
@@ -162,7 +170,7 @@
 					<div class="tsd-signature tsd-kind-icon">add<wbr>Title<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in contexts/svg.ts:82</li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L96">contexts/svg.ts:96</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -172,17 +180,17 @@
 					<div class="tsd-signature tsd-kind-icon">class<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in contexts/svg.ts:81</li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L95">contexts/svg.ts:95</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="element" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> element</h3>
-					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element</span></div>
+					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SVGElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in contexts/svg.ts:80</li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L94">contexts/svg.ts:94</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -199,7 +207,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in contexts/svg.ts:100</li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L114">contexts/svg.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -225,7 +233,7 @@
 										<li class="tsd-description">
 											<aside class="tsd-sources">
 												<ul>
-													<li>Defined in contexts/svg.ts:123</li>
+													<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L137">contexts/svg.ts:137</a></li>
 												</ul>
 											</aside>
 											<h4 class="tsd-parameters-title">Parameters</h4>
@@ -260,7 +268,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in contexts/svg.ts:89</li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L103">contexts/svg.ts:103</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
@@ -277,7 +285,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in contexts/svg.ts:121</li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L135">contexts/svg.ts:135</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -297,7 +305,7 @@
 										<li class="tsd-description">
 											<aside class="tsd-sources">
 												<ul>
-													<li>Defined in contexts/svg.ts:123</li>
+													<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L137">contexts/svg.ts:137</a></li>
 												</ul>
 											</aside>
 											<h4 class="tsd-parameters-title">Parameters</h4>
@@ -332,7 +340,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in contexts/svg.ts:138</li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L152">contexts/svg.ts:152</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -355,7 +363,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in contexts/svg.ts:85</li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L99">contexts/svg.ts:99</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
