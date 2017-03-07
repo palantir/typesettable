@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IDimensions | Typesetter</title>
+	<title>ICanvasFontStyle | Typesetter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="idimensions.html">IDimensions</a>
+					<a href="icanvasfontstyle.html">ICanvasFontStyle</a>
 				</li>
 			</ul>
-			<h1>Interface IDimensions</h1>
+			<h1>Interface ICanvasFontStyle</h1>
 		</div>
 	</div>
 </header>
@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Width and height of a span of text.</p>
+						<p>Options for styling text</p>
 					</div>
 				</div>
 			</section>
@@ -77,7 +77,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IDimensions</span>
+						<span class="target">ICanvasFontStyle</span>
 					</li>
 				</ul>
 			</section>
@@ -88,8 +88,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="idimensions.html#height" class="tsd-kind-icon">height</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="idimensions.html#width" class="tsd-kind-icon">width</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icanvasfontstyle.html#fill" class="tsd-kind-icon">fill</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icanvasfontstyle.html#font" class="tsd-kind-icon">font</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icanvasfontstyle.html#stroke" class="tsd-kind-icon">stroke</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,24 +99,55 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="height" class="tsd-anchor"></a>
-					<h3>height</h3>
-					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="fill" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> fill</h3>
+					<div class="tsd-signature tsd-kind-icon">fill<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/measurers/abstractMeasurer.ts#L14">measurers/abstractMeasurer.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/canvas.ts#L20">contexts/canvas.ts:20</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An optional fill color.</p>
+						</div>
+						<p>If <code>null</code> the text will not be filled. But, if <code>undefined</code> we will
+						default to <code>#444</code> filled text.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="width" class="tsd-anchor"></a>
-					<h3>width</h3>
-					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="font" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> font</h3>
+					<div class="tsd-signature tsd-kind-icon">font<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/measurers/abstractMeasurer.ts#L13">measurers/abstractMeasurer.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/canvas.ts#L29">contexts/canvas.ts:29</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An optional CSS font string.</p>
+						</div>
+						<p>If <code>null</code> or <code>undefined</code>, we will not set the font before writing text,
+							but there may already be a font style defined on the canvas rendering
+						context.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="stroke" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> stroke</h3>
+					<div class="tsd-signature tsd-kind-icon">stroke<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/canvas.ts#L36">contexts/canvas.ts:36</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An optional stroke color.</p>
+						</div>
+						<p>If <code>null</code> or <code>undefined</code> the text will not be stroked.</p>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -180,24 +212,27 @@
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="ibreakingtokenresult.html" class="tsd-kind-icon">IBreaking<wbr>Token<wbr>Result</a>
 					</li>
-					<li class=" tsd-kind-interface">
-						<a href="icanvasfontstyle.html" class="tsd-kind-icon">ICanvas<wbr>Font<wbr>Style</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="idimensions.html" class="tsd-kind-icon">IDimensions</a>
+						<a href="icanvasfontstyle.html" class="tsd-kind-icon">ICanvas<wbr>Font<wbr>Style</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="idimensions.html#height" class="tsd-kind-icon">height</a>
+								<a href="icanvasfontstyle.html#fill" class="tsd-kind-icon">fill</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="idimensions.html#width" class="tsd-kind-icon">width</a>
+								<a href="icanvasfontstyle.html#font" class="tsd-kind-icon">font</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="icanvasfontstyle.html#stroke" class="tsd-kind-icon">stroke</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface">
+						<a href="idimensions.html" class="tsd-kind-icon">IDimensions</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="iellipsisresult.html" class="tsd-kind-icon">IEllipsis<wbr>Result</a>
 					</li>

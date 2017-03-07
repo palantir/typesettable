@@ -3,7 +3,7 @@
 const bot = require("circle-github-bot").create();
 
 demos = [
-    bot.artifactLink('docs/fiddle.html', 'docs'),
+    bot.artifactLink('docs/index.html', 'docs'),
     bot.artifactLink('preview/index.html', 'dev'),
 ];
 

@@ -19,4 +19,10 @@ deployment:
     tag: /release-.*/
     owner: palantir
     commands:
-      - ./publish.sh
+      - npm run build
+      # Confirm we are ready to publish
+      - git diff HEAD..origin/master --quiet || (echo "dist not built"; exit 1)
+      - npm run -s check_version || (echo "package.json version not updated"; exit 1)
+      # Publish
+      - echo -e "$NPM_USER\n$NPM_PASS\n$NPM_EMAIL" | npm login
+      - npm publish

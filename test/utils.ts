@@ -4,11 +4,10 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
+import { assert } from "chai";
 import * as d3 from "d3";
 
-import { assert } from "chai";
-
-import { d3Selection } from "../src";
+export type d3Selection<D extends d3.BaseType> = d3.Selection<D, any, any, any>;
 
 export function generateSVG(width = 400, height = 400): d3Selection<any> {
   const parent = getSVGParent();

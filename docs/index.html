@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SVGTypewriter</title>
+	<title>Typesetter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">SVGTypewriter</a>
+					<a href="index.html" class="title">Typesetter</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> SVGTypewriter</h1>
+			<h1> Typesetter</h1>
 		</div>
 	</div>
 </header>
@@ -64,63 +64,98 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="svg-typewriter">SVG Typewriter</h1>
-				<p><a href="https://circleci.com/gh/palantir/svg-typewriter"><img src="https://circleci.com/gh/palantir/svg-typewriter.svg?style=svg" alt="Circle CI"></a></p>
-				<p><a href="https://saucelabs.com/u/svg-typewriter"><img src="https://saucelabs.com/browser-matrix/svg-typewriter.svg" alt="Sauce Test Status"></a></p>
-				<h2 id="overview">Overview</h2>
-				<p><strong>SVG Typewriter</strong> is a library for measuring, manipulating, and writing text on
-					SVG. The <a href="http://www.w3.org/TR/SVG/text.html#Introduction">svg text spec</a>
-					indicates that &quot;SVG performs no automatic line breaking or word wrapping&quot;,
-					meaning that developers normally need to write their own code to accomplish
-				this; <strong>SVG Typewriter</strong> aims to make this entire process easier.</p>
-				<p><strong>SVG Typewriter</strong> is based on <a href="http://d3js.org/">D3.js</a>.</p>
-				<h2 id="features">Features</h2>
+				<h1 id="typesettable">Typesettable</h1>
+				<p><a href="https://circleci.com/gh/palantir/typesettable"><img src="https://circleci.com/gh/palantir/typesettable.svg?style=svg" alt="Circle CI"></a></p>
+				<h3 id="overview">Overview</h3>
+				<p><strong>Typesettable</strong> is a library for measuring, wrapping, and writing text on
+					Canvas and SVG. Canvas supports some rudimentary wrapping, but SVG does not
+					support any. Furthermore, developers often want wrapped text to auto-hyphenate
+					and truncate with ellipses when overflowing the bounding box. <strong>Typesettable</strong>
+				aims to make this entire process easier.</p>
+				<p><strong>Typesettable</strong> works with native browser APIs and has no external
+				dependencies.</p>
+				<h3 id="features">Features</h3>
 				<ul>
-					<li><em>Measurers</em> efficiently measure the size of a piece of text when written to a
-						particular SVG element, taking into account the CSS styles affecting that
-					text.</li>
+					<li><em>Measurers</em> efficiently measure the size of a piece of text, taking into
+					account the font styles affecting that text.</li>
 					<li><em>Wrappers</em> calculate how best to fit text into a given space, based on results
 					from the Measurer.</li>
-					<li><em>Writers</em> write text to a given SVG element based on specified options such as
-					alignment, rotation, and animation.</li>
+					<li><em>Writers</em> layout and write text based on specified options such as wrapping,
+					alignment, rotation, and shearing.</li>
+					<li><em>SvgContext</em> and <em>CanvasContext</em> implement factories for the <em>IRuler</em> and
+						<em>IPen</em> objects, which encapsulate the functionality for measuring and writing
+					text in SVG and Canvas elements.</li>
 				</ul>
-				<p>In general, users will primarily interact with <em>Writers</em>, although they will
-					need to instantiate <em>Measurers</em> based on specific SVG elements so that the
-					library can perform accurate measurement and wrapping. Users can set options on
-				<em>Wrappers</em> to control the wrapping behavior.</p>
-				<h2 id="installation">Installation</h2>
-				<pre><code>npm <span class="hljs-keyword">install</span> <span class="hljs-comment">--save svg-typewriter</span>
-</code></pre><h2 id="example-usage">Example Usage</h2>
-				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { Measurer, Wrapper, Writer } from <span class="hljs-string">"svg-typewriter"</span>;
+				<h3 id="installation">Installation</h3>
+				<pre><code>npm <span class="hljs-keyword">install</span> <span class="hljs-comment">--save typesettable</span>
+</code></pre><h1 id="usage">Usage</h1>
+				<h3 id="example-two-liner">Example Two Liner</h3>
+				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { Typesetter } from <span class="hljs-string">"typesettable"</span>;
 
-<span class="hljs-comment">// Create a Measurer based on the element we want to write into.</span>
-<span class="hljs-comment">// Passing in the intended element allows accurate measurement based on the CSS</span>
-<span class="hljs-comment">// styles that will actually be applied to that element.</span>
-<span class="hljs-keyword">const</span> measurer = <span class="hljs-keyword">new</span> Measurer(svg);
+<span class="hljs-keyword">const</span> typesetter = Typesetter.svg(<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"svg"</span>));
+typesetter.write(<span class="hljs-string">"Hello World!"</span>, <span class="hljs-number">200</span>, <span class="hljs-number">200</span>);
+</code></pre>
+				<h3 id="example-svg-canvas">Example SVG &amp; Canvas</h3>
+				<p>Use typesetters with both SVG and Canvas elements:</p>
+				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { Typesetter } from <span class="hljs-string">"typesettable"</span>;
 
-<span class="hljs-comment">// Create a Wrapper with default options.</span>
-<span class="hljs-comment">// A wrapper calculates how to break text to fit in a given space and returns</span>
-<span class="hljs-comment">// the wrapped text as strings. Wrappers do not directly write the wrapped text.</span>
-<span class="hljs-keyword">const</span> wrapper = <span class="hljs-keyword">new</span> Wrapper();
+<span class="hljs-comment">// A typesetter for SVG elements</span>
+<span class="hljs-keyword">const</span> svgTypesetter = Typesetter.svg(<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"svg"</span>));
 
-<span class="hljs-comment">// Create a Writer.</span>
-<span class="hljs-comment">// A Writer uses the supplied Measurer and Wrapper to best decide how to fit</span>
-<span class="hljs-comment">// text in a given space, then writes the wrapped text to a given element.</span>
-<span class="hljs-keyword">const</span> writer = <span class="hljs-keyword">new</span> Writer(measurer, wrapper);
+<span class="hljs-comment">// A typesetter for Canvas elements</span>
+<span class="hljs-keyword">const</span> canvasTypesetter = Typesetter.canvas(<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"canvas"</span>).getContext(<span class="hljs-string">"2d"</span>));
 
-<span class="hljs-comment">// Set write options.</span>
+<span class="hljs-comment">// The dimensions into which the text will be wrapped and truncated</span>
+<span class="hljs-keyword">const</span> width = <span class="hljs-number">300</span>;
+<span class="hljs-keyword">const</span> height = <span class="hljs-number">50</span>;
+
+<span class="hljs-comment">// Options for alignment, etc.</span>
 <span class="hljs-keyword">const</span> writeOptions = {
-  selection: svg,
   xAlign: <span class="hljs-string">"left"</span>,
   yAlign: <span class="hljs-string">"top"</span>,
-  textRotation: <span class="hljs-number">0</span>
+  textRotation: <span class="hljs-number">0</span>,
+  textShear: <span class="hljs-number">0</span>,
 };
 
-<span class="hljs-comment">// write the text to the element.</span>
-writer.write(<span class="hljs-string">"Hello World!"</span>, width, height, writeOptions);
+<span class="hljs-comment">// Write the text to the elements</span>
+svgTypesetter.write(<span class="hljs-string">"Hello SVG!"</span>, width, height, writeOptions);
+canvasTypesetter.write(<span class="hljs-string">"Hello Canvas!"</span>, width, height, writeOptions);
 </code></pre>
-				<p>See <a href="http://palantir.github.io/svg-typewriter">the docs</a> for more detailed
-				examples.</p>
+				<h3 id="example-shared-cache">Example Shared Cache</h3>
+				<p>If you are typesetting multiple strings of text with the same font style,
+				maintain a cache of Measurer results to improve performance.</p>
+				<p>Your HTML might look like:</p>
+				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"section-one"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"section-two"</span> <span class="hljs-attr">transform</span>=<span class="hljs-string">"translate(120 0)"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+</code></pre>
+				<p>To share text measurements between writer, you can use the simple <code>Typesetter</code>
+					interface, which already uses a shared <code>CacheMeasurer</code>. Or, you can compose the
+				components manually like so:</p>
+				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { CacheMeasurer, SvgContext, Wrapper, Writer } from <span class="hljs-string">"typesettable"</span>;
+
+<span class="hljs-keyword">const</span> svg = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"svg"</span>);
+<span class="hljs-keyword">const</span> context = <span class="hljs-keyword">new</span> SvgContext(svg);
+<span class="hljs-keyword">const</span> measurer = <span class="hljs-keyword">new</span> CacheMeasurer(context);
+<span class="hljs-keyword">const</span> wrapper = <span class="hljs-keyword">new</span> Wrapper();
+<span class="hljs-keyword">const</span> writer = <span class="hljs-keyword">new</span> Writer(measurer, context, wrapper);
+<span class="hljs-keyword">const</span> writeOptions = { xAlign: <span class="hljs-string">"center"</span> };
+
+writer.write(
+  <span class="hljs-string">"This text is in the first section"</span>,
+  <span class="hljs-number">100</span>, <span class="hljs-number">400</span>, writeOptions,
+  svg.querySelector(<span class="hljs-string">"g.section-one"</span>)
+);
+
+writer.write(
+  <span class="hljs-string">"This text is in the second section"</span>,
+  <span class="hljs-number">100</span>, <span class="hljs-number">200</span>, writeOptions,
+  svg.querySelector(<span class="hljs-string">"g.section-two"</span>)
+);
+</code></pre>
+				<h1 id="api-docs">API Docs</h1>
+				<p>See <a href="http://palantir.github.io/typesettable">the docs</a> for more detailed examples.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -136,9 +171,6 @@ writer.write(<span class="hljs-string">"Hello World!"</span>, width, height, wri
 					<li class=" tsd-kind-class">
 						<a href="classes/abstractmeasurer.html" class="tsd-kind-icon">Abstract<wbr>Measurer</a>
 					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/baseanimator.html" class="tsd-kind-icon">Base<wbr>Animator</a>
-					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/cache.html" class="tsd-kind-icon">Cache</a>
 					</li>
@@ -149,10 +181,10 @@ writer.write(<span class="hljs-string">"Hello World!"</span>, width, height, wri
 						<a href="classes/cachemeasurer.html" class="tsd-kind-icon">Cache<wbr>Measurer</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
+						<a href="classes/canvascontext.html" class="tsd-kind-icon">Canvas<wbr>Context</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/dom.html" class="tsd-kind-icon">DOM</a>
+						<a href="classes/charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/measurer.html" class="tsd-kind-icon">Measurer</a>
@@ -161,19 +193,22 @@ writer.write(<span class="hljs-string">"Hello World!"</span>, width, height, wri
 						<a href="classes/methods.html" class="tsd-kind-icon">Methods</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/opacityanimator.html" class="tsd-kind-icon">Opacity<wbr>Animator</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="classes/singlelinewrapper.html" class="tsd-kind-icon">Single<wbr>Line<wbr>Wrapper</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/stringmethods.html" class="tsd-kind-icon">String<wbr>Methods</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/svgcontext.html" class="tsd-kind-icon">Svg<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/svgutils.html" class="tsd-kind-icon">Svg<wbr>Utils</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/tokenizer.html" class="tsd-kind-icon">Tokenizer</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/unveilanimator.html" class="tsd-kind-icon">Unveil<wbr>Animator</a>
+						<a href="classes/typesetter.html" class="tsd-kind-icon">Typesetter</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/wrapper.html" class="tsd-kind-icon">Wrapper</a>
@@ -185,6 +220,9 @@ writer.write(<span class="hljs-string">"Hello World!"</span>, width, height, wri
 						<a href="interfaces/ibreakingtokenresult.html" class="tsd-kind-icon">IBreaking<wbr>Token<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/icanvasfontstyle.html" class="tsd-kind-icon">ICanvas<wbr>Font<wbr>Style</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/idimensions.html" class="tsd-kind-icon">IDimensions</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
@@ -194,13 +232,52 @@ writer.write(<span class="hljs-string">"Hello World!"</span>, width, height, wri
 						<a href="interfaces/iiterativewrappingstate.html" class="tsd-kind-icon">IIterative<wbr>Wrapping<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipen.html" class="tsd-kind-icon">IPen</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/ipenfactorycontext.html" class="tsd-kind-icon">IPen<wbr>Factory<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/irulerfactorycontext.html" class="tsd-kind-icon">IRuler<wbr>Factory<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/itemporarytextelementharness.html" class="tsd-kind-icon">ITemporary<wbr>Text<wbr>Element<wbr>Harness</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/itransform.html" class="tsd-kind-icon">ITransform</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/itypesettercontext.html" class="tsd-kind-icon">ITypesetter<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/iwrappingresult.html" class="tsd-kind-icon">IWrapping<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/iwriteoptions.html" class="tsd-kind-icon">IWrite<wbr>Options</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="globals.html#itextmeasurer" class="tsd-kind-icon">IText<wbr>Measurer</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ianchor" class="tsd-kind-icon">IAnchor</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ipenfactory" class="tsd-kind-icon">IPen<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iruler" class="tsd-kind-icon">IRuler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#irulerfactory" class="tsd-kind-icon">IRuler<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ixalign" class="tsd-kind-icon">IXAlign</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iyalign" class="tsd-kind-icon">IYAlign</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#default_fill_color" class="tsd-kind-icon">DEFAULT_<wbr>FILL_<wbr>COLOR</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="globals.html#default_write_options" class="tsd-kind-icon">DEFAULT_<wbr>WRITE_<wbr>OPTIONS</a>
 					</li>
 				</ul>
 			</nav>

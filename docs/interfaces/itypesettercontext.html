@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IDimensions | Typesetter</title>
+	<title>ITypesetterContext | Typesetter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="idimensions.html">IDimensions</a>
+					<a href="itypesettercontext.html">ITypesetterContext</a>
 				</li>
 			</ul>
-			<h1>Interface IDimensions</h1>
+			<h1>Interface ITypesetterContext&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -69,51 +69,77 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Width and height of a span of text.</p>
+						<p>Both SVG and Canvas contexts use common elements for both their <code>IRuler</code> and
+						<code>IPen</code> implementations, so they extend this composite interface.</p>
 					</div>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IDimensions</span>
+						<a href="ipenfactorycontext.html" class="tsd-signature-type">IPenFactoryContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>
 					</li>
+					<li>
+						<a href="irulerfactorycontext.html" class="tsd-signature-type">IRulerFactoryContext</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">ITypesetterContext</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implemented by</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../classes/canvascontext.html" class="tsd-signature-type">CanvasContext</a></li>
+					<li><a href="../classes/svgcontext.html" class="tsd-signature-type">SvgContext</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="idimensions.html#height" class="tsd-kind-icon">height</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="idimensions.html#width" class="tsd-kind-icon">width</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="itypesettercontext.html#createpen" class="tsd-kind-icon">create<wbr>Pen</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="itypesettercontext.html#createruler" class="tsd-kind-icon">create<wbr>Ruler</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="height" class="tsd-anchor"></a>
-					<h3>height</h3>
-					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="createpen" class="tsd-anchor"></a>
+					<h3>create<wbr>Pen</h3>
+					<div class="tsd-signature tsd-kind-icon">create<wbr>Pen<span class="tsd-signature-symbol">:</span> <a href="../globals.html#ipenfactory" class="tsd-signature-type">IPenFactory</a></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="ipenfactorycontext.html">IPenFactoryContext</a>.<a href="ipenfactorycontext.html#createpen">createPen</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/measurers/abstractMeasurer.ts#L14">measurers/abstractMeasurer.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/index.ts#L14">contexts/index.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="width" class="tsd-anchor"></a>
-					<h3>width</h3>
-					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="createruler" class="tsd-anchor"></a>
+					<h3>create<wbr>Ruler</h3>
+					<div class="tsd-signature tsd-kind-icon">create<wbr>Ruler<span class="tsd-signature-symbol">:</span> <a href="../globals.html#irulerfactory" class="tsd-signature-type">IRulerFactory</a></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="irulerfactorycontext.html">IRulerFactoryContext</a>.<a href="irulerfactorycontext.html#createruler">createRuler</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/measurers/abstractMeasurer.ts#L13">measurers/abstractMeasurer.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/index.ts#L21">contexts/index.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -183,21 +209,9 @@
 					<li class=" tsd-kind-interface">
 						<a href="icanvasfontstyle.html" class="tsd-kind-icon">ICanvas<wbr>Font<wbr>Style</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface">
+					<li class=" tsd-kind-interface">
 						<a href="idimensions.html" class="tsd-kind-icon">IDimensions</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="idimensions.html#height" class="tsd-kind-icon">height</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="idimensions.html#width" class="tsd-kind-icon">width</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="iellipsisresult.html" class="tsd-kind-icon">IEllipsis<wbr>Result</a>
 					</li>
@@ -219,9 +233,21 @@
 					<li class=" tsd-kind-interface">
 						<a href="itransform.html" class="tsd-kind-icon">ITransform</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-has-type-parameter">
 						<a href="itypesettercontext.html" class="tsd-kind-icon">ITypesetter<wbr>Context</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="itypesettercontext.html#createpen" class="tsd-kind-icon">create<wbr>Pen</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="itypesettercontext.html#createruler" class="tsd-kind-icon">create<wbr>Ruler</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="iwrappingresult.html" class="tsd-kind-icon">IWrapping<wbr>Result</a>
 					</li>

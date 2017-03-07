@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Writer | SVGTypewriter</title>
+	<title>Writer | Typesetter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">SVGTypewriter</a>
+					<a href="../index.html" class="title">Typesetter</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -84,28 +84,23 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="writer.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="writer.html#_addtitleelement" class="tsd-kind-icon">_add<wbr>Title<wbr>Element</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="writer.html#_elementid" class="tsd-kind-icon">_elementID</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="writer.html#_measurer" class="tsd-kind-icon">_measurer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="writer.html#_penfactory" class="tsd-kind-icon">_pen<wbr>Factory</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="writer.html#_wrapper" class="tsd-kind-icon">_wrapper</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="writer.html#_writerid" class="tsd-kind-icon">_writerID</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="writer.html#supportedrotation" class="tsd-kind-icon">Supported<wbr>Rotation</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="writer.html#nextid" class="tsd-kind-icon">nextID</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="writer.html#addclippath" class="tsd-kind-icon">add<wbr>Clip<wbr>Path</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="writer.html#addtitleelement" class="tsd-kind-icon">add<wbr>Title<wbr>Element</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="writer.html#measurer" class="tsd-kind-icon">measurer</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="writer.html#penfactory" class="tsd-kind-icon">pen<wbr>Factory</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="writer.html#wrapper" class="tsd-kind-icon">wrapper</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="writer.html#write" class="tsd-kind-icon">write</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="writer.html#writeline" class="tsd-kind-icon">write<wbr>Line</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="writer.html#writetext" class="tsd-kind-icon">write<wbr>Text</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="writer.html#write" class="tsd-kind-icon">write</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="writer.html#writelines" class="tsd-kind-icon">write<wbr>Lines</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
@@ -125,22 +120,25 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Writer<span class="tsd-signature-symbol">(</span>measurer<span class="tsd-signature-symbol">: </span><a href="abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a>, wrapper<span class="tsd-signature-symbol">?: </span><a href="wrapper.html" class="tsd-signature-type">Wrapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writer.html" class="tsd-signature-type">Writer</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Writer<span class="tsd-signature-symbol">(</span>_measurer<span class="tsd-signature-symbol">: </span><a href="abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a>, _penFactory<span class="tsd-signature-symbol">: </span><a href="../interfaces/ipenfactorycontext.html" class="tsd-signature-type">IPenFactoryContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, _wrapper<span class="tsd-signature-symbol">?: </span><a href="wrapper.html" class="tsd-signature-type">Wrapper</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writer.html" class="tsd-signature-type">Writer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L48">writers/writer.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L122">writers/writer.ts:122</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>measurer: <a href="abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a></h5>
+									<h5>_measurer: <a href="abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> wrapper: <a href="wrapper.html" class="tsd-signature-type">Wrapper</a></h5>
+									<h5>_penFactory: <a href="../interfaces/ipenfactorycontext.html" class="tsd-signature-type">IPenFactoryContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> _wrapper: <a href="wrapper.html" class="tsd-signature-type">Wrapper</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="writer.html" class="tsd-signature-type">Writer</a></h4>
@@ -148,55 +146,35 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_addtitleelement" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _add<wbr>Title<wbr>Element</h3>
-					<div class="tsd-signature tsd-kind-icon">_add<wbr>Title<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L48">writers/writer.ts:48</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="_elementid" class="tsd-anchor"></a>
-					<h3>_elementID</h3>
-					<div class="tsd-signature tsd-kind-icon">_elementID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L45">writers/writer.ts:45</a></li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_measurer" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _measurer</h3>
 					<div class="tsd-signature tsd-kind-icon">_measurer<span class="tsd-signature-symbol">:</span> <a href="abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L46">writers/writer.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L125">writers/writer.ts:125</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="_penfactory" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _pen<wbr>Factory</h3>
+					<div class="tsd-signature tsd-kind-icon">_pen<wbr>Factory<span class="tsd-signature-symbol">:</span> <a href="../interfaces/ipenfactorycontext.html" class="tsd-signature-type">IPenFactoryContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L126">writers/writer.ts:126</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_wrapper" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _wrapper</h3>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagOptional">Optional</span> _wrapper</h3>
 					<div class="tsd-signature tsd-kind-icon">_wrapper<span class="tsd-signature-symbol">:</span> <a href="wrapper.html" class="tsd-signature-type">Wrapper</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L47">writers/writer.ts:47</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="_writerid" class="tsd-anchor"></a>
-					<h3>_writerID</h3>
-					<div class="tsd-signature tsd-kind-icon">_writerID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;Writer.nextID++</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L44">writers/writer.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L127">writers/writer.ts:127</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -206,72 +184,13 @@
 					<div class="tsd-signature tsd-kind-icon">Supported<wbr>Rotation<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;[-90, 0, 180, 90]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L24">writers/writer.ts:24</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
-					<a name="nextid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> nextID</h3>
-					<div class="tsd-signature tsd-kind-icon">nextID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L23">writers/writer.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L104">writers/writer.ts:104</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="addclippath" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> add<wbr>Clip<wbr>Path</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Clip<wbr>Path<span class="tsd-signature-symbol">(</span>selection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, _transform<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L165">writers/writer.ts:165</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>selection: <span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5>_transform: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="addtitleelement" class="tsd-anchor"></a>
-					<h3>add<wbr>Title<wbr>Element</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Title<wbr>Element<span class="tsd-signature-symbol">(</span>add<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writer.html" class="tsd-signature-type">Writer</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L70">writers/writer.ts:70</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>add: <span class="tsd-signature-type">boolean</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="writer.html" class="tsd-signature-type">Writer</a></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="measurer" class="tsd-anchor"></a>
 					<h3>measurer</h3>
@@ -282,13 +201,36 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L60">writers/writer.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L130">writers/writer.ts:130</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>newMeasurer: <a href="abstractmeasurer.html" class="tsd-signature-type">AbstractMeasurer</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="writer.html" class="tsd-signature-type">Writer</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="penfactory" class="tsd-anchor"></a>
+					<h3>pen<wbr>Factory</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">pen<wbr>Factory<span class="tsd-signature-symbol">(</span>newPenFactory<span class="tsd-signature-symbol">: </span><a href="../interfaces/ipenfactorycontext.html" class="tsd-signature-type">IPenFactoryContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="writer.html" class="tsd-signature-type">Writer</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L140">writers/writer.ts:140</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newPenFactory: <a href="../interfaces/ipenfactorycontext.html" class="tsd-signature-type">IPenFactoryContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="writer.html" class="tsd-signature-type">Writer</a></h4>
@@ -305,7 +247,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L65">writers/writer.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L135">writers/writer.ts:135</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -318,19 +260,31 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="write" class="tsd-anchor"></a>
 					<h3>write</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/iwriteoptions.html" class="tsd-signature-type">IWriteOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">write&lt;T&gt;<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/iwriteoptions.html" class="tsd-signature-type">IWriteOptions</a>, container<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L75">writers/writer.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L149">writers/writer.ts:149</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Writes the text into the container. If no container is specified, the pen&#39;s
+									default container will be used.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -343,7 +297,10 @@
 									<h5>height: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>options: <a href="../interfaces/iwriteoptions.html" class="tsd-signature-type">IWriteOptions</a></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/iwriteoptions.html" class="tsd-signature-type">IWriteOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> container: <span class="tsd-signature-type">T</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -351,72 +308,37 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="writeline" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> write<wbr>Line</h3>
+					<a name="writelines" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> write<wbr>Lines</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">write<wbr>Line<span class="tsd-signature-symbol">(</span>line<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, g<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, xAlign<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, yOffset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">write<wbr>Lines<span class="tsd-signature-symbol">(</span>lines<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, linePen<span class="tsd-signature-symbol">: </span><a href="../interfaces/ipen.html" class="tsd-signature-type">IPen</a>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, lineHeight<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, shearShift<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, xAlign<span class="tsd-signature-symbol">: </span><a href="../globals.html#ixalign" class="tsd-signature-type">IXAlign</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L140">writers/writer.ts:140</a></li>
+									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L233">writers/writer.ts:233</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>line: <span class="tsd-signature-type">string</span></h5>
+									<h5>lines: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
-									<h5>g: <span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5>width: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>xAlign: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>yOffset: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="writetext" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> write<wbr>Text</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">write<wbr>Text<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, writingArea<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, xAlign<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, yAlign<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L149">writers/writer.ts:149</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>text: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>writingArea: <span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>linePen: <a href="../interfaces/ipen.html" class="tsd-signature-type">IPen</a></h5>
 								</li>
 								<li>
 									<h5>width: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>height: <span class="tsd-signature-type">number</span></h5>
+									<h5>lineHeight: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>xAlign: <span class="tsd-signature-type">string</span></h5>
+									<h5>shearShift: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>yAlign: <span class="tsd-signature-type">string</span></h5>
+									<h5>xAlign: <a href="../globals.html#ixalign" class="tsd-signature-type">IXAlign</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -432,7 +354,7 @@
 					<div class="tsd-signature tsd-kind-icon">Anchor<wbr>Converter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L26">writers/writer.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L106">writers/writer.ts:106</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -441,7 +363,7 @@
 						<div class="tsd-signature tsd-kind-icon">center<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;middle&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L27">writers/writer.ts:27</a></li>
+								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L107">writers/writer.ts:107</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -451,7 +373,7 @@
 						<div class="tsd-signature tsd-kind-icon">left<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;start&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L28">writers/writer.ts:28</a></li>
+								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L108">writers/writer.ts:108</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -461,7 +383,7 @@
 						<div class="tsd-signature tsd-kind-icon">right<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;end&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L29">writers/writer.ts:29</a></li>
+								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L109">writers/writer.ts:109</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -472,7 +394,7 @@
 					<div class="tsd-signature tsd-kind-icon">XOffset<wbr>Factor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L32">writers/writer.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L112">writers/writer.ts:112</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -481,7 +403,7 @@
 						<div class="tsd-signature tsd-kind-icon">center<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0.5</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L33">writers/writer.ts:33</a></li>
+								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L113">writers/writer.ts:113</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -491,7 +413,7 @@
 						<div class="tsd-signature tsd-kind-icon">left<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L34">writers/writer.ts:34</a></li>
+								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L114">writers/writer.ts:114</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -501,7 +423,7 @@
 						<div class="tsd-signature tsd-kind-icon">right<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L35">writers/writer.ts:35</a></li>
+								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L115">writers/writer.ts:115</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -512,7 +434,7 @@
 					<div class="tsd-signature tsd-kind-icon">YOffset<wbr>Factor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L38">writers/writer.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L118">writers/writer.ts:118</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -521,7 +443,7 @@
 						<div class="tsd-signature tsd-kind-icon">bottom<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L39">writers/writer.ts:39</a></li>
+								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L119">writers/writer.ts:119</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -531,7 +453,7 @@
 						<div class="tsd-signature tsd-kind-icon">center<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0.5</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L40">writers/writer.ts:40</a></li>
+								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L120">writers/writer.ts:120</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -541,7 +463,7 @@
 						<div class="tsd-signature tsd-kind-icon">top<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L41">writers/writer.ts:41</a></li>
+								<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L121">writers/writer.ts:121</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -561,9 +483,6 @@
 					<li class=" tsd-kind-class">
 						<a href="abstractmeasurer.html" class="tsd-kind-icon">Abstract<wbr>Measurer</a>
 					</li>
-					<li class=" tsd-kind-class">
-						<a href="baseanimator.html" class="tsd-kind-icon">Base<wbr>Animator</a>
-					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="cache.html" class="tsd-kind-icon">Cache</a>
 					</li>
@@ -574,10 +493,10 @@
 						<a href="cachemeasurer.html" class="tsd-kind-icon">Cache<wbr>Measurer</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
+						<a href="canvascontext.html" class="tsd-kind-icon">Canvas<wbr>Context</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="dom.html" class="tsd-kind-icon">DOM</a>
+						<a href="charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="measurer.html" class="tsd-kind-icon">Measurer</a>
@@ -586,19 +505,22 @@
 						<a href="methods.html" class="tsd-kind-icon">Methods</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="opacityanimator.html" class="tsd-kind-icon">Opacity<wbr>Animator</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="singlelinewrapper.html" class="tsd-kind-icon">Single<wbr>Line<wbr>Wrapper</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="stringmethods.html" class="tsd-kind-icon">String<wbr>Methods</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="svgcontext.html" class="tsd-kind-icon">Svg<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="svgutils.html" class="tsd-kind-icon">Svg<wbr>Utils</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="tokenizer.html" class="tsd-kind-icon">Tokenizer</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="unveilanimator.html" class="tsd-kind-icon">Unveil<wbr>Animator</a>
+						<a href="typesetter.html" class="tsd-kind-icon">Typesetter</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="wrapper.html" class="tsd-kind-icon">Wrapper</a>
@@ -612,46 +534,31 @@
 								<a href="writer.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="writer.html#_addtitleelement" class="tsd-kind-icon">_add<wbr>Title<wbr>Element</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="writer.html#_elementid" class="tsd-kind-icon">_elementID</a>
+								<a href="writer.html#_measurer" class="tsd-kind-icon">_measurer</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="writer.html#_measurer" class="tsd-kind-icon">_measurer</a>
+								<a href="writer.html#_penfactory" class="tsd-kind-icon">_pen<wbr>Factory</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="writer.html#_wrapper" class="tsd-kind-icon">_wrapper</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="writer.html#_writerid" class="tsd-kind-icon">_writerID</a>
-							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="writer.html#supportedrotation" class="tsd-kind-icon">Supported<wbr>Rotation</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
-								<a href="writer.html#nextid" class="tsd-kind-icon">nextID</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="writer.html#addclippath" class="tsd-kind-icon">add<wbr>Clip<wbr>Path</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="writer.html#addtitleelement" class="tsd-kind-icon">add<wbr>Title<wbr>Element</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="writer.html#measurer" class="tsd-kind-icon">measurer</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="writer.html#wrapper" class="tsd-kind-icon">wrapper</a>
+								<a href="writer.html#penfactory" class="tsd-kind-icon">pen<wbr>Factory</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="writer.html#wrapper" class="tsd-kind-icon">wrapper</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="writer.html#write" class="tsd-kind-icon">write</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="writer.html#writeline" class="tsd-kind-icon">write<wbr>Line</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="writer.html#writetext" class="tsd-kind-icon">write<wbr>Text</a>
+								<a href="writer.html#writelines" class="tsd-kind-icon">write<wbr>Lines</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="writer.html#anchorconverter" class="tsd-kind-icon">Anchor<wbr>Converter</a>
@@ -670,6 +577,9 @@
 						<a href="../interfaces/ibreakingtokenresult.html" class="tsd-kind-icon">IBreaking<wbr>Token<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/icanvasfontstyle.html" class="tsd-kind-icon">ICanvas<wbr>Font<wbr>Style</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/idimensions.html" class="tsd-kind-icon">IDimensions</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
@@ -679,13 +589,52 @@
 						<a href="../interfaces/iiterativewrappingstate.html" class="tsd-kind-icon">IIterative<wbr>Wrapping<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/ipen.html" class="tsd-kind-icon">IPen</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="../interfaces/ipenfactorycontext.html" class="tsd-kind-icon">IPen<wbr>Factory<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/irulerfactorycontext.html" class="tsd-kind-icon">IRuler<wbr>Factory<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="../interfaces/itemporarytextelementharness.html" class="tsd-kind-icon">ITemporary<wbr>Text<wbr>Element<wbr>Harness</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/itransform.html" class="tsd-kind-icon">ITransform</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="../interfaces/itypesettercontext.html" class="tsd-kind-icon">ITypesetter<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/iwrappingresult.html" class="tsd-kind-icon">IWrapping<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/iwriteoptions.html" class="tsd-kind-icon">IWrite<wbr>Options</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="../globals.html#itextmeasurer" class="tsd-kind-icon">IText<wbr>Measurer</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ianchor" class="tsd-kind-icon">IAnchor</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ipenfactory" class="tsd-kind-icon">IPen<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#iruler" class="tsd-kind-icon">IRuler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#irulerfactory" class="tsd-kind-icon">IRuler<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ixalign" class="tsd-kind-icon">IXAlign</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#iyalign" class="tsd-kind-icon">IYAlign</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#default_fill_color" class="tsd-kind-icon">DEFAULT_<wbr>FILL_<wbr>COLOR</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="../globals.html#default_write_options" class="tsd-kind-icon">DEFAULT_<wbr>WRITE_<wbr>OPTIONS</a>
 					</li>
 				</ul>
 			</nav>

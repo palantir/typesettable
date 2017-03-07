@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IWriteOptions | SVGTypewriter</title>
+	<title>IWriteOptions | Typesetter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">SVGTypewriter</a>
+					<a href="../index.html" class="title">Typesetter</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -81,9 +81,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iwriteoptions.html#animator" class="tsd-kind-icon">animator</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iwriteoptions.html#selection" class="tsd-kind-icon">selection</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iwriteoptions.html#textrotation" class="tsd-kind-icon">text<wbr>Rotation</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iwriteoptions.html#textshear" class="tsd-kind-icon">text<wbr>Shear</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iwriteoptions.html#xalign" class="tsd-kind-icon">x<wbr>Align</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iwriteoptions.html#yalign" class="tsd-kind-icon">y<wbr>Align</a></li>
 							</ul>
@@ -94,54 +93,87 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="animator" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> animator</h3>
-					<div class="tsd-signature tsd-kind-icon">animator<span class="tsd-signature-symbol">:</span> <a href="../classes/baseanimator.html" class="tsd-signature-type">BaseAnimator</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L19">writers/writer.ts:19</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="selection" class="tsd-anchor"></a>
-					<h3>selection</h3>
-					<div class="tsd-signature tsd-kind-icon">selection<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L15">writers/writer.ts:15</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="textrotation" class="tsd-anchor"></a>
-					<h3>text<wbr>Rotation</h3>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> text<wbr>Rotation</h3>
 					<div class="tsd-signature tsd-kind-icon">text<wbr>Rotation<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L18">writers/writer.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L69">writers/writer.ts:69</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An optional cardinal-direction rotation for the whole text block.</p>
+						</div>
+						<p>Supported rotations are -90, 0, 180, and 90.</p>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>0</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="textshear" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> text<wbr>Shear</h3>
+					<div class="tsd-signature tsd-kind-icon">text<wbr>Shear<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L79">writers/writer.ts:79</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An optional shear angle. Shearing allows the rotation and re-alignment of
+							individual lines as opposed to the whole text block.</p>
+						</div>
+						<p>Supported shears are between -80 and 80 degrees.</p>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>0</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="xalign" class="tsd-anchor"></a>
-					<h3>x<wbr>Align</h3>
-					<div class="tsd-signature tsd-kind-icon">x<wbr>Align<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> x<wbr>Align</h3>
+					<div class="tsd-signature tsd-kind-icon">x<wbr>Align<span class="tsd-signature-symbol">:</span> <a href="../globals.html#ixalign" class="tsd-signature-type">IXAlign</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L16">writers/writer.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L86">writers/writer.ts:86</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The x-alignment of text.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>&quot;left&quot;</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="yalign" class="tsd-anchor"></a>
-					<h3>y<wbr>Align</h3>
-					<div class="tsd-signature tsd-kind-icon">y<wbr>Align<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> y<wbr>Align</h3>
+					<div class="tsd-signature tsd-kind-icon">y<wbr>Align<span class="tsd-signature-symbol">:</span> <a href="../globals.html#iyalign" class="tsd-signature-type">IYAlign</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/d31925f/src/writers/writer.ts#L17">writers/writer.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/writers/writer.ts#L93">writers/writer.ts:93</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The y-alignment of text.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>&quot;top&quot;</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -158,9 +190,6 @@
 					<li class=" tsd-kind-class">
 						<a href="../classes/abstractmeasurer.html" class="tsd-kind-icon">Abstract<wbr>Measurer</a>
 					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/baseanimator.html" class="tsd-kind-icon">Base<wbr>Animator</a>
-					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/cache.html" class="tsd-kind-icon">Cache</a>
 					</li>
@@ -171,10 +200,10 @@
 						<a href="../classes/cachemeasurer.html" class="tsd-kind-icon">Cache<wbr>Measurer</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="../classes/charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
+						<a href="../classes/canvascontext.html" class="tsd-kind-icon">Canvas<wbr>Context</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="../classes/dom.html" class="tsd-kind-icon">DOM</a>
+						<a href="../classes/charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="../classes/measurer.html" class="tsd-kind-icon">Measurer</a>
@@ -183,19 +212,22 @@
 						<a href="../classes/methods.html" class="tsd-kind-icon">Methods</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="../classes/opacityanimator.html" class="tsd-kind-icon">Opacity<wbr>Animator</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="../classes/singlelinewrapper.html" class="tsd-kind-icon">Single<wbr>Line<wbr>Wrapper</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="../classes/stringmethods.html" class="tsd-kind-icon">String<wbr>Methods</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="../classes/svgcontext.html" class="tsd-kind-icon">Svg<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="../classes/svgutils.html" class="tsd-kind-icon">Svg<wbr>Utils</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="../classes/tokenizer.html" class="tsd-kind-icon">Tokenizer</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="../classes/unveilanimator.html" class="tsd-kind-icon">Unveil<wbr>Animator</a>
+						<a href="../classes/typesetter.html" class="tsd-kind-icon">Typesetter</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="../classes/wrapper.html" class="tsd-kind-icon">Wrapper</a>
@@ -207,6 +239,9 @@
 						<a href="ibreakingtokenresult.html" class="tsd-kind-icon">IBreaking<wbr>Token<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="icanvasfontstyle.html" class="tsd-kind-icon">ICanvas<wbr>Font<wbr>Style</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="idimensions.html" class="tsd-kind-icon">IDimensions</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
@@ -214,6 +249,24 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="iiterativewrappingstate.html" class="tsd-kind-icon">IIterative<wbr>Wrapping<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="ipen.html" class="tsd-kind-icon">IPen</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="ipenfactorycontext.html" class="tsd-kind-icon">IPen<wbr>Factory<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="irulerfactorycontext.html" class="tsd-kind-icon">IRuler<wbr>Factory<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="itemporarytextelementharness.html" class="tsd-kind-icon">ITemporary<wbr>Text<wbr>Element<wbr>Harness</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="itransform.html" class="tsd-kind-icon">ITransform</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="itypesettercontext.html" class="tsd-kind-icon">ITypesetter<wbr>Context</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="iwrappingresult.html" class="tsd-kind-icon">IWrapping<wbr>Result</a>
@@ -224,13 +277,10 @@
 						<a href="iwriteoptions.html" class="tsd-kind-icon">IWrite<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="iwriteoptions.html#animator" class="tsd-kind-icon">animator</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="iwriteoptions.html#selection" class="tsd-kind-icon">selection</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="iwriteoptions.html#textrotation" class="tsd-kind-icon">text<wbr>Rotation</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="iwriteoptions.html#textshear" class="tsd-kind-icon">text<wbr>Shear</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="iwriteoptions.html#xalign" class="tsd-kind-icon">x<wbr>Align</a>
@@ -242,8 +292,29 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="../globals.html#itextmeasurer" class="tsd-kind-icon">IText<wbr>Measurer</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ianchor" class="tsd-kind-icon">IAnchor</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ipenfactory" class="tsd-kind-icon">IPen<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#iruler" class="tsd-kind-icon">IRuler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#irulerfactory" class="tsd-kind-icon">IRuler<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#ixalign" class="tsd-kind-icon">IXAlign</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#iyalign" class="tsd-kind-icon">IYAlign</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#default_fill_color" class="tsd-kind-icon">DEFAULT_<wbr>FILL_<wbr>COLOR</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="../globals.html#default_write_options" class="tsd-kind-icon">DEFAULT_<wbr>WRITE_<wbr>OPTIONS</a>
 					</li>
 				</ul>
 			</nav>

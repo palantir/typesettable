@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IDimensions | Typesetter</title>
+	<title>ITemporaryTextElementHarness | Typesetter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="idimensions.html">IDimensions</a>
+					<a href="itemporarytextelementharness.html">ITemporaryTextElementHarness</a>
 				</li>
 			</ul>
-			<h1>Interface IDimensions</h1>
+			<h1>Interface ITemporaryTextElementHarness</h1>
 		</div>
 	</div>
 </header>
@@ -69,15 +69,22 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Width and height of a span of text.</p>
+						<p>Parameters for <code>IRuler</code> implementation.</p>
 					</div>
+					<p>To measure text in SVG, first we append the <code>containerElement</code> to the
+						<code>parentElement</code>. Then, we set the text content on <code>textElement</code> and measure
+					the bounding box. Finally, we remove the <code>containerElement</code> from the parent.</p>
+					<p>The root element of the context may be any <code>SVGElement</code> including <code>&lt;text&gt;</code>
+						elements, so find the best <code>&lt;text&gt;</code> element for measuring. We prioritize
+						exact <code>&lt;text&gt;</code> elements, then the first existing <code>&lt;text&gt;</code> element descendent,
+					then finally we will just create a new <code>&lt;text&gt;</code> element.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IDimensions</span>
+						<span class="target">ITemporaryTextElementHarness</span>
 					</li>
 				</ul>
 			</section>
@@ -85,35 +92,46 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="idimensions.html#height" class="tsd-kind-icon">height</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="idimensions.html#width" class="tsd-kind-icon">width</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="itemporarytextelementharness.html#containerelement" class="tsd-kind-icon">container<wbr>Element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="itemporarytextelementharness.html#parentelement" class="tsd-kind-icon">parent<wbr>Element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="itemporarytextelementharness.html#textelement" class="tsd-kind-icon">text<wbr>Element</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="height" class="tsd-anchor"></a>
-					<h3>height</h3>
-					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="containerelement" class="tsd-anchor"></a>
+					<h3>container<wbr>Element</h3>
+					<div class="tsd-signature tsd-kind-icon">container<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element &amp; SVGLocatable</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/measurers/abstractMeasurer.ts#L14">measurers/abstractMeasurer.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L80">contexts/svg.ts:80</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="width" class="tsd-anchor"></a>
-					<h3>width</h3>
-					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="parentelement" class="tsd-anchor"></a>
+					<h3>parent<wbr>Element</h3>
+					<div class="tsd-signature tsd-kind-icon">parent<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/measurers/abstractMeasurer.ts#L13">measurers/abstractMeasurer.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L79">contexts/svg.ts:79</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="textelement" class="tsd-anchor"></a>
+					<h3>text<wbr>Element</h3>
+					<div class="tsd-signature tsd-kind-icon">text<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SVGTextElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/palantir/svg-typewriter/blob/a3db872/src/contexts/svg.ts#L81">contexts/svg.ts:81</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -183,21 +201,9 @@
 					<li class=" tsd-kind-interface">
 						<a href="icanvasfontstyle.html" class="tsd-kind-icon">ICanvas<wbr>Font<wbr>Style</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface">
+					<li class=" tsd-kind-interface">
 						<a href="idimensions.html" class="tsd-kind-icon">IDimensions</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="idimensions.html#height" class="tsd-kind-icon">height</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="idimensions.html#width" class="tsd-kind-icon">width</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-is-not-exported">
 						<a href="iellipsisresult.html" class="tsd-kind-icon">IEllipsis<wbr>Result</a>
 					</li>
@@ -213,9 +219,24 @@
 					<li class=" tsd-kind-interface">
 						<a href="irulerfactorycontext.html" class="tsd-kind-icon">IRuler<wbr>Factory<wbr>Context</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-is-not-exported">
 						<a href="itemporarytextelementharness.html" class="tsd-kind-icon">ITemporary<wbr>Text<wbr>Element<wbr>Harness</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="itemporarytextelementharness.html#containerelement" class="tsd-kind-icon">container<wbr>Element</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="itemporarytextelementharness.html#parentelement" class="tsd-kind-icon">parent<wbr>Element</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="itemporarytextelementharness.html#textelement" class="tsd-kind-icon">text<wbr>Element</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="itransform.html" class="tsd-kind-icon">ITransform</a>
 					</li>

@@ -8,29 +8,30 @@ import { assert } from "chai";
 
 import {
   AbstractMeasurer,
-  d3Selection,
-  DOM,
   IWriteOptions,
   Measurer,
+  SvgContext,
+  SvgUtils,
   Wrapper,
   Writer,
 } from "../src";
 
-import { assertBBoxInclusion, generateSVG } from "./utils";
+import { assertBBoxInclusion, d3Selection, generateSVG } from "./utils";
 
 describe("Writer Test Suite", () => {
-  let wrapper: Wrapper;
-  let measurer: AbstractMeasurer;
-  let writer: Writer;
-  let svg: d3Selection<any>;
-  let writeOptions: IWriteOptions;
+  let context: SvgContext;
   let isHorizontal: boolean;
+  let measurer: AbstractMeasurer;
+  let svg: d3Selection<any>;
+  let wrapper: Wrapper;
+  let writeOptions: IWriteOptions;
+  let writer: Writer;
 
   const checkWriting = (text: string, width: number, height: number, shouldHaveTitle = false) => {
     svg.attr("width", width);
     svg.attr("height", height);
     writer.write(text, width, height, writeOptions);
-    const bbox = DOM.getBBox(svg.select(".text-area"));
+    const bbox = SvgUtils.getDimensions(svg.select(".text-area").node() as any as SVGLocatable);
     const dimensions = measurer.measure(
                       wrapper.wrap(
                         text,
@@ -54,11 +55,11 @@ describe("Writer Test Suite", () => {
 
   beforeEach(() => {
     svg = generateSVG(200, 200);
-    measurer = new Measurer(svg);
+    context = new SvgContext(svg.node());
+    measurer = new Measurer(context.createRuler());
     wrapper = new Wrapper();
-    writer = new Writer(measurer, wrapper);
+    writer = new Writer(measurer, context, wrapper);
     writeOptions = {
-      selection: svg,
       textRotation: 0,
       xAlign: "right",
       yAlign: "center",
@@ -66,6 +67,14 @@ describe("Writer Test Suite", () => {
   });
 
   describe("Core", () => {
+    it("has setters", () => {
+      const newContext = new SvgContext(svg.node());
+      const newMeasurer = new Measurer(newContext.createRuler());
+      writer.penFactory(newContext);
+      writer.measurer(newMeasurer);
+      writer.wrapper(null);
+    });
+
     it("unsupported text rotation", () => {
       (writeOptions as any).textRotation = 45;
       assert.throws(() => checkWriting("test", 200, 200), Error);
@@ -168,7 +177,7 @@ describe("Writer Test Suite", () => {
 
     it("addTitleElement", () => {
       wrapper.maxLines(3);
-      writer.addTitleElement(true);
+      context.setAddTitleElement(true);
       checkWriting("reallylongsepntencewithmanycharacters", 50, 150, true);
     });
   });

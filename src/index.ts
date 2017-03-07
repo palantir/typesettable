@@ -4,7 +4,9 @@
  * license at https://github.com/palantir/svg-typewriter/blob/develop/LICENSE
  */
 
+export * from "./contexts";
 export * from "./measurers";
+export * from "./typesetter";
 export * from "./utils";
 export * from "./wrappers";
 export * from "./writers";
