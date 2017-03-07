@@ -10,4 +10,4 @@
 !build/src/**/*
 
 # include bundled library
-!typesetter.js
+!typesettable.js

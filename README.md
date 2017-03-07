@@ -1,16 +1,17 @@
-# Typesetter
+# Typesettable
 
-[![Circle CI](https://circleci.com/gh/palantir/svg-typewriter.svg?style=svg)](https://circleci.com/gh/palantir/svg-typewriter)
+[![Circle CI](https://circleci.com/gh/palantir/typesettable.svg?style=svg)](https://circleci.com/gh/palantir/typesettable)
 
 ### Overview
 
-**Typesetter** is a library for measuring, wrapping, and writing text on Canvas
-and SVG. Canvas supports some rudimentary wrapping, but SVG does not support
-any. Furthermore, developers often want wrapped text to auto-hyphenate and
-truncate with ellipses when overflowing the bounding box. **Typesetter** aims to
-make this entire process easier.
+**Typesettable** is a library for measuring, wrapping, and writing text on
+Canvas and SVG. Canvas supports some rudimentary wrapping, but SVG does not
+support any. Furthermore, developers often want wrapped text to auto-hyphenate
+and truncate with ellipses when overflowing the bounding box. **Typesettable**
+aims to make this entire process easier.
 
-**Typesetter** works with native browser APIs and has no external dependencies.
+**Typesettable** works with native browser APIs and has no external
+dependencies.
 
 ### Features
 
@@ -27,7 +28,7 @@ make this entire process easier.
 ### Installation
 
 ```
-npm install --save @palantir/typesetter
+npm install --save typesettable
 ```
 
 # Usage
@@ -35,7 +36,7 @@ npm install --save @palantir/typesetter
 ### Example Two Liner
 
 ```ts
-import { Typesetter } from "@palantir/typesetter";
+import { Typesetter } from "typesettable";
 
 const typesetter = Typesetter.svg(document.querySelector("svg"));
 typesetter.write("Hello World!", 200, 200);
@@ -46,7 +47,7 @@ typesetter.write("Hello World!", 200, 200);
 Use typesetters with both SVG and Canvas elements:
 
 ```ts
-import { Typesetter } from "@palantir/typesetter";
+import { Typesetter } from "typesettable";
 
 // A typesetter for SVG elements
 const svgTypesetter = Typesetter.svg(document.querySelector("svg"));
@@ -90,7 +91,7 @@ interface, which already uses a shared `CacheMeasurer`. Or, you can compose the
 components manually like so:
 
 ```ts
-import { CacheMeasurer, SvgContext, Wrapper, Writer } from "@palantir/typesetter";
+import { CacheMeasurer, SvgContext, Wrapper, Writer } from "typesettable";
 
 const svg = document.querySelector("svg");
 const context = new SvgContext(svg);
@@ -114,4 +115,4 @@ writer.write(
 
 # API Docs
 
-See [the docs](http://palantir.github.io/typesetter) for more detailed examples.
+See [the docs](http://palantir.github.io/typesettable) for more detailed examples.

@@ -4,7 +4,7 @@ node_modules
 build
 coverage
 preview/bundle.js
-svg-typewriter.js
+typesettable.js
 *.log
 npm-debug.*
 

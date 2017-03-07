@@ -1,5 +1,5 @@
 {
-  "name": "@palantir/typesetter",
+  "name": "typesettable",
   "version": "3.0.0",
   "description": "A typesetting library for SVG and Canvas",
   "main": "build/src/index.js",
@@ -12,7 +12,7 @@
     "build:clean": "rimraf ${npm_package_buildPath}",
     "build:compile": "tsc --project .",
     "build:namespace": "echo \"\\nexport as namespace Typesetter;\" >> ${npm_package_types}",
-    "build:bundle": "browserify --standalone Typesetter build/src/index.js > ./typesetter.js",
+    "build:bundle": "browserify --standalone Typesetter build/src/index.js > ./typesettable.js",
     "check_version": "echo ${npm_package_version} $(npm view ${npm_package_name} version) | awk '{ if ($1 == $2) { exit 1 }}'",
     "docs": "npm-run-all docs:clean docs:typedoc",
     "docs:clean": "rimraf ${npm_package_docsPath}",
