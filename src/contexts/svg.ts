@@ -152,11 +152,12 @@ export class SvgContext implements ITypesetterContext<SVGElement> {
   private getTextElements(element: Element): ITemporaryTextElementHarness {
     // if element is already a text element, return it
     if (element.tagName === "text") {
-      const parentElement = element.parentElement;
-      if (parentElement != null) {
-        // must be removed from parent since we re-add it on every measurement
-        parentElement.removeChild(element);
+      let parentElement = element.parentElement;
+      if (parentElement == null) {
+        parentElement = element.parentNode as HTMLElement;
       }
+      // must be removed from parent since we re-add it on every measurement
+      parentElement.removeChild(element);
 
       return {
         containerElement: element as Element & SVGLocatable,
@@ -168,11 +169,12 @@ export class SvgContext implements ITypesetterContext<SVGElement> {
     // if element has a text element descendent, select it and return it
     const selected = element.querySelector("text");
     if (selected != null) {
-      const parentElement = element.parentElement;
-      if (parentElement != null) {
-        // must be removed from parent since we re-add it on every measurement
-        parentElement.removeChild(element);
+      let parentElement = element.parentElement;
+      if (parentElement == null) {
+        parentElement = element.parentNode as HTMLElement;
       }
+      // must be removed from parent since we re-add it on every measurement
+      parentElement.removeChild(element);
       return {
         containerElement: element as Element & SVGLocatable,
         parentElement,
