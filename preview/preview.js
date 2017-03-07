@@ -1,4 +1,4 @@
-const { Typesetter } = require("@palantir/typesetter");
+const { Typesetter } = require("typesettable");
 
 function createSvgUpdater(selector, options) {
     const element = document.querySelector(selector);
