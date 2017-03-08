@@ -54,12 +54,17 @@ export class SvgUtils {
     // using feature detection, safely return the bounding box dimensions of the
     // provided svg element
     if (element.getBBox) {
-      const { width, height } = element.getBBox();
-      // copy to prevent NoModificationAllowedError
-      return { width, height };
-    } else {
-      return { height: 0, width: 0 };
+      try {
+        const { width, height } = element.getBBox();
+        // copy to prevent NoModificationAllowedError
+        return { width, height };
+      } catch (err) {
+        // swallow any errors that occur (Firefox Linux)
+      }
     }
+
+    // if can't get valid bbox, return 0,0
+    return { height: 0, width: 0 };
   }
 }
 
