@@ -1,6 +1,6 @@
 {
   "name": "typesettable",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A typesetting library for SVG and Canvas",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
