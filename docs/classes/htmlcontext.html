@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SvgContext | Typesetter</title>
+	<title>HtmlContext | Typesetter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="svgcontext.html">SvgContext</a>
+					<a href="htmlcontext.html">HtmlContext</a>
 				</li>
 			</ul>
-			<h1>Class SvgContext</h1>
+			<h1>Class HtmlContext</h1>
 		</div>
 	</div>
 </header>
@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A typesetter context for SVG.</p>
+						<p>A typesetter context for HTML.</p>
 					</div>
 					<dl class="tsd-comment-tags">
 						<dt>param</dt>
@@ -80,7 +80,7 @@
 						<dd><p>added to new text blocks</p>
 						</dd>
 						<dt>param</dt>
-						<dd><p>enable title tags to be added to new text blocks.</p>
+						<dd><p>enable title attribute to be added to new text blocks.</p>
 						</dd>
 					</dl>
 				</div>
@@ -89,14 +89,14 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">SvgContext</span>
+						<span class="target">HtmlContext</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/itypesettercontext.html" class="tsd-signature-type">ITypesetterContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/itypesettercontext.html" class="tsd-signature-type">ITypesetterContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -106,25 +106,30 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="svgcontext.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="htmlcontext.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="svgcontext.html#addtitleelement" class="tsd-kind-icon">add<wbr>Title<wbr>Element</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="svgcontext.html#classname" class="tsd-kind-icon">class<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="svgcontext.html#element" class="tsd-kind-icon">element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="htmlcontext.html#addtitle" class="tsd-kind-icon">add<wbr>Title</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="htmlcontext.html#classname" class="tsd-kind-icon">class<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="htmlcontext.html#element" class="tsd-kind-icon">element</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="svgcontext.html#createpen" class="tsd-kind-icon">create<wbr>Pen</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="svgcontext.html#createruler" class="tsd-kind-icon">create<wbr>Ruler</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="svgcontext.html#createsvglinepen" class="tsd-kind-icon">create<wbr>Svg<wbr>Line<wbr>Pen</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="svgcontext.html#gettextelements" class="tsd-kind-icon">get<wbr>Text<wbr>Elements</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="svgcontext.html#setaddtitleelement" class="tsd-kind-icon">set<wbr>Add<wbr>Title<wbr>Element</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="htmlcontext.html#createhtmllinepen" class="tsd-kind-icon">create<wbr>Html<wbr>Line<wbr>Pen</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="htmlcontext.html#createpen" class="tsd-kind-icon">create<wbr>Pen</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="htmlcontext.html#createruler" class="tsd-kind-icon">create<wbr>Ruler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="htmlcontext.html#setaddtitle" class="tsd-kind-icon">set<wbr>Add<wbr>Title</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+							<h3>Object literals</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="htmlcontext.html#anchorconverter" class="tsd-kind-icon">Anchor<wbr>Converter</a></li>
 							</ul>
 						</section>
 					</div>
@@ -136,28 +141,28 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Svg<wbr>Context<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGElement</span>, className<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, addTitleElement<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="svgcontext.html" class="tsd-signature-type">SvgContext</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Html<wbr>Context<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, className<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, addTitle<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="htmlcontext.html" class="tsd-signature-type">HtmlContext</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/svg.ts#L83">contexts/svg.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L82">contexts/html.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>element: <span class="tsd-signature-type">SVGElement</span></h5>
+									<h5>element: <span class="tsd-signature-type">HTMLElement</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> className: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> addTitleElement: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> addTitle: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="svgcontext.html" class="tsd-signature-type">SvgContext</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="htmlcontext.html" class="tsd-signature-type">HtmlContext</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -165,12 +170,12 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="addtitleelement" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> add<wbr>Title<wbr>Element</h3>
-					<div class="tsd-signature tsd-kind-icon">add<wbr>Title<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="addtitle" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> add<wbr>Title</h3>
+					<div class="tsd-signature tsd-kind-icon">add<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/svg.ts#L87">contexts/svg.ts:87</a></li>
+							<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L87">contexts/html.ts:87</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -180,23 +185,78 @@
 					<div class="tsd-signature tsd-kind-icon">class<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/svg.ts#L86">contexts/svg.ts:86</a></li>
+							<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L86">contexts/html.ts:86</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="element" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> element</h3>
-					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SVGElement</span></div>
+					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/svg.ts#L85">contexts/svg.ts:85</a></li>
+							<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L85">contexts/html.ts:85</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="createhtmllinepen" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> create<wbr>Html<wbr>Line<wbr>Pen</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Html<wbr>Line<wbr>Pen<span class="tsd-signature-symbol">(</span>textBlock<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L125">contexts/html.ts:125</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>textBlock: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>write<span class="tsd-signature-symbol">: </span>function</h5>
+									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>line<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, anchor<span class="tsd-signature-symbol">: </span><a href="../globals.html#ianchor" class="tsd-signature-type">IAnchor</a>, xOffset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, yOffset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<aside class="tsd-sources">
+												<ul>
+													<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L127">contexts/html.ts:127</a></li>
+												</ul>
+											</aside>
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>line: <span class="tsd-signature-type">string</span></h5>
+												</li>
+												<li>
+													<h5>anchor: <a href="../globals.html#ianchor" class="tsd-signature-type">IAnchor</a></h5>
+												</li>
+												<li>
+													<h5>xOffset: <span class="tsd-signature-type">number</span></h5>
+												</li>
+												<li>
+													<h5>yOffset: <span class="tsd-signature-type">number</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+								</ul>        </li>
+							</ul>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="createpen" class="tsd-anchor"></a>
 					<h3>create<wbr>Pen</h3>
@@ -207,7 +267,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/svg.ts#L105">contexts/svg.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L104">contexts/html.ts:104</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -233,7 +293,7 @@
 										<li class="tsd-description">
 											<aside class="tsd-sources">
 												<ul>
-													<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/svg.ts#L128">contexts/svg.ts:128</a></li>
+													<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L127">contexts/html.ts:127</a></li>
 												</ul>
 											</aside>
 											<h4 class="tsd-parameters-title">Parameters</h4>
@@ -268,113 +328,78 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/svg.ts#L94">contexts/svg.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L94">contexts/html.ts:94</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="createsvglinepen" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> create<wbr>Svg<wbr>Line<wbr>Pen</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Svg<wbr>Line<wbr>Pen<span class="tsd-signature-symbol">(</span>textBlockGroup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGGElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/svg.ts#L126">contexts/svg.ts:126</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>textBlockGroup: <span class="tsd-signature-type">SVGGElement</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter">
-									<h5>write<span class="tsd-signature-symbol">: </span>function</h5>
-									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>line<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, anchor<span class="tsd-signature-symbol">: </span><a href="../globals.html#ianchor" class="tsd-signature-type">IAnchor</a>, xOffset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, yOffset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-									</ul>
-									<ul class="tsd-descriptions">
-										<li class="tsd-description">
-											<aside class="tsd-sources">
-												<ul>
-													<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/svg.ts#L128">contexts/svg.ts:128</a></li>
-												</ul>
-											</aside>
-											<h4 class="tsd-parameters-title">Parameters</h4>
-											<ul class="tsd-parameters">
-												<li>
-													<h5>line: <span class="tsd-signature-type">string</span></h5>
-												</li>
-												<li>
-													<h5>anchor: <a href="../globals.html#ianchor" class="tsd-signature-type">IAnchor</a></h5>
-												</li>
-												<li>
-													<h5>xOffset: <span class="tsd-signature-type">number</span></h5>
-												</li>
-												<li>
-													<h5>yOffset: <span class="tsd-signature-type">number</span></h5>
-												</li>
-											</ul>
-											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-										</li>
-								</ul>        </li>
-							</ul>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="gettextelements" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> get<wbr>Text<wbr>Elements</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Text<wbr>Elements<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/itemporarytextelementharness.html" class="tsd-signature-type">ITemporaryTextElementHarness</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/svg.ts#L143">contexts/svg.ts:143</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>element: <span class="tsd-signature-type">Element</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/itemporarytextelementharness.html" class="tsd-signature-type">ITemporaryTextElementHarness</a></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setaddtitleelement" class="tsd-anchor"></a>
-					<h3>set<wbr>Add<wbr>Title<wbr>Element</h3>
+					<a name="setaddtitle" class="tsd-anchor"></a>
+					<h3>set<wbr>Add<wbr>Title</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Add<wbr>Title<wbr>Element<span class="tsd-signature-symbol">(</span>addTitleElement<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Add<wbr>Title<span class="tsd-signature-symbol">(</span>addTitle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/svg.ts#L90">contexts/svg.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L90">contexts/html.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>addTitleElement: <span class="tsd-signature-type">boolean</span></h5>
+									<h5>addTitle: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+				<h2>Object literals</h2>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class tsd-is-private tsd-is-static">
+					<a name="anchorconverter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> Anchor<wbr>Converter</h3>
+					<div class="tsd-signature tsd-kind-icon">Anchor<wbr>Converter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L78">contexts/html.ts:78</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="anchorconverter.end" class="tsd-anchor"></a>
+						<h3>end</h3>
+						<div class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;right&quot;</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L81">contexts/html.ts:81</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="anchorconverter.middle" class="tsd-anchor"></a>
+						<h3>middle</h3>
+						<div class="tsd-signature tsd-kind-icon">middle<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;center&quot;</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L79">contexts/html.ts:79</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="anchorconverter.start" class="tsd-anchor"></a>
+						<h3>start</h3>
+						<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;left&quot;</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/palantir/typesettable/blob/0d15adc/src/contexts/html.ts#L80">contexts/html.ts:80</a></li>
+							</ul>
+						</aside>
+					</section>
 				</section>
 			</section>
 		</div>
@@ -406,9 +431,42 @@
 					<li class=" tsd-kind-class">
 						<a href="charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
 					</li>
-					<li class=" tsd-kind-class">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
 						<a href="htmlcontext.html" class="tsd-kind-icon">Html<wbr>Context</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="htmlcontext.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="htmlcontext.html#addtitle" class="tsd-kind-icon">add<wbr>Title</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="htmlcontext.html#classname" class="tsd-kind-icon">class<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="htmlcontext.html#element" class="tsd-kind-icon">element</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="htmlcontext.html#createhtmllinepen" class="tsd-kind-icon">create<wbr>Html<wbr>Line<wbr>Pen</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="htmlcontext.html#createpen" class="tsd-kind-icon">create<wbr>Pen</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="htmlcontext.html#createruler" class="tsd-kind-icon">create<wbr>Ruler</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="htmlcontext.html#setaddtitle" class="tsd-kind-icon">set<wbr>Add<wbr>Title</a>
+							</li>
+							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-private tsd-is-static">
+								<a href="htmlcontext.html#anchorconverter" class="tsd-kind-icon">Anchor<wbr>Converter</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="htmlutils.html" class="tsd-kind-icon">Html<wbr>Utils</a>
 					</li>
@@ -424,42 +482,9 @@
 					<li class=" tsd-kind-class">
 						<a href="stringmethods.html" class="tsd-kind-icon">String<wbr>Methods</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-class">
+					<li class=" tsd-kind-class">
 						<a href="svgcontext.html" class="tsd-kind-icon">Svg<wbr>Context</a>
-						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="svgcontext.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="svgcontext.html#addtitleelement" class="tsd-kind-icon">add<wbr>Title<wbr>Element</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="svgcontext.html#classname" class="tsd-kind-icon">class<wbr>Name</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="svgcontext.html#element" class="tsd-kind-icon">element</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="svgcontext.html#createpen" class="tsd-kind-icon">create<wbr>Pen</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="svgcontext.html#createruler" class="tsd-kind-icon">create<wbr>Ruler</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="svgcontext.html#createsvglinepen" class="tsd-kind-icon">create<wbr>Svg<wbr>Line<wbr>Pen</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="svgcontext.html#gettextelements" class="tsd-kind-icon">get<wbr>Text<wbr>Elements</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="svgcontext.html#setaddtitleelement" class="tsd-kind-icon">set<wbr>Add<wbr>Title<wbr>Element</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="svgutils.html" class="tsd-kind-icon">Svg<wbr>Utils</a>
 					</li>
