@@ -72,7 +72,7 @@ export class HtmlUtils {
  * @param element - The CSS font styles applied to `element` will determine the
  * size of text measurements. Also the default text block container.
  * @param className - added to new text blocks
- * @param addTitleElement - enable title tags to be added to new text blocks.
+ * @param addTitle - enable title attribute to be added to new text blocks.
  */
 export class HtmlContext implements ITypesetterContext<HTMLElement> {
   private static AnchorConverter: { [s: string]: string } = {
@@ -109,9 +109,10 @@ export class HtmlContext implements ITypesetterContext<HTMLElement> {
     const textBlock = HtmlUtils.append(element, "div", "text-block", this.className);
     textBlock.style.position = "relative";
     textBlock.style.transform =
-      `translate(0, -1em) ` +
+      `translate(0, -1em) ` + // adjust 1 line height up to account for differences in yOffsets
       `translate(${transform.translate[0]}px, ${transform.translate[1]}px) ` +
       `rotate(${transform.rotate}deg)`;
+    // This awkward transform origin matches the SVG origin
     textBlock.style.transformOrigin = "0 1.2em";
 
     // attach optional title

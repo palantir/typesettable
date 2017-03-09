@@ -6,6 +6,7 @@
 
 import { IDimensions } from "../measurers";
 import { IAnchor, ITransform } from "../writers";
+import { HtmlUtils } from "./html";
 import { ITypesetterContext } from "./index";
 
 export class SvgUtils {
@@ -28,23 +29,8 @@ export class SvgUtils {
    */
   public static create(tagName: string, ...classNames: string[]) {
     const element = document.createElementNS(SvgUtils.SVG_NS, tagName) as SVGElement;
-    SvgUtils.addClasses(element, ...classNames);
+    HtmlUtils.addClasses(element, ...classNames);
     return element;
-  }
-
-  /**
-   * Adds the variadic classnames to the element
-   */
-  public static addClasses(element: Element, ...classNames: string[]) {
-    classNames = classNames.filter((c) => c != null);
-    if (element.classList != null) {
-      classNames.forEach((className) => {
-        element.classList.add(className);
-      });
-    } else {
-      // IE 11 does not support classList
-      element.setAttribute("class", classNames.join(" "));
-    }
   }
 
   /**
