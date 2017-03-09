@@ -30,3 +30,4 @@ export interface ITypesetterContext<T> extends IPenFactoryContext<T>, IRulerFact
 
 export * from "./svg";
 export * from "./canvas";
+export * from "./html";

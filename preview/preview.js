@@ -52,6 +52,24 @@ function createCanvasUpdater(selector, options) {
     };
 }
 
+function createHtmlUpdater(selector, options) {
+    const element = document.querySelector(selector);
+    const typesetter = Typesetter.html(element);
+    const writeOptions = Object(options);
+
+    const update = function() {
+        const rect = writeOptions.rect == null ? element.getBoundingClientRect() : writeOptions.rect;
+        element.innerHTML = "";
+        typesetter.write(this.text, rect.width, rect.height, this.options);
+    };
+
+    return {
+        update,
+        text: "",
+        options: writeOptions,
+    };
+}
+
 const configurables = [
     createSvgUpdater("#shearPreview", {
         textRotation: -90,
@@ -63,6 +81,7 @@ const configurables = [
         }
     }),
     createCanvasUpdater("#canvas1"),
+    createHtmlUpdater("#html1"),
 ];
 const updatables = configurables.concat([
     createSvgUpdater("#svg1"),

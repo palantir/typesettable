@@ -8,6 +8,8 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import {
     CanvasContext,
+    HtmlContext,
+    HtmlUtils,
     IPen,
     ITypesetterContext,
     Measurer,
@@ -65,26 +67,32 @@ function commonTests(test: ITest) {
 
 const TEXT = "i am the very model of a modern major general";
 
+const MAKE_TEST_SPIES = (): ITest => {
+    return {
+        pen: {
+            destroy: sinon.spy(),
+            write: sinon.spy(),
+        },
+    };
+};
+
 describe("Contexts", () => {
-    const canvasTest: ITest = {
-        pen: {
-            destroy: sinon.spy(),
-            write: sinon.spy(),
-        },
-    };
-    const svgTest: ITest = {
-        pen: {
-            destroy: sinon.spy(),
-            write: sinon.spy(),
-        },
-    };
+    const canvasTest = MAKE_TEST_SPIES();
+    const svgTest = MAKE_TEST_SPIES();
+    const htmlTest = MAKE_TEST_SPIES();
     let svg: SVGElement;
+    let div: HTMLElement;
 
     before(() => {
         svg = SvgUtils.append(document.body, "svg");
         svg.setAttribute("style", "fill:blue;font:18px sans-serif;");
         svgTest.context = new SvgContext(svg);
         svgTest.write = createWriteCallback(svgTest);
+
+        div = HtmlUtils.append(document.body, "div");
+        div.setAttribute("style", "fill:blue;font:18px sans-serif;");
+        htmlTest.context = new HtmlContext(div);
+        htmlTest.write = createWriteCallback(htmlTest);
 
         // hack to match line heights
         const lineHeight = new Measurer(svgTest.context.createRuler()).measure().height;
@@ -115,12 +123,15 @@ describe("Contexts", () => {
 
     commonTests(canvasTest);
     commonTests(svgTest);
+    commonTests(htmlTest);
 
     it("wraps long text", () => {
         canvasTest.write(TEXT);
         svgTest.write(TEXT);
-        assert.equal(canvasTest.pen.write.callCount, svgTest.pen.write.callCount);
-        assert.equal(canvasTest.pen.write.getCall(0).args[0], svgTest.pen.write.getCall(0).args[0]);
+        assert.equal(canvasTest.pen.write.callCount, svgTest.pen.write.callCount, "calls canvas == svg");
+        assert.equal(canvasTest.pen.write.callCount, htmlTest.pen.write.callCount, "calls canvas == html");
+        assert.equal(canvasTest.pen.write.getCall(0).args[0], svgTest.pen.write.getCall(0).args[0], "args canvas == svg");
+        assert.equal(canvasTest.pen.write.getCall(0).args[0], htmlTest.pen.write.getCall(0).args[0], "args canvas == html");
     });
 
     it("rotates text", () => {
