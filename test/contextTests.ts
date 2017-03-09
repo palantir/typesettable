@@ -134,8 +134,16 @@ describe("Contexts", () => {
         htmlTest.write(TEXT);
         assert.equal(canvasTest.pen.write.callCount, svgTest.pen.write.callCount, "calls canvas == svg");
         assert.equal(canvasTest.pen.write.callCount, htmlTest.pen.write.callCount, "calls canvas == html");
-        assert.equal(canvasTest.pen.write.getCall(0).args[0], svgTest.pen.write.getCall(0).args[0], "args canvas == svg");
-        assert.equal(canvasTest.pen.write.getCall(0).args[0], htmlTest.pen.write.getCall(0).args[0], "args canvas == html");
+        assert.equal(
+            canvasTest.pen.write.getCall(0).args[0],
+            svgTest.pen.write.getCall(0).args[0],
+            "args canvas == svg",
+        );
+        assert.equal(
+            canvasTest.pen.write.getCall(0).args[0],
+            htmlTest.pen.write.getCall(0).args[0],
+            "args canvas == html",
+        );
     });
 
     it("rotates text", () => {

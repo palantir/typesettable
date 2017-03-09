@@ -76,9 +76,9 @@ export class HtmlUtils {
  */
 export class HtmlContext implements ITypesetterContext<HTMLElement> {
   private static AnchorConverter: { [s: string]: string } = {
+    end: "right",
     middle: "center",
     start: "left",
-    end: "right",
   };
 
   public constructor(
