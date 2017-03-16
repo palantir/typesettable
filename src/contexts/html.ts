@@ -5,7 +5,7 @@
  */
 
 import { IDimensions } from "../measurers";
-import { IAnchor, ITransform } from "../writers";
+import { ITransform, IXAlign } from "../writers";
 import { ITypesetterContext } from "./index";
 
 export class HtmlUtils {
@@ -70,12 +70,6 @@ export class HtmlUtils {
  * A typesetter context for HTML.
  */
 export class HtmlContext implements ITypesetterContext<HTMLElement> {
-  private static AnchorConverter: { [s: string]: string } = {
-    end: "right",
-    middle: "center",
-    start: "left",
-  };
-
   /**
    * @param element - The CSS font styles applied to `element` will determine the
    * size of text measurements. Also the default text block container.
@@ -127,13 +121,15 @@ export class HtmlContext implements ITypesetterContext<HTMLElement> {
     return {
       write: (
           line: string,
-          anchor: IAnchor,
+          width: number,
+          xAlign: IXAlign,
           xOffset: number,
           yOffset: number,
         ) => {
           const textLine = HtmlUtils.append(textBlock, "div", "text-line");
           textLine.textContent = line;
-          textLine.style.textAlign = HtmlContext.AnchorConverter[anchor];
+          textLine.style.width = `${width}px`;
+          textLine.style.textAlign = xAlign;
           textLine.style.position = "absolute";
           textLine.style.whiteSpace = "nowrap";
           textLine.style.top = `${yOffset}px`;

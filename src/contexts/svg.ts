@@ -5,9 +5,11 @@
  */
 
 import { IDimensions } from "../measurers";
-import { IAnchor, ITransform } from "../writers";
+import { ITransform, IXAlign, Writer } from "../writers";
 import { HtmlUtils } from "./html";
 import { ITypesetterContext } from "./index";
+
+export type IAnchor = "start" | "middle" | "end";
 
 export class SvgUtils {
   public static SVG_NS = "http://www.w3.org/2000/svg";
@@ -81,6 +83,13 @@ interface ITemporaryTextElementHarness {
  * @param addTitleElement - enable title tags to be added to new text blocks.
  */
 export class SvgContext implements ITypesetterContext<SVGElement> {
+
+  private static AnchorMap: { [K in IXAlign]: string } = {
+    center: "middle",
+    left: "start",
+    right: "end",
+  };
+
   public constructor(
       private element: SVGElement,
       private className?: string,
@@ -127,13 +136,15 @@ export class SvgContext implements ITypesetterContext<SVGElement> {
     return {
       write: (
           line: string,
-          anchor: IAnchor,
+          width: number,
+          xAlign: IXAlign,
           xOffset: number,
           yOffset: number,
         ) => {
+          xOffset += width * Writer.XOffsetFactor[xAlign];
           const element = SvgUtils.append(textBlockGroup, "text", "text-line");
           element.textContent = line;
-          element.setAttribute("text-anchor", anchor);
+          element.setAttribute("text-anchor", SvgContext.AnchorMap[xAlign]);
           element.setAttribute("transform", `translate(${xOffset},${yOffset})`);
           element.setAttribute("y", "-0.25em");
         },
