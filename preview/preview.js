@@ -1,14 +1,16 @@
 const { Typesetter } = require("typesettable");
 
+const BOX_WIDTH = 100;
+const BOX_HEIGHT = 100;
+
 function createSvgUpdater(selector, options) {
     const element = document.querySelector(selector);
     const typesetter = Typesetter.svg(element);
     const writeOptions = Object(options);
 
     const update = function() {
-        const rect = writeOptions.rect == null ? element.getBoundingClientRect() : writeOptions.rect;
         element.innerHTML = "";
-        typesetter.write(this.text, rect.width, rect.height, this.options);
+        typesetter.write(this.text, BOX_WIDTH, BOX_HEIGHT, this.options);
     };
 
     return {
@@ -32,17 +34,24 @@ function retinaFix(ctx) {
 function createCanvasUpdater(selector, options) {
     const element = document.querySelector(selector);
     const ctx = retinaFix(element.getContext("2d"));
-    const fontStack = "‘Segoe UI’, Candara, ‘Bitstream Vera Sans’, ‘DejaVu Sans’, ‘Bitsream Vera Sans’, ‘Trebuchet MS’, Verdana, ‘Verdana Ref’, sans-serif";
-    const typesetter = Typesetter.canvas(ctx, 18, {
-        font: "18px " + fontStack,
-        fill: "rebeccapurple",
+    const fontStack = "sans-serif";
+    const typesetter = Typesetter.canvas(ctx, 16, {
+        font: "16px " + fontStack,
+        fill: "dodgerblue",
     });
     const writeOptions = Object(options);
 
     const update = function() {
         const rect = writeOptions.rect == null ? element.getBoundingClientRect() : writeOptions.rect;
-        ctx.clearRect(0, 0, element.width, element.height);
-        typesetter.write(this.text, rect.width, rect.height, this.options);
+        ctx.save();
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, element.width, element.height);
+        ctx.translate(150, 50);
+        ctx.rect(0, 0, BOX_WIDTH, BOX_HEIGHT);
+        ctx.strokeStyle = "lime";
+        ctx.stroke();
+        typesetter.write(this.text, BOX_WIDTH, BOX_HEIGHT, this.options);
+        ctx.restore();
     };
 
     return {
@@ -58,9 +67,8 @@ function createHtmlUpdater(selector, options) {
     const writeOptions = Object(options);
 
     const update = function() {
-        const rect = writeOptions.rect == null ? element.getBoundingClientRect() : writeOptions.rect;
         element.innerHTML = "";
-        typesetter.write(this.text, rect.width, rect.height, this.options);
+        typesetter.write(this.text, BOX_WIDTH, BOX_HEIGHT, this.options);
     };
 
     return {
@@ -71,27 +79,16 @@ function createHtmlUpdater(selector, options) {
 }
 
 const configurables = [
-    createSvgUpdater("#shearPreview", {
-        textRotation: -90,
-        textShear: 0,
-        xAlign: "right",
-        rect: {
-            width: 100,
-            height: 100
-        }
-    }),
-    createCanvasUpdater("#canvas1"),
-    createHtmlUpdater("#html1"),
+    createSvgUpdater("#svgOutput"),
+    createCanvasUpdater("#canvasOutput"),
+    createHtmlUpdater("#htmlOutput"),
 ];
-const updatables = configurables.concat([
-    createSvgUpdater("#svg1"),
-]);
 
 // bind text area
 const textArea = document.querySelector("textarea");
 function updateText() {
     const text = textArea.value;
-    updatables.forEach((u) => {
+    configurables.forEach((u) => {
         u.text = text;
         u.update.apply(u);
     });

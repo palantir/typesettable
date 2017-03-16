@@ -1,5 +1,5 @@
 body {
-    padding: 20px 20px 20px 20px;
+    padding: 10px 20px 20px 20px;
     background:#EEE;
     font-family: sans-serif;
 }
@@ -17,16 +17,13 @@ svg {
     height: 100px;
 }
 
+h5 {
+    margin-bottom: 5px;
+}
+
 .big {
     width: 400px;
     height: 200px;
-}
-
-#html1 {
-    width: 200px;
-    height: 150px;
-    overflow: hidden;
-    background-color: white;
 }
 
 label {
