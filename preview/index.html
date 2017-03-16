@@ -23,7 +23,7 @@ Lorem ipsum dolor sit amet, convenire iracundia ex ius, his at ipsum invidunt. E
                 <h5>Configurable Parameters</h5>
 
                 <label>Shear Angle</label>
-                <input type="range" id="shear" min="-80" max="80" value="60" />
+                <input type="range" id="shear" min="-80" max="80" value="0" />
                 <br/>
 
                 <label>Text Rotation</label>
@@ -48,25 +48,16 @@ Lorem ipsum dolor sit amet, convenire iracundia ex ius, his at ipsum invidunt. E
             </div>
             <div class="fill-half-right">
                 <h5>SVG</h5>
-                <svg id="svg1" class="big"></svg>
-                <br/>
-
-                <svg id="svg6" class="big">
-                    <rect fill="none" stroke="lime" x=150 y=50 width=100 height=100></rect>
-                    <g id="shearPreview" transform="translate(150, 50)" fill="deeppink"></g>
+                <svg class="big">
+                    <rect stroke="lime" fill="none" x=150 y=50 width=100 height=100></rect>
+                    <g id="svgOutput" transform="translate(150, 50)" fill="deeppink"></g>
                 </svg>
-                <br/>
-
                 <h5>Canvas</h5>
-                <canvas id="canvas1"></canvas>
-                <br/>
-                <br/>
-
+                <canvas class="big" id="canvasOutput"></canvas>
                 <h5>HTML</h5>
-                <div id="html1"></div>
-                <br/>
-                <br/>
-
+                <div class="big" style="position:relative;background:white;color:firebrick;overflow:hidden;">
+                    <div id="htmlOutput" style="position:absolute;left:150px;top:50px;width:100px;height:100px;border:1px solid lime;"></div>
+                </div>
             </div>
     </div>
 </body>
