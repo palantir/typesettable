@@ -10,7 +10,7 @@ import { ITypesetterContext } from "./index";
 
 export class HtmlUtils {
   /**
-   * Appends an SVG element with the specified tag name to the provided element.
+   * Appends an HTML element with the specified tag name to the provided element.
    * The variadic classnames are added to the new element.
    *
    * Returns the new element.
@@ -22,7 +22,7 @@ export class HtmlUtils {
   }
 
   /**
-   * Creates and returns a new SVGElement with the attached classnames.
+   * Creates and returns a new HTMLElement with the attached classnames.
    */
   public static create(tagName: string, ...classNames: string[]) {
     const element = document.createElement(tagName) as HTMLElement;
@@ -31,7 +31,7 @@ export class HtmlUtils {
   }
 
   /**
-   * Adds the variadic classnames to the element
+   * Adds the variadic classnames to the Element
    */
   public static addClasses(element: Element, ...classNames: string[]) {
     classNames = classNames.filter((c) => c != null);
@@ -46,11 +46,11 @@ export class HtmlUtils {
   }
 
   /**
-   * Returns the width/height of svg element's bounding box
+   * Returns the width/height of HTMLElement's bounding box
    */
   public static getDimensions(element: HTMLElement): IDimensions {
     // using feature detection, safely return the bounding box dimensions of the
-    // provided svg element
+    // provided html element
     if (element.getBoundingClientRect) {
       try {
         const { width, height } = element.getBoundingClientRect();
@@ -68,11 +68,6 @@ export class HtmlUtils {
 
 /**
  * A typesetter context for HTML.
- *
- * @param element - The CSS font styles applied to `element` will determine the
- * size of text measurements. Also the default text block container.
- * @param className - added to new text blocks
- * @param addTitle - enable title attribute to be added to new text blocks.
  */
 export class HtmlContext implements ITypesetterContext<HTMLElement> {
   private static AnchorConverter: { [s: string]: string } = {
@@ -81,6 +76,12 @@ export class HtmlContext implements ITypesetterContext<HTMLElement> {
     start: "left",
   };
 
+  /**
+   * @param element - The CSS font styles applied to `element` will determine the
+   * size of text measurements. Also the default text block container.
+   * @param className - added to new text blocks
+   * @param addTitle - enable title attribute to be added to new text blocks.
+   */
   public constructor(
       private element: HTMLElement,
       private className?: string,
