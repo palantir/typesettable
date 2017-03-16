@@ -4,7 +4,7 @@
  * license at https://github.com/palantir/typesettable/blob/develop/LICENSE
  */
 
-import { IAnchor, ITransform } from "../writers";
+import { ITransform, IXAlign, Writer } from "../writers";
 import { ITypesetterContext } from "./index";
 
 /**
@@ -81,11 +81,13 @@ export class CanvasContext implements ITypesetterContext<CanvasRenderingContext2
             },
             write: (
                 line: string,
-                anchor: IAnchor,
+                width: number,
+                xAlign: IXAlign,
                 xOffset: number,
                 yOffset: number,
             ) => {
-                ctx.textAlign = anchor;
+                xOffset += width * Writer.XOffsetFactor[xAlign];
+                ctx.textAlign = xAlign;
                 if (this.style.font != null) {
                     ctx.font = this.style.font;
                 }

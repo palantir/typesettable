@@ -11,7 +11,6 @@ import { Wrapper } from "../wrappers";
 
 export type IXAlign = "left" | "center" | "right";
 export type IYAlign = "top" | "center" | "bottom";
-export type IAnchor = "start" | "middle" | "end";
 
 /**
  * A euclidean transformation, which preserves the size of text and only affects
@@ -41,7 +40,7 @@ export interface IPen {
    * `xOffset` and `yOffset` are assumed to be in an independent text-aligned
    * coordinate space.
    */
-  write: (line: string, anchor: IAnchor, xOffset: number, yOffset: number) => void;
+  write: (line: string, width: number, anchor: IXAlign, xOffset: number, yOffset: number) => void;
 }
 
 /**
@@ -101,25 +100,19 @@ const DEFAULT_WRITE_OPTIONS: IWriteOptions = {
 };
 
 export class Writer {
-  private static SupportedRotation = [-90, 0, 180, 90];
-
-  private static AnchorConverter: { [s: string]: IAnchor } = {
-    center: "middle",
-    left: "start",
-    right: "end",
-  };
-
-  private static XOffsetFactor: { [s: string]: number } = {
+  public static XOffsetFactor: { [K in IXAlign]: number } = {
     center: 0.5,
     left: 0,
     right: 1,
   };
 
-  private static YOffsetFactor: { [s: string]: number } = {
+  public static YOffsetFactor: { [K in IYAlign]: number } = {
     bottom: 1,
     center: 0.5,
     top: 0,
   };
+
+  private static SupportedRotation = [-90, 0, 180, 90];
 
   constructor(
     private _measurer: AbstractMeasurer,
@@ -238,10 +231,8 @@ export class Writer {
       shearShift: number,
       xAlign: IXAlign) {
     lines.forEach((line: string, i: number) => {
-      const shearOffset = (shearShift > 0) ? (i + 1) * shearShift : (i) * shearShift;
-      const xOffset = shearOffset + width * Writer.XOffsetFactor[xAlign];
-      const anchor = Writer.AnchorConverter[xAlign];
-      linePen.write(line, anchor, xOffset, (i + 1) * lineHeight);
+      const xShearOffset = (shearShift > 0) ? (i + 1) * shearShift : (i) * shearShift;
+      linePen.write(line, width, xAlign, xShearOffset, (i + 1) * lineHeight);
     });
   }
 }
