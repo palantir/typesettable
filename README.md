@@ -5,10 +5,12 @@
 ### Overview
 
 **Typesettable** is a library for measuring, wrapping, and writing text on
-Canvas and SVG. Canvas supports some rudimentary wrapping, but SVG does not
-support any. Furthermore, developers often want wrapped text to auto-hyphenate
-and truncate with ellipses when overflowing the bounding box. **Typesettable**
-aims to make this entire process easier.
+Canvas, SVG, and HTML.
+
+Canvas and HTML support some rudimentary wrapping, but SVG does not support any.
+Furthermore, developers often want wrapped text to auto-hyphenate and truncate
+with ellipses when overflowing the bounding box. **Typesettable** aims to make
+this entire process easier.
 
 **Typesettable** works with native browser APIs and has no external
 dependencies.
@@ -21,9 +23,9 @@ dependencies.
   from the Measurer.
 - *Writers* layout and write text based on specified options such as wrapping,
   alignment, rotation, and shearing.
-- *SvgContext* and *CanvasContext* implement factories for the *IRuler* and
-  *IPen* objects, which encapsulate the functionality for measuring and writing
-  text in SVG and Canvas elements.
+- *SvgContext*, *CanvasContext*, and *HtmlContext* implement factories for the
+  *IRuler* and *IPen* objects, which encapsulate the functionality for measuring
+  and writing text in SVG, Canvas, and HTML elements.
 
 ### Installation
 
@@ -42,7 +44,7 @@ const typesetter = Typesetter.svg(document.querySelector("svg"));
 typesetter.write("Hello World!", 200, 200);
 ```
 
-### Example SVG & Canvas
+### Example SVG, Canvas, & HTML
 
 Use typesetters with both SVG and Canvas elements:
 
@@ -54,6 +56,9 @@ const svgTypesetter = Typesetter.svg(document.querySelector("svg"));
 
 // A typesetter for Canvas elements
 const canvasTypesetter = Typesetter.canvas(document.querySelector("canvas").getContext("2d"));
+
+// A typesetter for HTML elements
+const htmlTypesetter = Typesetter.html(document.querySelector("div.text-container"));
 
 // The dimensions into which the text will be wrapped and truncated
 const width = 300;
@@ -70,6 +75,7 @@ const writeOptions = {
 // Write the text to the elements
 svgTypesetter.write("Hello SVG!", width, height, writeOptions);
 canvasTypesetter.write("Hello Canvas!", width, height, writeOptions);
+htmlTypesetter.write("Hello HTML!", width, height, writeOptions);
 ```
 
 ### Example Shared Cache

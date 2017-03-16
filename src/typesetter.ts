@@ -4,7 +4,7 @@
  * license at https://github.com/palantir/typesettable/blob/develop/LICENSE
  */
 
-import { CanvasContext, ICanvasFontStyle, ITypesetterContext, SvgContext } from "./contexts";
+import { CanvasContext, ICanvasFontStyle, ITypesetterContext, HtmlContext, SvgContext } from "./contexts";
 import { CacheMeasurer } from "./measurers";
 import { Wrapper } from "./wrappers";
 import { IWriteOptions, Writer } from "./writers";
@@ -20,6 +20,10 @@ export class Typesetter {
 
     public static canvas(ctx: CanvasRenderingContext2D, lineHeight?: number, style?: ICanvasFontStyle) {
         return new Typesetter(new CanvasContext(ctx, lineHeight, style));
+    }
+
+    public static html(element: HTMLElement, className?: string, addTitle?: boolean) {
+        return new Typesetter(new HtmlContext(element, className, addTitle));
     }
 
     public measurer: CacheMeasurer;

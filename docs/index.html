@@ -68,10 +68,11 @@
 				<p><a href="https://circleci.com/gh/palantir/typesettable"><img src="https://circleci.com/gh/palantir/typesettable.svg?style=svg" alt="Circle CI"></a></p>
 				<h3 id="overview">Overview</h3>
 				<p><strong>Typesettable</strong> is a library for measuring, wrapping, and writing text on
-					Canvas and SVG. Canvas supports some rudimentary wrapping, but SVG does not
-					support any. Furthermore, developers often want wrapped text to auto-hyphenate
-					and truncate with ellipses when overflowing the bounding box. <strong>Typesettable</strong>
-				aims to make this entire process easier.</p>
+				Canvas, SVG, and HTML.</p>
+				<p>Canvas and HTML support some rudimentary wrapping, but SVG does not support any.
+					Furthermore, developers often want wrapped text to auto-hyphenate and truncate
+					with ellipses when overflowing the bounding box. <strong>Typesettable</strong> aims to make
+				this entire process easier.</p>
 				<p><strong>Typesettable</strong> works with native browser APIs and has no external
 				dependencies.</p>
 				<h3 id="features">Features</h3>
@@ -82,9 +83,9 @@
 					from the Measurer.</li>
 					<li><em>Writers</em> layout and write text based on specified options such as wrapping,
 					alignment, rotation, and shearing.</li>
-					<li><em>SvgContext</em> and <em>CanvasContext</em> implement factories for the <em>IRuler</em> and
-						<em>IPen</em> objects, which encapsulate the functionality for measuring and writing
-					text in SVG and Canvas elements.</li>
+					<li><em>SvgContext</em>, <em>CanvasContext</em>, and <em>HtmlContext</em> implement factories for the
+						<em>IRuler</em> and <em>IPen</em> objects, which encapsulate the functionality for measuring
+					and writing text in SVG, Canvas, and HTML elements.</li>
 				</ul>
 				<h3 id="installation">Installation</h3>
 				<pre><code>npm <span class="hljs-keyword">install</span> <span class="hljs-comment">--save typesettable</span>
@@ -95,7 +96,7 @@
 <span class="hljs-keyword">const</span> typesetter = Typesetter.svg(<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"svg"</span>));
 typesetter.write(<span class="hljs-string">"Hello World!"</span>, <span class="hljs-number">200</span>, <span class="hljs-number">200</span>);
 </code></pre>
-				<h3 id="example-svg-canvas">Example SVG &amp; Canvas</h3>
+				<h3 id="example-svg-canvas-html">Example SVG, Canvas, &amp; HTML</h3>
 				<p>Use typesetters with both SVG and Canvas elements:</p>
 				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { Typesetter } from <span class="hljs-string">"typesettable"</span>;
 
@@ -104,6 +105,9 @@ typesetter.write(<span class="hljs-string">"Hello World!"</span>, <span class="h
 
 <span class="hljs-comment">// A typesetter for Canvas elements</span>
 <span class="hljs-keyword">const</span> canvasTypesetter = Typesetter.canvas(<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"canvas"</span>).getContext(<span class="hljs-string">"2d"</span>));
+
+<span class="hljs-comment">// A typesetter for HTML elements</span>
+<span class="hljs-keyword">const</span> htmlTypesetter = Typesetter.html(<span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">"div.text-container"</span>));
 
 <span class="hljs-comment">// The dimensions into which the text will be wrapped and truncated</span>
 <span class="hljs-keyword">const</span> width = <span class="hljs-number">300</span>;
@@ -120,6 +124,7 @@ typesetter.write(<span class="hljs-string">"Hello World!"</span>, <span class="h
 <span class="hljs-comment">// Write the text to the elements</span>
 svgTypesetter.write(<span class="hljs-string">"Hello SVG!"</span>, width, height, writeOptions);
 canvasTypesetter.write(<span class="hljs-string">"Hello Canvas!"</span>, width, height, writeOptions);
+htmlTypesetter.write(<span class="hljs-string">"Hello HTML!"</span>, width, height, writeOptions);
 </code></pre>
 				<h3 id="example-shared-cache">Example Shared Cache</h3>
 				<p>If you are typesetting multiple strings of text with the same font style,
@@ -185,6 +190,12 @@ writer.write(
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/charactermeasurer.html" class="tsd-kind-icon">Character<wbr>Measurer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/htmlcontext.html" class="tsd-kind-icon">Html<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/htmlutils.html" class="tsd-kind-icon">Html<wbr>Utils</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/measurer.html" class="tsd-kind-icon">Measurer</a>

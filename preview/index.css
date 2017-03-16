@@ -17,9 +17,16 @@ svg {
     height: 100px;
 }
 
-svg.big {
+.big {
     width: 400px;
     height: 200px;
+}
+
+#html1 {
+    width: 200px;
+    height: 150px;
+    overflow: hidden;
+    background-color: white;
 }
 
 label {
