@@ -3,6 +3,7 @@
  * Licensed under the MIT License (the "License"); you may obtain a copy of the
  * license at https://github.com/palantir/typesettable/blob/develop/LICENSE
  */
+/* istanbul ignore next */
 
 import { IRulerFactoryContext } from "../contexts";
 import { Cache } from "../utils";
