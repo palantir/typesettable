@@ -63,6 +63,13 @@ function commonTests(test: ITest) {
         test.write("test");
         assert.equal(test.pen.write.callCount, 1);
     });
+
+    it("measures whitespace as 0x0", () => {
+        const m = new Measurer(test.context);
+        const { width, height } = m.measure(" ");
+        assert.equal(width, 0);
+        assert.equal(height, 0);
+    });
 }
 
 const TEXT = "i am the very model of a modern major general";

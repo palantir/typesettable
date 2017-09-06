@@ -38,7 +38,7 @@ export class SvgUtils {
   /**
    * Returns the width/height of svg element's bounding box
    */
-  public static getDimensions(element: SVGLocatable): IDimensions {
+  public static getDimensions(element: SVGGraphicsElement): IDimensions {
     // using feature detection, safely return the bounding box dimensions of the
     // provided svg element
     if (element.getBBox) {
@@ -70,7 +70,7 @@ export class SvgUtils {
  */
 interface ITemporaryTextElementHarness {
   parentElement: Element;
-  containerElement: Element & SVGLocatable;
+  containerElement: Element & SVGGraphicsElement;
   textElement: SVGTextElement;
 }
 
@@ -162,7 +162,7 @@ export class SvgContext implements ITypesetterContext<SVGElement> {
       parentElement.removeChild(element);
 
       return {
-        containerElement: element as Element & SVGLocatable,
+        containerElement: element as Element & SVGGraphicsElement,
         parentElement,
         textElement: element as SVGTextElement,
       };
@@ -171,14 +171,14 @@ export class SvgContext implements ITypesetterContext<SVGElement> {
     // if element has a text element descendent, select it and return it
     const selected = element.querySelector("text");
     if (selected != null) {
-      let parentElement = element.parentElement;
+      let parentElement = selected.parentElement;
       if (parentElement == null) {
-        parentElement = element.parentNode as HTMLElement;
+        parentElement = selected.parentNode as HTMLElement;
       }
       // must be removed from parent since we re-add it on every measurement
-      parentElement.removeChild(element);
+      parentElement.removeChild(selected);
       return {
-        containerElement: element as Element & SVGLocatable,
+        containerElement: selected as Element & SVGGraphicsElement,
         parentElement,
         textElement: selected as SVGTextElement,
       };
