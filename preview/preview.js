@@ -157,7 +157,6 @@ Array.prototype.forEach.call(document.querySelectorAll("input[data-word-break]")
     button.addEventListener("click", () => {
         configurables.forEach((configurable) => {
             configurable.options.wordBreak = button.getAttribute("data-word-break") === "true";
-            console.log(configurable.options.wordBreak);
             configurable.update.apply(configurable);
     });
     });
