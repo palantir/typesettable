@@ -45,7 +45,7 @@ export class Wrapper {
   constructor() {
     this.maxLines(Infinity);
     this.textTrimming("ellipsis");
-    this.allowBreakingWords(true);
+    this.allowBreakingWords(false);
     this._tokenizer = new Utils.Tokenizer();
     this._breakingCharacter = "-";
   }
