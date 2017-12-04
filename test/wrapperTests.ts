@@ -86,20 +86,34 @@ describe("Wrapper Test Suite", () => {
       const result = wrapper.wrap(token, measurer, availableWidth);
       assert.deepEqual(result.originalText, token, "original text has been set");
       assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
-      assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+      assert.deepEqual(result.truncatedText, "", "none of the text has been truncated");
       assert.deepEqual(result.noBrokeWords, 1, "wrapping with breaking one word");
       assert.deepEqual(result.noLines, 2, "wrapping was needed");
       assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
     });
 
-    it("no breaking words", () => {
-      const availableWidth = measurer.measure(token).width * 3 / 4;
+    it("disable breaking words", () => {
       wrapper.allowBreakingWords(false);
+      const wrappableToken = "hello world";
+      const availableWidth = measurer.measure(wrappableToken).width * 3 / 4;
+      const result = wrapper.wrap(wrappableToken, measurer, availableWidth);
+      assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
+      assert.notInclude(result.wrappedText, "-", "no hyphenation");
+      assert.deepEqual(result.truncatedText, "", "none of the text has been truncated");
+      assert.deepEqual(result.noBrokeWords, 0, "no broken words");
+      assert.deepEqual(result.noLines, 2, "wrapping was needed");
+      assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+    });
+
+    it("disable breaking words, except as last resort", () => {
+      wrapper.allowBreakingWords(false);
+      const availableWidth = measurer.measure(token).width * 3 / 4;
       const result = wrapper.wrap(token, measurer, availableWidth);
-      assert.equal(result.wrappedText, "", "wrapping was impossible");
-      assert.deepEqual(result.truncatedText, token, "whole text has been truncated");
-      assert.deepEqual(result.noBrokeWords, 0, "no breaks");
-      assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
+      assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
+      assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
+      assert.deepEqual(result.noBrokeWords, 1, "wrapping with breaking one word");
+      assert.deepEqual(result.noLines, 2, "wrapping was needed");
+      assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
     });
 
     it.skip("multi time wrapping", () => {

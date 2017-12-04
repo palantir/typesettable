@@ -9,6 +9,7 @@ function createSvgUpdater(selector, options) {
     const writeOptions = Object(options);
 
     const update = function() {
+        typesetter.wrapper.allowBreakingWords(this.options.wordBreak);
         element.innerHTML = "";
         typesetter.write(this.text, BOX_WIDTH, BOX_HEIGHT, this.options);
     };
@@ -42,6 +43,7 @@ function createCanvasUpdater(selector, options) {
     const writeOptions = Object(options);
 
     const update = function() {
+        typesetter.wrapper.allowBreakingWords(this.options.wordBreak);
         const rect = writeOptions.rect == null ? element.getBoundingClientRect() : writeOptions.rect;
         ctx.save();
         ctx.fillStyle = "white";
@@ -67,6 +69,7 @@ function createHtmlUpdater(selector, options) {
     const writeOptions = Object(options);
 
     const update = function() {
+        typesetter.wrapper.allowBreakingWords(this.options.wordBreak);
         element.innerHTML = "";
         typesetter.write(this.text, BOX_WIDTH, BOX_HEIGHT, this.options);
     };
@@ -144,6 +147,17 @@ Array.prototype.forEach.call(document.querySelectorAll("input[data-y-alignment]"
     button.addEventListener("click", () => {
         configurables.forEach((configurable) => {
             configurable.options.yAlign = button.getAttribute("data-y-alignment");
+            configurable.update.apply(configurable);
+    });
+    });
+});
+
+// bind word break
+Array.prototype.forEach.call(document.querySelectorAll("input[data-word-break]"), (button) => {
+    button.addEventListener("click", () => {
+        configurables.forEach((configurable) => {
+            configurable.options.wordBreak = button.getAttribute("data-word-break") === "true";
+            console.log(configurable.options.wordBreak);
             configurable.update.apply(configurable);
     });
     });

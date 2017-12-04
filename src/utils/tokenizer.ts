@@ -24,7 +24,7 @@ export class Tokenizer {
       return [token + newCharacter];
     } else if (this.WhitespaceRegExp.test(lastCharacter) || this.WhitespaceRegExp.test(newCharacter)) {
       return [token, newCharacter];
-    } else if (!(this.WordDividerRegExp.test(lastCharacter) || this.WordDividerRegExp.test(newCharacter))) {
+    } else if (!(this.WordDividerRegExp.test(lastCharacter))) { // || this.WordDividerRegExp.test(newCharacter))) {
       return [token + newCharacter];
     } else if (lastCharacter === newCharacter) {
       return [token + newCharacter];
