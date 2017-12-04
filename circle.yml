@@ -2,9 +2,9 @@ general:
   artifacts:
     - docs
     - preview
-dependencies:
-  pre:
-    - nvm install 8
+machine:
+  node:
+    version: 8.8.1
 test:
   override:
     - npm test
