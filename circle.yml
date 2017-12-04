@@ -2,13 +2,23 @@ general:
   artifacts:
     - docs
     - preview
+
 machine:
+  environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   node:
     version: 8.8.1
+
+dependencies:
+  override:
+    - yarn install --pure-lockfile
+  cache_directories:
+    - ~/.cache/yarn
+
 test:
   override:
-    - npm test
-    - npm run test:sauce
+    - yarn test
+
 deployment:
   preview:
     branch: /.*/
