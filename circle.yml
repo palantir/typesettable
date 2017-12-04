@@ -4,7 +4,7 @@ general:
     - preview
 dependencies:
   pre:
-    - nvm use 8.8
+    - nvm install 8
 test:
   override:
     - npm test
