@@ -33,27 +33,27 @@ describe("Tokenizer Test Suite", () => {
   });
 
   it("word divider", () => {
-    const multipleWords = ["hello", ",", "world"];
+    const multipleWords = ["hello,", "world"];
     const tokens = tokenizer.tokenize(multipleWords.join(""));
-    assert.deepEqual(tokens, multipleWords, "Word divider is separate token");
+    assert.deepEqual(tokens, multipleWords, "Word divider is not a separate token");
   });
 
   it("word divider + whitespace", () => {
-    const multipleWords = ["hello", ",", "world", " "];
+    const multipleWords = ["hello,", " ", "world", " "];
     const tokens = tokenizer.tokenize(multipleWords.join(""));
-    assert.deepEqual(tokens, multipleWords, "Word divider and whitespace are separate tokens");
+    assert.deepEqual(tokens, multipleWords, "Word divider are same token but whitespace are separate");
   });
 
   it("mutliple word divider", () => {
-    const multipleWords = ["hello", ",,", "world"];
+    const multipleWords = ["hello,,", " ", "world"];
     const tokens = tokenizer.tokenize(multipleWords.join(""));
     assert.deepEqual(tokens, multipleWords, "Mutliple same word dividers are the same token");
   });
 
   it("different word dividers", () => {
-    const multipleWords = ["hello", ",", ";", "world"];
+    const multipleWords = ["hello,", ";", " ", "world"];
     const tokens = tokenizer.tokenize(multipleWords.join(""));
-    assert.deepEqual(tokens, multipleWords, "Different word dividers are not the same token");
+    assert.deepEqual(tokens, multipleWords, "Different word dividers are the same token");
   });
 
   it("all whitespaces are same token", () => {

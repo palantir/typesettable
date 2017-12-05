@@ -45,7 +45,7 @@ export class Wrapper {
   constructor() {
     this.maxLines(Infinity);
     this.textTrimming("ellipsis");
-    this.allowBreakingWords(true);
+    this.allowBreakingWords(false);
     this._tokenizer = new Utils.Tokenizer();
     this._breakingCharacter = "-";
   }
@@ -145,9 +145,7 @@ export class Wrapper {
   }
 
   private canFitToken(token: string, width: number, measurer: Measurers.AbstractMeasurer) {
-    const possibleBreaks = this._allowBreakingWords ?
-                          token.split("").map((c, i) => (i !== token.length - 1) ? c + this._breakingCharacter : c)
-                          : [token];
+    const possibleBreaks = token.split("").map((c, i) => (i !== token.length - 1) ? c + this._breakingCharacter : c);
     return (measurer.measure(token).width <= width) || possibleBreaks.every((c) => measurer.measure(c).width <= width);
   }
 
@@ -223,7 +221,6 @@ export class Wrapper {
     // Token is really long, but we have a space to put part of the word.
     if (state.canFitText &&
         state.availableLines !== state.wrapping.noLines &&
-        this._allowBreakingWords &&
         this._textTrimming !== "none") {
       const res = this.addEllipsis(state.currentLine + token, state.availableWidth, measurer);
       state.wrapping.wrappedText += res.wrappedToken;
@@ -267,7 +264,8 @@ export class Wrapper {
       };
     }
 
-    if (!this._allowBreakingWords) {
+    // if we don't allow breaking words AND the token isn't the only thing on the current line.
+    if (!this._allowBreakingWords && line.trim() !== "") {
       return {
         breakWord: false,
         line,

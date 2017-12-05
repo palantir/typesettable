@@ -50,7 +50,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("allow breaking words", () => {
-      assert.isTrue(wrapper.allowBreakingWords(), "allow breaking words has been set to default");
+      assert.isFalse(wrapper.allowBreakingWords(), "allow breaking words has been disabled to default");
     });
   });
 
@@ -62,6 +62,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("does not wrap", () => {
+      wrapper.allowBreakingWords(true);
       const dimensions = measurer.measure(token);
       const result = wrapper.wrap(token, measurer, dimensions.width * 2);
       assert.deepEqual(result.originalText, token, "original text has been set");
@@ -72,6 +73,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("does not wrap becasue of height", () => {
+      wrapper.allowBreakingWords(true);
       const dimensions = measurer.measure(token);
       const result = wrapper.wrap(token, measurer, dimensions.width, dimensions.height / 2);
       assert.deepEqual(result.originalText, token, "original text has been set");
@@ -82,9 +84,32 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("one time wrapping", () => {
+      wrapper.allowBreakingWords(true);
       const availableWidth = measurer.measure(token).width * 3 / 4;
       const result = wrapper.wrap(token, measurer, availableWidth);
       assert.deepEqual(result.originalText, token, "original text has been set");
+      assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
+      assert.deepEqual(result.truncatedText, "", "none of the text has been truncated");
+      assert.deepEqual(result.noBrokeWords, 1, "wrapping with breaking one word");
+      assert.deepEqual(result.noLines, 2, "wrapping was needed");
+      assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+    });
+
+    it("does not break words", () => {
+      const wrappableToken = "hello world";
+      const availableWidth = measurer.measure(wrappableToken).width * 3 / 4;
+      const result = wrapper.wrap(wrappableToken, measurer, availableWidth);
+      assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
+      assert.notInclude(result.wrappedText, "-", "no hyphenation");
+      assert.deepEqual(result.truncatedText, "", "none of the text has been truncated");
+      assert.deepEqual(result.noBrokeWords, 0, "no broken words");
+      assert.deepEqual(result.noLines, 2, "wrapping was needed");
+      assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
+    });
+
+    it("does not break words, except as last resort", () => {
+      const availableWidth = measurer.measure(token).width * 3 / 4;
+      const result = wrapper.wrap(token, measurer, availableWidth);
       assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
       assert.deepEqual(result.truncatedText, "", "non of the text has been truncated");
       assert.deepEqual(result.noBrokeWords, 1, "wrapping with breaking one word");
@@ -92,17 +117,8 @@ describe("Wrapper Test Suite", () => {
       assert.operator(measurer.measure(result.wrappedText).width, "<=", availableWidth, "wrapped text fits in");
     });
 
-    it("no breaking words", () => {
-      const availableWidth = measurer.measure(token).width * 3 / 4;
-      wrapper.allowBreakingWords(false);
-      const result = wrapper.wrap(token, measurer, availableWidth);
-      assert.equal(result.wrappedText, "", "wrapping was impossible");
-      assert.deepEqual(result.truncatedText, token, "whole text has been truncated");
-      assert.deepEqual(result.noBrokeWords, 0, "no breaks");
-      assert.deepEqual(result.noLines, 0, "wrapped text has no lines");
-    });
-
     it.skip("multi time wrapping", () => {
+      wrapper.allowBreakingWords(true);
       const availableWidth = measurer.measure("h-").width;
       const result = wrapper.wrap(token, measurer, availableWidth);
       assert.deepEqual(result.originalText, token, "original text has been set");
@@ -114,6 +130,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("wrapping is impossible", () => {
+      wrapper.allowBreakingWords(true);
       const availableWidth = measurer.measure("h").width - 0.1;
       const result = wrapper.wrap(token, measurer, availableWidth);
       assert.deepEqual(result.originalText, token, "original text has been set");
@@ -124,6 +141,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("only first sign fits", () => {
+      wrapper.allowBreakingWords(true);
       const tokenWithSmallFirstSign = "aHHH";
       const availableWidth = measurer.measure("a-").width;
       const result = wrapper.wrap(tokenWithSmallFirstSign, measurer, availableWidth);
@@ -143,6 +161,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("does not wrap", () => {
+      wrapper.allowBreakingWords(true);
       const dimensions = measurer.measure(line);
       const result = wrapper.wrap(line, measurer, dimensions.width * 2);
       assert.deepEqual(result.originalText, line, "original text has been set");
@@ -152,9 +171,8 @@ describe("Wrapper Test Suite", () => {
       assert.equal(result.noLines, 1, "no wrapping was needed");
     });
 
-    it("no breaking words", () => {
+    it("does not break words", () => {
       const availableWidth = measurer.measure(line).width * 0.75;
-      wrapper.allowBreakingWords(false);
       const result = wrapper.wrap(line, measurer, availableWidth);
       assert.deepEqual(result.originalText, line, "original text has been set");
       assert.lengthOf(result.wrappedText.split("\n"), 2, "wrapping occured");
@@ -176,6 +194,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("one time wrapping", () => {
+      wrapper.allowBreakingWords(true);
       const availableWidth = measurer.measure(line).width * 0.75;
       const result = wrapper.wrap(line, measurer, availableWidth);
       assert.deepEqual(result.originalText, line, "original text has been set");
@@ -259,6 +278,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("one time wrapping", () => {
+      wrapper.allowBreakingWords(true);
       const availableWidth = measurer.measure(lines).width * 0.75;
       const result = wrapper.wrap(lines, measurer, availableWidth);
       assert.deepEqual(result.originalText, lines, "original text has been set");
@@ -302,6 +322,7 @@ describe("Wrapper Test Suite", () => {
 
     it("one time wrapping", () => {
       const lines = text.split("\n");
+      wrapper.allowBreakingWords(true);
       wrapper.maxLines(2);
       const availableWidth = measurer.measure(text).width * 0.75;
       const result = wrapper.wrap(text, measurer, availableWidth);
@@ -315,6 +336,7 @@ describe("Wrapper Test Suite", () => {
 
     it("in the middle of line", () => {
       const availableWidth = measurer.measure(text).width * 0.75;
+      wrapper.allowBreakingWords(true);
       wrapper.maxLines(3);
       const result = wrapper.wrap(text, measurer, availableWidth);
       assert.deepEqual(result.originalText, text, "original text has been set");
@@ -366,6 +388,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("handling whitespaces", () => {
+      wrapper.allowBreakingWords(true);
       text = "this            aa";
       const availableWidth = measurer.measure(text).width - 1;
       const result = wrapper.wrap(text, measurer, availableWidth);
@@ -387,6 +410,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("multiple token", () => {
+      wrapper.allowBreakingWords(true);
       text = "hello world!";
       const availableWidth = measurer.measure("hello worl-").width;
       const result = wrapper.wrap(text, measurer, availableWidth);
@@ -400,6 +424,7 @@ describe("Wrapper Test Suite", () => {
     });
 
     it("multiple lines", () => {
+      wrapper.allowBreakingWords(true);
       text = "hello  world!.\nhello  world!.";
       const availableWidth = measurer.measure("hello worl-").width;
       const result = wrapper.wrap(text, measurer, availableWidth);
