@@ -31,7 +31,7 @@ describe("Writer Test Suite", () => {
     svg.attr("width", width);
     svg.attr("height", height);
     writer.write(text, width, height, writeOptions);
-    const bbox = SvgUtils.getDimensions(svg.select(".text-area").node() as any as SVGLocatable);
+    const bbox = SvgUtils.getDimensions(svg.select(".text-area").node() as SVGGraphicsElement);
     const dimensions = measurer.measure(
                       wrapper.wrap(
                         text,
