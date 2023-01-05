@@ -3,7 +3,7 @@ version: 2.1
 executors:
   default-executor:
     docker:
-      - image: cimg/node:8.8.1
+      - image: cimg/node:8.17.0
 
 aliases:
   - &restore-yarn-cache
