@@ -22,7 +22,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore-yarn-cache
-      - yarn install --pure-lockfile --cache-folder ~/.cache/yarn
+      - run: yarn install --pure-lockfile --cache-folder ~/.cache/yarn
       - save_cache: *save-yarn-cache
       - run: npm run preview
       - run: ./preview/demo.js
@@ -34,7 +34,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore-yarn-cache
-      - yarn install --pure-lockfile --cache-folder ~/.cache/yarn
+      - run: yarn install --pure-lockfile --cache-folder ~/.cache/yarn
       - run: npm run test
 
   publish:
@@ -42,7 +42,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore-yarn-cache
-      - yarn install --pure-lockfile --cache-folder ~/.cache/yarn
+      - run: yarn install --pure-lockfile --cache-folder ~/.cache/yarn
       - run: npm run build
       - run:
           name: Confirm we are ready to publish
