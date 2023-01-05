@@ -1,0 +1,66 @@
+version: 2.1
+
+executors:
+  default-executor:
+    docker:
+      - image: cimg/node:8.8.1
+
+aliases:
+  - &restore-yarn-cache
+    name: Restore yarnpkg cache
+    key: v1-yarn-cache
+
+  - &save-yarn-cache
+    name: Save yarnpkg cache
+    paths:
+      - ~/.cache/yarn
+    key: v1-yarn-cache
+
+jobs:
+  preview:
+    executor: default-executor
+    steps:
+      - checkout
+      - restore_cache: *restore-yarn-cache
+      - yarn install --pure-lockfile --cache-folder ~/.cache/yarn
+      - save_cache: *save-yarn-cache
+      - run: npm run preview
+      - run: ./preview/demo.js
+      - store_artifacts: { path: docs }
+      - store_artifacts: { path: preview }
+
+  test:
+    executor: default-executor
+    steps:
+      - checkout
+      - restore_cache: *restore-yarn-cache
+      - yarn install --pure-lockfile --cache-folder ~/.cache/yarn
+      - run: npm run test
+
+  publish:
+    executor: default-executor
+    steps:
+      - checkout
+      - restore_cache: *restore-yarn-cache
+      - yarn install --pure-lockfile --cache-folder ~/.cache/yarn
+      - run: npm run build
+      - run:
+          name: Confirm we are ready to publish
+          command: |
+            git diff HEAD..origin/master --quiet || (echo "dist not built"; exit 1)
+            npm run -s check_version || (echo "package.json version not updated"; exit 1)
+          when: always
+      - run: ./scripts/authenticateNpm.sh
+      - run: npm publish
+
+workflows:
+  version: 2
+  preview_test_publish:
+    jobs:
+      - preview
+      - test
+      - publish:
+          filters:
+            tags:
+              only:
+                - /^release\/.*/
