@@ -26,9 +26,9 @@
     "start": "npm-run-all -p preview:watch preview:serve",
     "test": "npm-run-all test:mocha test:coverage lint",
     "test:coverage": "istanbul check-coverage",
-    "test:mocha": "PATH=$PATH:$(npm bin) mochify --reporter spec --plugin [ mochify-istanbul --report text --report json --dir coverage --exclude '**/test/**/*' ] ${npm_package_testsGlob}",
-    "test:local": "PATH=$PATH:$(npm bin) mochify --reporter spec ${npm_package_testsGlob}",
-    "test:sauce": "mochify  --reporter spec --wd ${npm_package_testsGlob}"
+    "test:mocha": "mochify --reporter spec --plugin [ mochify-istanbul --report text --report json --dir coverage --exclude '**/test/**/*' ] build/test/*Tests.js",
+    "test:local": "mochify --reporter spec build/test/*Tests.js",
+    "test:sauce": "mochify  --reporter spec --wd build/test/*Tests.js"
   },
   "keywords": [
     "canvas",
