@@ -73,14 +73,7 @@ jobs:
       - checkout
       - restore_cache: *restore-node-modules-cache
       - attach_workspace: { at: "." }
-      - run:
-          name: Confirm we are ready to publish
-          command: |
-            git diff HEAD..origin/master --quiet || (echo "dist not built"; exit 1)
-            npm run -s check_version || (echo "package.json version not updated"; exit 1)
-          when: always
-      - run: ./scripts/authenticateNpm.sh
-      - run: npm publish
+      - run: ./scripts/circle-publish-npm
 
 workflows:
   version: 2
