@@ -1,0 +1,27 @@
+on: [push]
+jobs:
+  circleci_artifacts_redirector_job:
+    runs-on: ubuntu-latest
+    if: "${{ github.event.context == 'ci/circleci: preview' }}"
+    name: Run CircleCI artifacts redirector
+    steps:
+      - name: Docs preview artifact
+        id: step1
+        uses: larsoner/circleci-artifacts-redirector-action@master
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          artifact-path: 0/docs/index.html
+          circleci-jobs: preview
+          job-title: View docs
+      - name: Preview artifact
+        id: step2
+        uses: larsoner/circleci-artifacts-redirector-action@master
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          artifact-path: 0/preview/index.html
+          circleci-jobs: preview
+          job-title: View docs
+      - name: Check the URL
+        if: github.event.status != 'pending'
+        run: |
+          curl --fail ${{ steps.step1.outputs.url }} | grep $GITHUB_SHA
