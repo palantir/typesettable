@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+if [ -z ${CIRCLECI+x} ]; then
+    echo "Not on Circle; refusing to run."
+    exit 1
+fi
+
+branch="$CIRCLE_BRANCH"
+if [ ! -z "$CIRCLE_TAG" ]; then
+    branch='develop'
+fi
+
+if ! [[ "$branch" == "develop" || "$branch" == "next" || "$branch" == release/* ]]; then
+    echo "Not on develop, next, release/* or a tag - not publishing."
+    exit 1
+fi
+
+# Confirm we are ready to publish
+git diff HEAD..origin/master --quiet || (echo "dist not built"; exit 1)
+npm run -s check_version || (echo "package.json version not updated"; exit 1)
+
+echo "Authenticating with NPM registry..."
+echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
+chmod 0600 .npmrc
+npm publish

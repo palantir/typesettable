@@ -2,6 +2,13 @@
 
 [![Circle CI](https://circleci.com/gh/palantir/typesettable.svg?style=svg)](https://circleci.com/gh/palantir/typesettable)
 
+### :warning_sign: Deprecation notice (January 2023)
+
+This library is mostly deprecated and its build tooling is very outdated.
+If you need to make changes to this library, you will need to fix some
+of the build infrastructure to get it working in a modern testing &
+deployment environment.
+
 ### Overview
 
 **Typesettable** is a library for measuring, wrapping, and writing text on

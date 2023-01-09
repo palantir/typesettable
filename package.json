@@ -24,11 +24,11 @@
     "preview:serve": "http-server preview",
     "preview:watch": "onchange 'src/**' -i -- npm run preview",
     "start": "npm-run-all -p preview:watch preview:serve",
-    "test": "npm-run-all build test:mocha test:coverage lint",
+    "test": "npm-run-all test:mocha test:coverage lint",
     "test:coverage": "istanbul check-coverage",
-    "test:mocha": "PATH=$PATH:$(npm bin) mochify --reporter spec --plugin [ mochify-istanbul --report text --report json --dir coverage --exclude '**/test/**/*' ] ${npm_package_testsGlob}",
-    "test:local": "PATH=$PATH:$(npm bin) mochify --reporter spec ${npm_package_testsGlob}",
-    "test:sauce": "mochify  --reporter spec --wd ${npm_package_testsGlob}"
+    "test:mocha": "mochify --reporter spec --plugin [ mochify-istanbul --report text --report json --dir coverage --exclude '**/test/**/*' ] build/test/*Tests.js",
+    "test:local": "mochify --reporter spec build/test/*Tests.js",
+    "test:sauce": "mochify  --reporter spec --wd build/test/*Tests.js"
   },
   "keywords": [
     "canvas",
@@ -50,7 +50,7 @@
     "@types/sinon": "^1.16.35",
     "browserify": "^13.3.0",
     "chai": "3.5.0",
-    "circle-github-bot": "^0.4.0",
+    "circle-github-bot": "^2.1.0",
     "d3": "^4.5.0",
     "http-server": "^0.9.0",
     "istanbul": "^0.4.5",

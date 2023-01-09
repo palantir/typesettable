@@ -1,0 +1,94 @@
+version: 2.1
+
+executors:
+  default-executor:
+    docker:
+      - image: cimg/node:8.17.0
+
+aliases:
+  - &restore-node-modules-cache
+    name: Restore node_modules cache
+    key: v1-yarn-deps-{{ checksum "yarn.lock" }}
+
+  - &restore-yarn-cache
+    name: Restore yarnpkg cache
+    key: v1-yarn-cache
+
+  - &save-node-modules-cache
+    name: Save node_modules cache
+    paths:
+      - node_modules
+    key: v1-yarn-deps-{{ checksum "yarn.lock" }}
+
+  - &save-yarn-cache
+    name: Save yarnpkg cache
+    paths:
+      - ~/.cache/yarn
+    key: v1-yarn-cache
+
+jobs:
+  checkout-code:
+    executor: default-executor
+    steps:
+      - checkout
+      - restore_cache: *restore-yarn-cache
+      - restore_cache: *restore-node-modules-cache
+      - run: yarn install --pure-lockfile --cache-folder ~/.cache/yarn
+      - save_cache: *save-node-modules-cache
+      - save_cache: *save-yarn-cache
+
+  build:
+    executor: default-executor
+    steps:
+      - checkout
+      - restore_cache: *restore-node-modules-cache
+      - attach_workspace: { at: "." }
+      - run: npm run build
+      - persist_to_workspace:
+          root: "."
+          paths: [build]
+
+  preview:
+    executor: default-executor
+    steps:
+      - checkout
+      - restore_cache: *restore-node-modules-cache
+      - attach_workspace: { at: "." }
+      - run: npm run preview:bundle
+      - run: ./preview/demo.js
+      - store_artifacts: { path: docs }
+      - store_artifacts: { path: preview }
+
+  test:
+    executor: default-executor
+    steps:
+      - checkout
+      - restore_cache: *restore-node-modules-cache
+      - attach_workspace: { at: "." }
+      - run: npm run test
+
+  publish:
+    executor: default-executor
+    steps:
+      - checkout
+      - restore_cache: *restore-node-modules-cache
+      - attach_workspace: { at: "." }
+      - run: ./scripts/circle-publish-npm
+
+workflows:
+  version: 2
+  preview_test_publish:
+    jobs:
+      - checkout-code
+      - build:
+          requires: [checkout-code]
+      - preview:
+          requires: [build]
+      - test:
+          requires: [build]
+      - publish:
+          requires: [build, test]
+          filters:
+            tags:
+              only:
+                - /^release\/.*/
