@@ -86,7 +86,7 @@ workflows:
   version: 2
   preview_test_publish:
     jobs:
-      - checkout_code
+      - checkout-code
       - build:
           requires: [checkout-code]
       - preview:
