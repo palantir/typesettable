@@ -1,0 +1,23 @@
+name: 'collect-circleci-artifact-links'
+description: Collect CircleCI artifact links
+author: adahiya@palantir.com
+inputs:
+  github-api-token:
+    description: 'GitHub API token'
+    required: true
+  artifact-path:
+    description: 'Local file path to the CircleCI artifact'
+    required: true
+  circleci-job-name:
+    description: 'Name of CircleCI job to monitor'
+    required: true
+  job-title:
+    description: 'The name of this job, as it will render on the PR GUI (default is "<name of CI job> artifact")'
+    required: false
+outputs:
+  url:
+    description: 'The full artifact URL'
+on: push
+runs:
+  using: 'node16'
+  main: '.github/actions/collect-circleci-artifact-links.mjs'

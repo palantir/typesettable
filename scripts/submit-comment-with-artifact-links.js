@@ -7,7 +7,9 @@ demos = [
     bot.artifactLink('preview/index.html', 'dev'),
 ];
 
-bot.comment(process.env.GH_AUTH_TOKEN, `
+bot.comment(process.env.GITHUB_API_TOKEN, `
 <h3>${bot.commitMessage()}</h3>
-Preview: <strong>${demos.join(' | ')}</strong>
+Build artifact links for this commit: <strong>${demos.join(' | ')}</strong>
+
+<em>This is an automated comment from the preview CircleCI job.</em>
 `);
