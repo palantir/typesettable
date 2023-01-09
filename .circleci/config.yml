@@ -55,7 +55,7 @@ jobs:
       - restore_cache: *restore-node-modules-cache
       - attach_workspace: { at: "." }
       - run: npm run preview:bundle
-      - run: ./preview/demo.js
+      - run: ./scripts/submit-comment-with-artifact-links.js
       - store_artifacts: { path: docs }
       - store_artifacts: { path: preview }
 

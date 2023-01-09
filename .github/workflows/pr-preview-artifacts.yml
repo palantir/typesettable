@@ -5,23 +5,9 @@ jobs:
     if: "${{ github.event.context == 'ci/circleci: preview' }}"
     name: Collect CircleCI artifact links
     steps:
-      - name: Docs preview artifact
-        id: step1
-        uses: larsoner/circleci-artifacts-redirector-action@master
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3.6.0
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          artifact-path: 0/docs/index.html
-          circleci-jobs: preview
-          job-title: View docs artifact
-      - name: Preview artifact
-        id: step2
-        uses: larsoner/circleci-artifacts-redirector-action@master
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          artifact-path: 0/preview/index.html
-          circleci-jobs: preview
-          job-title: View preview artifact
-      - name: Check the URL
-        if: github.event.status != 'pending'
-        run: |
-          curl --fail ${{ steps.step1.outputs.url }} | grep $GITHUB_SHA
+          node-version: 16
+          cache: yarn
+      - uses: ./.github/actions/collect-circleci-artifact-links
