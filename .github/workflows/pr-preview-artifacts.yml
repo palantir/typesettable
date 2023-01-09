@@ -3,7 +3,7 @@ jobs:
   circleci_artifacts_redirector_job:
     runs-on: ubuntu-latest
     if: "${{ github.event.context == 'ci/circleci: preview' }}"
-    name: Run CircleCI artifacts redirector
+    name: Collect CircleCI artifact links
     steps:
       - name: Docs preview artifact
         id: step1
@@ -12,7 +12,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           artifact-path: 0/docs/index.html
           circleci-jobs: preview
-          job-title: View docs
+          job-title: View docs artifact
       - name: Preview artifact
         id: step2
         uses: larsoner/circleci-artifacts-redirector-action@master
@@ -20,7 +20,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           artifact-path: 0/preview/index.html
           circleci-jobs: preview
-          job-title: View docs
+          job-title: View preview artifact
       - name: Check the URL
         if: github.event.status != 'pending'
         run: |

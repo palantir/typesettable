@@ -24,7 +24,7 @@
     "preview:serve": "http-server preview",
     "preview:watch": "onchange 'src/**' -i -- npm run preview",
     "start": "npm-run-all -p preview:watch preview:serve",
-    "test": "npm-run-all build test:mocha test:coverage lint",
+    "test": "npm-run-all test:mocha test:coverage lint",
     "test:coverage": "istanbul check-coverage",
     "test:mocha": "PATH=$PATH:$(npm bin) mochify --reporter spec --plugin [ mochify-istanbul --report text --report json --dir coverage --exclude '**/test/**/*' ] ${npm_package_testsGlob}",
     "test:local": "PATH=$PATH:$(npm bin) mochify --reporter spec ${npm_package_testsGlob}",
