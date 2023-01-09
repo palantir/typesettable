@@ -87,9 +87,9 @@ workflows:
   preview_test_publish:
     jobs:
       - build
-      - preview
+      - preview:
           requires: [build]
-      - test
+      - test:
           requires: [build]
       - publish:
           requires: [build, test]
